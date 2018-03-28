@@ -22,4 +22,7 @@ All files needed to run the system can be found in this depository:
 		Note: This means it cannot run on an emulator that does not have Bluetooth emulation (as is the case with Android Studio)
 	Also has built in facial recognition to identify which subject is playing when 
 
+4) Tablet Holder (OpenSCAD)
+	A to-scale 3D model of the tablet holder used to mount the tablet to the side of the cage
+
 Detailed information for each of these parts of the system can be found in the respective folders
