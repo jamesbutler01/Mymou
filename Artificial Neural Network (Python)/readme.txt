@@ -11,11 +11,9 @@ This can be generated using the PrepareData.py script which runs in a folder tha
 1 folder containing all images of subject 2
 1 folder containing all integer arrays that correspond to all the images in the previous 2 folders
 
-The script then sorts through all the integer arrays, finds whether the corresponding .jpg is in folder1 or 
-folder2 and appends an appropriate one hot label to the array
+The script then sorts through all the integer arrays, finds whether the corresponding .jpg is in folder1 or folder2 and appends an appropriate one hot label to the array
 
-All this data is then stacked and saved as one big file which will run with the main artifical neural network
-script.
+All this data is then stacked and saved as one big file which will run with the main artifical neural network script.
 
 
 #### Training the neural network (main.py)
@@ -32,11 +30,11 @@ Does the following:
 
 Has various parameters which can be adjusted by the user to alter performance of the network:
     varInputSize = 6560  # Neurons in input layer (1 per pixel in image)
-    varHiddenLayerSize = 20  # Neurons in hidden layer
-    varOutputSize = 2  # Neurons in output layer
+    varHiddenLayerSize = 20  # Neurons in hidden layer 
+    varOutputSize = 2  # Neurons in output layer (1 per subject)
     varMomentum = 0.0001  # To help avoid local minima
-    varIterations = 50  # Number time to run all training data through model
-    varRateDecay = 0.01  # Reduces learning rate by this factor as iterate through training
+    varIterations = 50  # Number of times to run all training data through model
+    varRateDecay = 0.01  # Reduce learning rate by this factor as iterate through training
     varLearningRate = 0.01  # Amount to adjust the weights by on each step
     varNumSubjects = 2  # Number of subjects
     trainingToValidationRatio = 0.85  # Ratio of data to be kept in training set vs validation set
