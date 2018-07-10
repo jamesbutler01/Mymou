@@ -17,7 +17,7 @@ public class MatrixMaths {
 
     //Apply tanh function to all values in array
     public static double[][] tanh(double[][] input) {
-        double[][] output = Arrays.copyOf(input, input.length);
+        double[][] output = new double[input.length][input[0].length];
         for(int i = 0; i < input.length; i++) {
             for(int j = 0; j < input[0].length; j++) {
                 output[i][j] = Math.tanh(input[i][j]);
@@ -28,7 +28,7 @@ public class MatrixMaths {
 
     //Apply sigmoid function to all values in array
     public static double[][] sigmoid(double[][] input) {
-        double[][] output = Arrays.copyOf(input, input.length);
+        double[][] output = new double[input.length][input[0].length];
         for(int i = 0; i < input.length; i++) {
             for (int j = 0; j < input[0].length; j++) {
                 output[i][j] = 1 / (1 + Math.exp(-input[i][j]));
@@ -67,7 +67,7 @@ public class MatrixMaths {
         }
 
         //Mean-subtracted exponential
-        double[][] middleLayer = Arrays.copyOf(input, input.length);
+        double[][] middleLayer = new double[input.length][input[0].length];
         for(int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 middleLayer[i][j] = Math.exp(input[i][j] - max);
@@ -83,7 +83,7 @@ public class MatrixMaths {
         }
 
         //Divide by sum
-        double[][] output = Arrays.copyOf(middleLayer, middleLayer.length);
+        double[][] output = new double[middleLayer.length][middleLayer[0].length];
         for(int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 output[i][j] = middleLayer[i][j] / sum;
