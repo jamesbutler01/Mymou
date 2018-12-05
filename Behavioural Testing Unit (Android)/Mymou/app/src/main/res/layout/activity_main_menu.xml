@@ -93,7 +93,7 @@
         android:layout_width="match_parent"
         android:layout_height="600dp"
         android:text="loading"
-        android:id="@+id/button1"
+        android:id="@+id/buttonStart"
         android:textSize="100sp"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true" />
@@ -181,9 +181,26 @@
                 <Button
                     android:text="Write \n Permission"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="450dp"
                     android:id="@+id/buttonWritePermission"
-                    android:textSize="50sp"
+                    android:textSize="40sp"
+                    android:layout_marginRight="1dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/toggle_button" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:text="Settings \n Permission"
+                    android:layout_width="match_parent"
+                    android:layout_height="450dp"
+                    android:id="@+id/buttonSettingsPermission"
+                    android:textSize="40sp"
                     android:layout_marginRight="1dp"
                     android:textColor="@color/white"
                     android:background="@drawable/toggle_button" />
@@ -198,9 +215,68 @@
                 <Button
                     android:text="Camera \n permission"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="450dp"
                     android:id="@+id/buttonCameraPermission"
-                    android:textSize="50sp"
+                    android:textSize="40sp"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="1dp"
+                    android:background="@drawable/toggle_button" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:text="Bluetooth \n Permission #0"
+                    android:layout_width="match_parent"
+                    android:layout_height="450dp"
+                    android:id="@+id/buttonBt0"
+                    android:textSize="40sp"
+                    android:layout_marginRight="1dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/toggle_button" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:text="Bluetooth \n permission #1"
+                    android:layout_width="match_parent"
+                    android:layout_height="450dp"
+                    android:id="@+id/buttonBt1"
+                    android:textSize="40sp"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="1dp"
+                    android:background="@drawable/toggle_button" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:text="Bluetooth \n permission #2"
+                    android:layout_width="match_parent"
+                    android:layout_height="450dp"
+                    android:id="@+id/buttonBt2"
+                    android:textSize="40sp"
                     android:textColor="@color/white"
                     android:layout_marginLeft="1dp"
                     android:background="@drawable/toggle_button" />
@@ -212,4 +288,3 @@
     </LinearLayout>
 
 </RelativeLayout>
-
