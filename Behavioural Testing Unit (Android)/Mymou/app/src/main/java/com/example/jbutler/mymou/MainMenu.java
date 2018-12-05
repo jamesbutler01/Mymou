@@ -3,7 +3,6 @@ package com.example.jbutler.mymou;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.PendingIntent;
@@ -12,14 +11,15 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -30,6 +30,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -56,9 +57,16 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
     private static String address = "20:16:06:08:64:22";
 
     //Permission variables
-    final private int REQUEST_CODE_WRITE_PERMISSION = 123;
-    final private int REQUEST_CODE_CAMERA_PERMISSION = 456;
     private boolean permissions = false;
+    String[] permissionCodes = {
+        Manifest.permission.CAMERA,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.BLUETOOTH,
+        Manifest.permission.BLUETOOTH_ADMIN,
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.WRITE_SETTINGS,
+    };
+    private Button[] permissionButtons = new Button[6];
 
     private static FaceRecog faceRecog;
     public static String message;
@@ -95,8 +103,6 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
         initialiseLayoutParameters();
 
         initialiseScreenSetttings();
-
-        checkPermissions();
 
         initialiseRewardChannels();
 
@@ -216,84 +222,84 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
 
 
     private void checkPermissions() {
-        // Check that writing to storage and camera permissions are enabled
-        // Don't need permission for Bluetooth
-        boolean checkCameraPermission = checkPermissionNested(Manifest.permission.CAMERA,
-                REQUEST_CODE_CAMERA_PERMISSION);
-        boolean checkWritePermission = checkPermissionNested(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                REQUEST_CODE_WRITE_PERMISSION);
-        if(checkCameraPermission && checkWritePermission) {
+        // Check if all permissions granted
+        boolean permissionFlag = true;
+        for (int i = 0; i < permissionCodes.length; i++){
+            if(!checkPermissionNested(i)) {
+                permissionFlag = false;
+                break;
+            }
+        }
+        if(permissionFlag) {
             View layout = findViewById(R.id.layoutCoveringUi);
             layout.setVisibility(View.INVISIBLE);
             permissions = true;
         }
     }
 
-    private boolean checkPermissionNested(final String permissionItem, final int permissionCode) {
-        int hasWriteContactsPermission = checkSelfPermission(permissionItem);
-        if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
+    private boolean checkPermissionNested(int i_perm) {
+        final String permissionItem = permissionCodes[i_perm];
+        int hasPermission=-1;
+        if (i_perm<5) {
+            hasPermission = checkSelfPermission(permissionItem);
+        } else {
+            if (Settings.System.canWrite(this)) {
+                hasPermission = PackageManager.PERMISSION_GRANTED;
+            }
+        }
+        if (hasPermission != PackageManager.PERMISSION_GRANTED) {
             if (!shouldShowRequestPermissionRationale(permissionItem)) {
-                showMessageOKCancel("You need to allow access for logging to occur",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                requestPermissions(new String[] {permissionItem},
-                                        permissionCode);
-                            }
-                        });
+                Toast.makeText(this, "All permissions must be enabled before app can run", Toast.LENGTH_LONG).show();
+                requestPermissionLocal(i_perm);
                 return false;
             }
-            requestPermissions(new String[] {permissionItem},
-                    permissionCode);
+            requestPermissionLocal(i_perm);
             return false;
         } else {
+            permissionButtons[i_perm].setText("Granted");
             return true;
         }
+    }
+
+    private void requestPermissionLocal(int i_perm){
+        if (i_perm==5) {  // This one is handled differently
+            Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS);
+            intent.setData(Uri.parse("package:" + this.getPackageName()));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            this.startActivity(intent);
+        } else {
+            requestPermissions(new String[] {permissionCodes[i_perm]},123);
+        }
+
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if(grantResults.length > 0) {
-            switch (requestCode) {
-                case REQUEST_CODE_CAMERA_PERMISSION:
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        Toast.makeText(this, "Camera permission enabled", Toast.LENGTH_SHORT).show();
-                        checkPermissions();
-                    } else {
-                        // Permission Denied
-                        Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show();
-                    }
-                    break;
-                case REQUEST_CODE_WRITE_PERMISSION:
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        // Permission Granted
-                        Toast.makeText(this, "Write permission enabled", Toast.LENGTH_SHORT).show();
-                        checkPermissions();
-                    } else {
-                        // Permission Denied
-                        Toast.makeText(this, "Write to storage denied", Toast.LENGTH_SHORT).show();
-                    }
-                default:
-                    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permission enabled", Toast.LENGTH_SHORT).show();
+                checkPermissions();
+            } else {
+                // Permission Denied
+                Toast.makeText(this, "Permission denied, all permissions must be enabled before app can run", Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(this)
-                .setMessage(message)
-                .setPositiveButton("OK", okListener)
-                .setNegativeButton("Cancel", null)
-                .create()
-                .show();
-    }
-
     private void initialiseLayoutParameters() {
         //Permission buttons
+        permissionButtons[0] = (Button) findViewById(R.id.buttonCameraPermission);
+        permissionButtons[1] = (Button) findViewById(R.id.buttonWritePermission);
+        permissionButtons[2] = (Button) findViewById(R.id.buttonBt0);
+        permissionButtons[3] = (Button) findViewById(R.id.buttonBt1);
+        permissionButtons[4] = (Button) findViewById(R.id.buttonBt2);
+        permissionButtons[5] = (Button) findViewById(R.id.buttonSettingsPermission);
+
         findViewById(R.id.mainPermButton).setOnClickListener(buttonClickListener);
-        findViewById(R.id.buttonCameraPermission).setOnClickListener(buttonClickListener);
-        findViewById(R.id.buttonWritePermission).setOnClickListener(buttonClickListener);
-        findViewById(R.id.button1).setOnClickListener(buttonClickListener);
+        for (int i = 0; i < permissionButtons.length; i++) {
+            permissionButtons[i].setOnClickListener(buttonClickListener);
+        }
+        findViewById(R.id.buttonStart).setOnClickListener(buttonClickListener);
         findViewById(R.id.buttonCalibration).setOnClickListener(buttonClickListener);
 
         initialiseToggleButtons();
@@ -460,22 +466,32 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.button1:
+                case R.id.buttonStart:
                     registerBluetoothReceivers();
                     startTask();
                     break;
                 case R.id.buttonCalibration:
                     break;
                 case R.id.mainPermButton:
-                    Toast.makeText(getApplicationContext(), "Use the buttons below to enable permissions", Toast.LENGTH_SHORT).show();
+                    checkPermissions();
                     break;
                 case R.id.buttonCameraPermission:
-                    checkPermissionNested(Manifest.permission.CAMERA,
-                            REQUEST_CODE_CAMERA_PERMISSION);
+                    checkPermissionNested(0);
                     break;
                 case R.id.buttonWritePermission:
-                    checkPermissionNested(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            REQUEST_CODE_WRITE_PERMISSION);
+                    checkPermissionNested(1);
+                    break;
+                case R.id.buttonBt0:
+                    checkPermissionNested(2);
+                    break;
+                case R.id.buttonBt1:
+                    checkPermissionNested(3);
+                    break;
+                case R.id.buttonBt2:
+                    checkPermissionNested(4);
+                    break;
+                case R.id.buttonSettingsPermission:
+                    checkPermissionNested(5);
                     break;
             }
         }
@@ -517,10 +533,10 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
         try {
             btSocket.connect();
             TextView tv1 = (TextView)findViewById(R.id.tvBluetooth);
-            Button button1 = (Button)findViewById(R.id.button1);
+            Button buttonStart = (Button)findViewById(R.id.buttonStart);
             if(tv1 != null) {
                 tv1.setText("Bluetooth status: Connected");
-                button1.setText("START TASK");
+                buttonStart.setText("START TASK");
             }
             bluetoothStatus = true;
         } catch (IOException e) {
@@ -546,39 +562,44 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
     @Override
     public void onPause() {
         super.onPause();
-
+        Log.d("pause", "Paused");
         if(permissions) {
             quitBt();
-        }
+            unregisterReceivers();
+            quitThreads();
+            this.stopLockTask();
 
-        quitThreads();
-
-        unregisterReceivers();
-
-        this.stopLockTask();
-
-        Bundle extras = getIntent().getExtras();
-        if(extras != null) {
-            if (extras.getBoolean("restart") == true) {
-                restartApp();
+            Bundle extras = getIntent().getExtras();
+            if(extras != null) {
+                if (extras.getBoolean("restart") == true) {
+                    restartApp();
+                }
             }
         }
+
     }
 
     private void quitThreads() {
-        logThread.quitSafely();
         try {
+            logThread.quitSafely();
             logThread.join();
             logThread = null;
             logHandler = null;
         } catch (InterruptedException e) {
             e.printStackTrace();
+        } catch (NullPointerException e) {
+
         }
     }
 
     private void unregisterReceivers() {
-        unregisterReceiver(powerPlugReceiver);
-        unregisterReceiver(powerUnplugReceiver);
+        try {
+            unregisterReceiver(powerPlugReceiver);
+            unregisterReceiver(powerUnplugReceiver);
+        } catch(IllegalArgumentException e) {
+
+        }
+
         if(btReceiversRegistered) {
             unregisterReceiver(bluetoothReceiver);
         }
