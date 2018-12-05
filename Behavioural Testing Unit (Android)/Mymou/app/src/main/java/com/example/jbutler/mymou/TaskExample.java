@@ -728,10 +728,7 @@ public class TaskExample extends Fragment
             }
             ContentResolver cResolver = mContext.getContentResolver();
             Settings.System.putInt(cResolver, Settings.System.SCREEN_BRIGHTNESS, brightness);
-        } else {
-            //Ask for permission to change brightness
-            Permissions.brightness(mContext);
-        }
+        } 
     }
 
     private void logStep(int result) {
