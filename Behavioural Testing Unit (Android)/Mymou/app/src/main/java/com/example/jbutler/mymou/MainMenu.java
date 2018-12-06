@@ -44,17 +44,8 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
 
     //Bluetooth variables
     public static int monkeyId = -1;
-    private static final int REQUEST_ENABLE_BT = 1;
-    private BluetoothAdapter btAdapter = null;
-    private BluetoothSocket btSocket = null;
-    private static OutputStream outStream = null;
-    private boolean btReceiversRegistered = false;
-    public static boolean bluetoothStatus = false;
-    private static String allChanOff, chanZeroOn, chanZeroOff, chanOneOn, chanOneOff, chanTwoOn,
-            chanTwoOff, chanThreeOn, chanThreeOff;
-    // Replace with your devices UUID and address
-    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-    private static String address = "20:16:06:08:64:22";
+
+    public static RewardSystem rewardSystem;
 
     //Permission variables
     private boolean permissions = false;
@@ -78,7 +69,7 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
     @Override
     public void uncaughtException(Thread thread, Throwable throwable) {
         logHandler.post(new CrashReport(throwable));
-        quitBt();
+        rewardSystem.quitBt();
         restartApp();
     }
 
@@ -98,13 +89,11 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        initialiseBluetooth();
+        initaliseRewardSystem();
 
         initialiseLayoutParameters();
 
         initialiseScreenSetttings();
-
-        initialiseRewardChannels();
 
         Thread t = new Thread(new Runnable() {
             public void run() {
@@ -118,9 +107,7 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
 
         registerPowerReceivers();
 
-        logThread = new HandlerThread("LogBackground");
-        logThread.start();
-        logHandler = new Handler(logThread.getLooper());
+        initialiseLogHandler();
 
         this.startLockTask();
 
@@ -146,15 +133,29 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
         }
     }
 
+    private void initialiseLogHandler() {
+        logThread = new HandlerThread("LogBackground");
+        logThread.start();
+        logHandler = new Handler(logThread.getLooper());
+    }
+
+    private void initaliseRewardSystem() {
+        rewardSystem = new RewardSystem(this, task);  // Initialises on main thread
+        if (rewardSystem.bluetoothConnection) {
+            TextView tv1 = (TextView) findViewById(R.id.tvBluetooth);
+            Button buttonStart = (Button) findViewById(R.id.buttonStart);
+            tv1.setText("Bluetooth status: Connected");
+            buttonStart.setText("START TASK");
+        }
+    }
+
     private void checkIfCrashed() {
         Bundle extras = getIntent().getExtras();
         if(extras !=null) {
-            if (extras.getBoolean("restart") == true) {
+            if (extras.getBoolean("restart")) {
                 //If crashed then restart task
-                if(bluetoothStatus) {
-                    registerBluetoothReceivers();
-                } else {
-                    reconnectBluetooth();
+                if(!rewardSystem.bluetoothConnection) {
+                    rewardSystem.reconnectBluetooth();
                 }
                 startTask();
             }
@@ -166,38 +167,6 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
         IntentFilter plugIntent = new IntentFilter(Intent.ACTION_POWER_CONNECTED);
         registerReceiver(powerPlugReceiver, plugIntent);
         registerReceiver(powerUnplugReceiver, unplugIntent);
-    }
-
-    private final BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            switch (action){
-                case BluetoothDevice.ACTION_ACL_CONNECTED:
-                    //Bluetooth connected
-                    task.enableApp(true);
-                    break;
-                case BluetoothDevice.ACTION_ACL_DISCONNECTED:
-                    //Bluetooth disconnected
-                    bluetoothStatus = false;
-                    task.enableApp(false);
-                    reconnectBluetooth();
-                    break;
-            }
-        }
-    };
-
-
-    private void initialiseRewardChannels(){
-        allChanOff = getString(R.string.allChanOff);
-        chanZeroOn = getString(R.string.chanZeroOn);
-        chanZeroOff = getString(R.string.chanZeroOff);
-        chanOneOn = getString(R.string.chanOneOn);
-        chanOneOff = getString(R.string.chanOneOff);
-        chanTwoOn = getString(R.string.chanTwoOn);
-        chanTwoOff = getString(R.string.chanTwoOff);
-        chanThreeOn = getString(R.string.chanThreeOn);
-        chanThreeOff = getString(R.string.chanThreeOff);
     }
 
     private final BroadcastReceiver powerPlugReceiver = new BroadcastReceiver() {
@@ -327,9 +296,9 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
                         break;
                 }
                 if (isChecked) {
-                    startChannel(chan);
+                    rewardSystem.startChannel(chan);
                 } else {
-                    stopChannel(chan);
+                    rewardSystem.stopChannel(chan);
                 }                }
         };
 
@@ -355,28 +324,6 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
                 Log.d("log", s);
             }
         }
-    }
-
-    private void reconnectBluetooth() {
-        Handler handlerOne = new Handler();
-        handlerOne.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(!bluetoothStatus) {
-                    connectToBluetooth();
-                    reconnectBluetooth();
-                } else {
-                    stopAllChannels();
-                }
-            }
-        }, 10000);
-    }
-
-    private void initialiseBluetooth() {
-        Log.d("tag","Connecting to bluetooth..");
-        btAdapter = BluetoothAdapter.getDefaultAdapter();
-        checkBTState();
-        connectToBluetooth();
     }
 
     private void initialiseScreenSetttings() {
@@ -440,22 +387,12 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
         fragmentTransaction.commit();
     }
 
-    private void registerBluetoothReceivers() {
-        if(bluetoothStatus) {
-            btReceiversRegistered = true;
-            IntentFilter bluetoothIntent = new IntentFilter();
-            bluetoothIntent.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
-            bluetoothIntent.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
-            registerReceiver(bluetoothReceiver, bluetoothIntent);
-        }
-    }
 
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.buttonStart:
-                    registerBluetoothReceivers();
                     startTask();
                     break;
                 case R.id.buttonCalibration:
@@ -485,86 +422,16 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
         }
     };
 
-    private void quitBt() {
-        if (MainMenu.bluetoothStatus) {
-            stopAllChannels();
-            try {
-                outStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                btSocket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void connectToBluetooth() {
-        // Set up a pointer to the remote node using it's address.
-        BluetoothDevice device = btAdapter.getRemoteDevice(address);
-        try {
-            btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
-        } catch (IOException e) {
-            Toast.makeText(getBaseContext(), "Error 090", Toast.LENGTH_SHORT).show();
-        }
-
-        btAdapter.cancelDiscovery();
-
-        // Establish the connection.  This will block until it connects.
-        try {
-            btSocket.connect();
-            TextView tv1 = (TextView)findViewById(R.id.tvBluetooth);
-            Button buttonStart = (Button)findViewById(R.id.buttonStart);
-            if(tv1 != null) {
-                tv1.setText("Bluetooth status: Connected");
-                buttonStart.setText("START TASK");
-            }
-            bluetoothStatus = true;
-        } catch (IOException e) {
-            try {
-                btSocket.close();
-            } catch (IOException e2) {
-                Toast.makeText(getBaseContext(), "Error 091", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        // Create data stream to talk to server.
-        try {
-            outStream = btSocket.getOutputStream();
-        } catch (IOException e) {
-            Toast.makeText(getBaseContext(), "Error 092", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    //No onresume as app is oneShot
     @Override
-    public void onResume() { super.onResume(); }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.d("pause", "Paused");
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("stop","stopped");
         if(permissions) {
-            quitBt();
+            rewardSystem.quitBt();
             unregisterReceivers();
             quitThreads();
             this.stopLockTask();
-
-            Bundle extras = getIntent().getExtras();
-            if(extras != null) {
-                if (extras.getBoolean("restart") == true) {
-                    restartApp();
-                }
-            }
         }
-
     }
 
     private void quitThreads() {
@@ -585,102 +452,12 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
             unregisterReceiver(powerPlugReceiver);
             unregisterReceiver(powerUnplugReceiver);
         } catch(IllegalArgumentException e) {
-
-        }
-
-        if(btReceiversRegistered) {
-            unregisterReceiver(bluetoothReceiver);
         }
     }
-
-    private void checkBTState() {
-        if (btAdapter == null) {
-            Toast.makeText(getBaseContext(), "No Bluetooth support found", Toast.LENGTH_SHORT).show();
-        } else {
-            if (!btAdapter.isEnabled()) {
-                //Prompt user to turn on Bluetooth
-                Intent enableBtIntent = new Intent(btAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-            }
-        }
-    }
-
-    public static void stopAllChannels() {
-        sendData(allChanOff);
-    }
-
-    private static String getStopString(int Ch) {
-        String offString="";
-        if(Ch == 0) {
-            offString = chanZeroOff;
-        } else if (Ch == 1) {
-            offString = chanOneOff;
-        } else if (Ch == 2) {
-            offString = chanTwoOff;
-        } else if (Ch == 3) {
-            offString = chanThreeOff;
-        } else {
-            Log.d("tag", "Error: No valid Ch specified");
-        }
-        return offString;
-    }
-
-    private static String getStartString(int Ch) {
-        String onString="";
-        if(Ch == 0) {
-            onString = chanZeroOn;
-        } else if (Ch == 1) {
-            onString = chanOneOn;
-        } else if (Ch == 2) {
-            onString = chanTwoOn;
-        } else if (Ch == 3) {
-            onString = chanThreeOn;
-        } else {
-            Log.d("tag", "Error: Invalid ch specified");
-        }
-        return onString;
-    }
-
-    public static void stopChannel(int Ch) {
-        String stopString = getStopString(Ch);
-        sendData(stopString);
-    }
-
-    public static void startChannel(int Ch) {
-        String startString = getStartString(Ch);
-        sendData(startString);
-    }
-
-    public static void customRewardChannel(final int Ch, int amount) {
-        Log.d("tag","Giving reward "+amount+" ms on channel "+Ch);
-
-        startChannel(Ch);
-
-        new CountDownTimer(amount, 100) {
-            public void onTick(long ms) {}
-            public void onFinish() { stopChannel(Ch); }
-        }.start();
-    }
-
-    static public void sendData(String message) {
-        if(bluetoothStatus) {
-            byte[] msgBuffer = message.getBytes();
-            try {
-                outStream.write(msgBuffer);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         return false;
-    }
-
-    @Override
-    public void onBackPressed() {
     }
 
     @Override

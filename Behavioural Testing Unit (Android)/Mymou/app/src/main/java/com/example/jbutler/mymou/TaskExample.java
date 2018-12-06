@@ -9,13 +9,11 @@ import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -415,7 +413,7 @@ public class TaskExample extends Fragment
     }
 
     private void deliverReward(int juiceChoice) {
-        MainMenu.customRewardChannel(juiceChoice, rewardAmount);
+        MainMenu.rewardSystem.activateChannel(juiceChoice, rewardAmount);
         rewardChoice = juiceChoice;
         endOfTrial(1, rewardAmount + 1000);
     }
