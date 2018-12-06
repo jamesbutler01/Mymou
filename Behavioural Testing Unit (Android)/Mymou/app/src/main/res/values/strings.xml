@@ -3,13 +3,13 @@
     <string name="request_permission">This sample needs camera permission.</string>
 
     <string name="allChanOff">0</string>
-    <string name="chanTwoOn">1</string>
-    <string name="chanTwoOff">2</string>
-    <string name="chanThreeOn">3</string>
-    <string name="chanThreeOff">4</string>
-    <string name="chanFourOn">5</string>
-    <string name="chanFourOff">6</string>
-    <string name="chanFiveOn">7</string>
-    <string name="chanFiveOff">8</string>
+    <string name="chanZeroOn">1</string>
+    <string name="chanZeroOff">2</string>
+    <string name="chanOneOn">3</string>
+    <string name="chanOneOff">4</string>
+    <string name="chanTwoOn">5</string>
+    <string name="chanTwoOff">6</string>
+    <string name="chanThreeOn">7</string>
+    <string name="chanThreeOff">8</string>
 
 </resources>

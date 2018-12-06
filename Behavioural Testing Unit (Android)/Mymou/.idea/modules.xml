@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Mymou.iml" filepath="$PROJECT_DIR$/Mymou.iml" />
+      <module fileurl="file://C:\Users\jbutler\Documents\GitHub\Mymou\Behavioural Testing Unit (Android)\Mymou\Mymou.iml" filepath="C:\Users\jbutler\Documents\GitHub\Mymou\Behavioural Testing Unit (Android)\Mymou\Mymou.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\jbutler\Documents\GitHub\Mymou\Behavioural Testing Unit (Android)\Mymou\app\app.iml" filepath="C:\Users\jbutler\Documents\GitHub\Mymou\Behavioural Testing Unit (Android)\Mymou\app\app.iml" />
     </modules>
   </component>
 </project>

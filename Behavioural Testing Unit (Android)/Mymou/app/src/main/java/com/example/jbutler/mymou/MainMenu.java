@@ -124,6 +124,8 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
 
         this.startLockTask();
 
+        checkPermissions();
+
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -132,15 +134,15 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
         if(testingMode) {
             startTask();
         } else {
-            // Enable this if you want task to automatically restart on crash
-            //Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-                //@Override
-              //  public void uncaughtException(Thread thread, Throwable throwable) {
-              //      logHandler.post(new CrashReport(throwable));
-                //    quitBt();
-                    //restartApp();
-                //}
-            //});
+//            // Enable this if you want task to automatically restart on crash
+//            Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+//                @Override
+//                public void uncaughtException(Thread thread, Throwable throwable) {
+//                    logHandler.post(new CrashReport(throwable));
+//                    quitBt();
+//                    restartApp();
+//                }
+//            });
         }
     }
 
@@ -188,14 +190,14 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
 
     private void initialiseRewardChannels(){
         allChanOff = getString(R.string.allChanOff);
-        chanZeroOn = getString(R.string.chanTwoOn);
-        chanZeroOff = getString(R.string.chanTwoOff);
-        chanOneOn = getString(R.string.chanThreeOn);
-        chanOneOff = getString(R.string.chanThreeOff);
-        chanTwoOn = getString(R.string.chanFourOn);
-        chanTwoOff = getString(R.string.chanFourOff);
-        chanThreeOn = getString(R.string.chanFiveOn);
-        chanThreeOff = getString(R.string.chanFiveOff);
+        chanZeroOn = getString(R.string.chanZeroOn);
+        chanZeroOff = getString(R.string.chanZeroOff);
+        chanOneOn = getString(R.string.chanOneOn);
+        chanOneOff = getString(R.string.chanOneOff);
+        chanTwoOn = getString(R.string.chanTwoOn);
+        chanTwoOff = getString(R.string.chanTwoOff);
+        chanThreeOn = getString(R.string.chanThreeOn);
+        chanThreeOff = getString(R.string.chanThreeOff);
     }
 
     private final BroadcastReceiver powerPlugReceiver = new BroadcastReceiver() {
@@ -288,12 +290,12 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
 
     private void initialiseLayoutParameters() {
         //Permission buttons
-        permissionButtons[0] = (Button) findViewById(R.id.buttonCameraPermission);
-        permissionButtons[1] = (Button) findViewById(R.id.buttonWritePermission);
-        permissionButtons[2] = (Button) findViewById(R.id.buttonBt0);
-        permissionButtons[3] = (Button) findViewById(R.id.buttonBt1);
-        permissionButtons[4] = (Button) findViewById(R.id.buttonBt2);
-        permissionButtons[5] = (Button) findViewById(R.id.buttonSettingsPermission);
+        permissionButtons[0] = (Button) findViewById(R.id.permbuttonCamera);
+        permissionButtons[1] = (Button) findViewById(R.id.permbuttonWrite);
+        permissionButtons[2] = (Button) findViewById(R.id.permbuttonBt0);
+        permissionButtons[3] = (Button) findViewById(R.id.permbuttonBt1);
+        permissionButtons[4] = (Button) findViewById(R.id.permbuttonBt2);
+        permissionButtons[5] = (Button) findViewById(R.id.permbuttonSettings);
 
         findViewById(R.id.mainPermButton).setOnClickListener(buttonClickListener);
         for (int i = 0; i < permissionButtons.length; i++) {
@@ -306,49 +308,35 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
     }
 
     private void initialiseToggleButtons() {
-        ToggleButton toggle0 = (ToggleButton) findViewById(R.id.chanZeroButt);
-        toggle0.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    startChannel(0);
-                } else {
-                    stopChannel(0);
-                }
-            }
-        });
+        CompoundButton.OnCheckedChangeListener multiListener = new CompoundButton.OnCheckedChangeListener() {
 
-        ToggleButton toggle1 = (ToggleButton) findViewById(R.id.chanOneButt);
-        toggle1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    startChannel(1);
-                } else {
-                    stopChannel(1);
+            public void onCheckedChanged(CompoundButton v, boolean isChecked) {
+                int chan = -1;
+                switch (v.getId()){
+                    case R.id.chanZeroButt:
+                        chan = 0;
+                        break;
+                    case R.id.chanOneButt:
+                        chan = 1;
+                        break;
+                    case R.id.chanTwoButt:
+                        chan = 2;
+                        break;
+                    case R.id.chanThreeButt:
+                        chan = 3;
+                        break;
                 }
-            }
-        });
+                if (isChecked) {
+                    startChannel(chan);
+                } else {
+                    stopChannel(chan);
+                }                }
+        };
 
-        ToggleButton toggle2 = (ToggleButton) findViewById(R.id.chanTwoButt);
-        toggle2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    startChannel(2);
-                } else {
-                    stopChannel(2);
-                }
-            }
-        });
-
-        ToggleButton toggle3 = (ToggleButton) findViewById(R.id.chanThreeButt);
-        toggle3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    startChannel(3);
-                } else {
-                    stopChannel(3);
-                }
-            }
-        });
+        ((ToggleButton)  findViewById(R.id.chanZeroButt)).setOnCheckedChangeListener(multiListener);
+        ((ToggleButton)  findViewById(R.id.chanOneButt)).setOnCheckedChangeListener(multiListener);
+        ((ToggleButton)  findViewById(R.id.chanTwoButt)).setOnCheckedChangeListener(multiListener);
+        ((ToggleButton)  findViewById(R.id.chanThreeButt)).setOnCheckedChangeListener(multiListener);
     }
 
     public static void setMonkeyId(int[] intArray) {
@@ -381,7 +369,7 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
                     stopAllChannels();
                 }
             }
-        }, 2000);
+        }, 10000);
     }
 
     private void initialiseBluetooth() {
@@ -475,22 +463,22 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
                 case R.id.mainPermButton:
                     checkPermissions();
                     break;
-                case R.id.buttonCameraPermission:
+                case R.id.permbuttonCamera:
                     checkPermissionNested(0);
                     break;
-                case R.id.buttonWritePermission:
+                case R.id.permbuttonWrite:
                     checkPermissionNested(1);
                     break;
-                case R.id.buttonBt0:
+                case R.id.permbuttonBt0:
                     checkPermissionNested(2);
                     break;
-                case R.id.buttonBt1:
+                case R.id.permbuttonBt1:
                     checkPermissionNested(3);
                     break;
-                case R.id.buttonBt2:
+                case R.id.permbuttonBt2:
                     checkPermissionNested(4);
                     break;
-                case R.id.buttonSettingsPermission:
+                case R.id.permbuttonSettings:
                     checkPermissionNested(5);
                     break;
             }
