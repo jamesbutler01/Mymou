@@ -1,7 +1,4 @@
-// Task Thirty Four
-// First square map
 // 4 x 4 square map (so max 4 associations per stimulus)
-// Same paradigm as 32
 package com.example.jbutler.mymou;
 
 import android.animation.AnimatorSet;
