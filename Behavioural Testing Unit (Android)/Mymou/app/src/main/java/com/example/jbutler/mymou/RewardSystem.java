@@ -59,7 +59,8 @@ public class RewardSystem {
         try {
             btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
         } catch (IOException e) {
-            Toast.makeText(context, "Error 090", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Error 090: Can't connect to bluetooth", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         btAdapter.cancelDiscovery();

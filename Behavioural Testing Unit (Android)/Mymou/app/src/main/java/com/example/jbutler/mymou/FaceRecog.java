@@ -106,36 +106,24 @@ final class FaceRecog {
 
     public int idImage(int[] input) {
         //Convert photo int array to double array
-        Log.d("faceRecog", "input " + input.length);
         double[][] doubleArray = convertIntToDoubleArray(input);
-        Log.d("faceRecog", "doubleArray " + doubleArray.length + " " + doubleArray[0].length);
 
         //Subtract training mean and variance
         double[][] standardisedArray = standardiseArray(doubleArray);
-        Log.d("faceRecog", "standardisedArray " + standardisedArray.length + " "
-                + standardisedArray[0].length);
 
         // Hidden activations
-        Log.d("faceRecog", "wi " + wi.length + " " + wi[0].length);
         double[][] sumHidden = MatrixMaths.dot(standardisedArray, wi);
-        Log.d("faceRecog", "sumHidden " + sumHidden.length + " " + sumHidden[0].length);
         double[][] activationHidden = MatrixMaths.tanh(sumHidden);
-        Log.d("faceRecog", "activationHidden " + activationHidden.length + " "
-                + activationHidden[0].length);
 
         // Output activations
-        Log.d("faceRecog", "wi " + wo.length + " " + wo[0].length);
         double[][] sumOutput = MatrixMaths.dot(activationHidden, wo);
-        Log.d("faceRecog", "sumOutput " + sumOutput.length + " " + sumOutput[0].length);
         double[][] activationOutput = MatrixMaths.softmax(sumOutput);
-        Log.d("faceRecog", "activationOutput " + activationOutput.length + " "
-                + activationOutput[0].length);
 
         // Convert to bool
         if (activationOutput[0][0] > activationOutput[0][1]) {
-            return 1;  // Ozzy
+            return 1;  // Monkey O
         } else {
-            return 0;  // Vinny
+            return 0;  // Monkey V
         }
     }
 

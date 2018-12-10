@@ -271,7 +271,6 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
             permissionButtons[i].setOnClickListener(buttonClickListener);
         }
         findViewById(R.id.buttonStart).setOnClickListener(buttonClickListener);
-        findViewById(R.id.buttonCalibration).setOnClickListener(buttonClickListener);
 
         initialiseToggleButtons();
     }
@@ -394,8 +393,6 @@ public class MainMenu extends Activity implements Thread.UncaughtExceptionHandle
             switch (view.getId()) {
                 case R.id.buttonStart:
                     startTask();
-                    break;
-                case R.id.buttonCalibration:
                     break;
                 case R.id.mainPermButton:
                     checkPermissions();

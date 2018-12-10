@@ -37,21 +37,7 @@ public class MatrixMaths {
         return output;
     }
 
-    public static int findMaxOf2dIntArray(int[][] input) {
-        int rows = input.length;
-        int cols = input[0].length;
-        int max = 0;
-        for(int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if(input[i][j] > max) {
-                    max = input[i][j];
-                }
-            }
-        }
-        return max;
-    }
-
-    //Apply sigmoid function to all values in array
+    //Apply softmax function to all values in array
     public static double[][] softmax(double[][] input) {
         int rows = input.length;
         int cols = input[0].length;

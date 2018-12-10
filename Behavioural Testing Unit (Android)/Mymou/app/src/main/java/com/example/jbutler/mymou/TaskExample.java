@@ -1,7 +1,4 @@
-// Task Thirty Four
-// First square map
 // 4 x 4 square map (so max 4 associations per stimulus)
-// Same paradigm as 32
 package com.example.jbutler.mymou;
 
 import android.animation.AnimatorSet;
@@ -62,22 +59,22 @@ public class TaskExample extends Fragment
             R.drawable.aabap,};
 
     int[][] transitionMatrix = {
-        {0,1,2,3,1,2,3,4,2,3,4,5,3,4,5,6},
-        {1,0,1,2,2,1,2,3,3,2,3,4,4,3,4,5},
-        {2,1,0,1,3,2,1,2,4,3,2,3,5,4,3,4},
-        {3,2,1,0,4,3,2,1,5,4,3,2,6,5,4,3},
-        {1,2,3,4,0,1,2,3,1,2,3,4,2,3,4,5},
-        {2,1,2,3,1,0,1,2,2,1,2,3,3,2,3,4},
-        {3,2,1,2,2,1,0,1,3,2,1,2,4,3,2,3},
-        {4,3,2,1,3,2,1,0,4,3,2,1,5,4,3,2},
-        {2,3,4,5,1,2,3,4,0,1,2,3,1,2,3,4},
-        {3,2,3,4,2,1,2,3,1,0,1,2,2,1,2,3},
-        {4,3,2,3,3,2,1,2,2,1,0,1,3,2,1,2},
-        {5,4,3,2,4,3,2,1,3,2,1,0,4,3,2,1},
-        {3,4,5,6,2,3,4,5,1,2,3,4,0,1,2,3},
-        {4,3,4,5,3,2,3,4,2,1,2,3,1,0,1,2},
-        {5,4,3,4,4,3,2,3,3,2,1,2,2,1,0,1},
-        {6,5,4,3,5,4,3,2,4,3,2,1,3,2,1,0},
+            {0,1,2,3,1,2,3,4,2,3,4,5,3,4,5,6},
+            {1,0,1,2,2,1,2,3,3,2,3,4,4,3,4,5},
+            {2,1,0,1,3,2,1,2,4,3,2,3,5,4,3,4},
+            {3,2,1,0,4,3,2,1,5,4,3,2,6,5,4,3},
+            {1,2,3,4,0,1,2,3,1,2,3,4,2,3,4,5},
+            {2,1,2,3,1,0,1,2,2,1,2,3,3,2,3,4},
+            {3,2,1,2,2,1,0,1,3,2,1,2,4,3,2,3},
+            {4,3,2,1,3,2,1,0,4,3,2,1,5,4,3,2},
+            {2,3,4,5,1,2,3,4,0,1,2,3,1,2,3,4},
+            {3,2,3,4,2,1,2,3,1,0,1,2,2,1,2,3},
+            {4,3,2,3,3,2,1,2,2,1,0,1,3,2,1,2},
+            {5,4,3,2,4,3,2,1,3,2,1,0,4,3,2,1},
+            {3,4,5,6,2,3,4,5,1,2,3,4,0,1,2,3},
+            {4,3,4,5,3,2,3,4,2,1,2,3,1,0,1,2},
+            {5,4,3,4,4,3,2,3,3,2,1,2,2,1,0,1},
+            {6,5,4,3,5,4,3,2,4,3,2,1,3,2,1,0},
     };
 
     private int numNeighbours = 4;
@@ -329,30 +326,30 @@ public class TaskExample extends Fragment
         textView.setText("Feedback");
 
         if (choicePeriod) {
-                choicePeriod = false;
-                numSteps++;
-                int previousDistance = currentDistanceFromTarget;
-                updateCurrLoc(chosenOne);
-                animateStep(chosenOne);
-                fadeButtons(chosenOne);
-                currentDistanceFromTarget = distanceFromTarget(currentPos);
-                if(previousDistance > currentDistanceFromTarget) { // If right direction
-                    updateProgressBar(animationDuration + 400);
-                    if (currentPos == targetPos) {
-                        //Reached target
-                        arrivedAtTarget(chosenOne);
-                    } else {
-                        //Right direction
-                        logStep(3);
-                        unfadeButtons(animationDuration*2 + 400 + 50);
-                    }
+            choicePeriod = false;
+            numSteps++;
+            int previousDistance = currentDistanceFromTarget;
+            updateCurrLoc(chosenOne);
+            animateStep(chosenOne);
+            fadeButtons(chosenOne);
+            currentDistanceFromTarget = distanceFromTarget(currentPos);
+            if(previousDistance > currentDistanceFromTarget) { // If right direction
+                updateProgressBar(animationDuration + 400);
+                if (currentPos == targetPos) {
+                    //Reached target
+                    arrivedAtTarget(chosenOne);
                 } else {
-                    //Wrong direction
-                    logStep(0);
-                    currentDistanceFromTarget = pbLength;
-                    updateProgressBar(animationDuration + 400);
-                    arrivedAtWrongTarget();
+                    //Right direction
+                    logStep(3);
+                    unfadeButtons(animationDuration*2 + 400 + 50);
                 }
+            } else {
+                //Wrong direction
+                logStep(0);
+                currentDistanceFromTarget = pbLength;
+                updateProgressBar(animationDuration + 400);
+                arrivedAtWrongTarget();
+            }
         } else {
             choicePeriod = false;
             bashingTimeout();
@@ -726,7 +723,7 @@ public class TaskExample extends Fragment
             }
             ContentResolver cResolver = mContext.getContentResolver();
             Settings.System.putInt(cResolver, Settings.System.SCREEN_BRIGHTNESS, brightness);
-        } 
+        }
     }
 
     private void logStep(int result) {

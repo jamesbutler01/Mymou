@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- * Saves linked String into  CURRENT_DATE.txt
+ * Writes linked String into  CURRENT_DATE.txt
  */
 class LogEvent implements Runnable {
 
@@ -24,29 +24,24 @@ class LogEvent implements Runnable {
 
     @Override
     public void run() {
-            File backupFile;
-            File appFolder;
-            String folderName = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
-            String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Mymou/" + folderName;
-            appFolder = new File(path);
-            if (!appFolder.exists())
-                appFolder.mkdir();
-            String fileName = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
-            fileName = fileName + ".txt";
-            backupFile = new File(appFolder, fileName);
-            try {
-                FileOutputStream fileOutputStream = new FileOutputStream(backupFile, true);
-                PrintWriter printWriter = new PrintWriter(fileOutputStream);
-                printWriter.println(message);
-                printWriter.flush();
-                printWriter.close();
-                fileOutputStream.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Log.d("tag","Data logged");
+        FolderManager folderManager = new FolderManager();
+        File appFolder = folderManager.getfoldername();
+        String fileName = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
+        fileName = fileName + ".txt";
+        File savefile = new File(appFolder, fileName);
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(savefile, true);
+            PrintWriter printWriter = new PrintWriter(fileOutputStream);
+            printWriter.println(message);
+            printWriter.flush();
+            printWriter.close();
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Log.d("LogEvent","Data logged");
     }
 
 }
