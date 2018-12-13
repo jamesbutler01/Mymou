@@ -92,7 +92,7 @@
         android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="600dp"
-        android:text="loading"
+        android:text="START TASK"
         android:id="@+id/buttonStart"
         android:textSize="100sp"
         android:layout_centerVertical="true"

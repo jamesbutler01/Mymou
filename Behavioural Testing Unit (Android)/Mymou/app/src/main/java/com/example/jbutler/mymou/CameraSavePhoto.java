@@ -70,7 +70,7 @@ class CameraSavePhoto implements Runnable {
         }
 
         //Log text data with photoId
-        MainMenu.setMonkeyId(intArray);
+        TaskManager.setMonkeyId(intArray);
 
         //Save pixel values
         saveIntArray(intArray);

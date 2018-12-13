@@ -4,7 +4,6 @@ package com.example.jbutler.mymou;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Fragment;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Path;
@@ -14,7 +13,6 @@ import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.provider.Settings;
 import android.support.v13.app.FragmentCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -33,6 +31,8 @@ import java.util.Random;
 
 public class TaskExample extends Fragment
         implements View.OnClickListener, FragmentCompat.OnRequestPermissionsResultCallback {
+
+    public ImageButton hideApplication;
 
     private int maxTrialDuration = 30000;
     private int pathDistance = 2;
@@ -79,7 +79,7 @@ public class TaskExample extends Fragment
 
     private int numNeighbours = 4;
     private int time = 0;
-    private int yCenter, xCenter, distanceFromCenter, rewardChoice;
+    private int yCenter, xCenter, distanceFromCenter, rewardChoice=0;
     private int[] neighbours = new int[numNeighbours];
     private int[] xLocs = new int[8];
     private int[] yLocs = new int[8];
@@ -87,7 +87,6 @@ public class TaskExample extends Fragment
     private ImageButton ibRed, ibPink, ibGo, ibBrown, ibWait, ibTarget, ibCurrLoc;
     private ImageButton pos0, pos1, pos2, pos3, pos4, pos5, pos6, pos7;
     private ImageButton[] imageButtons = new ImageButton[numNeighbours];
-    private static ImageButton ibBlackScreen;
     private ProgressBar pb1;
     public static boolean shutdown = false;
 
@@ -107,10 +106,6 @@ public class TaskExample extends Fragment
     private Handler backgroundLogHandler;
     private HandlerThread backgroundLogThread;
 
-    public static TaskExample newInstance() {
-        return new TaskExample();
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -129,8 +124,6 @@ public class TaskExample extends Fragment
         setPosLocations();
 
         //Disable unused buttons
-        ibBlackScreen.setEnabled(false);
-        ibBlackScreen.setVisibility(View.INVISIBLE);
         ibRed.setEnabled(false);
         ibRed.setVisibility(View.INVISIBLE);
         ibBrown.setEnabled(false);
@@ -140,7 +133,7 @@ public class TaskExample extends Fragment
         ibGo.setEnabled(true);
         ibGo.setVisibility(View.VISIBLE);
 
-        setBrightness(255);
+        TaskManager.setBrightness(255);
 
         numStimulus = imageList.length;
 
@@ -149,7 +142,7 @@ public class TaskExample extends Fragment
         backgroundLogThread.start();
         backgroundLogHandler = new Handler(backgroundLogThread.getLooper());
 
-        startNewTrial(0);
+        PrepareForNewTrial(0);
         timer();
 
     }
@@ -163,7 +156,7 @@ public class TaskExample extends Fragment
         ibWait = (ImageButton) getView().findViewById(R.id.imageButtonWaitCue);
         ibTarget = (ImageButton) getView().findViewById(R.id.imageButtonTarget);
         ibCurrLoc = (ImageButton) getView().findViewById(R.id.imageButtonCurrLoc);
-        ibBlackScreen = (ImageButton) getView().findViewById(R.id.imageButtonBigBlack);
+        hideApplication = (ImageButton) getView().findViewById(R.id.imageButtonBigBlack);
         pb1 = (ProgressBar) getView().findViewById(R.id.boosterBar);
         imageButtons[0] = (ImageButton) getView().findViewById(R.id.imageButton0);
         imageButtons[1] = (ImageButton) getView().findViewById(R.id.imageButton1);
@@ -286,7 +279,7 @@ public class TaskExample extends Fragment
     @Override
     public void onClick(View view) {
         time = 0;
-        setBrightness(255);
+        TaskManager.setBrightness(255);
         switch (view.getId()) {
             case R.id.imageButtonGo:
                 startTrial();
@@ -362,7 +355,6 @@ public class TaskExample extends Fragment
         h1.postDelayed(new Runnable() {
             @Override
             public void run() {
-
                 ibCurrLoc.setVisibility(View.VISIBLE);
                 ibCurrLoc.setEnabled(true);
                 ibCurrLoc.setBackground(ContextCompat.getDrawable(mContext, R.drawable.outline_thick));
@@ -396,9 +388,11 @@ public class TaskExample extends Fragment
 
                 ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
                 toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
-                deliverReward(0);
+
+                TaskManager.deliverReward(rewardChoice, rewardAmount);
+                endOfTrial(1, rewardAmount + 1000);
             }
-        }, (animationDuration + 400));
+        }, (animationDuration*2 + 400));
 
         Handler handlerOne = new Handler();
         handlerOne.postDelayed(new Runnable() {
@@ -409,11 +403,6 @@ public class TaskExample extends Fragment
         }, animationDuration*2 + 400);
     }
 
-    private void deliverReward(int juiceChoice) {
-        MainMenu.rewardSystem.activateChannel(juiceChoice, rewardAmount);
-        rewardChoice = juiceChoice;
-        endOfTrial(1, rewardAmount + 1000);
-    }
 
     private void animateStep(final int direction) {
         //Moves chosen image to centre loc
@@ -452,7 +441,7 @@ public class TaskExample extends Fragment
                 ibCurrLoc.setEnabled(true);
                 ibCurrLoc.setVisibility(View.VISIBLE);
                 imageButtons[chosenOne].animate().alpha(0).setDuration(1);
-                setChoiceButtonsNotClickable();
+                setChoiceButtonsClickable(false);
             }
         }, animationDuration);
     }
@@ -465,7 +454,7 @@ public class TaskExample extends Fragment
                 updateChoiceButtons();
                 randomiseImageLocation();
                 toggleDelayCue(true);
-                setChoiceButtonsClickable();
+                setChoiceButtonsClickable(true);
                 for (int i = 0; i < numNeighbours; i++) {
                     imageButtons[i].animate().alpha(1).setDuration(animationDuration);
                 }
@@ -524,7 +513,7 @@ public class TaskExample extends Fragment
 
     }
 
-    private void startNewTrial(int delay) {
+    private void PrepareForNewTrial(int delay) {
 
         //New trial data
         trialData = new ArrayList<String>();
@@ -533,14 +522,13 @@ public class TaskExample extends Fragment
             @Override
             public void run() {
 
-                if (dateHasChanged()) {
+                if (TaskManager.dateHasChanged()) {
                     trialCounter = 0;
                 } else {
                     trialCounter++;
                 }
 
                 numSteps = 0;
-                rewardChoice = -1;
 
                 chooseTargetLoc();
                 setStartingPosition();
@@ -574,10 +562,18 @@ public class TaskExample extends Fragment
 
     private void switchOffChoiceButtons() {
         for(int i = 0; i < numNeighbours; i++) {
-            imageButtons[i].setVisibility(View.INVISIBLE);
-            imageButtons[i].setEnabled(false);
-            imageButtons[i].setClickable(false);
+            toggleButton(imageButtons[i], false);
         }
+    }
+
+    private void toggleButton(ImageButton ib, boolean status) {
+        if (status) {
+            ib.setVisibility(View.VISIBLE);
+        } else {
+            ib.setVisibility(View.INVISIBLE);
+        }
+        ib.setEnabled(status);
+        ib.setClickable(status);
     }
 
     private void setStartingPosition() {
@@ -638,20 +634,14 @@ public class TaskExample extends Fragment
         }
     }
 
-    private void setChoiceButtonsNotClickable() {
+    private void setChoiceButtonsClickable(boolean status) {
         for(int i = 0; i < numNeighbours; i++) {
-            imageButtons[i].setClickable(false);
-        }
-    }
-
-    private void setChoiceButtonsClickable() {
-        for(int i = 0; i < numNeighbours; i++) {
-            imageButtons[i].setClickable(true);
+            imageButtons[i].setClickable(status);
         }
     }
 
     private void bashingTimeout() {
-        setChoiceButtonsNotClickable();
+        setChoiceButtonsClickable(false);
         cancelHandlers();
         ibBrown.setEnabled(true);
         ibBrown.setVisibility(View.VISIBLE);
@@ -677,9 +667,10 @@ public class TaskExample extends Fragment
         if (outcome == 1) {
             rewardChosen = rewardChoice;
         }
-        MainMenu.commitTrialData(trialData, outcome, rewardChosen);
 
-        startNewTrial(newTrialDelay);
+        TaskManager.commitTrialData(trialData, outcome, rewardChosen);
+
+        PrepareForNewTrial(newTrialDelay);
     }
 
     private void timer() {
@@ -692,8 +683,9 @@ public class TaskExample extends Fragment
                     time = 0;
                     endOfTrial(7, 0);
                     timerRunning = false;
+
                     //Decrease brightness while not in use
-                    setBrightness(50);
+                    TaskManager.setBrightness(50);
                 } else {
                     timer();
                     timerRunning = true;
@@ -714,17 +706,6 @@ public class TaskExample extends Fragment
         h8.removeCallbacksAndMessages(null);
     }
 
-    public static void setBrightness(int brightness) {
-        if (Settings.System.canWrite(mContext)) {
-            if (brightness > 255) {
-                brightness = 255;
-            } else if (brightness < 0) {
-                brightness = 0;
-            }
-            ContentResolver cResolver = mContext.getContentResolver();
-            Settings.System.putInt(cResolver, Settings.System.SCREEN_BRIGHTNESS, brightness);
-        }
-    }
 
     private void logStep(int result) {
         String timestamp = new SimpleDateFormat("HHmmss_SSS").format(Calendar.getInstance().getTime());
@@ -743,46 +724,6 @@ public class TaskExample extends Fragment
 
     public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
 
-    public static void enableApp(boolean bool) {
-        if(bool) {
-            ibBlackScreen.setEnabled(false);
-            ibBlackScreen.setVisibility(View.INVISIBLE);
-        } else {
-            ibBlackScreen.setEnabled(true);
-            ibBlackScreen.setVisibility(View.VISIBLE);
-            setBrightness(1);
-        }
-    }
 
-    //Checks if todays date is the same as the last time it was checked and updates saved date
-    private boolean dateHasChanged() {
-        String todaysDate = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
-        SharedPreferences sharedPref = getActivity().getPreferences(mContext.MODE_PRIVATE);
-        String lastRecordedDate = sharedPref.getString("task38date", "null");
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("task38date", todaysDate);
-        editor.commit();
-        if (todaysDate.equals(lastRecordedDate)) {
-            Log.d("date", todaysDate+" "+lastRecordedDate+" 0");
-            return false;
-        } else {
-            Log.d("date", todaysDate+" "+lastRecordedDate+" 1");
-            return true;
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        backgroundLogThread.quitSafely();
-        try {
-            backgroundLogThread.join();
-            backgroundLogThread = null;
-            backgroundLogHandler = null;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        getActivity().finish();
-    }
 
 }

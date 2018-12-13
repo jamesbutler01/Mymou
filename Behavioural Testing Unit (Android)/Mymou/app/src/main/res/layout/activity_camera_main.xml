@@ -10,14 +10,4 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/texture"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="117dp"
-        android:text="TAKE PHOTO" />
-
-
 </RelativeLayout>

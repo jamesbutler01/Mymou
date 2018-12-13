@@ -5,4 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000"
-    tools:context="com.example.jbutler.mymou.MainMenu" />
+    tools:context="com.example.jbutler.mymou.MainMenu" >
+    <TextView
+            android:text="Loading..."
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:textSize="32dp"
+            android:id="@+id/textView"/>
+</FrameLayout>
