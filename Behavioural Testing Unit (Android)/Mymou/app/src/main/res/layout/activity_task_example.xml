@@ -1,298 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             android:background="@color/white">
+    <View
+            android:id="@+id/backgroundpink"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/pinkrectangle"/>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <View
+            android:id="@+id/backgroundred"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/redrectangle"/>
 
-    <TextureView
-        android:id="@+id/texture"
-        android:layout_width="300px"
-        android:layout_height="300px"
-        android:layout_above="@+id/control"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="146dp" />
+    <Button
+            android:text="Monkey O\n Start"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:textSize="30sp"
+            android:id="@+id/buttonGoMonkO"/>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white">
-    </FrameLayout>
+    <Button
+            android:text="Monkey V\n Start"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:textSize="30sp"
+            android:id="@+id/buttonGoMonkV"/>
 
-    <FrameLayout
-        android:id="@+id/control"
-        android:layout_width="match_parent"
-        android:layout_height="112dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:background="@android:color/transparent"
-        android:layout_alignParentTop="true">
+    <Button
+            android:text="Monkey O\n Cue 1"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:textSize="30sp"
+            android:id="@+id/buttonCue1MonkO"/>
 
-        <ImageButton
-            android:id="@+id/imageButtonPink"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/greensquare" />
+    <Button
+            android:text="Monkey V\n Cue 1"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:textSize="30sp"
+            android:id="@+id/buttonCue1MonkV"/>
 
-        <ImageButton
-            android:id="@+id/imageButtonRed"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/brownsquare" />
+    <Button
+            android:text="Monkey O\n Cue 2"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:textSize="30sp"
+            android:id="@+id/buttonCue2MonkO"/>
 
+    <Button
+            android:text="Monkey V\n Cue 2"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:textSize="30sp"
+            android:id="@+id/buttonCue2MonkV"/>
 
-        <ImageButton
-            android:id="@+id/imageButtonTarget"
-            android:layout_width="350px"
-            android:layout_height="350px"
-            android:background="@drawable/outline_noright"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/blacksquare"
-            android:paddingLeft="30dp"
-            android:paddingBottom="30dp"
-            android:paddingTop="30dp"
-            android:paddingRight="30dp"/>
+    <Button
+            android:text="Reward\nChoice #0"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:textSize="30sp"
+            android:id="@+id/buttonRewardZero"/>
 
-        <ImageButton
-            android:id="@+id/posZero"
-            android:layout_width="350px"
-            android:layout_height="350px"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/whitesquare"
-            android:paddingLeft="30dp"
-            android:paddingBottom="30dp"
-            android:paddingTop="30dp"
-            android:paddingRight="30dp"/>
+    <Button
+            android:text="Reward\nChoice #1"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:textSize="30sp"
+            android:id="@+id/buttonRewardOne"/>
 
-        <ImageButton
-            android:id="@+id/posOne"
-            android:layout_width="350px"
-            android:layout_height="350px"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/whitesquare"
-            android:paddingLeft="30dp"
-            android:paddingBottom="30dp"
-            android:paddingTop="30dp"
-            android:paddingRight="30dp"/>
+    <Button
+            android:text="Reward\nChoice #2"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:textSize="30sp"
+            android:id="@+id/buttonRewardTwo"/>
 
-        <ImageButton
-            android:id="@+id/posTwo"
-            android:layout_width="350px"
-            android:layout_height="350px"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/whitesquare"
-            android:paddingLeft="30dp"
-            android:paddingBottom="30dp"
-            android:paddingTop="30dp"
-            android:paddingRight="30dp"/>
-
-        <ImageButton
-            android:id="@+id/posThree"
-            android:layout_width="350px"
-            android:layout_height="350px"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/whitesquare"
-            android:paddingLeft="30dp"
-            android:paddingBottom="30dp"
-            android:paddingTop="30dp"
-            android:paddingRight="30dp"/>
-
-        <ImageButton
-            android:id="@+id/posFour"
-            android:layout_width="350px"
-            android:layout_height="350px"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/whitesquare"
-            android:paddingLeft="30dp"
-            android:paddingBottom="30dp"
-            android:paddingTop="30dp"
-            android:paddingRight="30dp"/>
-
-        <ImageButton
-            android:id="@+id/posFive"
-            android:layout_width="350px"
-            android:layout_height="350px"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/whitesquare"
-            android:paddingLeft="30dp"
-            android:paddingBottom="30dp"
-            android:paddingTop="30dp"
-            android:paddingRight="30dp"/>
-
-        <ImageButton
-            android:id="@+id/posSix"
-            android:layout_width="350px"
-            android:layout_height="350px"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/whitesquare"
-            android:paddingLeft="30dp"
-            android:paddingBottom="30dp"
-            android:paddingTop="30dp"
-            android:paddingRight="30dp"/>
-
-        <ImageButton
-            android:id="@+id/posSeven"
-            android:layout_width="350px"
-            android:layout_height="350px"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/whitesquare"
-            android:paddingLeft="30dp"
-            android:paddingBottom="30dp"
-            android:paddingTop="30dp"
-            android:paddingRight="30dp"/>
-
-        <ImageButton
-            android:id="@+id/imageButton0"
-            android:layout_width="350px"
-            android:layout_height="350px"
-            android:adjustViewBounds="true"
-            android:background="@color/blue"
-            android:scaleType="fitXY"
-            android:src="@drawable/pic5"
-            android:paddingLeft="30dp"
-            android:paddingBottom="30dp"
-            android:paddingTop="30dp"
-            android:paddingRight="30dp"/>
-
-        <ImageButton
-            android:id="@+id/imageButton1"
-            android:layout_width="350px"
-            android:layout_height="350px"
-            android:adjustViewBounds="true"
-            android:background="@color/blue"
-            android:scaleType="fitXY"
-            android:src="@drawable/pic5"
-            android:paddingLeft="30dp"
-            android:paddingBottom="30dp"
-            android:paddingTop="30dp"
-            android:paddingRight="30dp"/>
-
-        <ImageButton
-            android:id="@+id/imageButton2"
-            android:layout_width="350px"
-            android:layout_height="350px"
-            android:adjustViewBounds="true"
-            android:background="@color/blue"
-            android:scaleType="fitXY"
-            android:src="@drawable/pic5"
-            android:paddingLeft="30dp"
-            android:paddingBottom="30dp"
-            android:paddingTop="30dp"
-            android:paddingRight="30dp"/>
-
-        <ImageButton
-            android:id="@+id/imageButton3"
-            android:layout_width="350px"
-            android:layout_height="350px"
-            android:adjustViewBounds="true"
-            android:background="@color/blue"
-            android:scaleType="fitXY"
-            android:src="@drawable/pic5"
-            android:paddingLeft="30dp"
-            android:paddingBottom="30dp"
-            android:paddingTop="30dp"
-            android:paddingRight="30dp"/>
-
-        <ImageButton
-            android:id="@+id/imageButtonCurrLoc"
-            android:layout_width="350px"
-            android:layout_height="350px"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/pic5"
-            android:paddingLeft="30dp"
-            android:paddingBottom="30dp"
-            android:paddingTop="30dp"
-            android:paddingRight="30dp"
-            />
-
-        <ImageButton
-            android:id="@+id/imageButtonGo"
-            android:layout_width="350px"
-            android:layout_height="350px"
-            android:background="@android:color/transparent"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:translationX="300dp"
-            android:translationY="300dp"
-            android:src="@drawable/blacksquare" />
-
-        <ImageButton
-            android:id="@+id/imageButtonWaitCue"
-            android:layout_width="100px"
-            android:layout_height="100px"
-            android:background="@android:color/transparent"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:translationX="300dp"
-            android:translationY="300dp"
-            android:src="@drawable/waitcue" />
-
-        <ImageButton
-            android:id="@+id/imageButtonBrown"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/bigbrownsquare" />
+    <Button
+            android:text="Reward\nChoice #3"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:textSize="30sp"
+            android:id="@+id/buttonRewardThree"/>
 
 
+    <View
+            android:id="@+id/foregroundblack"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/blackrectangle"/>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ProgressBar
-                android:id="@+id/boosterBar"
-                style="@android:style/Widget.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:max="1000"
-                android:progress="200"
-                android:progressDrawable="@drawable/progress_bar_horizontal"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="1100dp"
-                android:layout_marginLeft="100dp"
-                android:layout_marginRight="100dp"/>
-
-
-
-        </RelativeLayout>
-
-        <ImageButton
-            android:id="@+id/imageButtonBigBlack"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/bigblacksquare" />
-
-    </FrameLayout>
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:textSize="40sp"
-        android:text="TextView"
-        android:textColor="@color/black"
-        android:layout_marginTop="25dp"/>
+            android:id="@+id/tvLog"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="40sp"
+            android:textColor="@color/grey"/>
 
-</RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

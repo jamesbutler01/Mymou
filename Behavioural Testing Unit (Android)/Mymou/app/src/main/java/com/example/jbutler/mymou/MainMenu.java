@@ -17,8 +17,16 @@ import android.widget.ToggleButton;
 
 public class MainMenu extends Activity  {
 
-    public static final boolean testingMode = false;
-    public static final boolean useBluetooth = true;
+    // If true this automatically starts the task upon application startup
+    // Speeds up debugging/testing
+    public static final boolean testingMode = true;
+
+    // Can disable bluetooth and RewardSystem connectivity here
+    public static final boolean useBluetooth = false;
+
+    // Can disable facial recognition here
+    // To use faceRecog must have the weights for the ANN (wo.txt, wi.txt, meanAndVar.txt) present in the Mymou folder
+    public static final boolean useFaceRecog = false;
 
     public static RewardSystem rewardSystem;
 
@@ -62,9 +70,11 @@ public class MainMenu extends Activity  {
 
     private void initaliseRewardSystem() {
         rewardSystem = new RewardSystem(this);
+        TextView tv1 = findViewById(R.id.tvBluetooth);
         if (rewardSystem.bluetoothConnection) {
-            TextView tv1 = findViewById(R.id.tvBluetooth);
             tv1.setText("Bluetooth status: Connected");
+        } else if (!useBluetooth) {
+            tv1.setText("Bluetooth status: Disabled");
         }
     }
 
