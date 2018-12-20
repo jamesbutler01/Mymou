@@ -55,7 +55,7 @@ public class MainMenu extends Activity  {
 
         initaliseRewardSystem();
 
-        if(testingMode) {
+        if(testingMode && permissions) {
             startTask();
         }
     }
