@@ -16,35 +16,39 @@ public class FolderManager {
 
     public FolderManager() {
         Log.d("foldermanager","instantiated");
-        String folderName = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Mymou/" + folderName;
-        File appFolder = new File(path);
+        String thisPath = makeName();
+        File appFolder = new File(thisPath);
         if (!appFolder.exists()) {
-            Log.d("foldermanager","folder not made.."+path);
-            appFolder.mkdir();
-            makefoldersforsession(path);
+            Log.d("FolderManager","Didn't exist, creating..." + thisPath);
+            appFolder.mkdirs();
+            MakeFoldersForSession(thisPath);
         }
     }
 
     public File getfoldername() {
         Log.d("foldermanager","getfoldername()");
-        String folderName = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Mymou/" + folderName;
-        File appFolder = new File(path);
+        String thisPath = makeName();
+        File appFolder = new File(thisPath);
         if (!appFolder.exists()) {
-            Log.d("foldermanager","getfoldername: folder not made.."+path);
-            appFolder.mkdir();
-            makefoldersforsession(path);
+            Log.d("FolderManager","Didn't exist, creating..." + thisPath);
+            appFolder.mkdirs();
+            MakeFoldersForSession(thisPath);
         }
         return appFolder;
     }
 
-    public void makefoldersforsession(String path) {
+    public void MakeFoldersForSession(String path) {
         Log.d("foldermanager","making folders..");
         makefolder(path, "i");
         makefolder(path, "f");
         makefolder(path, "O");
         makefolder(path, "V");
+    }
+
+    private String makeName() {
+        String folderName = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Mymou/" + folderName;
+        return path;
     }
 
     private void makefolder(String path, String suffix) {

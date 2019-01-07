@@ -1,6 +1,5 @@
 package com.example.jbutler.mymou;
 
-import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
@@ -12,7 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- * Writes linked String into  CURRENT_DATE.txt
+ * Writes linked String into CURRENT_DATE.txt
  */
 class LogEvent implements Runnable {
 
@@ -41,7 +40,7 @@ class LogEvent implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.d("LogEvent","Data logged");
+        Log.d("LogEvent","Data logged:" + message);
     }
 
 }
