@@ -12,42 +12,46 @@ import java.util.Calendar;
  * Checks if session folder already exists, and creates it if not
  */
 
-public class FolderManager {
+class FolderManager {
 
     public FolderManager() {
-        Log.d("foldermanager","instantiated");
-        String folderName = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Mymou/" + folderName;
-        File appFolder = new File(path);
+        Log.d("FolderManager","instantiated");
+        String thisPath = MakeName();
+        File appFolder = new File(thisPath);
         if (!appFolder.exists()) {
-            Log.d("foldermanager","folder not made.."+path);
-            appFolder.mkdir();
-            makefoldersforsession(path);
+            Log.d("FolderManager","Didn't exist, creating..." + thisPath);
+            appFolder.mkdirs();
+            MakeFoldersForSession(thisPath);
         }
     }
 
     public File getfoldername() {
-        Log.d("foldermanager","getfoldername()");
-        String folderName = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Mymou/" + folderName;
-        File appFolder = new File(path);
+        Log.d("FolderManager","getfoldername()");
+        String thisPath = MakeName();
+        File appFolder = new File(thisPath);
         if (!appFolder.exists()) {
-            Log.d("foldermanager","getfoldername: folder not made.."+path);
-            appFolder.mkdir();
-            makefoldersforsession(path);
+            Log.d("FolderManager","Didn't exist, creating..." + thisPath);
+            appFolder.mkdirs();
+            MakeFoldersForSession(thisPath);
         }
         return appFolder;
     }
 
-    public void makefoldersforsession(String path) {
-        Log.d("foldermanager","making folders..");
-        makefolder(path, "i");
-        makefolder(path, "f");
-        makefolder(path, "O");
-        makefolder(path, "V");
+    private void MakeFoldersForSession(String path) {
+        Log.d("FolderManager","making sub-folders..");
+        MakeFolder(path, "i");
+        MakeFolder(path, "f");
+        MakeFolder(path, "O");
+        MakeFolder(path, "V");
     }
 
-    private void makefolder(String path, String suffix) {
+    private String MakeName() {
+        String folderName = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Mymou/" + folderName;
+        return path;
+    }
+
+    private void MakeFolder(String path, String suffix) {
         File imagefolder = new File(path + "/" + suffix + "/");
         imagefolder.mkdir();
     }
