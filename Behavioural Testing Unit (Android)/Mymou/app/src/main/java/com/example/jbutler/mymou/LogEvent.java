@@ -24,7 +24,7 @@ class LogEvent implements Runnable {
     @Override
     public void run() {
         FolderManager folderManager = new FolderManager();
-        File appFolder = folderManager.getfoldername();
+        File appFolder = folderManager.getFolderName();
         String fileName = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
         fileName = fileName + ".txt";
         File savefile = new File(appFolder, fileName);

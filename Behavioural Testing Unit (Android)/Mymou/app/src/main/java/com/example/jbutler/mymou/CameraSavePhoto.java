@@ -83,7 +83,7 @@ class CameraSavePhoto implements Runnable {
         String path= Environment.getExternalStorageDirectory().getAbsolutePath() + "/Mymou/" + day;
 
         FolderManager folderManager = new FolderManager();
-        File appFolder = folderManager.getfoldername();
+        File appFolder = folderManager.getFolderName();
 
         path = path + "/" + suffix + "/";
         File file = new File(path);
