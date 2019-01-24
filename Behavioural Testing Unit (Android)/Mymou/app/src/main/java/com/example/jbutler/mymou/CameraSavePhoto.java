@@ -23,7 +23,7 @@ import java.util.Calendar;
 class CameraSavePhoto implements Runnable {
 
     private final Image mImage;
-    private final String timestamp;
+    private String timestamp;
     private final String day;
 
     public CameraSavePhoto(Image image, String timestampU) {

@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import java.util.Random;
 
-// A basic example task showcasing the main features of the Mymou system:
+// A basic object discrimination task showcasing the main features of the Mymou system:
 // Uses facial recognition to deliver seperate tasks to two different subjects
 // Offers choice of rewards for successful trial completion
 

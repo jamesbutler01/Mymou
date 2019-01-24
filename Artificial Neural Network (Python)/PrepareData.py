@@ -1,12 +1,27 @@
 import os
 import numpy as np
 
+"""
+
+Run on folder that contains folders 'O' and 'V' and 'f', where 'O' and 'V' contain selfies corresponding to each 
+subject and 'f' contains the corresponding integer arrays for all the images found in folders 'O' and 'V'
+
+Function will then sort through each image and appends them into a single 2D matrix with 1 row per image with the
+first two points of each row correspond to a 1-hot label for the identity of that image
+
+"""
 
 def makeCSV():
+<<<<<<< Updated upstream
     mypath = "raw/"  # Location of files that contains one folder of all integer arrays, and one folder per subject
     # containing the .jpg files for that subject
     folder1name = 'O'  # Name of folder containing images for subject1
     folder2name = 'V'  # Name of folder containing imges for subject2
+=======
+    mypath = "raw/"  # Location of files
+    folder1name = 'O'  # Name of folder containing images for subject1
+    folder2name = 'V'  # Name of folder containing images for subject2
+>>>>>>> Stashed changes
 
     # Get list of all images in folder
     f = []
@@ -51,7 +66,11 @@ def makeCSV():
 
             os.remove(f[i])  # Remove any integer arrays that don't have a corresponding image
 
+<<<<<<< Updated upstream
         print(i,"/",len(f)," ",temp_arr.shape, " ", subject2count, "/", subject1count, floatPath)
+=======
+        print(f'Progress: {i}/{len(f)}  Subject {folder1name}: {subject1count}, Subject {folder2name}:{subject2count} {floatPath}')
+>>>>>>> Stashed changes
 
     np.save("labeledData.npy",arr)
 
