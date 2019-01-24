@@ -11,18 +11,13 @@ first two points of each row correspond to a 1-hot label for the identity of tha
 
 """
 
-def makeCSV():
-<<<<<<< Updated upstream
-    mypath = "raw/"  # Location of files that contains one folder of all integer arrays, and one folder per subject
-    # containing the .jpg files for that subject
-    folder1name = 'O'  # Name of folder containing images for subject1
-    folder2name = 'V'  # Name of folder containing imges for subject2
-=======
-    mypath = "raw/"  # Location of files
-    folder1name = 'O'  # Name of folder containing images for subject1
-    folder2name = 'V'  # Name of folder containing images for subject2
->>>>>>> Stashed changes
+mypath = "raw/"  # Location of files that contains one folder of all integer arrays, and one folder per subject
+# containing the .jpg files for that subject
+folder1name = 'O'  # Name of folder containing images for subject1
+folder2name = 'V'  # Name of folder containing imges for subject2
+folders = (folder1name, folder2name)
 
+def makeCSV():
     # Get list of all images in folder
     f = []
     for dirpath, dirnames, filenames in os.walk(mypath):
@@ -32,7 +27,7 @@ def makeCSV():
     subject1count = 0
     subject2count = 0
 
-    # For all files
+    # For all photos
     for i in range(len(f)):
 
         # Find corresponding float array for each figure
@@ -66,15 +61,34 @@ def makeCSV():
 
             os.remove(f[i])  # Remove any integer arrays that don't have a corresponding image
 
-<<<<<<< Updated upstream
-        print(i,"/",len(f)," ",temp_arr.shape, " ", subject2count, "/", subject1count, floatPath)
-=======
         print(f'Progress: {i}/{len(f)}  Subject {folder1name}: {subject1count}, Subject {folder2name}:{subject2count} {floatPath}')
->>>>>>> Stashed changes
 
     np.save("labeledData.npy",arr)
 
     print("Done!")
+
+
+def MakeSameNumberPhotosPerSubject():
+    # Deletes photos from one subject to make both subjects have same number of photos
+    photonames = [[], []]
+    photodirs = [[], []]
+
+    # Get list of photos in each folder
+    for i, (photoname, photodir, subjPath) in enumerate(zip(photonames, photodirs, folders)):
+        for file in os.listdir(mypath+subjPath):
+            if file.endswith(".jpg"):
+                photodir.append(os.path.join(mypath+subjPath, file))
+                photoname.append(file)
+
+    # Remove random photos until even number in each folder
+    numphotos = [len(photo) for photo in photonames]
+    maxphotos = np.argmax(numphotos)
+    diff = np.abs(np.diff(numphotos))
+    print(f'Deleting {diff} photos')
+    for _ in range(diff):
+        randphoto = np.random.randint(0, len(photodirs[maxphotos]))
+        os.remove(photodirs[maxphotos][randphoto])
+        del(photodirs[maxphotos][randphoto])
 
 
 if __name__ == '__main__':

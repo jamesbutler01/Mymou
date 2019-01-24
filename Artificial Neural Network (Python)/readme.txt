@@ -17,7 +17,8 @@ All this data is then stacked and saved as one big file which will run with the 
 
 
 #### Training the neural network (main.py)
-Runs with the sample data provided (exampleData.npy)
+Runs with the sample data generated with PrepareData.py
+
 Does the following:
 	Read in the data and split x and y data
 	Normalises data and saves normalisation parameters which are used by the Mymou system for online image identification
@@ -29,7 +30,7 @@ Does the following:
 		wo.txt - weights for the hidden-output layer
 
 Has various parameters which can be adjusted by the user to alter performance of the network:
-    varInputSize = 6560  # Neurons in input layer (1 per pixel in image)
+    varInputSize = 30552  # Neurons in input layer (1 per pixel in image)
     varHiddenLayerSize = 20  # Neurons in hidden layer 
     varOutputSize = 2  # Neurons in output layer (1 per subject)
     varMomentum = 0.0001  # To help avoid local minima
