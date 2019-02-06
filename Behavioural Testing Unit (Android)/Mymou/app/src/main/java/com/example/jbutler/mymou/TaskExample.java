@@ -13,7 +13,7 @@ import android.widget.TextView;
 import java.util.Random;
 
 // A basic object discrimination task showcasing the main features of the Mymou system:
-// Uses facial recognition to deliver seperate tasks to two different subjects
+// Uses facial recognition to deliver separate tasks to two different subjects
 // Offers choice of rewards for successful trial completion
 
 public class TaskExample extends Fragment
@@ -30,7 +30,7 @@ public class TaskExample extends Fragment
 
     // Timeouts for wrong choices by subject
     private static int timeoutWrongGoCuePressed = 300;  // Timeout for now pressing their own Go cue
-    private int timeoutWrongCueChosen = 1500;  // Timeout for getting the task wrong
+    private int timeoutWrongCueChosen = 1000;  // Timeout for getting the task wrong
 
     // Timer to reset task if subject stops halfway through a trial
     private static int maxTrialDuration = 10000;  // Milliseconds until task timeouts and resets
@@ -229,7 +229,7 @@ public class TaskExample extends Fragment
     // the facial recognition
     private static void checkMonkeyPressedTheirCue(int monkId) {
         boolean correctCuePressed = TaskManager.checkMonkey(monkId);
-        if (correctCuePressed) {  // If they clicked their specific cue
+        if (correctCuePressed) {
             startTrial(monkId);
         } else {
             TimeoutGoCues();

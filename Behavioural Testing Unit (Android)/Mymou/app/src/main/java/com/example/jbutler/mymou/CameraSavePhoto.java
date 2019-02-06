@@ -27,11 +27,10 @@ class CameraSavePhoto implements Runnable {
     private final String day;
 
     public CameraSavePhoto(Image image, String timestampU) {
-        Log.d("CameraSavePhotoThree", "CameraSavePhoto instantiated");
+        Log.d("CameraSavePhoto", "CameraSavePhoto instantiated");
         mImage = image;
         timestamp = timestampU;
         day = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
-
     }
 
     @Override
@@ -100,12 +99,14 @@ class CameraSavePhoto implements Runnable {
         String fileName = day + "_" + timestamp + ".jpg";
         File filetowrite = new File(folder, fileName);
         FileOutputStream output = null;
+        Log.d("CameraSavePhoto", "Saving bitmap array "+fileName);
         try {
             output = new FileOutputStream(filetowrite);
             output.write(bytes);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
+            Log.d("CameraSavePhoto", "Bitmap saved "+fileName);
             mImage.close();
             if (output != null) {
                 try {
@@ -121,6 +122,7 @@ class CameraSavePhoto implements Runnable {
         File folder = getfolder("f");
         String fileName = "f"+ day + "_" + timestamp + ".txt";
         File savefile = new File(folder, fileName);
+        Log.d("CameraSavePhoto", "Saving int array "+fileName);
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(savefile, true);
             PrintWriter printWriter = new PrintWriter(fileOutputStream);
@@ -131,6 +133,7 @@ class CameraSavePhoto implements Runnable {
             }
             printWriter.close();
             fileOutputStream.close();
+            Log.d("CameraSavePhoto", "Int array saved "+fileName);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

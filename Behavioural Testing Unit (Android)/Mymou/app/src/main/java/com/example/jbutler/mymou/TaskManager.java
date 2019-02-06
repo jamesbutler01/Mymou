@@ -294,30 +294,44 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
     // Takes selfie and checks to see if it matches with which monkey it should be
     public static boolean checkMonkey(int monkId) {
+
+        // If face recog disabled just take a photo and return result
         if (!MainMenu.useFaceRecog) {
-            // If face recog disabled just take a photo and return
-            takePhoto();
-            return true;
+
+            boolean photoTaken = takePhoto();
+            return photoTaken;
+
         } else {
-            // Lock main thread and wait until background thread takes photo and finishes face recog
-            int currentnumphotos = numPhotos;
+
+            int currentnumphotos = numPhotos;  // Store current numphotos to determine when a new photo has been taken
             Log.d("MonkeyId", "Starting face recognition ");
-            takePhoto();
+            boolean photoTaken = takePhoto();
+            if (!photoTaken) {
+                // Camera couldn't take a photo (either camera used again too quickly, or camera has error
+                // An alternative would be to raise an exception here
+                return false;
+            }
+            // Lock main thread and wait until background thread takes photo and finishes face recog
             while (currentnumphotos == numPhotos) { }
             Log.d("MonkeyId", "End face recognition (value: " + monkeyId + ")");
+
             if (monkeyId == monkId) {  // If they clicked correct button
+
                 return true;
+
             } else {
+
                 return false;
+
             }
         }
     }
 
 
-    public static void takePhoto() {
+    public static boolean takePhoto() {
         photoTimestamp = new SimpleDateFormat("HHmmss_SSS").format(Calendar.getInstance().getTime());
-        CameraMain.timestamp = photoTimestamp;
-        CameraMain.captureStillPicture();
+        boolean photoTaken = CameraMain.captureStillPicture(photoTimestamp);
+        return photoTaken;
     }
 
     //Checks if todays date is the same as the last time function was called
