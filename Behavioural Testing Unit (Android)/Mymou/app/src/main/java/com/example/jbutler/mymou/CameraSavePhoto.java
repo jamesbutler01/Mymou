@@ -25,11 +25,10 @@ class CameraSavePhoto implements Runnable {
     private final String day;
 
     public CameraSavePhoto(Image image, String timestampU) {
-        Log.d(TAG, "CameraSavePhoto started");
         mImage = image;
         timestamp = timestampU;
         day = MainMenu.folderManager.getBaseDate();
-
+        Log.d(TAG, " instantiated");
     }
 
     @Override
@@ -77,6 +76,7 @@ class CameraSavePhoto implements Runnable {
         savePhoto(bitmapCropped);
     }
 
+
     private void savePhoto(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -92,6 +92,7 @@ class CameraSavePhoto implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
+            Log.d(TAG, "Bitmap saved "+fileName);
             mImage.close();
             if (output != null) {
                 try {
@@ -117,7 +118,8 @@ class CameraSavePhoto implements Runnable {
             }
             printWriter.close();
             fileOutputStream.close();
-            Log.d(TAG, "Wrote IntArray");
+            Log.d(TAG, "Saving int array "+fileName);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

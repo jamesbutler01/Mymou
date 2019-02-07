@@ -46,21 +46,22 @@ import java.util.concurrent.TimeUnit;
 public class CameraMain extends Fragment
         implements FragmentCompat.OnRequestPermissionsResultCallback {
 
-    //  Generic variables
+    //  Camera variables
     private static String mCameraId;
     private static TextureView mTextureView;
     private static CameraCaptureSession mCaptureSession;
     private static CameraDevice mCameraDevice;
     private static Size mPreviewSize;
-    private static final int REQUEST_CAMERA_PERMISSION = 1;
     private static ImageReader mImageReader;
     private static CaptureRequest.Builder mPreviewRequestBuilder;
     private static CaptureRequest mPreviewRequest;
     private static Semaphore mCameraOpenCloseLock = new Semaphore(1);
+
     //Background threads and variables for saving images
-    private HandlerThread mBackgroundThread, mBackgroundThread2;
-    private Handler mBackgroundHandler, mBackgroundHandler2;
-    public static String timestamp;
+    private HandlerThread mBackgroundThread;
+    private Handler mBackgroundHandler;
+    private static String timestamp;
+    private static boolean takingPhoto = false;
 
     public static CameraMain newInstance() {
         return new CameraMain();
@@ -155,7 +156,10 @@ public class CameraMain extends Fragment
         @Override
         public void onImageAvailable(ImageReader reader) {
                 Image image = reader.acquireNextImage();
+
+                // If using facerecog better to put this on the main thread instead of backgroundhandler
                 mBackgroundHandler.post(new CameraSavePhoto(image, timestamp));
+
         }
 
     };
@@ -270,22 +274,14 @@ public class CameraMain extends Fragment
         mBackgroundThread = new HandlerThread("CameraBackground");
         mBackgroundThread.start();
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
-
-        mBackgroundThread2 = new HandlerThread("faceRecogBackground");
-        mBackgroundThread2.start();
-        mBackgroundHandler2 = new Handler(mBackgroundThread2.getLooper());
     }
 
     private void stopBackgroundThread() {
         mBackgroundThread.quitSafely();
-        mBackgroundThread2.quitSafely();
         try {
             mBackgroundThread.join();
             mBackgroundThread = null;
             mBackgroundHandler = null;
-            mBackgroundThread2.join();
-            mBackgroundThread2 = null;
-            mBackgroundHandler2 = null;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -346,7 +342,18 @@ public class CameraMain extends Fragment
     }
 
     // Say cheese
-    public static void captureStillPicture() {
+    public static boolean captureStillPicture(String ts) {
+
+        // If the camera is still in process of taking previous picture it will not take another one
+        // If it took multiple photos the timestamp for saving/indexing the photos would be wrong
+        // Tasks need to handle this behaviour
+        if (takingPhoto) {
+            return false;
+        }
+
+        // Update timestamp string, which will be used to save the photo once the photo is ready
+        timestamp = ts;
+
         try {
             // This is the CaptureRequest.Builder that we use to take a picture.
             final CaptureRequest.Builder captureBuilder =
@@ -375,9 +382,19 @@ public class CameraMain extends Fragment
 
             mCaptureSession.stopRepeating();
             mCaptureSession.capture(captureBuilder.build(), CaptureCallback, null);
+
+            // Photo taken successfully so return true
+            return true;
+
         } catch (CameraAccessException e) {
+
             e.printStackTrace();
+
+            // Couldn't take photo, return false
+            return false;
+
         }
+
     }
 
     // Compares two areas and returns 1 if A is bigger, 0 if same size, or -1 if B is bigger

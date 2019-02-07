@@ -6,7 +6,6 @@ import android.util.Log
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale
-import java.util.UUID
 
 /**
  * Created by jbutler on 18/09/2018.
@@ -15,8 +14,7 @@ import java.util.UUID
 
 class FolderManager {
 
-    private val uuid: String = UUID.randomUUID().toString().slice(0..7)
-    private val TAG = "FolderManager@$uuid"
+    private val TAG = "FolderManager"
     private val suffixes = arrayListOf("i","f","O","V")
     private var currentFolder: File? = null
 
