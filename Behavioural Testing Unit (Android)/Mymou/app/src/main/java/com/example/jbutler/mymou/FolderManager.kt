@@ -38,7 +38,7 @@ class FolderManager {
 
     fun getSubFolder(suffix: String = ""): File? {
         if (currentFolder == null) getFolder()
-        Log.d(TAG, "getting $currentFolder / $suffix")
+        Log.d(TAG, "getting $currentFolder/$suffix")
         return when (suffix) {
             "" -> currentFolder
             else -> File(currentFolder,suffix)

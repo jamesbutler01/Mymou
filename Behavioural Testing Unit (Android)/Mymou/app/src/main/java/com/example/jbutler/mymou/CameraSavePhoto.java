@@ -88,7 +88,6 @@ class CameraSavePhoto implements Runnable {
         try {
             output = new FileOutputStream(filetowrite);
             output.write(bytes);
-            Log.d(TAG, "Wrote JPG");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -119,7 +118,6 @@ class CameraSavePhoto implements Runnable {
             printWriter.close();
             fileOutputStream.close();
             Log.d(TAG, "Saving int array "+fileName);
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

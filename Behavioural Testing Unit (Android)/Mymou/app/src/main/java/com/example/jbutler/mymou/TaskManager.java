@@ -22,6 +22,8 @@ import java.util.Calendar;
 
 public class TaskManager extends Activity implements Thread.UncaughtExceptionHandler {
 
+    public static String TAG = "TaskManager";
+
     // Task you want to run goes here
     private static TaskExample task = new TaskExample();
     //private static TaskFromPaper task = new TaskFromPaper();
@@ -51,7 +53,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         mContext = getApplicationContext();
         activity = (Activity) this;
 
-        initialiseScreenSetttings();
+        initialiseScreenSettings();
 
         if (MainMenu.useFaceRecognition) {
             // Load facerecog off the main thread as takes a while
@@ -199,12 +201,12 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
                 // Prefix variables that were constant throughout trial (trial result, which monkey, etc)
                 s = taskId +"," + trialCounter +"," + monkeyId + "," + overallTrialOutcome + "," + s;
                 logHandler.post(new LogEvent(s));
-                Log.d("log", s);
+                Log.d(TAG, "commitTrialData: " + s);
             }
         }
     }
 
-    private void initialiseScreenSetttings() {
+    private void initialiseScreenSettings() {
         this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         final View decorView = TaskManager.this.getWindow().getDecorView();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
