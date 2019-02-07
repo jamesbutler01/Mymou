@@ -30,6 +30,8 @@ public class MainMenu extends Activity  {
 
     public static RewardSystem rewardSystem;
 
+    public static FolderManager folderManager;
+
     //Permission variables
     private boolean permissions = false;
     String[] permissionCodes = {
@@ -52,6 +54,8 @@ public class MainMenu extends Activity  {
         checkPermissions();
 
         checkIfCrashed();
+
+        folderManager = new FolderManager();
 
         initaliseRewardSystem();
 
