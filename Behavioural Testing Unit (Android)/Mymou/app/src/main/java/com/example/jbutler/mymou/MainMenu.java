@@ -17,12 +17,14 @@ import android.widget.ToggleButton;
 
 public class MainMenu extends Activity  {
 
+    public static String TAG = "MainMenu";
+
     // If true this automatically starts the task upon application startup
     // Speeds up debugging/testing
     public static final boolean testingMode = true;
 
     // Camera can crash the emulator, so disable if not using a tablet
-    public static final boolean useCamera = true;
+    public static final boolean useCamera = false;
 
     // Can disable bluetooth and RewardSystem connectivity here
     public static final boolean useBluetooth = false;
@@ -58,24 +60,29 @@ public class MainMenu extends Activity  {
 
         checkIfCrashed();
 
-        folderManager = new FolderManager();
+        initialiseFolders();
 
-        initaliseRewardSystem();
+        initialiseRewardSystem();
 
         if(testingMode && permissions) {
-            startTask();
+            //startTask();
         }
     }
 
     private void startTask() {
         Button startButton = findViewById(R.id.buttonStart);
-        startButton.setText("Loading..");
+        startButton.setText("Loading ...");
+        Log.d(TAG, "Starting TaskManager as Intent...");
         rewardSystem.quitBt();  // Reconnect from next activity
         Intent intent = new Intent(this, TaskManager.class);
         startActivity(intent);
     }
 
-    private void initaliseRewardSystem() {
+    private void initialiseFolders() {
+        folderManager = new FolderManager();
+    }
+
+    private void initialiseRewardSystem() {
         rewardSystem = new RewardSystem(this);
         TextView tv1 = findViewById(R.id.tvBluetooth);
         if (rewardSystem.bluetoothConnection) {
@@ -90,6 +97,7 @@ public class MainMenu extends Activity  {
         if(extras != null) {
             if (extras.getBoolean("restart")) {
                 //If crashed then restart task
+                Log.d(TAG, "checkIfCrashed() restarted task");
                 startTask();
             }
         }
@@ -152,9 +160,11 @@ public class MainMenu extends Activity  {
         if(grantResults.length > 0) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Permission enabled", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "Permissions granted");
                 checkPermissions();
             } else {
                 // Permission Denied
+                Log.d(TAG, "Permissions denied");
                 Toast.makeText(this, "Permission denied, all permissions must be enabled before app can run", Toast.LENGTH_LONG).show();
             }
         }
@@ -182,7 +192,7 @@ public class MainMenu extends Activity  {
         CompoundButton.OnCheckedChangeListener multiListener = new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton v, boolean isChecked) {
                 if (!rewardSystem.bluetoothConnection) {
-                    Log.d("MainMenu", "Error: Bluetooth not connected");
+                    Log.d(TAG, "Error: Bluetooth not connected");
                     return;
                 }
                 int chan = -1;
@@ -249,7 +259,7 @@ public class MainMenu extends Activity  {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("stop","stopped");
+        Log.d(TAG,"onDestroy() called");
         if(permissions) {
             rewardSystem.quitBt();
         }

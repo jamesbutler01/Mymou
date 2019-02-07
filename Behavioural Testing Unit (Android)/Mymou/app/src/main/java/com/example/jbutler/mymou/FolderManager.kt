@@ -50,6 +50,10 @@ class FolderManager {
         //return DateTimeFormatter.BASIC_ISO_DATE.format(LocalDate.now()) //API > 25
     }
 
+    fun getTimestamp(): String {
+        return SimpleDateFormat("HHmmss_SSS", Locale.ENGLISH).format(System.currentTimeMillis()) //API < 26
+    }
+
     private fun makeFoldersForSession(path: File) {
         Log.d(TAG, "making sub-folders..")
         for (s in suffixes)

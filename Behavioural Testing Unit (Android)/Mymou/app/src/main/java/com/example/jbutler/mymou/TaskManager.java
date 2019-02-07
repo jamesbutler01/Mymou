@@ -16,7 +16,6 @@ import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -25,7 +24,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     public static String TAG = "TaskManager";
 
     // Task you want to run goes here
-    private static TaskExample task = new TaskExample();
+    private static TaskExample task = new TaskExample(); //TODO AS says static context classes are a memory leak...
     //private static TaskFromPaper task = new TaskFromPaper();
     private static String taskId = "001";  // Unique string prefixed to all log entries
 
@@ -69,6 +68,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
         initialiseLogHandler();
 
+        //only lock if we aren't in testing mode
         if (!MainMenu.testingMode) {
             this.startLockTask();
         }
@@ -117,10 +117,12 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
     private void startTask() {
+        Log.d(TAG, "startTask() called");
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         setContentView(R.layout.activity_all_tasks);
         if (MainMenu.useCamera) {
+            Log.d(TAG, "startTask() using CameraMain");
             CameraMain cM = new CameraMain();
             fragmentTransaction.add(R.id.container, cM);
         }
@@ -218,6 +220,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
     public static void shutdownLoop() {
+        Log.d(TAG, "shutdownLoop() called");
         final Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR);
         int AMPM = c.get(Calendar.AM_PM);
@@ -242,6 +245,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
     private static void startupLoop() {
+        Log.d(TAG, "startupLoop() called");
         Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR);
         int AMPM = c.get(Calendar.AM_PM);
@@ -271,7 +275,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
             }
             return true;
         } else {
-            Log.d("TaskManager", "hideApplication object not instantiated");
+            Log.d(TAG, "hideApplication object not instantiated");
             return false;
         }
     }
@@ -289,7 +293,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
     public static void logEvent(String data) {
-        String timestamp = new SimpleDateFormat("HHmmss_SSS").format(Calendar.getInstance().getTime());
+        String timestamp = MainMenu.folderManager.getTimestamp();
         String msg = TaskManager.photoTimestamp + "," + timestamp + "," + data;
         trialData.add(msg);
     }
@@ -306,7 +310,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
             return photoTaken;
         } else {
             int currentnumphotos = numPhotos;  // Store current numphotos to determine when a new photo has been taken
-            Log.d("MonkeyId", "Starting face recognition ");
+            Log.d(TAG, "checkMonkey() starting face recognition ");
             boolean photoTaken = takePhoto();
             if (!photoTaken) {
                 // Camera couldn't take a photo (either camera used again too quickly, or camera has error
@@ -315,30 +319,31 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
             }
             // Lock main thread and wait until background thread takes photo and finishes face recog
             while (currentnumphotos == numPhotos) { }
-            Log.d("MonkeyId", "End face recognition (value: " + monkeyId + ")");
+            Log.d(TAG, "checkMonkey() end face recognition (value: " + monkeyId + ")");
 
             if (monkeyId == monkId) {  // If they clicked correct button
-
                 return true;
-
             } else {
-
                 return false;
-
             }
         }
     }
 
-
     public static boolean takePhoto() {
-        photoTimestamp = new SimpleDateFormat("HHmmss_SSS").format(Calendar.getInstance().getTime());
-        boolean photoTaken = CameraMain.captureStillPicture(photoTimestamp);
-        return photoTaken;
+        if (MainMenu.useCamera) {
+            Log.d(TAG, "takePhoto() called");
+            photoTimestamp = MainMenu.folderManager.getTimestamp();
+            boolean photoTaken = CameraMain.captureStillPicture(photoTimestamp);
+            return photoTaken;
+        } else {
+            return true;
+        }
+
     }
 
     //Checks if todays date is the same as the last time function was called
     public static boolean dateHasChanged() {
-        String todaysDate = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
+        String todaysDate = MainMenu.folderManager.getBaseDate();
         SharedPreferences sharedPref = activity.getPreferences(mContext.MODE_PRIVATE);
         String lastRecordedDate = sharedPref.getString("lastdate", "null");
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -354,7 +359,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("stop","stopped");
+        Log.d(TAG,"onDestroy() called");
         rewardSystem.quitBt();
         unregisterReceivers();
         quitThreads();

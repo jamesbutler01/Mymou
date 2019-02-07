@@ -46,6 +46,7 @@ import java.util.concurrent.TimeUnit;
 public class CameraMain extends Fragment
         implements FragmentCompat.OnRequestPermissionsResultCallback {
 
+    public static String TAG = "CameraMain";
     //  Camera variables
     private static String mCameraId;
     private static TextureView mTextureView;
@@ -70,6 +71,7 @@ public class CameraMain extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView() called");
         return inflater.inflate(R.layout.activity_camera_main, container, false);
     }
 
@@ -139,6 +141,7 @@ public class CameraMain extends Fragment
 
         @Override
         public void onError(@NonNull CameraDevice cameraDevice, int error) {
+            Log.d(TAG, "onError() called");
             mCameraOpenCloseLock.release();
             cameraDevice.close();
             mCameraDevice = null;
@@ -211,8 +214,8 @@ public class CameraMain extends Fragment
                 Size smallest = Collections.min(
                         Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
                         new cameraCompareAreas());
-                Log.d("cameraResolution", "arr: " + Arrays.deepToString(map.getOutputSizes(ImageFormat.JPEG)));
-                Log.d("cameraResolution","width: "+smallest.getWidth()+", height: "+smallest.getHeight());
+                Log.d(TAG, "arr: " + Arrays.deepToString(map.getOutputSizes(ImageFormat.JPEG)));
+                Log.d(TAG, "width: "+smallest.getWidth()+", height: "+smallest.getHeight());
                 mImageReader = ImageReader.newInstance(smallest.getWidth(), smallest.getHeight(),
                         ImageFormat.JPEG, /*maxImages*/2);
                 mImageReader.setOnImageAvailableListener(
@@ -228,6 +231,7 @@ public class CameraMain extends Fragment
     }
 
     private void openCamera() {
+        Log.d(TAG, "openCamera() called");
         setUpCameraOutputs();
         Activity activity = getActivity();
         CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
@@ -343,7 +347,7 @@ public class CameraMain extends Fragment
 
     // Say cheese
     public static boolean captureStillPicture(String ts) {
-
+        Log.d(TAG, "captureStillPicture("+ts+") called");
         // If the camera is still in process of taking previous picture it will not take another one
         // If it took multiple photos the timestamp for saving/indexing the photos would be wrong
         // Tasks need to handle this behaviour
