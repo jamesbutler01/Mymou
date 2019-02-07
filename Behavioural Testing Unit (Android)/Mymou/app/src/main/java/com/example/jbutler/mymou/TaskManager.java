@@ -53,7 +53,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
         initialiseScreenSetttings();
 
-        if (MainMenu.useFaceRecog) {
+        if (MainMenu.useFaceRecognition) {
             // Load facerecog off the main thread as takes a while
             Thread t = new Thread(new Runnable() {
                 public void run() {
@@ -67,7 +67,9 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
         initialiseLogHandler();
 
-        this.startLockTask();
+        if (!MainMenu.testingMode) {
+            this.startLockTask();
+        }
 
 //            // Enable this if you want task to automatically restart on crash
 //            Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
@@ -116,8 +118,10 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         setContentView(R.layout.activity_all_tasks);
-        CameraMain cM = new CameraMain();
-        fragmentTransaction.add(R.id.container, cM);
+        if (MainMenu.useCamera) {
+            CameraMain cM = new CameraMain();
+            fragmentTransaction.add(R.id.container, cM);
+        }
         fragmentTransaction.add(R.id.container, task);
         fragmentTransaction.commit();
     }
@@ -294,7 +298,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
     // Takes selfie and checks to see if it matches with which monkey it should be
     public static boolean checkMonkey(int monkId) {
-        if (!MainMenu.useFaceRecog) {
+        if (!MainMenu.useFaceRecognition) {
             // If face recog disabled just take a photo and return
             takePhoto();
             return true;

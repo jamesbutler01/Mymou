@@ -21,14 +21,17 @@ public class MainMenu extends Activity  {
     // Speeds up debugging/testing
     public static final boolean testingMode = true;
 
+    // Camera can crash the emulator, so disable if not using a tablet
+    public static final boolean useCamera = true;
+
     // Can disable bluetooth and RewardSystem connectivity here
     public static final boolean useBluetooth = false;
 
     // Can disable facial recognition here
     // To use faceRecog must have the weights for the ANN (wo.txt, wi.txt, meanAndVar.txt) present in the Mymou folder
-    public static final boolean useFaceRecog = false;
+    public static final boolean useFaceRecognition = false;
 
-    public static RewardSystem rewardSystem;
+    public static RewardSystem rewardSystem; //TODO this is flagged as a memory leak (Context classes should not be in static fields)
 
     public static FolderManager folderManager;
 
@@ -110,7 +113,7 @@ public class MainMenu extends Activity  {
 
     private boolean checkPermissionNested(int i_perm) {
         final String permissionItem = permissionCodes[i_perm];
-        int hasPermission=-1;
+        int hasPermission=PackageManager.PERMISSION_DENIED;
         if (i_perm<5) {
             hasPermission = checkSelfPermission(permissionItem);
         } else {
