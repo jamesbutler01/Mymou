@@ -114,7 +114,7 @@ class ANN(object):
             self.learning_rate / (self.learning_rate + (self.learning_rate * self.rate_decay)))
 
             # Check current accuracy of model on the test data
-            if i % 5 == 0:
+            if i % 2 == 0:
                 self.predict(validationInput, validationLabels)
 
         # Training finished - save the weights to be used with the Android system
@@ -146,11 +146,10 @@ class ANN(object):
 
 if __name__ == '__main__':
     # User defined variables
-    varInputSize = 30552  # Neurons in input layer (1 per pixel in image)
     varHiddenLayerSize = 20  # Neurons in hidden layer
     varOutputSize = 2  # Neurons in output layer
     varMomentum = 0.0001  # To help avoid local minima
-    varIterations = 15  # Number time to run all training data through model
+    varIterations = 10  # Number of times to loop through training data
     varRateDecay = 0.01  # Reduces learning rate by this factor as iterate through training
     varLearningRate = 0.01  # Amount to adjust the weights by on each step
     varNumSubjects = 2  # Number of subjects
@@ -184,6 +183,7 @@ if __name__ == '__main__':
     # Get data to start the training
     start = time.time()
     X = load_data(varNumSubjects)
+    inputLayerSize = X[0][0]  # Neurons in input layer (1 per pixel in image)
 
     # Shuffle data and split into training and validation groups
     np.random.shuffle(X)
@@ -194,7 +194,7 @@ if __name__ == '__main__':
     valLabels = [i[1] for i in validationX]
 
     # Initialise and train model
-    model = ANN(varInputSize, varHiddenLayerSize, varOutputSize, varIterations, varLearningRate, varMomentum, varRateDecay)
+    model = ANN(inputLayerSize, varHiddenLayerSize, varOutputSize, varIterations, varLearningRate, varMomentum, varRateDecay)
     model.predict(valInput, valLabels)  # Test trained model on validation data
     model.trainNetwork(trainingX, valInput, valLabels)
     model.predict(valInput, valLabels)  # Test trained model on validation data
