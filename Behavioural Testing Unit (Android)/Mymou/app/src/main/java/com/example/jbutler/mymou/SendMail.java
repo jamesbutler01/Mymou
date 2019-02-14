@@ -33,9 +33,9 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
         //Initializing variables
         this.context = context;
         if(toSelf){
-            this.email = EmailConfig.emailFrom;
+            this.email = EmailConfig.INSTANCE.getEmailFrom();
         } else {
-            this.email = EmailConfig.emailTo;
+            this.email = EmailConfig.INSTANCE.getEmailTo();
         }
         this.subject = subject;
         this.message = "";
@@ -71,7 +71,7 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
                 new javax.mail.Authenticator() {
                     //Authenticating the password
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(EmailConfig.emailFrom, EmailConfig.PASSWORD);
+                        return new PasswordAuthentication(EmailConfig.INSTANCE.getEmailFrom(), EmailConfig.INSTANCE.getPASSWORD());
                     }
                 });
         try {
@@ -79,7 +79,7 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
             MimeMessage mm = new MimeMessage(session);
 
             //Setting sender address
-            mm.setFrom(new InternetAddress(EmailConfig.emailFrom));
+            mm.setFrom(new InternetAddress(EmailConfig.INSTANCE.getEmailFrom()));
             //Adding receiver
             mm.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
             //Adding subject

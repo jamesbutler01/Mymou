@@ -1,273 +1,223 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="fill_parent"
+                                                   android:layout_height="fill_parent" android:id="@+id/mainLayout"
+                                                   android:background="@color/grey">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:baselineAligned="false"
-        android:layout_marginTop="20dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/InitButtons"
+            android:background="@color/grey">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
 
         <ToggleButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/chanZeroButt"
-            android:textOff="Chan 0"
-            android:textOn="Chan 0"
-            android:textSize="50sp"
-            android:layout_marginRight="1dp"
-            android:textColor="@color/white"
-            android:background="@drawable/toggle_button" />
-    </RelativeLayout>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/chanZeroButt"
+                android:textOff="Chan 0"
+                android:textOn="Chan 0"
+                android:textSize="50sp"
+                android:textColor="@color/white"
+                android:background="@drawable/toggle_button"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/chanOneButt"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
-
-        <ToggleButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/chanOneButt"
-            android:textOff="Chan 1"
-            android:textOn="Chan 1"
-            android:textSize="50sp"
-            android:textColor="@color/white"
-            android:layout_marginLeft="1dp"
-            android:background="@drawable/toggle_button" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
 
         <ToggleButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/chanTwoButt"
-            android:textOff="Chan 2"
-            android:textOn="Chan 2"
-            android:textSize="50sp"
-            android:textColor="@color/white"
-            android:layout_marginLeft="1dp"
-            android:background="@drawable/toggle_button" />
-    </RelativeLayout>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/chanOneButt"
+                android:textOff="Chan 1"
+                android:textOn="Chan 1"
+                android:textSize="50sp"
+                android:textColor="@color/white"
+                android:background="@drawable/toggle_button"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/chanZeroButt"
+                android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/chanTwoButt"
+                android:layout_marginEnd="8dp"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
 
         <ToggleButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/chanThreeButt"
-            android:textOff="Chan 3"
-            android:textOn="Chan 3"
-            android:textSize="50sp"
-            android:textColor="@color/white"
-            android:layout_marginLeft="1dp"
-            android:background="@drawable/toggle_button" />
-    </RelativeLayout>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/chanTwoButt"
+                android:textOff="Chan 2"
+                android:textOn="Chan 2"
+                android:textSize="50sp"
+                android:textColor="@color/white"
+                android:background="@drawable/toggle_button"
+                app:layout_constraintStart_toEndOf="@+id/chanOneButt"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/chanThreeButt"
+                android:layout_marginEnd="8dp"/>
 
-    </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:id="@+id/LayoutMainButton">
+        <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/chanThreeButt"
+                android:textOff="Chan 3"
+                android:textOn="Chan 3"
+                android:textSize="50sp"
+                android:textColor="@color/white"
+                android:background="@drawable/toggle_button"
+                app:layout_constraintStart_toEndOf="@+id/chanTwoButt"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"/>
 
-    <Button
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="600dp"
-        android:text="START TASK"
-        android:id="@+id/buttonStart"
-        android:textSize="100sp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true" />
-    </RelativeLayout>
+        <Button
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:background="@drawable/toggle_button"
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:text="START TASK"
+                android:id="@+id/buttonStart"
+                android:textSize="100sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/chanZeroButt"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:orientation="vertical"
-        android:layout_below="@id/LayoutMainButton">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <TextView
+        <TextView
                 android:text="Bluetooth status: Not connected"
                 android:textColor="#FFFFFF"
                 android:textSize="40sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvBluetooth"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"/>
+                app:layout_constraintTop_toBottomOf="@id/buttonStart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
 
-            </RelativeLayout>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/colorPrimaryDark"
-        android:id="@+id/layoutCoveringUi">
-
-        <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@color/grey"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:id="@+id/layoutCoveringUi" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-            <Button
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:background="@color/colorPrimaryDark"
+
+        <Button
+                android:background="@color/grey"
                 android:textColor="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Permissions needed"
                 android:id="@+id/mainPermButton"
-                android:textSize="100sp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true" />
+                android:textSize="80sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/permbuttonSettings"/>
 
-        </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="5dp">
+        <Button
+                android:text="Write\nPermission"
+                android:layout_width="250dp"
+                android:layout_height="200dp"
+                android:id="@+id/permbuttonWrite"
+                android:textSize="40sp"
+                android:textColor="@color/white"
+                android:background="@drawable/toggle_button"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/permbuttonBt0" android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/permbuttonSettings"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"/>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
 
-                <Button
-                    android:text="Write \n Permission"
-                    android:layout_width="match_parent"
-                    android:layout_height="450dp"
-                    android:id="@+id/permbuttonWrite"
-                    android:textSize="40sp"
-                    android:layout_marginRight="1dp"
-                    android:textColor="@color/white"
-                    android:background="@drawable/toggle_button" />
+        <Button
+                android:text="Settings\nPermission"
+                android:layout_width="250dp"
+                android:layout_height="200dp"
+                android:id="@+id/permbuttonSettings"
+                android:textSize="40sp"
+                android:textColor="@color/white"
+                android:background="@drawable/toggle_button"
+                app:layout_constraintEnd_toStartOf="@+id/permbuttonCamera"
+                android:layout_marginEnd="8dp" android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/permbuttonBt1"
+                app:layout_constraintStart_toEndOf="@+id/permbuttonWrite" android:layout_marginStart="8dp"/>
 
-            </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
+        <Button
+                android:text="Camera\nPermission"
+                android:layout_width="250dp"
+                android:layout_height="200dp"
+                android:id="@+id/permbuttonCamera"
+                android:textSize="40sp"
+                android:textColor="@color/white"
+                android:background="@drawable/toggle_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/permbuttonBt2"
+                android:layout_marginEnd="8dp" app:layout_constraintStart_toEndOf="@+id/permbuttonSettings"
+                android:layout_marginStart="8dp"/>
 
-                <Button
-                    android:text="Settings \n Permission"
-                    android:layout_width="match_parent"
-                    android:layout_height="450dp"
-                    android:id="@+id/permbuttonSettings"
-                    android:textSize="40sp"
-                    android:layout_marginRight="1dp"
-                    android:textColor="@color/white"
-                    android:background="@drawable/toggle_button" />
 
-            </RelativeLayout>
+        <Button
+                android:text="Bluetooth\nPermission #0"
+                android:layout_width="250dp"
+                android:layout_height="200dp"
+                android:id="@+id/permbuttonBt0"
+                android:textSize="40sp"
+                android:textColor="@color/white"
+                android:background="@drawable/toggle_button"
+                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/permbuttonBt1" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp" android:layout_marginBottom="8dp"/>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
 
-                <Button
-                    android:text="Camera \n permission"
-                    android:layout_width="match_parent"
-                    android:layout_height="450dp"
-                    android:id="@+id/permbuttonCamera"
-                    android:textSize="40sp"
-                    android:textColor="@color/white"
-                    android:layout_marginLeft="1dp"
-                    android:background="@drawable/toggle_button" />
+        <Button
+                android:text="Bluetooth\nPermission #1"
+                android:layout_width="250dp"
+                android:layout_height="200dp"
+                android:id="@+id/permbuttonBt1"
+                android:textSize="40sp"
+                android:textColor="@color/white"
+                android:background="@drawable/toggle_button"
+                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/permbuttonBt2"
+                app:layout_constraintStart_toEndOf="@+id/permbuttonBt0" android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"/>
 
-            </RelativeLayout>
 
-        </LinearLayout>
+        <Button
+                android:text="Bluetooth\nPermission #2"
+                android:layout_width="250dp"
+                android:layout_height="200dp"
+                android:id="@+id/permbuttonBt2"
+                android:textSize="40sp"
+                android:textColor="@color/white"
+                android:background="@drawable/toggle_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toEndOf="@+id/permbuttonBt1"
+                android:layout_marginStart="8dp" android:layout_marginEnd="8dp" android:layout_marginBottom="8dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="5dp">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <Button
-                    android:text="Bluetooth \n Permission #0"
-                    android:layout_width="match_parent"
-                    android:layout_height="450dp"
-                    android:id="@+id/permbuttonBt0"
-                    android:textSize="40sp"
-                    android:layout_marginRight="1dp"
-                    android:textColor="@color/white"
-                    android:background="@drawable/toggle_button" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <Button
-                    android:text="Bluetooth \n permission #1"
-                    android:layout_width="match_parent"
-                    android:layout_height="450dp"
-                    android:id="@+id/permbuttonBt1"
-                    android:textSize="40sp"
-                    android:textColor="@color/white"
-                    android:layout_marginLeft="1dp"
-                    android:background="@drawable/toggle_button" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <Button
-                    android:text="Bluetooth \n permission #2"
-                    android:layout_width="match_parent"
-                    android:layout_height="450dp"
-                    android:id="@+id/permbuttonBt2"
-                    android:textSize="40sp"
-                    android:textColor="@color/white"
-                    android:layout_marginLeft="1dp"
-                    android:background="@drawable/toggle_button" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
