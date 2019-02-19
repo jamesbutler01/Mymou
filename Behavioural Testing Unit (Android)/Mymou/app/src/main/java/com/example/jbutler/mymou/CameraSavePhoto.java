@@ -33,19 +33,23 @@ class CameraSavePhoto implements Runnable {
 
     @Override
     public void run() {
-        // Convert photo (176 x 144) to byte array (1x25344) to bitmap (176 x 144)
+        Log.d(TAG, "Running CameraSavePhoto..");
+
+        // Convert photo to byte array
         ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
         byte[] bytes = new byte[buffer.remaining()];
         buffer.get(bytes);
+
+        // Convert byte array to bitmap
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
         // Crop bitmap as you want:
-        boolean cropBitmap = false;
+        boolean cropBitmap = true;
         Bitmap bitmapCropped;
         if (cropBitmap) {
-            int cropLeft = 28;
-            int cropRight = 68;
-            int cropTop = 31;
+            int cropLeft = 63;
+            int cropRight = 123;
+            int cropTop = 95;
             int cropBottom = 31;
             int startX = cropLeft;
             int startY = cropTop;
@@ -67,7 +71,9 @@ class CameraSavePhoto implements Runnable {
         }
 
         //Log text data with photoId
-        TaskManager.setMonkeyId(intArray);
+        if (MainMenu.useFaceRecognition) {
+            TaskManager.setFaceRecogPrediction(intArray);
+        }
 
         //Save pixel values
         saveIntArray(intArray);
@@ -117,12 +123,12 @@ class CameraSavePhoto implements Runnable {
             }
             printWriter.close();
             fileOutputStream.close();
-            Log.d(TAG, "Saving int array "+fileName);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Log.d(TAG, "Int array saved"+fileName);
     }
 }
 

@@ -23,6 +23,7 @@ import java.util.List;
 
 final class FaceRecog {
 
+    private String TAG = "FaceRecog";
     double[][] wi, wo;
     double mean, var;
 
@@ -32,7 +33,7 @@ final class FaceRecog {
         double[][] meanAndVar = loadWeights("meanAndVar.txt");
         mean = meanAndVar[0][0];
         var = meanAndVar[1][0];
-        Log.d("faceRecog",mean+" "+var);
+        Log.d(TAG,"faceRecog instantiated.."+mean+" "+var);
     }
 
     public final double[][] loadWeights(String fileName) {
@@ -49,7 +50,7 @@ final class FaceRecog {
             //TODO: No file present
         }
 
-        Log.d("faceRecog","Couldn't open CSV files");
+        Log.d(TAG,"Couldn't open CSV files");
         return null;
     }
 
@@ -61,14 +62,14 @@ final class FaceRecog {
         //Then convert String matrix to Double Matrix
         int rows = stringArray.length;
         int columns = stringArray[0].length;
-        Log.d("faceRecog",""+rows+" "+columns);
+        Log.d(TAG,""+rows+" "+columns);
         double[][] doubleArray = new double[rows][columns];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j ++) {
                 try {
                     doubleArray[i][j] = Double.parseDouble(stringArray[i][j]);
                 } catch (NumberFormatException e) {
-                  Log.d("faceRecog",e+" "+stringArray[i][j]);
+                  Log.d(TAG,e+" "+stringArray[i][j]);
                 }
             }
         }
@@ -105,6 +106,8 @@ final class FaceRecog {
     }
 
     public int idImage(int[] input) {
+        Log.d(TAG,"FaceRecog started");
+
         //Convert photo int array to double array
         double[][] doubleArray = convertIntToDoubleArray(input);
 
@@ -119,7 +122,8 @@ final class FaceRecog {
         double[][] sumOutput = MatrixMaths.dot(activationHidden, wo);
         double[][] activationOutput = MatrixMaths.softmax(sumOutput);
 
-        // Convert to bool
+        Log.d(TAG,"FaceRecog finished");
+
         if (activationOutput[0][0] > activationOutput[0][1]) {
             return 1;  // Monkey O
         } else {

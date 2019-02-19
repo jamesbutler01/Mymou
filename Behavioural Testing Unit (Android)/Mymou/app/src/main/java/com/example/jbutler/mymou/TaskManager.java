@@ -28,9 +28,9 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     //private static TaskFromPaper task = new TaskFromPaper();
     private static String taskId = "001";  // Unique string prefixed to all log entries
 
-    //Bluetooth variables
-    public static int monkeyId = -1;
-    public static int numPhotos = 0;
+    public static int faceRecogPrediction = -1;
+    private static int monkeyButtonPressed = -1;
+    private static boolean faceRecogRunning = false;
     private static int trialCounter = 0;
     public static RewardSystem rewardSystem;
 
@@ -62,6 +62,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
                 }
             });
             t.start();
+
         }
 
         registerPowerReceivers();
@@ -114,6 +115,12 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
                 }
             }, 5000);
         }
+    }
+
+    public void onValueChanged(int newValue) {
+        // The int got a new value! Update the text
+        Log.d(TAG, "Integer updated");
+
     }
 
     private void startTask() {
@@ -183,11 +190,33 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     };
 
 
-    public static void setMonkeyId(int[] intArray) {
+    public static void setFaceRecogPrediction(int[] intArray) {
         if (faceRecog != null) {
-            monkeyId = faceRecog.idImage(intArray);
+
+            faceRecogPrediction = faceRecog.idImage(intArray);
+
+            if (faceRecogPrediction == monkeyButtonPressed) {
+
+                // If monkey clicked it's designated button
+                Log.d(TAG, "Monkey pressed correct cue");
+                task.resultMonkeyPressedTheirCue(true);
+
+            } else {
+
+                // If monkey clicked wrong button
+                Log.d(TAG, "Monkey pressed wrong cue");
+                task.resultMonkeyPressedTheirCue(false);
+
+            }
+
+        } else {
+
+            Log.d(TAG, "Error: FaceRecog not instantiated");
+
         }
-        numPhotos += 1;
+
+        // Release facerecog as now ready to process another image
+        faceRecogRunning = false;
     }
 
     public static void commitTrialData(int overallTrialOutcome) {
@@ -201,7 +230,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
             for (int i = 0; i < length; i++) {
                 String s = trialData.get(i);
                 // Prefix variables that were constant throughout trial (trial result, which monkey, etc)
-                s = taskId +"," + trialCounter +"," + monkeyId + "," + overallTrialOutcome + "," + s;
+                s = taskId +"," + trialCounter +"," + faceRecogPrediction + "," + overallTrialOutcome + "," + s;
                 logHandler.post(new LogEvent(s));
                 Log.d(TAG, "commitTrialData: " + s);
             }
@@ -228,10 +257,13 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
             enableApp(false);
             boolean restartNextDay = true;
             if(restartNextDay) {
+
+                // Only restart on certain days of the week
                 int day = c.get(Calendar.DAY_OF_WEEK);
                 if (day == Calendar.THURSDAY | day == Calendar.FRIDAY | day == Calendar.SATURDAY) {
                     startupLoop();
                 }
+
             }
         } else {
             Handler handlerOne = new Handler();
@@ -304,29 +336,21 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
     // Takes selfie and checks to see if it matches with which monkey it should be
     public static boolean checkMonkey(int monkId) {
-        // If face recog disabled just take a photo and return result
-        if (!MainMenu.useFaceRecognition) {
-            boolean photoTaken = takePhoto();
-            return photoTaken;
-        } else {
-            int currentnumphotos = numPhotos;  // Store current numphotos to determine when a new photo has been taken
-            Log.d(TAG, "checkMonkey() starting face recognition ");
-            boolean photoTaken = takePhoto();
-            if (!photoTaken) {
-                // Camera couldn't take a photo (either camera used again too quickly, or camera has error
-                // An alternative would be to raise an exception here
-                return false;
-            }
-            // Lock main thread and wait until background thread takes photo and finishes face recog
-            while (currentnumphotos == numPhotos) { }
-            Log.d(TAG, "checkMonkey() end face recognition (value: " + monkeyId + ")");
-
-            if (monkeyId == monkId) {  // If they clicked correct button
-                return true;
-            } else {
-                return false;
-            }
+        if (MainMenu.useFaceRecognition && faceRecogRunning) {
+            // Previous face recog still running
+            return false;
         }
+
+        boolean photoTaken = takePhoto();
+
+        if (photoTaken && MainMenu.useFaceRecognition) {
+            // Photo taken, now we wait for faceRecog to return prediction
+            faceRecogRunning = true;
+            monkeyButtonPressed = monkId;
+        }
+
+        return photoTaken;
+
     }
 
     public static boolean takePhoto() {
@@ -338,7 +362,6 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         } else {
             return true;
         }
-
     }
 
     //Checks if todays date is the same as the last time function was called

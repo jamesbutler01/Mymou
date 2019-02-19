@@ -1,4 +1,5 @@
 package com.example.jbutler.mymou;
+import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -40,6 +41,12 @@ public class TaskExample extends Fragment
     // Unique numbers assigned to each subject, used for facial recognition
     private static int monkO = 0, monkV = 1;
 
+    // Event codes for data logging
+    private static int ec_correctTrial = 1;
+    private static int ec_incorrectTrial = 0;
+    private static int ec_wrongGoCuePressed = 2;
+    private static int ec_idletimeout = 3;
+
     // Task objects
     private static Button cueGo_O, cueGo_V; // Go cues to start a trial
     private static Button[] cues_Reward = new Button[4];  // Reward cues for the different reward options
@@ -65,6 +72,10 @@ public class TaskExample extends Fragment
     private static Handler h1 = new Handler();  // Prepare for new trial
     private static Handler h2 = new Handler();  // Timeout go cues
 
+    // Static activity reference to refer to it in static contexts
+    private static Activity activity;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -73,6 +84,8 @@ public class TaskExample extends Fragment
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
+
+        activity = this.getActivity();
 
         assignObjects();
 
@@ -228,17 +241,65 @@ public class TaskExample extends Fragment
     // Each monkey has it's own start cue. At start of each trial make sure the monkey pressed it's own cue using
     // the facial recognition
     private static void checkMonkeyPressedTheirCue(int monkId) {
-        boolean correctCuePressed = TaskManager.checkMonkey(monkId);
-        if (correctCuePressed) {
-            startTrial(monkId);
+
+        // Take selfie
+        boolean photoTaken = TaskManager.checkMonkey(monkId);
+
+        if (MainMenu.useFaceRecognition) {
+
+            // Here's how to code task if using facial recognition
+            if (photoTaken) {
+
+                // If photo successfully taken then do nothing as wait for faceRecog to return prediction
+                // TaskManager.setFaceRecogPrediction will ultimately call TaskExample.resultMonkeyPressedTheirCue
+                logEvent("FaceRecog started..");
+
+            } else {
+
+                // Photo not taken as camera/faceRecog wasn't ready so reset go cues to let them press again
+                toggleGoCues(true);
+
+            }
+
         } else {
-            TimeoutGoCues();
+
+            // Here's how to code task if not using facial recognition
+
+            if (photoTaken) {
+                // If photo successfully taken then start the trial
+                startTrial(monkId);
+            } else {
+                // Photo not taken as camera wasn't ready so reset go cues to let them press again
+                toggleGoCues(true);
+            }
+
         }
+
+    }
+
+    public static void resultMonkeyPressedTheirCue(boolean correctCuePressed) {
+
+        // Have to put this on UI thread as it's called from faceRecog which is off main thread
+        activity.runOnUiThread(new Runnable() {
+            public void run()
+            {
+                if (correctCuePressed) {
+                    startTrial(TaskManager.faceRecogPrediction);
+                } else {
+                    MonkeyPressedWrongGoCue();
+                }
+            }
+        });
     }
 
     // Wrong Go cue selected so give short timeout
-    private static void TimeoutGoCues() {
+    public static void MonkeyPressedWrongGoCue() {
+        logEvent("Monkey pressed wrong go cue..");
+        TaskManager.commitTrialData(ec_wrongGoCuePressed);
+        // Switch on red background
         toggleBackground(backgroundRed, true);
+
+        // Switch off red background after certain delay
         h2.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -248,7 +309,7 @@ public class TaskExample extends Fragment
         }, timeoutWrongGoCuePressed);
     }
 
-    private static void startTrial(int monkId) {
+    public static void startTrial(int monkId) {
         logEvent("Trial started for monkey "+monkId);
 
         if(!timerRunning) {
@@ -261,7 +322,7 @@ public class TaskExample extends Fragment
     private void incorrectOptionChosen() {
         logEvent("Error stage: Incorrect cue chosen");
         toggleBackground(backgroundRed, true);
-        endOfTrial(0, timeoutWrongCueChosen);
+        endOfTrial(ec_incorrectTrial, timeoutWrongCueChosen);
     }
 
     private void correctOptionChosen() {
@@ -273,7 +334,7 @@ public class TaskExample extends Fragment
     private void deliverReward(int juiceChoice) {
         logEvent("Delivering "+rewardAmount+"ms reward on channel "+juiceChoice);
         TaskManager.deliverReward(juiceChoice, rewardAmount);
-        endOfTrial(1, rewardAmount + 500);
+        endOfTrial(ec_correctTrial, rewardAmount + 500);
     }
 
     private static void endOfTrial(int outcome, int newTrialDelay) {
@@ -372,13 +433,14 @@ public class TaskExample extends Fragment
                 time += 1000;
                 if (time > maxTrialDuration) {
                     disableAllCues();
-                    endOfTrial(7, 0);
+                    endOfTrial(ec_idletimeout, 0);
 
                     //Decrease brightness while not in use
                     TaskManager.setBrightness(50);
 
                     time = 0;
                     timerRunning = false;
+
                 } else {
                     timer();
                     timerRunning = true;

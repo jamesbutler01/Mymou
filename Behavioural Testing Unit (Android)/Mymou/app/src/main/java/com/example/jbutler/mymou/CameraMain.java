@@ -160,9 +160,10 @@ public class CameraMain extends Fragment
         public void onImageAvailable(ImageReader reader) {
                 Image image = reader.acquireNextImage();
 
-                // If using facerecog better to put this on the main thread instead of backgroundhandler
-                mBackgroundHandler.post(new CameraSavePhoto(image, timestamp));
-
+                // On camera thread as don't want to be able to take photo while saving previous photo
+                CameraSavePhoto cameraSavePhoto = new CameraSavePhoto(image, timestamp);
+                cameraSavePhoto.run();
+                takingPhoto = false;
         }
 
     };
@@ -356,6 +357,7 @@ public class CameraMain extends Fragment
         }
 
         // Update timestamp string, which will be used to save the photo once the photo is ready
+        takingPhoto = true;
         timestamp = ts;
 
         try {
