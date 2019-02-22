@@ -21,7 +21,7 @@ public class MainMenu extends Activity  {
 
     // If true this automatically starts the task upon application startup
     // Speeds up debugging/testing
-    public static final boolean testingMode = true;
+    public static final boolean testingMode = false;
 
     // Camera can crash the emulator, so disable if not using a tablet
     public static final boolean useCamera = false;

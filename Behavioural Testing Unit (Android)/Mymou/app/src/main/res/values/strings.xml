@@ -12,4 +12,9 @@
     <string name="chanThreeOn">7</string>
     <string name="chanThreeOff">8</string>
 
+    <string-array name="available_tasks">
+        <item>Example</item>
+        <item>TaskFromPaper</item>
+    </string-array>
 </resources>
+
