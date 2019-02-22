@@ -13,8 +13,8 @@
     <string name="chanThreeOff">8</string>
 
     <string-array name="available_tasks">
-        <item>Example</item>
-        <item>TaskFromPaper</item>
+        <item>Example task</item>
+        <item>Task from Butler, Kennerley (2018)</item>
     </string-array>
 </resources>
 

@@ -9,11 +9,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
+import android.widget.*;
 
 public class MainMenu extends Activity  {
 
@@ -36,6 +32,8 @@ public class MainMenu extends Activity  {
     public static RewardSystem rewardSystem; //TODO this is flagged as a memory leak (Context classes should not be in static fields)
 
     public static FolderManager folderManager;
+
+    private static int taskSelected = 0;
 
     //Permission variables
     private boolean permissions = false;
@@ -64,6 +62,8 @@ public class MainMenu extends Activity  {
 
         initialiseRewardSystem();
 
+        initialiseSpinner();
+
         if(testingMode && permissions) {
             startTask();
         }
@@ -90,6 +90,34 @@ public class MainMenu extends Activity  {
         } else if (!useBluetooth) {
             tv1.setText("Bluetooth status: Disabled");
         }
+    }
+
+    private void initialiseSpinner() {
+        Spinner spinner = (Spinner) findViewById(R.id.spinnerTaskMenu);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.available_tasks, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapter, View v,
+                                       int position, long id) {
+                // Update task selected
+                taskSelected = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
     }
 
     private void checkIfCrashed() {
