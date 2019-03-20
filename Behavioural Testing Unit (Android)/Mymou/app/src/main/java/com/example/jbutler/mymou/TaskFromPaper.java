@@ -29,7 +29,7 @@ import java.util.Random;
 // Used to teach a 4x4 discrete world
 
 public class TaskFromPaper extends Fragment
-        implements View.OnClickListener {
+        implements View.OnClickListener, TaskInterface {
 
     public ImageButton hideApplication;
 
@@ -75,6 +75,10 @@ public class TaskFromPaper extends Fragment
             {5,4,3,4,4,3,2,3,3,2,1,2,2,1,0,1},
             {6,5,4,3,5,4,3,2,4,3,2,1,3,2,1,0},
     };
+
+
+    public boolean hideApplication(boolean bool) {return true; };
+    public void resultMonkeyPressedTheirCue(boolean correctCuePressed) {}
 
     private int numNeighbours = 4;
     private int time = 0;

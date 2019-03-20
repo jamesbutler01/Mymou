@@ -72,9 +72,14 @@ public class MainMenu extends Activity  {
     private void startTask() {
         Button startButton = findViewById(R.id.buttonStart);
         startButton.setText("Loading ...");
+
         Log.d(TAG, "Starting TaskManager as Intent...");
+
         rewardSystem.quitBt();  // Reconnect from next activity
+
         Intent intent = new Intent(this, TaskManager.class);
+        intent.putExtra("tasktoload", taskSelected);
+
         startActivity(intent);
     }
 
@@ -92,6 +97,7 @@ public class MainMenu extends Activity  {
         }
     }
 
+    // This is the dropdown menu to select task to load
     private void initialiseSpinner() {
         Spinner spinner = (Spinner) findViewById(R.id.spinnerTaskMenu);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -112,10 +118,7 @@ public class MainMenu extends Activity  {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-
-            }
+            public void onNothingSelected(AdapterView<?> arg0) { }
         });
 
     }

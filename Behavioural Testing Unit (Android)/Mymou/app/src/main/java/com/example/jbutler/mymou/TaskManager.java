@@ -24,9 +24,8 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     public static String TAG = "TaskManager";
 
     // Task you want to run goes here
-    private static TaskExample task = new TaskExample(); //TODO AS says static context classes are a memory leak...
-    //private static TaskFromPaper task = new TaskFromPaper();
-    private static String taskId = "001";  // Unique string prefixed to all log entries
+    private static TaskInterface task;
+    private static int taskId;  // Unique string prefixed to all log entries
 
     public static int faceRecogPrediction = -1;
     private static int monkeyButtonPressed = -1;
@@ -37,7 +36,6 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private static FaceRecog faceRecog;
     private static ArrayList<String> trialData;
     public static String photoTimestamp;
-    public static String message;
     private static Handler logHandler;
     private static HandlerThread logThread;
     private FragmentManager fragmentManager;
@@ -51,6 +49,8 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
         mContext = getApplicationContext();
         activity = (Activity) this;
+
+        choosetask();
 
         initialiseScreenSettings();
 
@@ -89,6 +89,17 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         // This is last as it interacts with objects in the task
         initaliseRewardSystem();
 
+    }
+
+    private void choosetask() {
+        Intent intent = getIntent();
+        taskId = intent.getIntExtra("tasktoload", 0);
+        if (taskId == 0) {
+            task = new TaskExample(); //TODO AS says static context classes are a memory leak...
+        }
+        else {
+            task = new TaskFromPaper();
+        }
     }
 
     private void initialiseLogHandler() {
@@ -133,7 +144,10 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
             CameraMain cM = new CameraMain();
             fragmentTransaction.add(R.id.container, cM);
         }
-        fragmentTransaction.add(R.id.container, task);
+        TaskExample taskExample = new TaskExample();
+
+        fragmentTransaction.add(R.id.container, taskExample);
+
         fragmentTransaction.commit();
     }
 
@@ -173,7 +187,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
             String action = intent.getAction();
             if(action.equals(Intent.ACTION_POWER_CONNECTED)) {
                 // Do something when power connected
-                //task.enableApp();
+                // enableApp(True);
             }
         }
     };
@@ -184,13 +198,14 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
             String action = intent.getAction();
             if(action.equals(Intent.ACTION_POWER_DISCONNECTED)) {
                 // Do something when power disconnected
-                //task.hideApplication();
+                // enableApp(false);
             }
         }
     };
 
 
     public static void setFaceRecogPrediction(int[] intArray) {
+
         if (faceRecog != null) {
 
             faceRecogPrediction = faceRecog.idImage(intArray);
@@ -296,20 +311,14 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
     public static boolean enableApp(boolean bool) {
-        if (task.hideApplication != null) {
-            if (bool) {
-                task.hideApplication.setEnabled(false);
-                task.hideApplication.setVisibility(View.INVISIBLE);
-            } else {
-                task.hideApplication.setEnabled(true);
-                task.hideApplication.setVisibility(View.VISIBLE);
-                setBrightness(1);
-            }
-            return true;
+        Log.d(TAG, "Enabling app"+bool);
+        boolean result = task.hideApplication(!bool);
+        if (!bool) {
+            setBrightness(1);
         } else {
-            Log.d(TAG, "hideApplication object not instantiated");
-            return false;
+            setBrightness(255);
         }
+        return result;
     }
 
     public static void setBrightness(int brightness) {

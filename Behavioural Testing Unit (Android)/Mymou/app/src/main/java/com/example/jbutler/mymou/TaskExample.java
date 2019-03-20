@@ -1,15 +1,16 @@
 package com.example.jbutler.mymou;
 import android.app.Activity;
-import android.app.Fragment;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.app.Fragment;
 
 import java.util.Random;
 
@@ -18,13 +19,14 @@ import java.util.Random;
 // Offers choice of rewards for successful trial completion
 
 public class TaskExample extends Fragment
-        implements View.OnClickListener {
+        implements View.OnClickListener, TaskInterface {
 
     // Debug
     private static TextView textView;
+    public static String TAG = "TaskExample";
 
     // Used to cover/disable task when required (e.g. no bluetooth connection)
-    public View hideApplication;
+    public View hideApplicationView;
 
     // Background colours
     private static View backgroundRed, backgroundPink;
@@ -104,7 +106,7 @@ public class TaskExample extends Fragment
     private void assignObjects() {
         backgroundRed = getView().findViewById(R.id.backgroundred);
         backgroundPink = getView().findViewById(R.id.backgroundpink);
-        hideApplication = getView().findViewById(R.id.foregroundblack);
+        hideApplicationView = getView().findViewById(R.id.foregroundblack);
         cueGo_O = getView().findViewById(R.id.buttonGoMonkO);
         cueGo_V = getView().findViewById(R.id.buttonGoMonkV);
         cues_O[0] = getView().findViewById(R.id.buttonCue1MonkO);
@@ -116,6 +118,26 @@ public class TaskExample extends Fragment
         cues_Reward[2]  = getView().findViewById(R.id.buttonRewardTwo);
         cues_Reward[3]  = getView().findViewById(R.id.buttonRewardThree);
         textView = getView().findViewById(R.id.tvLog);
+    }
+
+    public boolean hideApplication(boolean bool) {
+        Log.d(TAG, "Enabling app "+bool);
+
+        if (hideApplicationView != null) {
+            hideApplicationView.setEnabled(bool);
+            if (bool) {
+                hideApplicationView.setVisibility(View.VISIBLE);
+            } else {
+                hideApplicationView.setVisibility(View.INVISIBLE);
+            }
+
+            return true;
+
+        } else {
+
+            return false;
+
+        }
     }
 
     // Make a predetermined list of the locations on the screen where cues can be placed
@@ -277,7 +299,7 @@ public class TaskExample extends Fragment
 
     }
 
-    public static void resultMonkeyPressedTheirCue(boolean correctCuePressed) {
+    public void resultMonkeyPressedTheirCue(boolean correctCuePressed) {
 
         // Have to put this on UI thread as it's called from faceRecog which is off main thread
         activity.runOnUiThread(new Runnable() {
