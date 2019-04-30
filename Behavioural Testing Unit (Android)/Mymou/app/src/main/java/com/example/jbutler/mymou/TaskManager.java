@@ -6,25 +6,26 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.PendingIntent;
 import android.content.*;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.View;
-import android.view.WindowManager;
+import android.view.*;
+import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Random;
 
-public class TaskManager extends Activity implements Thread.UncaughtExceptionHandler {
-
+public class TaskManager extends Activity implements Thread.UncaughtExceptionHandler, View.OnClickListener {
+    // Debug
     public static String TAG = "TaskManager";
+    private static TextView textView;
 
     // Task you want to run goes here
-    private static TaskInterface task;
     private static int taskId;  // Unique string prefixed to all log entries
 
     public static int faceRecogPrediction = -1;
@@ -38,21 +39,82 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     public static String photoTimestamp;
     private static Handler logHandler;
     private static HandlerThread logThread;
-    private FragmentManager fragmentManager;
-    private FragmentTransaction fragmentTransaction;
+    private static FragmentManager fragmentManager;
+    private static FragmentTransaction fragmentTransaction;
     private static Context mContext;
     private static Activity activity;
+
+        // Unique numbers assigned to each subject, used for facial recognition
+    private static int monkO = 0, monkV = 1;
+
+      // Aync handlers used to posting delayed task events
+    private static Handler h0 = new Handler();  // Task timer
+    private static Handler h1 = new Handler();  // Prepare for new trial
+    private static Handler h2 = new Handler();  // Timeout go cues
+
+       // Predetermined locations where cues can appear on screen, calculated by calculateCueLocations()
+    private static int maxCueLocations = 8;  // Number of possible locations that cues can appear in
+    private static int[] xLocs = new int[maxCueLocations];
+    private static int[] yLocs = new int[maxCueLocations];
+
+      // Used to cover/disable task when required (e.g. no bluetooth connection)
+    public static View hideApplicationView;
+
+    // Background colours
+    private static View backgroundRed, backgroundPink;
+
+    // Timeouts for wrong choices by subject
+    private static int timeoutWrongGoCuePressed = 300;  // Timeout for now pressing their own Go cue
+    private int timeoutWrongCueChosen = 1000;  // Timeout for getting the task wrong
+
+    // Timer to reset task if subject stops halfway through a trial
+    private static int maxTrialDuration = 10000;  // Milliseconds until task timeouts and resets
+    private static int time = 0;  // Time from last press - used for idle timeout if it reaches maxTrialDuration
+    private static boolean timerRunning;  // Signals if timer currently active
+
+      // Event codes for data logging
+    private static int ec_correctTrial = 1;
+    private static int ec_incorrectTrial = 0;
+    private static int ec_wrongGoCuePressed = 2;
+    private static int ec_idletimeout = 3;
+
+    // Task objects
+    private static Button cueGo_O, cueGo_V; // Go cues to start a trial
+    private static Button[] cues_Reward = new Button[4];  // Reward cues for the different reward options
+
+     // Reward
+    static int rewardAmount = 1000;  // Duration (ms) that rewardSystem activated for
+
+    // Boolean to signal if task should be active or not (e.g. overnight it is set to true)
+    public static boolean shutdown = false;
+
+    // Random number generator
+    private static Random r = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mContext = getApplicationContext();
-        activity = (Activity) this;
+        activity = this;
+        fragmentManager = getFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
 
-        choosetask();
+        setContentView(R.layout.activity_all_tasks);
+
+        assignObjects();
+        setOnClickListeners();
+        calculateCueLocations();
+        randomiseCueLocations();
+        disableAllCues();
+
+        initaliseRewardSystem();
+        loadCamera();
+
+        loadtask();
 
         initialiseScreenSettings();
+
 
         if (MainMenu.useFaceRecognition) {
             // Load facerecog off the main thread as takes a while
@@ -84,22 +146,22 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 //                }
 //            });
 
-        startTask();
 
-        // This is last as it interacts with objects in the task
-        initaliseRewardSystem();
+        setBrightness(true);
+
+
+
+        PrepareForNewTrial(0);
 
     }
 
-    private void choosetask() {
+    private void loadtask() {
         Intent intent = getIntent();
-        taskId = intent.getIntExtra("tasktoload", 0);
-        if (taskId == 0) {
-            task = new TaskExample(); //TODO AS says static context classes are a memory leak...
+        taskId = intent.getIntExtra("tasktoload", -1);
+        if (taskId == -1) {
+            new Exception("Invalid task specified");
         }
-        else {
-            task = new TaskFromPaper();
-        }
+
     }
 
     private void initialiseLogHandler() {
@@ -128,26 +190,32 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         }
     }
 
-    public void onValueChanged(int newValue) {
-        // The int got a new value! Update the text
-        Log.d(TAG, "Integer updated");
+    public static void startTrial(int monkId) {
+        logEvent("Trial started for monkey "+monkId);
+
+        if(!timerRunning) {
+            timer();
+        }
+
+        if (taskId == 0) {
+            TaskExample task = new TaskExample();
+            fragmentTransaction.add(R.id.container, task);
+        } else if (taskId == 0) {
+            fragmentTransaction.add(R.id.container, new TaskFromPaper());
+        }
+        fragmentTransaction.commit();
 
     }
 
-    private void startTask() {
-        Log.d(TAG, "startTask() called");
-        fragmentManager = getFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        setContentView(R.layout.activity_all_tasks);
-        if (MainMenu.useCamera) {
-            Log.d(TAG, "startTask() using CameraMain");
-            CameraMain cM = new CameraMain();
-            fragmentTransaction.add(R.id.container, cM);
+    private void loadCamera() {
+        if (!MainMenu.useCamera) {
+            return;
         }
-        TaskExample taskExample = new TaskExample();
 
-        fragmentTransaction.add(R.id.container, taskExample);
-
+        Log.d(TAG, "Loading camera fragment");
+        fragmentTransaction = fragmentManager.beginTransaction();
+        CameraMain cM = new CameraMain();
+        fragmentTransaction.add(R.id.container, cM);
         fragmentTransaction.commit();
     }
 
@@ -214,13 +282,13 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
                 // If monkey clicked it's designated button
                 Log.d(TAG, "Monkey pressed correct cue");
-                task.resultMonkeyPressedTheirCue(true);
+                resultMonkeyPressedTheirCue(true);
 
             } else {
 
                 // If monkey clicked wrong button
                 Log.d(TAG, "Monkey pressed wrong cue");
-                task.resultMonkeyPressedTheirCue(false);
+                resultMonkeyPressedTheirCue(false);
 
             }
 
@@ -312,20 +380,28 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
     public static boolean enableApp(boolean bool) {
         Log.d(TAG, "Enabling app"+bool);
-        boolean result = task.hideApplication(!bool);
-        if (!bool) {
-            setBrightness(1);
+        setBrightness(false);
+        if (hideApplicationView != null) {
+            if (bool) {
+                hideApplicationView.setEnabled(false);
+                hideApplicationView.setVisibility(View.INVISIBLE);
+            } else {
+                hideApplicationView.setEnabled(true);
+                hideApplicationView.setVisibility(View.VISIBLE);
+            }
+            return true;
         } else {
-            setBrightness(255);
+            Log.d(TAG, "hideApplication object not instantiated");
+            return false;
         }
-        return result;
     }
 
-    public static void setBrightness(int brightness) {
+    public static void setBrightness(boolean bool) {
         if (Settings.System.canWrite(mContext)) {
-            if (brightness > 255) {
+            int brightness;
+            if (bool) {
                 brightness = 255;
-            } else if (brightness < 0) {
+            } else {
                 brightness = 0;
             }
             ContentResolver cResolver = mContext.getContentResolver();
@@ -334,6 +410,10 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
     public static void logEvent(String data) {
+        // Show (human) user on screen what is happening during the task
+        textView.setText(data);
+
+        // Store data for logging at end of trial
         String timestamp = MainMenu.folderManager.getTimestamp();
         String msg = TaskManager.photoTimestamp + "," + timestamp + "," + data;
         trialData.add(msg);
@@ -392,6 +472,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG,"onDestroy() called");
+        cancelHandlers();
         rewardSystem.quitBt();
         unregisterReceivers();
         quitThreads();
@@ -428,5 +509,318 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     public boolean onPrepareOptionsMenu (Menu menu) {
         return false;
     }
+
+
+
+    private void assignObjects() {
+        backgroundRed = findViewById(R.id.backgroundred);
+        backgroundPink = findViewById(R.id.backgroundpink);
+        hideApplicationView = findViewById(R.id.foregroundblack);
+        cueGo_O = findViewById(R.id.buttonGoMonkO);
+        cueGo_V = findViewById(R.id.buttonGoMonkV);
+        cues_Reward[0]  = findViewById(R.id.buttonRewardZero);
+        cues_Reward[1]  = findViewById(R.id.buttonRewardOne);
+        cues_Reward[2]  = findViewById(R.id.buttonRewardTwo);
+        cues_Reward[3]  = findViewById(R.id.buttonRewardThree);
+        textView = findViewById(R.id.tvLog);
+    }
+
+
+    // Make a predetermined list of the locations on the screen where cues can be placed
+    private void calculateCueLocations() {
+        int imageWidths = 175 + 175/2;
+        int distanceFromCenter = imageWidths + 30; // Buffer between different task objects
+
+        // Find centre of screen in pixels
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int screenWidth = size.x;
+        int xCenter = screenWidth / 2;
+        xCenter -= imageWidths / 2;
+        int screenHeight = size.y;
+        int yCenter = screenHeight / 2;;
+
+        // Y locations
+        yLocs[0] = yCenter - distanceFromCenter;
+        yLocs[1] = yCenter;
+        yLocs[2] = yCenter + distanceFromCenter;
+        yLocs[3] = yCenter;
+        yLocs[4] = yCenter + distanceFromCenter;
+        yLocs[5] = yCenter - distanceFromCenter;
+        yLocs[6] = yCenter + distanceFromCenter;
+        yLocs[7] = yCenter - distanceFromCenter;
+
+        // X locations
+        xLocs[0] = xCenter;
+        xLocs[1] = xCenter - distanceFromCenter;
+        xLocs[2] = xCenter;
+        xLocs[3] = xCenter + distanceFromCenter;
+        xLocs[4] = xCenter - distanceFromCenter;
+        xLocs[5] = xCenter - distanceFromCenter;
+        xLocs[6] = xCenter + distanceFromCenter;
+        xLocs[7] = xCenter + distanceFromCenter;
+
+        // Go cues are static location so place them now
+        cueGo_O.setX(xLocs[1]);
+        cueGo_O.setY(yLocs[1]);
+        cueGo_V.setX(xLocs[3]);
+        cueGo_V.setY(yLocs[3]);
+    }
+
+
+    private void setOnClickListenerLoop(Button[] buttons) {
+        for (int i = 0; i < buttons.length; i++) {
+            buttons[i].setOnClickListener(this);
+        }
+    }
+
+
+     private void setOnClickListeners() {
+         setOnClickListenerLoop(cues_Reward);
+         cueGo_O.setOnClickListener(this);
+         cueGo_V.setOnClickListener(this);
+    }
+
+
+    @Override
+    public void onClick(View view) {
+
+        // Always disable all cues after a press as monkeys love to bash repeatedly
+        disableAllCues();
+
+        // Reset task timer (used for idle timeout and calculating reaction times if desired)
+        time = 0;
+
+        // Make screen bright
+        TaskManager.setBrightness(true);
+
+        // Now decide what to do based on what button pressed
+        switch (view.getId()) {
+            case R.id.buttonGoMonkO:
+                checkMonkeyPressedTheirCue(monkO);
+                break;
+            case R.id.buttonGoMonkV:
+                checkMonkeyPressedTheirCue(monkV);
+                break;
+            case R.id.buttonRewardZero:
+                deliverReward(0);
+                break;
+            case R.id.buttonRewardOne:
+                deliverReward(1);
+                break;
+            case R.id.buttonRewardTwo:
+                deliverReward(2);
+                break;
+            case R.id.buttonRewardThree:
+                deliverReward(3);
+                break;
+        }
+    }
+
+     // Each monkey has it's own start cue. At start of each trial make sure the monkey pressed it's own cue using
+    // the facial recognition
+    private static void checkMonkeyPressedTheirCue(int monkId) {
+
+        // Take selfie
+        boolean photoTaken = TaskManager.checkMonkey(monkId);
+
+        if (MainMenu.useFaceRecognition) {
+
+            // Here's how to code task if using facial recognition
+            if (photoTaken) {
+
+                // If photo successfully taken then do nothing as wait for faceRecog to return prediction
+                // TaskManager.setFaceRecogPrediction will ultimately call TaskExample.resultMonkeyPressedTheirCue
+                logEvent("FaceRecog started..");
+
+            } else {
+
+                // Photo not taken as camera/faceRecog wasn't ready so reset go cues to let them press again
+                toggleGoCues(true);
+
+            }
+
+        } else {
+
+            // Here's how to code task if not using facial recognition
+
+            if (photoTaken) {
+                // If photo successfully taken then start the trial
+                startTrial(monkId);
+            } else {
+                // Photo not taken as camera wasn't ready so reset go cues to let them press again
+                toggleGoCues(true);
+            }
+
+        }
+
+    }
+
+    public static void resultMonkeyPressedTheirCue(boolean correctCuePressed) {
+
+        // Have to put this on UI thread as it's called from faceRecog which is off main thread
+        activity.runOnUiThread(new Runnable() {
+            public void run()
+            {
+                if (correctCuePressed) {
+                   startTrial(TaskManager.faceRecogPrediction);
+                } else {
+                    MonkeyPressedWrongGoCue();
+                }
+            }
+        });
+    }
+
+    // Wrong Go cue selected so give short timeout
+    public static void MonkeyPressedWrongGoCue() {
+        logEvent("Monkey pressed wrong go cue..");
+        TaskManager.commitTrialData(ec_wrongGoCuePressed);
+        // Switch on red background
+        toggleBackground(backgroundRed, true);
+
+        // Switch off red background after certain delay
+        h2.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                toggleGoCues(true);
+                toggleBackground(backgroundRed, false);
+            }
+        }, timeoutWrongGoCuePressed);
+    }
+
+    private void incorrectOptionChosen() {
+        logEvent("Error stage: Incorrect cue chosen");
+        toggleBackground(backgroundRed, true);
+        endOfTrial(ec_incorrectTrial, timeoutWrongCueChosen);
+    }
+
+    private void correctOptionChosen() {
+        logEvent("Reward stage: Correct cue chosen");
+        toggleBackground(backgroundPink, true);
+        toggleButtonList(cues_Reward, true);
+    }
+
+    private void deliverReward(int juiceChoice) {
+        logEvent("Delivering "+rewardAmount+"ms reward on channel "+juiceChoice);
+        TaskManager.deliverReward(juiceChoice, rewardAmount);
+        endOfTrial(ec_correctTrial, rewardAmount + 500);
+    }
+
+
+    private static void endOfTrial(int outcome, int newTrialDelay) {
+        TaskManager.commitTrialData(outcome);
+
+        PrepareForNewTrial(newTrialDelay);
+    }
+
+
+    private static void disableAllCues() {
+        toggleGoCues(false);
+        toggleButtonList(cues_Reward, false);
+    }
+
+
+    // Lots of toggles for task objects
+    private static void toggleGoCues(boolean status) {
+        toggleButton(cueGo_O, status);
+        toggleButton(cueGo_V, status);
+    }
+
+
+    private static void toggleButtonList(Button[] buttons, boolean status) {
+        for (int i = 0; i < buttons.length; i++) {
+            toggleButton(buttons[i], status);
+        }
+    }
+
+    private static void toggleButton(Button button, boolean status) {
+        if (status) {
+            button.setVisibility(View.VISIBLE);
+        } else {
+            button.setVisibility(View.INVISIBLE);
+        }
+        button.setEnabled(status);
+        button.setClickable(status);
+    }
+
+    private static void toggleBackground(View view, boolean status) {
+        if (status) {
+            view.setVisibility(View.VISIBLE);
+        } else {
+            view.setVisibility(View.INVISIBLE);
+        }
+        view.setEnabled(status);
+    }
+
+
+    // Recursive function to track task time
+    private static void timer() {
+        h0.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                time += 1000;
+                if (time > maxTrialDuration) {
+                    disableAllCues();
+                    endOfTrial(ec_idletimeout, 0);
+
+                    //Decrease brightness while not in use
+                    TaskManager.setBrightness(false);
+
+                    time = 0;
+                    timerRunning = false;
+
+                } else {
+                    timer();
+                    timerRunning = true;
+                }
+            }
+        }, 1000);
+    }
+
+        private static void PrepareForNewTrial(int delay) {
+        TaskManager.resetTrialData();
+
+        h1.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                randomiseCueLocations();
+                toggleBackground(backgroundRed, false);
+                toggleBackground(backgroundPink, false);
+                toggleGoCues(true);
+                textView.setText("Initiation Stage");
+            }
+        }, delay);
+    }
+
+
+    private void cancelHandlers() {
+        h0.removeCallbacksAndMessages(null);
+        h1.removeCallbacksAndMessages(null);
+        h2.removeCallbacksAndMessages(null);
+    }
+
+    private static void randomiseCueLocations() {
+    // Place all trial objects in random locations
+        randomiseNoReplacement(cues_Reward);
+    }
+
+        // Utility functions
+    private static void randomiseNoReplacement(Button[] buttons) {
+        int[] chosen = new int[maxCueLocations];
+        for (int i = 0; i < maxCueLocations; i++) {
+            chosen[i] = 0;
+        }
+        int choice = r.nextInt(maxCueLocations);
+        for (int i = 0; i < buttons.length; i++) {
+            while (chosen[choice] == 1) {
+                choice = r.nextInt(maxCueLocations);
+            }
+            buttons[i].setX(xLocs[choice]);
+            buttons[i].setY(yLocs[choice]);
+            chosen[choice] = 1;
+        }
+    }
+
 
 }

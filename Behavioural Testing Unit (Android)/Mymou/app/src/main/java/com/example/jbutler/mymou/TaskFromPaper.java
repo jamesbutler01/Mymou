@@ -29,7 +29,7 @@ import java.util.Random;
 // Used to teach a 4x4 discrete world
 
 public class TaskFromPaper extends Fragment
-        implements View.OnClickListener, TaskInterface {
+        implements View.OnClickListener {
 
     public ImageButton hideApplication;
 
@@ -133,7 +133,7 @@ public class TaskFromPaper extends Fragment
         ibGo.setEnabled(true);
         ibGo.setVisibility(View.VISIBLE);
 
-        TaskManager.setBrightness(255);
+        TaskManager.setBrightness(true);
 
         numStimulus = imageList.length;
 
@@ -279,7 +279,7 @@ public class TaskFromPaper extends Fragment
     @Override
     public void onClick(View view) {
         time = 0;
-        TaskManager.setBrightness(255);
+        TaskManager.setBrightness(true);
         switch (view.getId()) {
             case R.id.imageButtonGo:
                 startTrial();
@@ -682,7 +682,7 @@ public class TaskFromPaper extends Fragment
                     timerRunning = false;
 
                     //Decrease brightness while not in use
-                    TaskManager.setBrightness(50);
+                    TaskManager.setBrightness(false);
                 } else {
                     timer();
                     timerRunning = true;

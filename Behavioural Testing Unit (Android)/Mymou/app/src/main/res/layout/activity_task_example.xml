@@ -3,31 +3,6 @@
                                                    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
                                                    android:layout_height="match_parent"
                                                    android:background="@color/white">
-    <View
-            android:id="@+id/backgroundpink"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@drawable/pinkrectangle"/>
-
-    <View
-            android:id="@+id/backgroundred"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@drawable/redrectangle"/>
-
-    <Button
-            android:text="Monkey O\n Start"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:textSize="30sp"
-            android:id="@+id/buttonGoMonkO"/>
-
-    <Button
-            android:text="Monkey V\n Start"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:textSize="30sp"
-            android:id="@+id/buttonGoMonkV"/>
 
     <Button
             android:text="Monkey O\n Cue 1"
@@ -56,42 +31,6 @@
             android:layout_height="175dp"
             android:textSize="30sp"
             android:id="@+id/buttonCue2MonkV"/>
-
-    <Button
-            android:text="Reward\nChoice #0"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:textSize="30sp"
-            android:id="@+id/buttonRewardZero"/>
-
-    <Button
-            android:text="Reward\nChoice #1"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:textSize="30sp"
-            android:id="@+id/buttonRewardOne"/>
-
-    <Button
-            android:text="Reward\nChoice #2"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:textSize="30sp"
-            android:id="@+id/buttonRewardTwo"/>
-
-    <Button
-            android:text="Reward\nChoice #3"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:textSize="30sp"
-            android:id="@+id/buttonRewardThree"/>
-
-
-    <View
-            android:id="@+id/foregroundblack"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@drawable/blackrectangle"/>
-
 
     <TextView
             android:id="@+id/tvLog"

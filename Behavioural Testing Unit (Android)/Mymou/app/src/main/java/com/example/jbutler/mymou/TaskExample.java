@@ -19,44 +19,21 @@ import java.util.Random;
 // Offers choice of rewards for successful trial completion
 
 public class TaskExample extends Fragment
-        implements View.OnClickListener, TaskInterface {
+        implements View.OnClickListener {
 
     // Debug
     private static TextView textView;
     public static String TAG = "TaskExample";
 
-    // Used to cover/disable task when required (e.g. no bluetooth connection)
-    public View hideApplicationView;
-
-    // Background colours
-    private static View backgroundRed, backgroundPink;
-
-    // Timeouts for wrong choices by subject
-    private static int timeoutWrongGoCuePressed = 300;  // Timeout for now pressing their own Go cue
-    private int timeoutWrongCueChosen = 1000;  // Timeout for getting the task wrong
-
-    // Timer to reset task if subject stops halfway through a trial
-    private static int maxTrialDuration = 10000;  // Milliseconds until task timeouts and resets
-    private static int time = 0;  // Time from last press - used for idle timeout if it reaches maxTrialDuration
-    private static boolean timerRunning;  // Signals if timer currently active
-
-    // Unique numbers assigned to each subject, used for facial recognition
+         // Unique numbers assigned to each subject, used for facial recognition
     private static int monkO = 0, monkV = 1;
 
-    // Event codes for data logging
-    private static int ec_correctTrial = 1;
-    private static int ec_incorrectTrial = 0;
-    private static int ec_wrongGoCuePressed = 2;
-    private static int ec_idletimeout = 3;
-
     // Task objects
-    private static Button cueGo_O, cueGo_V; // Go cues to start a trial
-    private static Button[] cues_Reward = new Button[4];  // Reward cues for the different reward options
     private static Button[] cues_O = new Button[2];  // List of all trial objects for Subject O
     private static Button[] cues_V = new Button[2];  // List of all trial objects for Subject V
 
-    // Reward
-    static int rewardAmount = 1000;  // Duration (ms) that rewardSystem activated for
+    private static int ec_correctTrial = 1;
+    private static int ec_incorrectTrial = 0;
 
     // Predetermined locations where cues can appear on screen, calculated by calculateCueLocations()
     private static int maxCueLocations = 8;  // Number of possible locations that cues can appear in
@@ -66,17 +43,8 @@ public class TaskExample extends Fragment
     // Random number generator
     private static Random r = new Random();
 
-    // Boolean to signal if task should be active or not (e.g. overnight it is set to true)
-    public static boolean shutdown = false;
-
-    // Aync handlers used to posting delayed task events
-    private static Handler h0 = new Handler();  // Task timer
-    private static Handler h1 = new Handler();  // Prepare for new trial
-    private static Handler h2 = new Handler();  // Timeout go cues
-
     // Static activity reference to refer to it in static contexts
     private static Activity activity;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,52 +63,13 @@ public class TaskExample extends Fragment
 
         calculateCueLocations();
 
-        TaskManager.setBrightness(255);
+        randomiseCueLocations();
 
         disableAllCues();
 
-        PrepareForNewTrial(0);
-
     }
 
-    private void assignObjects() {
-        backgroundRed = getView().findViewById(R.id.backgroundred);
-        backgroundPink = getView().findViewById(R.id.backgroundpink);
-        hideApplicationView = getView().findViewById(R.id.foregroundblack);
-        cueGo_O = getView().findViewById(R.id.buttonGoMonkO);
-        cueGo_V = getView().findViewById(R.id.buttonGoMonkV);
-        cues_O[0] = getView().findViewById(R.id.buttonCue1MonkO);
-        cues_O[1] = getView().findViewById(R.id.buttonCue2MonkO);
-        cues_V[0] = getView().findViewById(R.id.buttonCue1MonkV);
-        cues_V[1] = getView().findViewById(R.id.buttonCue2MonkV);
-        cues_Reward[0]  = getView().findViewById(R.id.buttonRewardZero);
-        cues_Reward[1]  = getView().findViewById(R.id.buttonRewardOne);
-        cues_Reward[2]  = getView().findViewById(R.id.buttonRewardTwo);
-        cues_Reward[3]  = getView().findViewById(R.id.buttonRewardThree);
-        textView = getView().findViewById(R.id.tvLog);
-    }
-
-    public boolean hideApplication(boolean bool) {
-        Log.d(TAG, "Enabling app "+bool);
-
-        if (hideApplicationView != null) {
-            hideApplicationView.setEnabled(bool);
-            if (bool) {
-                hideApplicationView.setVisibility(View.VISIBLE);
-            } else {
-                hideApplicationView.setVisibility(View.INVISIBLE);
-            }
-
-            return true;
-
-        } else {
-
-            return false;
-
-        }
-    }
-
-    // Make a predetermined list of the locations on the screen where cues can be placed
+     // Make a predetermined list of the locations on the screen where cues can be placed
     private void calculateCueLocations() {
         int imageWidths = 175 + 175/2;
         int distanceFromCenter = imageWidths + 30; // Buffer between different task objects
@@ -174,13 +103,18 @@ public class TaskExample extends Fragment
         xLocs[5] = xCenter - distanceFromCenter;
         xLocs[6] = xCenter + distanceFromCenter;
         xLocs[7] = xCenter + distanceFromCenter;
-
-        // Go cues are static location so place them now
-        cueGo_O.setX(xLocs[1]);
-        cueGo_O.setY(yLocs[1]);
-        cueGo_V.setX(xLocs[3]);
-        cueGo_V.setY(yLocs[3]);
     }
+
+
+    private void assignObjects() {
+        cues_O[0] = getView().findViewById(R.id.buttonCue1MonkO);
+        cues_O[1] = getView().findViewById(R.id.buttonCue2MonkO);
+        cues_V[0] = getView().findViewById(R.id.buttonCue1MonkV);
+        cues_V[1] = getView().findViewById(R.id.buttonCue2MonkV);
+        textView = getView().findViewById(R.id.tvLog);
+    }
+
+
 
     private void setOnClickListenerLoop(Button[] buttons) {
         for (int i = 0; i < buttons.length; i++) {
@@ -189,11 +123,8 @@ public class TaskExample extends Fragment
     }
 
      private void setOnClickListeners() {
-         setOnClickListenerLoop(cues_Reward);
          setOnClickListenerLoop(cues_O);
          setOnClickListenerLoop(cues_V);
-         cueGo_O.setOnClickListener(this);
-         cueGo_V.setOnClickListener(this);
     }
 
 
@@ -203,20 +134,8 @@ public class TaskExample extends Fragment
         // Always disable all cues after a press as monkeys love to bash repeatedly
         disableAllCues();
 
-        // Reset task timer (used for idle timeout and calculating reaction times if desired)
-        time = 0;
-
-        // Make screen bright
-        TaskManager.setBrightness(255);
-
         // Now decide what to do based on what button pressed
         switch (view.getId()) {
-            case R.id.buttonGoMonkO:
-                checkMonkeyPressedTheirCue(monkO);
-                break;
-            case R.id.buttonGoMonkV:
-                checkMonkeyPressedTheirCue(monkV);
-                break;
             case R.id.buttonCue1MonkO:
                 correctOptionChosen();
                 break;
@@ -229,160 +148,26 @@ public class TaskExample extends Fragment
             case R.id.buttonCue2MonkV:
                 correctOptionChosen();
                 break;
-            case R.id.buttonRewardZero:
-                deliverReward(0);
-                break;
-            case R.id.buttonRewardOne:
-                deliverReward(1);
-                break;
-            case R.id.buttonRewardTwo:
-                deliverReward(2);
-                break;
-            case R.id.buttonRewardThree:
-                deliverReward(3);
-                break;
         }
     }
 
-
-    private static void PrepareForNewTrial(int delay) {
-        TaskManager.resetTrialData();
-
-        h1.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                randomiseCueLocations();
-                toggleBackground(backgroundRed, false);
-                toggleBackground(backgroundPink, false);
-                toggleGoCues(true);
-                textView.setText("Initiation Stage");
-            }
-        }, delay);
-    }
-
-    // Each monkey has it's own start cue. At start of each trial make sure the monkey pressed it's own cue using
-    // the facial recognition
-    private static void checkMonkeyPressedTheirCue(int monkId) {
-
-        // Take selfie
-        boolean photoTaken = TaskManager.checkMonkey(monkId);
-
-        if (MainMenu.useFaceRecognition) {
-
-            // Here's how to code task if using facial recognition
-            if (photoTaken) {
-
-                // If photo successfully taken then do nothing as wait for faceRecog to return prediction
-                // TaskManager.setFaceRecogPrediction will ultimately call TaskExample.resultMonkeyPressedTheirCue
-                logEvent("FaceRecog started..");
-
-            } else {
-
-                // Photo not taken as camera/faceRecog wasn't ready so reset go cues to let them press again
-                toggleGoCues(true);
-
-            }
-
-        } else {
-
-            // Here's how to code task if not using facial recognition
-
-            if (photoTaken) {
-                // If photo successfully taken then start the trial
-                startTrial(monkId);
-            } else {
-                // Photo not taken as camera wasn't ready so reset go cues to let them press again
-                toggleGoCues(true);
-            }
-
-        }
-
-    }
-
-    public void resultMonkeyPressedTheirCue(boolean correctCuePressed) {
-
-        // Have to put this on UI thread as it's called from faceRecog which is off main thread
-        activity.runOnUiThread(new Runnable() {
-            public void run()
-            {
-                if (correctCuePressed) {
-                    startTrial(TaskManager.faceRecogPrediction);
-                } else {
-                    MonkeyPressedWrongGoCue();
-                }
-            }
-        });
-    }
-
-    // Wrong Go cue selected so give short timeout
-    public static void MonkeyPressedWrongGoCue() {
-        logEvent("Monkey pressed wrong go cue..");
-        TaskManager.commitTrialData(ec_wrongGoCuePressed);
-        // Switch on red background
-        toggleBackground(backgroundRed, true);
-
-        // Switch off red background after certain delay
-        h2.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                toggleGoCues(true);
-                toggleBackground(backgroundRed, false);
-            }
-        }, timeoutWrongGoCuePressed);
-    }
-
-    public static void startTrial(int monkId) {
-        logEvent("Trial started for monkey "+monkId);
-
-        if(!timerRunning) {
-            timer();
-        }
-
-        toggleTaskCues(monkId, true);
-    }
 
     private void incorrectOptionChosen() {
-        logEvent("Error stage: Incorrect cue chosen");
-        toggleBackground(backgroundRed, true);
-        endOfTrial(ec_incorrectTrial, timeoutWrongCueChosen);
+        endOfTrial(ec_incorrectTrial);
     }
 
     private void correctOptionChosen() {
-        logEvent("Reward stage: Correct cue chosen");
-        toggleBackground(backgroundPink, true);
-        toggleButtonList(cues_Reward, true);
+        endOfTrial(ec_correctTrial);
     }
 
-    private void deliverReward(int juiceChoice) {
-        logEvent("Delivering "+rewardAmount+"ms reward on channel "+juiceChoice);
-        TaskManager.deliverReward(juiceChoice, rewardAmount);
-        endOfTrial(ec_correctTrial, rewardAmount + 500);
-    }
-
-    private static void endOfTrial(int outcome, int newTrialDelay) {
-        TaskManager.commitTrialData(outcome);
-
-        PrepareForNewTrial(newTrialDelay);
-    }
-
-    // This is just needed to show user on screen what is happening during the task
-    // Normally just use TaskManager.logEvent()
-    private static void logEvent(String log) {
-        TaskManager.logEvent(log);
-        textView.setText(log);
+    private static void endOfTrial(int outcome) {
+        // End trial and send outcome up to parent
     }
 
     private static void disableAllCues() {
-        toggleGoCues(false);
         toggleTaskCues(-1, false);  // monkId not needed when switching off
-        toggleButtonList(cues_Reward, false);
     }
 
-    // Lots of toggles for task objects
-    private static void toggleGoCues(boolean status) {
-        toggleButton(cueGo_O, status);
-        toggleButton(cueGo_V, status);
-    }
 
     private static void toggleButtonList(Button[] buttons, boolean status) {
         for (int i = 0; i < buttons.length; i++) {
@@ -414,15 +199,6 @@ public class TaskExample extends Fragment
         button.setClickable(status);
     }
 
-    private static void toggleBackground(View view, boolean status) {
-        if (status) {
-            view.setVisibility(View.VISIBLE);
-        } else {
-            view.setVisibility(View.INVISIBLE);
-        }
-        view.setEnabled(status);
-    }
-
     // Utility functions
     private static void randomiseNoReplacement(Button[] buttons) {
         int[] chosen = new int[maxCueLocations];
@@ -442,47 +218,9 @@ public class TaskExample extends Fragment
 
     private static void randomiseCueLocations() {
         // Place all trial objects in random locations
-        randomiseNoReplacement(cues_Reward);
         randomiseNoReplacement(cues_O);
         randomiseNoReplacement(cues_V);
     }
-
-    // Recursive function to track task time
-    private static void timer() {
-        h0.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                time += 1000;
-                if (time > maxTrialDuration) {
-                    disableAllCues();
-                    endOfTrial(ec_idletimeout, 0);
-
-                    //Decrease brightness while not in use
-                    TaskManager.setBrightness(50);
-
-                    time = 0;
-                    timerRunning = false;
-
-                } else {
-                    timer();
-                    timerRunning = true;
-                }
-            }
-        }, 1000);
-    }
-
-    private void cancelHandlers() {
-        h0.removeCallbacksAndMessages(null);
-        h1.removeCallbacksAndMessages(null);
-        h2.removeCallbacksAndMessages(null);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        cancelHandlers();
-    }
-
 
 
 }
