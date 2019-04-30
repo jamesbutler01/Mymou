@@ -65,7 +65,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
     // Timeouts for wrong choices by subject
     private static int timeoutWrongGoCuePressed = 300;  // Timeout for now pressing their own Go cue
-    private int timeoutWrongCueChosen = 1000;  // Timeout for getting the task wrong
+    private static int timeoutErrorTrial = 1000;  // Timeout for getting the task wrong
 
     // Timer to reset task if subject stops halfway through a trial
     private static int maxTrialDuration = 10000;  // Milliseconds until task timeouts and resets
@@ -710,13 +710,13 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
     private void incorrectOptionChosen() {
-        logEvent("Error stage: Incorrect cue chosen");
+        logEvent("Feedback: Error trial");
         toggleBackground(backgroundRed, true);
-        endOfTrial(ec_incorrectTrial, timeoutWrongCueChosen);
+        endOfTrial(ec_incorrectTrial, timeoutErrorTrial);
     }
 
     private void correctOptionChosen() {
-        logEvent("Reward stage: Correct cue chosen");
+        logEvent("Correct trial: Reward choice");
         toggleBackground(backgroundPink, true);
         toggleButtonList(cues_Reward, true);
     }
@@ -780,19 +780,16 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
     private static void timer() {
+        time += 1000;
+
         h0.postDelayed(new Runnable() {
             @Override
             public void run() {
-                time += 1000;
                 if (time > maxTrialDuration) {
-                    disableAllCues();
-                    endOfTrial(ec_idletimeout, 0);
-
-                    //Decrease brightness while not in use
-                    TaskManager.setBrightness(false);
-
                     time = 0;
                     timerRunning = false;
+
+                    idleTimeout();
 
                 } else {
                     timer();
@@ -802,6 +799,12 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         }, 1000);
     }
 
+    private static void idleTimeout() {
+        logEvent("Error stage: Idle timeout");
+        disableAllCues();
+        toggleBackground(backgroundRed, true);
+        endOfTrial(ec_idletimeout, timeoutErrorTrial);
+    }
 
     private static void PrepareForNewTrial(int delay) {
     TaskManager.resetTrialData();
