@@ -25,8 +25,8 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     public static String TAG = "TaskManager";
     private static TextView textView;
 
-    // Task you want to run goes here
     private static int taskId;  // Unique string prefixed to all log entries
+    public static String TAG_FRAGMENT = "taskfrag";
 
     public static int faceRecogPrediction = -1;
     private static int monkeyButtonPressed = -1;
@@ -197,12 +197,18 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
             timer();
         }
 
+        Bundle bundle = new Bundle();
+        bundle.putInt("currMonk", monkId);
         if (taskId == 0) {
-            TaskExample task = new TaskExample();
-            fragmentTransaction.add(R.id.container, task);
-        } else if (taskId == 0) {
-            fragmentTransaction.add(R.id.container, new TaskFromPaper());
+            TaskExample fragment = new TaskExample();
+            fragment.setArguments(bundle);
+            fragmentTransaction.add(R.id.container, fragment, TAG_FRAGMENT);
+        } else if (taskId == 1) {
+             TaskFromPaper fragment = new TaskFromPaper();
+            fragment.setArguments(bundle);
+            fragmentTransaction.add(R.id.container, fragment, TAG_FRAGMENT);
         }
+
         fragmentTransaction.commit();
 
     }
@@ -217,6 +223,8 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         CameraMain cM = new CameraMain();
         fragmentTransaction.add(R.id.container, cM);
         fragmentTransaction.commit();
+        fragmentTransaction = fragmentManager.beginTransaction();
+
     }
 
     @Override
@@ -687,6 +695,18 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
                 toggleBackground(backgroundRed, false);
             }
         }, timeoutWrongGoCuePressed);
+    }
+
+    public void trialEnded(int result) {
+        // Kill task
+        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag(TAG_FRAGMENT)).commit();
+        fragmentTransaction = fragmentManager.beginTransaction();
+
+        if (result == ec_correctTrial) {
+            correctOptionChosen();
+        } else if (result == ec_incorrectTrial) {
+            incorrectOptionChosen();
+        }
     }
 
     private void incorrectOptionChosen() {

@@ -1,5 +1,6 @@
 package com.example.jbutler.mymou;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +28,7 @@ public class TaskExample extends Fragment
 
          // Unique numbers assigned to each subject, used for facial recognition
     private static int monkO = 0, monkV = 1;
+    private static int currMonk;
 
     // Task objects
     private static Button[] cues_O = new Button[2];  // List of all trial objects for Subject O
@@ -43,9 +45,6 @@ public class TaskExample extends Fragment
     // Random number generator
     private static Random r = new Random();
 
-    // Static activity reference to refer to it in static contexts
-    private static Activity activity;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,8 +53,7 @@ public class TaskExample extends Fragment
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-
-        activity = this.getActivity();
+        currMonk = getArguments().getInt("currMonk");
 
         assignObjects();
 
@@ -65,7 +63,8 @@ public class TaskExample extends Fragment
 
         randomiseCueLocations();
 
-        disableAllCues();
+        toggleTaskCues(-1, false);
+        toggleTaskCues(currMonk, true);
 
     }
 
@@ -132,7 +131,7 @@ public class TaskExample extends Fragment
     public void onClick(View view) {
 
         // Always disable all cues after a press as monkeys love to bash repeatedly
-        disableAllCues();
+        toggleTaskCues(-1, false);  // monkId not needed when switching off
 
         // Now decide what to do based on what button pressed
         switch (view.getId()) {
@@ -160,14 +159,10 @@ public class TaskExample extends Fragment
         endOfTrial(ec_correctTrial);
     }
 
-    private static void endOfTrial(int outcome) {
+    private void endOfTrial(int outcome) {
         // End trial and send outcome up to parent
+        ((TaskManager) getActivity()).trialEnded(outcome);
     }
-
-    private static void disableAllCues() {
-        toggleTaskCues(-1, false);  // monkId not needed when switching off
-    }
-
 
     private static void toggleButtonList(Button[] buttons, boolean status) {
         for (int i = 0; i < buttons.length; i++) {
