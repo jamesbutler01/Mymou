@@ -133,6 +133,9 @@ public class TaskExample extends Fragment
         // Always disable all cues after a press as monkeys love to bash repeatedly
         toggleTaskCues(-1, false);  // monkId not needed when switching off
 
+         // Reset timer for idle timeout on each press
+         ((TaskManager) getActivity()).resetTimer();
+
         // Now decide what to do based on what button pressed
         switch (view.getId()) {
             case R.id.buttonCue1MonkO:

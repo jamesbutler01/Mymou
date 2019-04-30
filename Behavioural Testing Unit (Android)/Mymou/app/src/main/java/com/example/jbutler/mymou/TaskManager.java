@@ -598,7 +598,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         disableAllCues();
 
         // Reset task timer (used for idle timeout and calculating reaction times if desired)
-        time = 0;
+        resetTimer();
 
         // Make screen bright
         TaskManager.setBrightness(true);
@@ -775,6 +775,10 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
 
     // Recursive function to track task time
+    public void resetTimer() {
+        time = 0;
+    }
+
     private static void timer() {
         h0.postDelayed(new Runnable() {
             @Override
@@ -798,10 +802,11 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         }, 1000);
     }
 
-        private static void PrepareForNewTrial(int delay) {
-        TaskManager.resetTrialData();
 
-        h1.postDelayed(new Runnable() {
+    private static void PrepareForNewTrial(int delay) {
+    TaskManager.resetTrialData();
+
+    h1.postDelayed(new Runnable() {
             @Override
             public void run() {
                 randomiseCueLocations();

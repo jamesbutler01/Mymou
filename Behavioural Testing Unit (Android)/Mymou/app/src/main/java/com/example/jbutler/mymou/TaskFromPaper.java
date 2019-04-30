@@ -258,7 +258,10 @@ public class TaskFromPaper extends Fragment
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
+         // Reset timer for idle timeout on each press
+         ((TaskManager) getActivity()).resetTimer();
+
+         switch (view.getId()) {
             case R.id.imageButton0:
                 moveForwards(0);
                 break;
