@@ -10,7 +10,6 @@ import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.HandlerThread;
 import androidx.core.content.ContextCompat;
 import android.util.Log;
 import android.view.Display;
@@ -21,8 +20,6 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Random;
 
 // The task used in Butler & Kennerley (2018)
@@ -33,7 +30,6 @@ public class TaskFromPaper extends Fragment
 
     public ImageButton hideApplication;
 
-    private int maxTrialDuration = 30000;
     private int pathDistance = 2;
     private static Context mContext;
 
@@ -77,21 +73,16 @@ public class TaskFromPaper extends Fragment
     };
 
 
-    public boolean hideApplication(boolean bool) {return true; };
-    public void resultMonkeyPressedTheirCue(boolean correctCuePressed) {}
-
     private int numNeighbours = 4;
-    private int time = 0;
-    private int yCenter, xCenter, distanceFromCenter, rewardChoice=0;
+    private int yCenter, xCenter, distanceFromCenter;
     private int[] neighbours = new int[numNeighbours];
     private int[] xLocs = new int[8];
     private int[] yLocs = new int[8];
     private Random r = new Random();
-    private ImageButton ibRed, ibPink, ibGo, ibBrown, ibWait, ibTarget, ibCurrLoc;
+    private ImageButton bgGreen, ibWait, ibTarget, ibCurrLoc;
     private ImageButton pos0, pos1, pos2, pos3, pos4, pos5, pos6, pos7;
     private ImageButton[] imageButtons = new ImageButton[numNeighbours];
     private ProgressBar pb1;
-    public static boolean shutdown = false;
 
     Handler h0 = new Handler();
     Handler h1 = new Handler();
@@ -101,10 +92,6 @@ public class TaskFromPaper extends Fragment
     Handler h5 = new Handler();
     Handler h6 = new Handler();
     Handler h7 = new Handler();
-    Handler h8 = new Handler();
-    Handler h9 = new Handler();
-    private Handler backgroundLogHandler;
-    private HandlerThread backgroundLogThread;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -123,40 +110,40 @@ public class TaskFromPaper extends Fragment
 
         setPosLocations();
 
-        //Disable unused buttons
-        ibRed.setEnabled(false);
-        ibRed.setVisibility(View.INVISIBLE);
-        ibBrown.setEnabled(false);
-        ibBrown.setVisibility(View.INVISIBLE);
-        ibWait.setEnabled(false);
-        ibWait.setVisibility(View.INVISIBLE);
-        ibGo.setEnabled(true);
-        ibGo.setVisibility(View.VISIBLE);
-
-        TaskManager.setBrightness(true);
-
         numStimulus = imageList.length;
 
-        // Start async handler to handle data logging
-        backgroundLogThread = new HandlerThread("LogBackground");
-        backgroundLogThread.start();
-        backgroundLogHandler = new Handler(backgroundLogThread.getLooper());
+        chooseTargetLoc();
+        setStartingPosition();
+        setMaxProgress();
 
-        PrepareForNewTrial(0);
-        timer();
+        resetButtonPositionsAndBorders();
+        pb1.setProgress((pbLength - currentDistanceFromTarget) * pbScalar);
+        randomiseImageLocation();
+
+        switchOffChoiceButtons();
+
+        //Disable unused buttons
+        bgGreen.setEnabled(false);
+        bgGreen.setVisibility(View.INVISIBLE);
+        ibWait.setEnabled(false);
+        ibWait.setVisibility(View.INVISIBLE);
+
+        // Log starting parameters
+        logStep(5);
+
+        // Finally make task visual
+        ibTarget.setEnabled(true);
+        ibTarget.setVisibility(View.VISIBLE);
+        unfadeButtons(0);
 
     }
 
     private void assignObjects() {
         mContext = getActivity().getApplicationContext();
-        ibPink = (ImageButton) getView().findViewById(R.id.imageButtonPink);
-        ibRed = (ImageButton) getView().findViewById(R.id.imageButtonRed);
-        ibBrown = (ImageButton) getView().findViewById(R.id.imageButtonBrown);
-        ibGo = (ImageButton) getView().findViewById(R.id.imageButtonGo);
+        bgGreen = (ImageButton) getView().findViewById(R.id.imageButtonGreen);
         ibWait = (ImageButton) getView().findViewById(R.id.imageButtonWaitCue);
         ibTarget = (ImageButton) getView().findViewById(R.id.imageButtonTarget);
         ibCurrLoc = (ImageButton) getView().findViewById(R.id.imageButtonCurrLoc);
-        hideApplication = (ImageButton) getView().findViewById(R.id.imageButtonBigBlack);
         pb1 = (ProgressBar) getView().findViewById(R.id.boosterBar);
         imageButtons[0] = (ImageButton) getView().findViewById(R.id.imageButton0);
         imageButtons[1] = (ImageButton) getView().findViewById(R.id.imageButton1);
@@ -209,8 +196,6 @@ public class TaskFromPaper extends Fragment
         ibCurrLoc.setY(yCenter);
         ibCurrLoc.setX(xCenter);
         ibTarget.setX(xCenter);
-        ibGo.setX(xCenter);
-        ibGo.setY(yCenter);
         ibWait.setX(screenWidth / 2 - 50 - distanceFromCenter);
     }
 
@@ -253,18 +238,14 @@ public class TaskFromPaper extends Fragment
         for (int i = 0; i < numNeighbours; i++) {
             imageButtons[i].setOnClickListener(this);
         }
-        ibGo.setOnClickListener(this);
         ibWait.setOnClickListener(this);
     }
 
-    static int rewardAmount = 1000;
     int currentPos = -1;
     int previousPos = -1;
-    int timeout = 1000;
     int choiceDelay = 400;
     boolean choicePeriod = false;
     int animationDuration = 450;
-    int trialCounter = 0;
     int[] chosenXlocs = {-1, -1, -1, -1};
     int[] chosenYlocs = {-1, -1, -1, -1};
     int targetPos;
@@ -272,18 +253,12 @@ public class TaskFromPaper extends Fragment
     int pbScalar = 1000;
     int pbLength;
     int currentDistanceFromTarget;
-    int numSteps;
+    int numSteps = 0;
     int startingLoc;
-    boolean timerRunning;
 
     @Override
     public void onClick(View view) {
-        time = 0;
-        TaskManager.setBrightness(true);
         switch (view.getId()) {
-            case R.id.imageButtonGo:
-                startTrial();
-                break;
             case R.id.imageButton0:
                 moveForwards(0);
                 break;
@@ -297,24 +272,6 @@ public class TaskFromPaper extends Fragment
                 moveForwards(3);
                 break;
         }
-    }
-
-    private void startTrial() {
-
-        TaskManager.takePhoto();
-
-        logStep(5);
-
-        if(!timerRunning) {
-            timer();
-        }
-
-        ibGo.setEnabled(false);
-        ibGo.setVisibility(View.INVISIBLE);
-        //Task visible
-        ibTarget.setEnabled(true);
-        ibTarget.setVisibility(View.VISIBLE);
-        unfadeButtons(0);
     }
 
     private void moveForwards(final int chosenOne) {
@@ -345,25 +302,27 @@ public class TaskFromPaper extends Fragment
                 updateProgressBar(animationDuration + 400);
                 arrivedAtWrongTarget();
             }
-        } else {
-            choicePeriod = false;
-            bashingTimeout();
         }
+    }
+
+    private void logStep(int result) {
+        String msg =
+                numSteps + "," + result + "," + currentDistanceFromTarget + "," +
+                targetPos + "," + currentPos + "," + startingLoc + "," + pathDistance;
+         ((TaskManager) getActivity()).logEvent(msg);
     }
 
     private void arrivedAtWrongTarget() {
         //Highlight the correct two
         textView.setText("Feedback");
-        h1.postDelayed(new Runnable() {
+        h0.postDelayed(new Runnable() {
             @Override
             public void run() {
                 ibCurrLoc.setVisibility(View.VISIBLE);
                 ibCurrLoc.setEnabled(true);
                 ibCurrLoc.setBackground(ContextCompat.getDrawable(mContext, R.drawable.outline_thick));
                 ibTarget.setBackground(ContextCompat.getDrawable(mContext, R.drawable.outline_thick));
-                ibRed.setVisibility(View.VISIBLE);
-                ibRed.setEnabled(true);
-                endOfTrial(0, timeout);
+                endOfTrial(0);
             }
         }, (animationDuration));
     }
@@ -385,24 +344,16 @@ public class TaskFromPaper extends Fragment
                 ibCurrLoc.setEnabled(true);
                 ibCurrLoc.setBackground(ContextCompat.getDrawable(mContext, R.drawable.double_border));
                 ibTarget.setBackground(ContextCompat.getDrawable(mContext, R.drawable.double_border));
-                ibPink.setEnabled(true);
-                ibPink.setVisibility(View.VISIBLE);
+                bgGreen.setEnabled(true);
+                bgGreen.setVisibility(View.VISIBLE);
 
                 ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
                 toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
 
-                TaskManager.deliverReward(rewardChoice, rewardAmount);
-                endOfTrial(1, rewardAmount + 1000);
+                endOfTrial(1);
             }
         }, (animationDuration*2 + 400));
 
-        Handler handlerOne = new Handler();
-        handlerOne.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                textView.setText("Reward");
-            }
-        }, animationDuration*2 + 400);
     }
 
 
@@ -416,7 +367,7 @@ public class TaskFromPaper extends Fragment
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.play(mover);
         animatorSet.start();
-        h9.postDelayed(new Runnable() {
+        h7.postDelayed(new Runnable() {
             @Override
             public void run() {
                 ibCurrLoc.setBackground(ContextCompat.getDrawable(mContext, R.drawable.outline_thick));
@@ -515,52 +466,6 @@ public class TaskFromPaper extends Fragment
 
     }
 
-    private void PrepareForNewTrial(int delay) {
-
-        //New trial data
-        TaskManager.resetTrialData();
-
-        h5.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                if (TaskManager.dateHasChanged()) {
-                    trialCounter = 0;
-                } else {
-                    trialCounter++;
-                }
-
-                numSteps = 0;
-
-                chooseTargetLoc();
-                setStartingPosition();
-                setMaxProgress();
-
-                resetButtonPositionsAndBorders();
-                pb1.setProgress((pbLength - currentDistanceFromTarget) * pbScalar);
-                randomiseImageLocation();
-
-                switchOffChoiceButtons();
-                ibGo.setEnabled(true);
-                ibGo.setVisibility(View.VISIBLE);
-
-                //Task visible
-                ibCurrLoc.setEnabled(false);
-                ibCurrLoc.setVisibility(View.INVISIBLE);
-                ibTarget.setEnabled(false);
-                ibTarget.setVisibility(View.INVISIBLE);
-                ibPink.setEnabled(false);
-                ibPink.setVisibility(View.INVISIBLE);
-                ibRed.setVisibility(View.INVISIBLE);
-                ibRed.setEnabled(false);
-                ibBrown.setEnabled(false);
-                ibBrown.setVisibility(View.INVISIBLE);
-
-                textView.setText("Initiation");
-
-            }
-        }, delay);
-    }
 
     private void switchOffChoiceButtons() {
         for(int i = 0; i < numNeighbours; i++) {
@@ -642,16 +547,9 @@ public class TaskFromPaper extends Fragment
         }
     }
 
-    private void bashingTimeout() {
-        setChoiceButtonsClickable(false);
-        cancelHandlers();
-        ibBrown.setEnabled(true);
-        ibBrown.setVisibility(View.VISIBLE);
-        endOfTrial(2, timeout);
-    }
 
     private void updateProgressBar(int delay) {
-        h8.postDelayed(new Runnable() {
+        h6.postDelayed(new Runnable() {
             @Override
             public void run() {
                 ProgressBarAnimation anim = new ProgressBarAnimation(pb1, pb1.getProgress(), (pbLength - currentDistanceFromTarget) * pbScalar);
@@ -661,35 +559,15 @@ public class TaskFromPaper extends Fragment
         }, delay);
     }
 
-    private void endOfTrial(int outcome, int newTrialDelay) {
-        logStep(outcome);
-
-        //Save trial
-        TaskManager.commitTrialData(outcome);
-
-        PrepareForNewTrial(newTrialDelay);
-    }
-
-    private void timer() {
-        Handler handlerOne = new Handler();
-        handlerOne.postDelayed(new Runnable() {
+    private void endOfTrial(int outcome) {
+       h5.postDelayed(new Runnable() {
             @Override
             public void run() {
-                time += 1000;
-                if (time > maxTrialDuration && !shutdown) {
-                    time = 0;
-                    endOfTrial(7, 0);
-                    timerRunning = false;
-
-                    //Decrease brightness while not in use
-                    TaskManager.setBrightness(false);
-                } else {
-                    timer();
-                    timerRunning = true;
-                }
+                ((TaskManager) getActivity()).trialEnded(outcome);
             }
         }, 1000);
     }
+
 
     private void cancelHandlers() {
         h0.removeCallbacksAndMessages(null);
@@ -700,20 +578,14 @@ public class TaskFromPaper extends Fragment
         h5.removeCallbacksAndMessages(null);
         h6.removeCallbacksAndMessages(null);
         h7.removeCallbacksAndMessages(null);
-        h8.removeCallbacksAndMessages(null);
     }
 
-
-    private void logStep(int result) {
-        String timestamp = new SimpleDateFormat("HHmmss_SSS").format(Calendar.getInstance().getTime());
-        String msg = "038," + TaskManager.photoTimestamp + "," + timestamp + "," + trialCounter + "," +
-                numSteps + "," + result + "," + currentDistanceFromTarget + "," +
-                targetPos + "," + currentPos + "," + startingLoc + "," + pathDistance + "," +
-                rewardAmount + "," + timeout;
-        TaskManager.logEvent(msg);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        cancelHandlers();
     }
 
-    public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
 
 
 

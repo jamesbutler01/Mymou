@@ -2,7 +2,8 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+ android:background="@android:color/transparent">
 
     <TextureView
         android:id="@+id/texture"
@@ -28,22 +29,13 @@
         android:layout_alignParentTop="true">
 
         <ImageButton
-            android:id="@+id/imageButtonPink"
+            android:id="@+id/imageButtonGreen"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
             android:src="@drawable/greensquare" />
-
-        <ImageButton
-            android:id="@+id/imageButtonRed"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/brownsquare" />
 
 
         <ImageButton
@@ -221,17 +213,6 @@
             />
 
         <ImageButton
-            android:id="@+id/imageButtonGo"
-            android:layout_width="350px"
-            android:layout_height="350px"
-            android:background="@android:color/transparent"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:translationX="300dp"
-            android:translationY="300dp"
-            android:src="@drawable/blacksquare" />
-
-        <ImageButton
             android:id="@+id/imageButtonWaitCue"
             android:layout_width="100px"
             android:layout_height="100px"
@@ -241,16 +222,6 @@
             android:translationX="300dp"
             android:translationY="300dp"
             android:src="@drawable/waitcue" />
-
-        <ImageButton
-            android:id="@+id/imageButtonBrown"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/bigbrownsquare" />
-
 
 
         <RelativeLayout
@@ -273,15 +244,6 @@
 
 
         </RelativeLayout>
-
-        <ImageButton
-            android:id="@+id/imageButtonBigBlack"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/bigblacksquare" />
 
     </FrameLayout>
 

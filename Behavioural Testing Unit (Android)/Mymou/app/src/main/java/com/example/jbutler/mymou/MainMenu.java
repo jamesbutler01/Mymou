@@ -33,7 +33,7 @@ public class MainMenu extends Activity  {
 
     public static FolderManager folderManager;
 
-    private static int taskSelected = 0;
+    private static int taskSelected = 1;
 
     //Permission variables
     private boolean permissions = false;
