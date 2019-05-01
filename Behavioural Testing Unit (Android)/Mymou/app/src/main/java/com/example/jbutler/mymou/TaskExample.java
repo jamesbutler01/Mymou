@@ -32,7 +32,7 @@ public class TaskExample extends Fragment
     private static int ec_incorrectTrial = 0;
 
     // Predetermined locations where cues can appear on screen, calculated by Utils.calculateCueLocations()
-    private static Point[] possible_locs;
+    private static Point[] possible_cue_locs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,7 +53,7 @@ public class TaskExample extends Fragment
         setOnClickListenerLoop(cues);
 
         // Randomise cue locations
-        Utils.randomlyPositionCues(cues, possible_locs);
+        Utils.randomlyPositionCues(cues, possible_cue_locs);
 
     }
 
@@ -66,7 +66,7 @@ public class TaskExample extends Fragment
         cues_all[1][0] = getView().findViewById(R.id.buttonCue1MonkV);
         cues_all[1][1] = getView().findViewById(R.id.buttonCue2MonkV);
 
-        possible_locs = new Utils().getPossibleCueLocs(getActivity());
+        possible_cue_locs = new Utils().getPossibleCueLocs(getActivity());
 
         // Textview for debug
         textView = getView().findViewById(R.id.tvLog);

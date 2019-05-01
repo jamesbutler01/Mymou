@@ -44,7 +44,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private static Activity activity;
 
         // Unique numbers assigned to each subject, used for facial recognition
-    private static int monkO = 0, monkV = 1;
+    private static int num_monkeys;
 
       // Aync handlers used to posting delayed task events
     private static Handler h0 = new Handler();  // Task trial_timer
@@ -52,7 +52,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private static Handler h2 = new Handler();  // Timeout go cues
 
     // Predetermined locations where cues can appear on screen, calculated by Utils.calculateCueLocations()
-    private static Point[] possible_locs;
+    private static Point[] possible_cue_locs;
 
       // Used to cover/disable task when required (e.g. no bluetooth connection)
     public static View hideApplicationView;
@@ -61,8 +61,8 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private static View backgroundRed, backgroundPink;
 
     // Timeouts for wrong choices by subject
-    private static int timeoutWrongGoCuePressed = 300;  // Timeout for now pressing their own Go cue
-    private static int timeoutErrorTrial = 1000;  // Timeout for getting the task wrong
+    private static int timeoutWrongGoCuePressed = 300;  // Timeout for not pressing their own Go cue
+    private static int timeoutErrorTrial = 1000;  // Timeout for error trial
 
     // Timer to reset task if subject stops halfway through a trial
     private static int maxTrialDuration = 10000;  // Milliseconds until task timeouts and resets
@@ -76,7 +76,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private static int ec_idletimeout = 3;
 
     // Task objects
-    private static Button cueGo_O, cueGo_V; // Go cues to start a trial
+    private static Button[] cues_Go; // Go cues to start a trial
     private static Button[] cues_Reward = new Button[4];  // Reward cues for the different reward options
 
      // Reward
@@ -315,6 +315,10 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
                 Log.d(TAG, "commitTrialData: " + s);
             }
         }
+
+        // And now clear the list ready for the next trial
+        trialData = new ArrayList<String>();
+
     }
 
     private void initialiseScreenSettings() {
@@ -419,10 +423,6 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         trialData.add(msg);
     }
 
-    public static void resetTrialData() {
-        trialData = new ArrayList<String>();
-    }
-
     // Takes selfie and checks to see if it matches with which monkey it should be
     public static boolean checkMonkey(int monkId) {
         if (MainMenu.useFaceRecognition && faceRecogRunning) {
@@ -511,25 +511,28 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
     private void assignObjects() {
+        // Global variables
+        activity = this;
+        mContext = getApplicationContext();
+        possible_cue_locs = new Utils().getPossibleCueLocs(this);
+        trialData = new ArrayList<String>();
+        fragmentManager = getFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        num_monkeys = Integer.valueOf(getString(R.string.num_monkeys));
+
+
         // Layout views
         backgroundRed = findViewById(R.id.backgroundred);
         backgroundPink = findViewById(R.id.backgroundpink);
         hideApplicationView = findViewById(R.id.foregroundblack);
-        cueGo_O = findViewById(R.id.buttonGoMonkO);
-        cueGo_V = findViewById(R.id.buttonGoMonkV);
+        cues_Go = new Button[num_monkeys];
+        cues_Go[0] = findViewById(R.id.buttonGoMonkZero);
+        cues_Go[1] = findViewById(R.id.buttonGoMonkOne);
         cues_Reward[0]  = findViewById(R.id.buttonRewardZero);
         cues_Reward[1]  = findViewById(R.id.buttonRewardOne);
         cues_Reward[2]  = findViewById(R.id.buttonRewardTwo);
         cues_Reward[3]  = findViewById(R.id.buttonRewardThree);
         textView = findViewById(R.id.tvLog);
-
-        // Global variables
-        possible_locs = new Utils().getPossibleCueLocs(this);
-        mContext = getApplicationContext();
-        activity = this;
-        fragmentManager = getFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-
     }
 
     private void setOnClickListenerLoop(Button[] buttons) {
@@ -540,8 +543,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
      private void setOnClickListeners() {
          setOnClickListenerLoop(cues_Reward);
-         cueGo_O.setOnClickListener(this);
-         cueGo_V.setOnClickListener(this);
+         setOnClickListenerLoop(cues_Go);
     }
 
 
@@ -559,11 +561,11 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
         // Now decide what to do based on what button pressed
         switch (view.getId()) {
-            case R.id.buttonGoMonkO:
-                checkMonkeyPressedTheirCue(monkO);
+            case R.id.buttonGoMonkZero:
+                checkMonkeyPressedTheirCue(0);
                 break;
-            case R.id.buttonGoMonkV:
-                checkMonkeyPressedTheirCue(monkV);
+            case R.id.buttonGoMonkOne:
+                checkMonkeyPressedTheirCue(1);
                 break;
             case R.id.buttonRewardZero:
                 deliverReward(0);
@@ -589,7 +591,6 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
         if (MainMenu.useFaceRecognition) {
 
-            // Here's how to code task if using facial recognition
             if (photoTaken) {
 
                 // If photo successfully taken then do nothing as wait for faceRecog to return prediction
@@ -599,20 +600,18 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
             } else {
 
                 // Photo not taken as camera/faceRecog wasn't ready so reset go cues to let them press again
-                toggleGoCues(true);
+                Utils.toggleCues(cues_Go, true);
 
             }
 
         } else {
-
-            // Here's how to code task if not using facial recognition
 
             if (photoTaken) {
                 // If photo successfully taken then start the trial
                 startTrial(monkId);
             } else {
                 // Photo not taken as camera wasn't ready so reset go cues to let them press again
-                toggleGoCues(true);
+                Utils.toggleCues(cues_Go, true);
             }
 
         }
@@ -645,7 +644,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         h2.postDelayed(new Runnable() {
             @Override
             public void run() {
-                toggleGoCues(true);
+                Utils.toggleCues(cues_Go, true);
                 toggleBackground(backgroundRed, false);
             }
         }, timeoutWrongGoCuePressed);
@@ -672,7 +671,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private void correctOptionChosen() {
         logEvent("Correct trial: Reward choice");
         toggleBackground(backgroundPink, true);
-        Utils.randomlyPositionCues(cues_Reward, possible_locs);
+        Utils.randomlyPositionCues(cues_Reward, possible_cue_locs);
         Utils.toggleCues(cues_Reward, true);
     }
 
@@ -691,22 +690,16 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
 
     private static void disableAllCues() {
-        toggleGoCues(false);
         Utils.toggleCues(cues_Reward, false);
-    }
-
-
-    private static void toggleGoCues(boolean status) {
-        Utils.toggleCue(cueGo_O, status);
-        Utils.toggleCue(cueGo_V, status);
+        Utils.toggleCues(cues_Go, false);
     }
 
     // Go cues are in static location to make it easier for monkeys to press their own cue
     private void positionGoCues() {
-        cueGo_O.setX(possible_locs[7].x);
-        cueGo_O.setY(possible_locs[7].y);
-        cueGo_V.setX(possible_locs[16].x);
-        cueGo_V.setY(possible_locs[16].y);
+        cues_Go[0].setX(possible_cue_locs[7].x);
+        cues_Go[0].setY(possible_cue_locs[7].y);
+        cues_Go[1].setX(possible_cue_locs[16].x);
+        cues_Go[1].setY(possible_cue_locs[16].y);
     }
 
     private static void toggleBackground(View view, boolean status) {
@@ -753,14 +746,12 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
     private static void PrepareForNewTrial(int delay) {
-    TaskManager.resetTrialData();
-
     h1.postDelayed(new Runnable() {
             @Override
             public void run() {
                 toggleBackground(backgroundRed, false);
                 toggleBackground(backgroundPink, false);
-                toggleGoCues(true);
+                Utils.toggleCues(cues_Go, true);
                 textView.setText("Initiation Stage");
             }
         }, delay);

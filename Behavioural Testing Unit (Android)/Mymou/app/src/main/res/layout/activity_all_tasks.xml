@@ -20,18 +20,18 @@
             android:background="@drawable/redrectangle"/>
 
     <Button
-            android:text="Monkey O\n Start"
+            android:text="Monkey 0\n Start"
             android:layout_width="175dp"
             android:layout_height="175dp"
             android:textSize="30sp"
-            android:id="@+id/buttonGoMonkO"/>
+            android:id="@+id/buttonGoMonkZero"/>
 
     <Button
-            android:text="Monkey V\n Start"
+            android:text="Monkey 1\n Start"
             android:layout_width="175dp"
             android:layout_height="175dp"
             android:textSize="30sp"
-            android:id="@+id/buttonGoMonkV"/>
+            android:id="@+id/buttonGoMonkOne"/>
 
  <Button
             android:text="Reward\nChoice #0"
