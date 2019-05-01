@@ -44,12 +44,23 @@ public class Utils {
 
     }
 
+    // Switches on a particular monkeys cues, and switches off other monkey's cues
+    public static void toggleMonkeyCues(int monkId, Button[][] all_cues) {
+        for (int i_monk = 0; i_monk < all_cues.length; i_monk++) {
+            toggleCues(all_cues[i_monk], false);
+        }
+        toggleCues(all_cues[monkId], true);
+    }
+
+    // Iterates through a list of cues enabling/disabling all in list
     public static void toggleCues(Button[] buttons, boolean status) {
         for (int i = 0; i < buttons.length; i++) {
+            Log.d(TAG, i+" asdf "+status);
             Utils.toggleCue(buttons[i], status);
         }
     }
 
+    // Fully enable/disable individual cue
     public static void toggleCue(Button button, boolean status) {
         if (status) {
             button.setVisibility(View.VISIBLE);

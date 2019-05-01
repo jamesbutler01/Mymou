@@ -210,6 +210,8 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         }
 
         fragmentTransaction.commit();
+        fragmentTransaction = fragmentManager.beginTransaction();
+
 
     }
 
@@ -704,15 +706,15 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
         if (result == ec_correctTrial) {
             correctOptionChosen();
-        } else if (result == ec_incorrectTrial) {
-            incorrectOptionChosen();
+        } else {
+            incorrectOptionChosen(result);
         }
     }
 
-    private void incorrectOptionChosen() {
+    private void incorrectOptionChosen(int result) {
         logEvent("Feedback: Error trial");
         toggleBackground(backgroundRed, true);
-        endOfTrial(ec_incorrectTrial, timeoutErrorTrial);
+        endOfTrial(result, timeoutErrorTrial);
     }
 
     private void correctOptionChosen() {
@@ -803,7 +805,8 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         logEvent("Error stage: Idle timeout");
         disableAllCues();
         toggleBackground(backgroundRed, true);
-        endOfTrial(ec_idletimeout, timeoutErrorTrial);
+        endOfTrial(ec_idletimeout, timeoutErrorTrial);  // TODO: Switch this to trialEnded (which is static)
+        //trialEnded(ec_idletimeout);
     }
 
     private static void PrepareForNewTrial(int delay) {

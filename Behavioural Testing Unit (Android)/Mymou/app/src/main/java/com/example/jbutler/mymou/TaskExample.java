@@ -19,15 +19,16 @@ public class TaskExample extends Fragment
     private static TextView textView;
     public static String TAG = "TaskExample";
 
-         // Unique numbers assigned to each subject, used for facial recognition
-    private static int monkO = 0, monkV = 1;
-    private static int currMonk;
+     // Identifier for which monkey is currently playing the task
+    private static int current_monkey;
 
     // Task objects
-    private static Button[] cues_O = new Button[2];  // List of all trial objects for Subject O
-    private static Button[] cues_V = new Button[2];  // List of all trial objects for Subject V
+    private static int num_cues = 2;
+    private static Button[] cues = new Button[num_cues];  // List of all trial objects for an individual monkey
+    private static Button[][] cues_all = {new Button[num_cues], new Button[num_cues]};  // All cues across all monkeys
 
-    private static int ec_correctTrial = 1;
+    // Event codes for trials
+    private static int ec_correctTrial = 1;  // TODO: Move these to resources xml file
     private static int ec_incorrectTrial = 0;
 
     // Predetermined locations where cues can appear on screen, calculated by calculateCueLocations()
@@ -42,25 +43,31 @@ public class TaskExample extends Fragment
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
 
-        currMonk = getArguments().getInt("currMonk");
-
+        // Instantiate task objects
         assignObjects();
 
-        setOnClickListeners();
+        // Load cues for specific monkey, disable cues for other monkeys
+        current_monkey = getArguments().getInt("current_monkey");
+        Utils.toggleMonkeyCues(current_monkey, cues_all);
+        cues = cues_all[current_monkey];
+        setOnClickListenerLoop(cues);
 
+        // Randomise cue locations
         locs = new Utils().getPossibleCueLocs(getActivity());
-
-        randomiseCueLocations();
-
-        toggleTaskCues(currMonk, true);
+        Utils.randomlyPositionCues(cues, locs);
 
     }
 
     private void assignObjects() {
-        cues_O[0] = getView().findViewById(R.id.buttonCue1MonkO);
-        cues_O[1] = getView().findViewById(R.id.buttonCue2MonkO);
-        cues_V[0] = getView().findViewById(R.id.buttonCue1MonkV);
-        cues_V[1] = getView().findViewById(R.id.buttonCue2MonkV);
+        // Monkey 0 cues
+        cues_all[0][0] = getView().findViewById(R.id.buttonCue1MonkO);
+        cues_all[0][1] = getView().findViewById(R.id.buttonCue2MonkO);
+
+        // Monkey 1's cues
+        cues_all[1][0] = getView().findViewById(R.id.buttonCue1MonkV);
+        cues_all[1][1] = getView().findViewById(R.id.buttonCue2MonkV);
+
+        // Textview for debug
         textView = getView().findViewById(R.id.tvLog);
     }
 
@@ -71,17 +78,11 @@ public class TaskExample extends Fragment
         }
     }
 
-     private void setOnClickListeners() {
-         setOnClickListenerLoop(cues_O);
-         setOnClickListenerLoop(cues_V);
-    }
-
-
     @Override
     public void onClick(View view) {
 
         // Always disable all cues after a press as monkeys love to bash repeatedly
-        toggleTaskCues(-1, false);  // monkId not needed when switching off
+        Utils.toggleCues(cues, false);
 
          // Reset timer for idle timeout on each press
          ((TaskManager) getActivity()).resetTimer();
@@ -89,12 +90,15 @@ public class TaskExample extends Fragment
         // Now decide what to do based on what button pressed
         boolean successfulTrial = false;
         switch (view.getId()) {
+            // If they pressed the correct cue, then set the bool to true
             case R.id.buttonCue1MonkO:
                 successfulTrial = true;
+                break;
             case R.id.buttonCue2MonkV:
                 successfulTrial = true;
-            endOfTrial(successfulTrial);
+                break;
         }
+        endOfTrial(successfulTrial);
     }
 
     private void endOfTrial(boolean successfulTrial) {
@@ -107,29 +111,5 @@ public class TaskExample extends Fragment
         // Send outcome up to parent
         ((TaskManager) getActivity()).trialEnded(outcome);
     }
-
-    private static void toggleTaskCues(int monkId, boolean status) {
-        // Switches on a particular monkeys cues, or switches off all cues
-        if (status) {
-            if (monkId == monkO) {
-                Utils.toggleCues(cues_O, status);
-                Utils.toggleCues(cues_V, !status);
-            } else {
-                Utils.toggleCues(cues_V, status);
-                Utils.toggleCues(cues_O, !status);
-            }
-        } else {
-            // If switching off, just always switch off all cues
-            Utils.toggleCues(cues_O, status);
-            Utils.toggleCues(cues_V, status);
-        }
-    }
-
-    private static void randomiseCueLocations() {
-        // Place all trial objects in random locations
-        Utils.randomlyPositionCues(cues_O, locs);
-        Utils.randomlyPositionCues(cues_V, locs);
-    }
-
 
 }

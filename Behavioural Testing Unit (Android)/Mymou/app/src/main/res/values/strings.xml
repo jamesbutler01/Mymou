@@ -12,6 +12,9 @@
     <string name="chanThreeOn">7</string>
     <string name="chanThreeOff">8</string>
 
+    <string name="num_monkeys">2</string>
+
+
     <string-array name="available_tasks">
         <item>Example task</item>
         <item>Task from Butler, Kennerley (2018)</item>
