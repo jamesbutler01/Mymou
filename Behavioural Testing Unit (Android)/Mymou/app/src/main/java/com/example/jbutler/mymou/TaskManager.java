@@ -52,10 +52,8 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private static Handler h1 = new Handler();  // Prepare for new trial
     private static Handler h2 = new Handler();  // Timeout go cues
 
-       // Predetermined locations where cues can appear on screen, calculated by calculateCueLocations()
-    private static int maxCueLocations = 8;  // Number of possible locations that cues can appear in
-    private static int[] xLocs = new int[maxCueLocations];
-    private static int[] yLocs = new int[maxCueLocations];
+    // Predetermined locations where cues can appear on screen, calculated by Utils.calculateCueLocations()
+    private static Point[] possible_locs;
 
       // Used to cover/disable task when required (e.g. no bluetooth connection)
     public static View hideApplicationView;
@@ -103,9 +101,8 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         setContentView(R.layout.activity_all_tasks);
 
         assignObjects();
+        positionGoCues();
         setOnClickListeners();
-        calculateCueLocations();
-        randomiseCueLocations();
         disableAllCues();
 
         initaliseRewardSystem();
@@ -148,8 +145,6 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
 
         setBrightness(true);
-
-
 
         PrepareForNewTrial(0);
 
@@ -520,8 +515,6 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         return false;
     }
 
-
-
     private void assignObjects() {
         backgroundRed = findViewById(R.id.backgroundred);
         backgroundPink = findViewById(R.id.backgroundpink);
@@ -532,59 +525,17 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         cues_Reward[1]  = findViewById(R.id.buttonRewardOne);
         cues_Reward[2]  = findViewById(R.id.buttonRewardTwo);
         cues_Reward[3]  = findViewById(R.id.buttonRewardThree);
+
+        possible_locs = new Utils().getPossibleCueLocs(this);
+
         textView = findViewById(R.id.tvLog);
     }
-
-
-    // Make a predetermined list of the locations on the screen where cues can be placed
-    private void calculateCueLocations() {
-        int imageWidths = 175 + 175/2;
-        int distanceFromCenter = imageWidths + 30; // Buffer between different task objects
-
-        // Find centre of screen in pixels
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int screenWidth = size.x;
-        int xCenter = screenWidth / 2;
-        xCenter -= imageWidths / 2;
-        int screenHeight = size.y;
-        int yCenter = screenHeight / 2;;
-
-        // Y locations
-        yLocs[0] = yCenter - distanceFromCenter;
-        yLocs[1] = yCenter;
-        yLocs[2] = yCenter + distanceFromCenter;
-        yLocs[3] = yCenter;
-        yLocs[4] = yCenter + distanceFromCenter;
-        yLocs[5] = yCenter - distanceFromCenter;
-        yLocs[6] = yCenter + distanceFromCenter;
-        yLocs[7] = yCenter - distanceFromCenter;
-
-        // X locations
-        xLocs[0] = xCenter;
-        xLocs[1] = xCenter - distanceFromCenter;
-        xLocs[2] = xCenter;
-        xLocs[3] = xCenter + distanceFromCenter;
-        xLocs[4] = xCenter - distanceFromCenter;
-        xLocs[5] = xCenter - distanceFromCenter;
-        xLocs[6] = xCenter + distanceFromCenter;
-        xLocs[7] = xCenter + distanceFromCenter;
-
-        // Go cues are static location so place them now
-        cueGo_O.setX(xLocs[1]);
-        cueGo_O.setY(yLocs[1]);
-        cueGo_V.setX(xLocs[3]);
-        cueGo_V.setY(yLocs[3]);
-    }
-
 
     private void setOnClickListenerLoop(Button[] buttons) {
         for (int i = 0; i < buttons.length; i++) {
             buttons[i].setOnClickListener(this);
         }
     }
-
 
      private void setOnClickListeners() {
          setOnClickListenerLoop(cues_Reward);
@@ -720,7 +671,8 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private void correctOptionChosen() {
         logEvent("Correct trial: Reward choice");
         toggleBackground(backgroundPink, true);
-        toggleButtonList(cues_Reward, true);
+        Utils.randomlyPositionCues(cues_Reward, possible_locs);
+        Utils.toggleCues(cues_Reward, true);
     }
 
     private void deliverReward(int juiceChoice) {
@@ -739,31 +691,21 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
     private static void disableAllCues() {
         toggleGoCues(false);
-        toggleButtonList(cues_Reward, false);
+        Utils.toggleCues(cues_Reward, false);
     }
 
 
-    // Lots of toggles for task objects
     private static void toggleGoCues(boolean status) {
-        toggleButton(cueGo_O, status);
-        toggleButton(cueGo_V, status);
+        Utils.toggleCue(cueGo_O, status);
+        Utils.toggleCue(cueGo_V, status);
     }
 
-
-    private static void toggleButtonList(Button[] buttons, boolean status) {
-        for (int i = 0; i < buttons.length; i++) {
-            toggleButton(buttons[i], status);
-        }
-    }
-
-    private static void toggleButton(Button button, boolean status) {
-        if (status) {
-            button.setVisibility(View.VISIBLE);
-        } else {
-            button.setVisibility(View.INVISIBLE);
-        }
-        button.setEnabled(status);
-        button.setClickable(status);
+    // Go cues are in static location to make it easier for monkeys to press their own cue
+    private void positionGoCues() {
+        cueGo_O.setX(possible_locs[7].x);
+        cueGo_O.setY(possible_locs[7].y);
+        cueGo_V.setX(possible_locs[16].x);
+        cueGo_V.setY(possible_locs[16].y);
     }
 
     private static void toggleBackground(View view, boolean status) {
@@ -815,7 +757,6 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     h1.postDelayed(new Runnable() {
             @Override
             public void run() {
-                randomiseCueLocations();
                 toggleBackground(backgroundRed, false);
                 toggleBackground(backgroundPink, false);
                 toggleGoCues(true);
@@ -824,33 +765,10 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         }, delay);
     }
 
-
     private void cancelHandlers() {
         h0.removeCallbacksAndMessages(null);
         h1.removeCallbacksAndMessages(null);
         h2.removeCallbacksAndMessages(null);
-    }
-
-    private static void randomiseCueLocations() {
-    // Place all trial objects in random locations
-        randomiseNoReplacement(cues_Reward);
-    }
-
-        // Utility functions
-    private static void randomiseNoReplacement(Button[] buttons) {
-        int[] chosen = new int[maxCueLocations];
-        for (int i = 0; i < maxCueLocations; i++) {
-            chosen[i] = 0;
-        }
-        int choice = r.nextInt(maxCueLocations);
-        for (int i = 0; i < buttons.length; i++) {
-            while (chosen[choice] == 1) {
-                choice = r.nextInt(maxCueLocations);
-            }
-            buttons[i].setX(xLocs[choice]);
-            buttons[i].setY(yLocs[choice]);
-            chosen[choice] = 1;
-        }
     }
 
 

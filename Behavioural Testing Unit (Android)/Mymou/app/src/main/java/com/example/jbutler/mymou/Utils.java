@@ -55,7 +55,6 @@ public class Utils {
     // Iterates through a list of cues enabling/disabling all in list
     public static void toggleCues(Button[] buttons, boolean status) {
         for (int i = 0; i < buttons.length; i++) {
-            Log.d(TAG, i+" asdf "+status);
             Utils.toggleCue(buttons[i], status);
         }
     }
