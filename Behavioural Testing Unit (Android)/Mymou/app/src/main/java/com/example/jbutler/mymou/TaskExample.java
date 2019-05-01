@@ -1,11 +1,8 @@
 package com.example.jbutler.mymou;
-import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
-import android.view.Display;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,9 +35,7 @@ public class TaskExample extends Fragment
     private static int ec_incorrectTrial = 0;
 
     // Predetermined locations where cues can appear on screen, calculated by calculateCueLocations()
-    private static int maxCueLocations = 8;  // Number of possible locations that cues can appear in
-    private static int[] xLocs = new int[maxCueLocations];
-    private static int[] yLocs = new int[maxCueLocations];
+    private static Point[] locs;
 
     // Random number generator
     private static Random r = new Random();
@@ -59,49 +54,13 @@ public class TaskExample extends Fragment
 
         setOnClickListeners();
 
-        calculateCueLocations();
+        locs = new Utils().getPossibleCueLocs(getActivity());
 
         randomiseCueLocations();
 
         toggleTaskCues(-1, false);
         toggleTaskCues(currMonk, true);
 
-    }
-
-     // Make a predetermined list of the locations on the screen where cues can be placed
-    private void calculateCueLocations() {
-        int imageWidths = 175 + 175/2;
-        int distanceFromCenter = imageWidths + 30; // Buffer between different task objects
-
-        // Find centre of screen in pixels
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int screenWidth = size.x;
-        int xCenter = screenWidth / 2;
-        xCenter -= imageWidths / 2;
-        int screenHeight = size.y;
-        int yCenter = screenHeight / 2;;
-
-        // Y locations
-        yLocs[0] = yCenter - distanceFromCenter;
-        yLocs[1] = yCenter;
-        yLocs[2] = yCenter + distanceFromCenter;
-        yLocs[3] = yCenter;
-        yLocs[4] = yCenter + distanceFromCenter;
-        yLocs[5] = yCenter - distanceFromCenter;
-        yLocs[6] = yCenter + distanceFromCenter;
-        yLocs[7] = yCenter - distanceFromCenter;
-
-        // X locations
-        xLocs[0] = xCenter;
-        xLocs[1] = xCenter - distanceFromCenter;
-        xLocs[2] = xCenter;
-        xLocs[3] = xCenter + distanceFromCenter;
-        xLocs[4] = xCenter - distanceFromCenter;
-        xLocs[5] = xCenter - distanceFromCenter;
-        xLocs[6] = xCenter + distanceFromCenter;
-        xLocs[7] = xCenter + distanceFromCenter;
     }
 
 
@@ -112,7 +71,6 @@ public class TaskExample extends Fragment
         cues_V[1] = getView().findViewById(R.id.buttonCue2MonkV);
         textView = getView().findViewById(R.id.tvLog);
     }
-
 
 
     private void setOnClickListenerLoop(Button[] buttons) {
@@ -199,6 +157,7 @@ public class TaskExample extends Fragment
 
     // Utility functions
     private static void randomiseNoReplacement(Button[] buttons) {
+        int maxCueLocations = locs.length;
         int[] chosen = new int[maxCueLocations];
         for (int i = 0; i < maxCueLocations; i++) {
             chosen[i] = 0;
@@ -208,8 +167,8 @@ public class TaskExample extends Fragment
             while (chosen[choice] == 1) {
                 choice = r.nextInt(maxCueLocations);
             }
-            buttons[i].setX(xLocs[choice]);
-            buttons[i].setY(yLocs[choice]);
+            buttons[i].setX(locs[choice].x);
+            buttons[i].setY(locs[choice].y);
             chosen[choice] = 1;
         }
     }
