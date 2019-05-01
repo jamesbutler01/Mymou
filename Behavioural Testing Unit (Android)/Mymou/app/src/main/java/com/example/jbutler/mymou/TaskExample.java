@@ -1,16 +1,12 @@
 package com.example.jbutler.mymou;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.app.Fragment;
-
-import java.util.Random;
 
 // A basic object discrimination task showcasing the main features of the Mymou system:
 // Uses facial recognition to deliver separate tasks to two different subjects
@@ -37,9 +33,6 @@ public class TaskExample extends Fragment
     // Predetermined locations where cues can appear on screen, calculated by calculateCueLocations()
     private static Point[] locs;
 
-    // Random number generator
-    private static Random r = new Random();
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,6 +41,7 @@ public class TaskExample extends Fragment
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
+
         currMonk = getArguments().getInt("currMonk");
 
         assignObjects();
@@ -58,11 +52,9 @@ public class TaskExample extends Fragment
 
         randomiseCueLocations();
 
-        toggleTaskCues(-1, false);
         toggleTaskCues(currMonk, true);
 
     }
-
 
     private void assignObjects() {
         cues_O[0] = getView().findViewById(R.id.buttonCue1MonkO);
@@ -95,88 +87,48 @@ public class TaskExample extends Fragment
          ((TaskManager) getActivity()).resetTimer();
 
         // Now decide what to do based on what button pressed
+        boolean successfulTrial = false;
         switch (view.getId()) {
             case R.id.buttonCue1MonkO:
-                correctOptionChosen();
-                break;
-            case R.id.buttonCue1MonkV:
-                incorrectOptionChosen();
-                break;
-            case R.id.buttonCue2MonkO:
-                incorrectOptionChosen();
-                break;
+                successfulTrial = true;
             case R.id.buttonCue2MonkV:
-                correctOptionChosen();
-                break;
+                successfulTrial = true;
+            endOfTrial(successfulTrial);
         }
     }
 
-
-    private void incorrectOptionChosen() {
-        endOfTrial(ec_incorrectTrial);
-    }
-
-    private void correctOptionChosen() {
-        endOfTrial(ec_correctTrial);
-    }
-
-    private void endOfTrial(int outcome) {
-        // End trial and send outcome up to parent
+    private void endOfTrial(boolean successfulTrial) {
+        int outcome;
+        if (successfulTrial) {
+            outcome = ec_correctTrial;
+        } else {
+            outcome = ec_incorrectTrial;
+        }
+        // Send outcome up to parent
         ((TaskManager) getActivity()).trialEnded(outcome);
     }
 
-    private static void toggleButtonList(Button[] buttons, boolean status) {
-        for (int i = 0; i < buttons.length; i++) {
-            toggleButton(buttons[i], status);
-        }
-    }
-
     private static void toggleTaskCues(int monkId, boolean status) {
+        // Switches on a particular monkeys cues, or switches off all cues
         if (status) {
             if (monkId == monkO) {
-                toggleButtonList(cues_O, status);
+                Utils.toggleCues(cues_O, status);
+                Utils.toggleCues(cues_V, !status);
             } else {
-                toggleButtonList(cues_V, status);
+                Utils.toggleCues(cues_V, status);
+                Utils.toggleCues(cues_O, !status);
             }
         } else {
             // If switching off, just always switch off all cues
-            toggleButtonList(cues_O, status);
-            toggleButtonList(cues_V, status);
-        }
-    }
-
-    private static void toggleButton(Button button, boolean status) {
-        if (status) {
-            button.setVisibility(View.VISIBLE);
-        } else {
-            button.setVisibility(View.INVISIBLE);
-        }
-        button.setEnabled(status);
-        button.setClickable(status);
-    }
-
-    // Utility functions
-    private static void randomiseNoReplacement(Button[] buttons) {
-        int maxCueLocations = locs.length;
-        int[] chosen = new int[maxCueLocations];
-        for (int i = 0; i < maxCueLocations; i++) {
-            chosen[i] = 0;
-        }
-        int choice = r.nextInt(maxCueLocations);
-        for (int i = 0; i < buttons.length; i++) {
-            while (chosen[choice] == 1) {
-                choice = r.nextInt(maxCueLocations);
-            }
-            buttons[i].setX(locs[choice].x);
-            buttons[i].setY(locs[choice].y);
-            chosen[choice] = 1;
+            Utils.toggleCues(cues_O, status);
+            Utils.toggleCues(cues_V, status);
         }
     }
 
     private static void randomiseCueLocations() {
         // Place all trial objects in random locations
-        randomiseNoReplacement(cues_O);
-        randomiseNoReplacement(cues_V);
+        Utils.randomlyPositionCues(cues_O, locs);
+        Utils.randomlyPositionCues(cues_V, locs);
     }
 
 

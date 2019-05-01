@@ -6,6 +6,10 @@ import android.graphics.Point;
 import android.util.Log;
 import android.util.Pair;
 import android.view.Display;
+import android.view.View;
+import android.widget.Button;
+
+import java.util.Random;
 
 public class Utils {
        // Debug
@@ -38,6 +42,41 @@ public class Utils {
 
         return locs;
 
+    }
+
+    public static void toggleCues(Button[] buttons, boolean status) {
+        for (int i = 0; i < buttons.length; i++) {
+            Utils.toggleCue(buttons[i], status);
+        }
+    }
+
+    public static void toggleCue(Button button, boolean status) {
+        if (status) {
+            button.setVisibility(View.VISIBLE);
+        } else {
+            button.setVisibility(View.INVISIBLE);
+        }
+        button.setEnabled(status);
+        button.setClickable(status);
+    }
+
+    public static void randomlyPositionCues(View[] cues, Point[] locs) {
+        // Make zero array tracking which locations have already been used
+        int maxCueLocations = locs.length;
+        int[] chosen = new int[maxCueLocations];
+
+        Random r = new Random();
+
+        // Loop through and place each cue
+        int choice = r.nextInt(maxCueLocations);
+        for (int i = 0; i < cues.length; i++) {
+            while (chosen[choice] == 1) {
+                choice = r.nextInt(maxCueLocations);
+            }
+            cues[i].setX(locs[choice].x);
+            cues[i].setY(locs[choice].y);
+            chosen[choice] = 1;
+        }
     }
 
     private static int[] calculateLocs(int screenLength, int totalImageSize) {
