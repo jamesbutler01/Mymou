@@ -1,10 +1,8 @@
 package com.example.jbutler.mymou;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Point;
 import android.util.Log;
-import android.util.Pair;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +13,7 @@ public class Utils {
        // Debug
     public static String TAG = "MymouUtils";
 
-    // Make a predetermined list of the locations on the screen where cues can be placed
+    // Make a list of the possible locations on the screen where cues can be placed
     public Point[] getPossibleCueLocs(Activity activity) {
         int imageWidths = 175 + 175/2;
         int border = 30;  // Spacing between different task objects
@@ -28,9 +26,11 @@ public class Utils {
         int screenWidth = size.x;
         int screenHeight = size.y;
 
-        // Find how many images will fill on the screen
+        // Find possible locs along each dimension
         int[] xlocs = calculateLocs(screenWidth, totalImageSize);
         int[] ylocs = calculateLocs(screenHeight, totalImageSize);
+
+        // Populate 1D output array with all possible locations
         Point[] locs = new Point[xlocs.length * ylocs.length];
         int i_loc = 0;
         for (int i_x = 0; i_x < xlocs.length; i_x++) {

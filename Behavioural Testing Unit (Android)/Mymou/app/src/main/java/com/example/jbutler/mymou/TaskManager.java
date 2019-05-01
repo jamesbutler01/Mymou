@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Random;
 
 public class TaskManager extends Activity implements Thread.UncaughtExceptionHandler, View.OnClickListener {
     // Debug
@@ -48,7 +47,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private static int monkO = 0, monkV = 1;
 
       // Aync handlers used to posting delayed task events
-    private static Handler h0 = new Handler();  // Task timer
+    private static Handler h0 = new Handler();  // Task trial_timer
     private static Handler h1 = new Handler();  // Prepare for new trial
     private static Handler h2 = new Handler();  // Timeout go cues
 
@@ -68,7 +67,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     // Timer to reset task if subject stops halfway through a trial
     private static int maxTrialDuration = 10000;  // Milliseconds until task timeouts and resets
     private static int time = 0;  // Time from last press - used for idle timeout if it reaches maxTrialDuration
-    private static boolean timerRunning;  // Signals if timer currently active
+    private static boolean timerRunning;  // Signals if trial_timer currently active
 
       // Event codes for data logging
     private static int ec_correctTrial = 1;
@@ -86,17 +85,9 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     // Boolean to signal if task should be active or not (e.g. overnight it is set to true)
     public static boolean shutdown = false;
 
-    // Random number generator
-    private static Random r = new Random();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mContext = getApplicationContext();
-        activity = this;
-        fragmentManager = getFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
 
         setContentView(R.layout.activity_all_tasks);
 
@@ -154,7 +145,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         Intent intent = getIntent();
         taskId = intent.getIntExtra("tasktoload", -1);
         if (taskId == -1) {
-            new Exception("Invalid task specified");
+            new Exception("No task specified");
         }
 
     }
@@ -189,7 +180,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         logEvent("Trial started for monkey "+monkId);
 
         if(!timerRunning) {
-            timer();
+            trial_timer();
         }
 
         Bundle bundle = new Bundle();
@@ -203,11 +194,14 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
             fragment.setArguments(bundle);
             fragmentTransaction.add(R.id.container, fragment, TAG_FRAGMENT);
         }
+        commitFragment();
 
+    }
+
+    // Automatically restart static fragmentTransaction so it is always available to use
+    private static void commitFragment() {
         fragmentTransaction.commit();
         fragmentTransaction = fragmentManager.beginTransaction();
-
-
     }
 
     private void loadCamera() {
@@ -219,9 +213,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         fragmentTransaction = fragmentManager.beginTransaction();
         CameraMain cM = new CameraMain();
         fragmentTransaction.add(R.id.container, cM);
-        fragmentTransaction.commit();
-        fragmentTransaction = fragmentManager.beginTransaction();
-
+        commitFragment();
     }
 
     @Override
@@ -336,6 +328,8 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
 
+    // Recursive function to track time and switch app off when it hits a certain time
+    // TODO: Merge shutdownLoop and startupLoop
     public static void shutdownLoop() {
         Log.d(TAG, "shutdownLoop() called");
         final Calendar c = Calendar.getInstance();
@@ -364,6 +358,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         }
     }
 
+    // Recursive function to track time and switch app on when it hits a certain time
     private static void startupLoop() {
         Log.d(TAG, "startupLoop() called");
         Calendar c = Calendar.getInstance();
@@ -516,6 +511,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
     private void assignObjects() {
+        // Layout views
         backgroundRed = findViewById(R.id.backgroundred);
         backgroundPink = findViewById(R.id.backgroundpink);
         hideApplicationView = findViewById(R.id.foregroundblack);
@@ -525,10 +521,15 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         cues_Reward[1]  = findViewById(R.id.buttonRewardOne);
         cues_Reward[2]  = findViewById(R.id.buttonRewardTwo);
         cues_Reward[3]  = findViewById(R.id.buttonRewardThree);
-
-        possible_locs = new Utils().getPossibleCueLocs(this);
-
         textView = findViewById(R.id.tvLog);
+
+        // Global variables
+        possible_locs = new Utils().getPossibleCueLocs(this);
+        mContext = getApplicationContext();
+        activity = this;
+        fragmentManager = getFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+
     }
 
     private void setOnClickListenerLoop(Button[] buttons) {
@@ -550,7 +551,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         // Always disable all cues after a press as monkeys love to bash repeatedly
         disableAllCues();
 
-        // Reset task timer (used for idle timeout and calculating reaction times if desired)
+        // Reset task trial_timer (used for idle timeout and calculating reaction times if desired)
         resetTimer();
 
         // Make screen bright
@@ -723,7 +724,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         time = 0;
     }
 
-    private static void timer() {
+    private static void trial_timer() {
         time += 1000;
 
         h0.postDelayed(new Runnable() {
@@ -736,7 +737,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
                     idleTimeout();
 
                 } else {
-                    timer();
+                    trial_timer();
                     timerRunning = true;
                 }
             }
