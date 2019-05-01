@@ -4,7 +4,8 @@
                                                    xmlns:tools="http://schemas.android.com/tools"
                                                    android:layout_width="fill_parent"
                                                    android:layout_height="fill_parent" android:id="@+id/mainLayout"
-                                                   android:background="@color/grey">
+>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -14,11 +15,11 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:id="@+id/InitButtons"
-            android:background="@color/grey">
+            android:background="@color/black">
 
 
         <ToggleButton
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/chanZeroButt"
                 android:textOff="Chan 0"
@@ -35,7 +36,7 @@
 
 
         <ToggleButton
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/chanOneButt"
                 android:textOff="Chan 1"
@@ -48,11 +49,11 @@
                 app:layout_constraintStart_toEndOf="@+id/chanZeroButt"
                 android:layout_marginStart="8dp"
                 app:layout_constraintEnd_toStartOf="@+id/chanTwoButt"
-                android:layout_marginEnd="8dp"/>
+                android:layout_marginEnd="8dp" app:layout_constraintHorizontal_bias="0.5"/>
 
 
         <ToggleButton
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/chanTwoButt"
                 android:textOff="Chan 2"
@@ -69,7 +70,7 @@
 
 
         <ToggleButton
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/chanThreeButt"
                 android:textOff="Chan 3"
@@ -147,6 +148,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:background="@color/grey"
@@ -253,5 +255,6 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
