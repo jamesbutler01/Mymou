@@ -23,11 +23,12 @@ class CameraSavePhoto implements Runnable {
     private final Image mImage;
     private String timestamp;
     private final String day;
+    private FolderManager folderManager = new FolderManager();
 
     public CameraSavePhoto(Image image, String timestampU) {
         mImage = image;
         timestamp = timestampU;
-        day = MainMenu.folderManager.getBaseDate();
+        day = folderManager.getBaseDate();
         Log.d(TAG, " instantiated");
     }
 
@@ -87,7 +88,7 @@ class CameraSavePhoto implements Runnable {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] bytes = stream.toByteArray();
-        File folder = MainMenu.folderManager.getSubFolder("i");
+        File folder = folderManager.getSubFolder("i");
         String fileName = day + "_" + timestamp + ".jpg";
         File filetowrite = new File(folder, fileName);
         FileOutputStream output = null;
@@ -110,7 +111,7 @@ class CameraSavePhoto implements Runnable {
     }
 
     private void saveIntArray(int[] intArray) {
-        File folder = MainMenu.folderManager.getSubFolder("f");
+        File folder = folderManager.getSubFolder("f");
         String fileName = "f"+ day + "_" + timestamp + ".txt";
         File savefile = new File(folder, fileName);
         try {

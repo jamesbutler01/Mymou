@@ -19,7 +19,9 @@ class FolderManager {
     private var currentFolder: File? = null
 
     init {
+
         getFolder()
+
     }
 
     fun getFolder(): File {
@@ -61,9 +63,7 @@ class FolderManager {
     }
 
     private fun makeFullPathName(): String {
-        return Environment.getExternalStorageDirectory().absolutePath +
-                "/Mymou/" +
-                getBaseDate()
+        return Environment.getExternalStorageDirectory().absolutePath + "/Mymou/" + getBaseDate()
     }
 
     private fun makeFolder(path: File, suffix: String) {

@@ -31,8 +31,6 @@ public class MainMenu extends Activity  {
 
     public static RewardSystem rewardSystem; //TODO this is flagged as a memory leak (Context classes should not be in static fields)
 
-    public static FolderManager folderManager;
-
     private static int taskSelected = 0;
 
     //Permission variables
@@ -84,7 +82,7 @@ public class MainMenu extends Activity  {
     }
 
     private void initialiseFolders() {
-        folderManager = new FolderManager();
+        new FolderManager();
     }
 
     private void initialiseRewardSystem() {

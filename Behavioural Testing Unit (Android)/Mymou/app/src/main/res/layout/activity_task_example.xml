@@ -5,28 +5,28 @@
                                                    android:background="@android:color/transparent">
 
     <Button
-            android:text="Monkey O\n Cue 1"
+            android:text="Monkey 0\n Cue 1"
             android:layout_width="175dp"
             android:layout_height="175dp"
             android:textSize="30sp"
             android:id="@+id/buttonCue1MonkO"/>
 
     <Button
-            android:text="Monkey V\n Cue 1"
+            android:text="Monkey 1\n Cue 1"
             android:layout_width="175dp"
             android:layout_height="175dp"
             android:textSize="30sp"
             android:id="@+id/buttonCue1MonkV"/>
 
     <Button
-            android:text="Monkey O\n Cue 2"
+            android:text="Monkey 0\n Cue 2"
             android:layout_width="175dp"
             android:layout_height="175dp"
             android:textSize="30sp"
             android:id="@+id/buttonCue2MonkO"/>
 
     <Button
-            android:text="Monkey V\n Cue 2"
+            android:text="Monkey 1\n Cue 2"
             android:layout_width="175dp"
             android:layout_height="175dp"
             android:textSize="30sp"

@@ -33,6 +33,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private static int trialCounter = 0;
     public static RewardSystem rewardSystem;
 
+    private static FolderManager folderManager = new FolderManager();
     private static FaceRecog faceRecog;
     private static ArrayList<String> trialData;
     public static String photoTimestamp;
@@ -418,7 +419,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         textView.setText(data);
 
         // Store data for logging at end of trial
-        String timestamp = MainMenu.folderManager.getTimestamp();
+        String timestamp = folderManager.getTimestamp();
         String msg = TaskManager.photoTimestamp + "," + timestamp + "," + data;
         trialData.add(msg);
     }
@@ -445,7 +446,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     public static boolean takePhoto() {
         if (MainMenu.useCamera) {
             Log.d(TAG, "takePhoto() called");
-            photoTimestamp = MainMenu.folderManager.getTimestamp();
+            photoTimestamp = folderManager.getTimestamp();
             boolean photoTaken = CameraMain.captureStillPicture(photoTimestamp);
             return photoTaken;
         } else {
@@ -455,7 +456,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
     //Checks if todays date is the same as the last time function was called
     public static boolean dateHasChanged() {
-        String todaysDate = MainMenu.folderManager.getBaseDate();
+        String todaysDate = folderManager.getBaseDate();
         SharedPreferences sharedPref = activity.getPreferences(mContext.MODE_PRIVATE);
         String lastRecordedDate = sharedPref.getString("lastdate", "null");
         SharedPreferences.Editor editor = sharedPref.edit();
