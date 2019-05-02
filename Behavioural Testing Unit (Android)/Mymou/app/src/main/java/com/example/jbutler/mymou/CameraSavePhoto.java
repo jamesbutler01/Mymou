@@ -83,12 +83,12 @@ class CameraSavePhoto implements Runnable {
         savePhoto(bitmapCropped);
     }
 
-
+    // TODO: Merge savephoto and saveintarray to reduce repeated code
     private void savePhoto(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] bytes = stream.toByteArray();
-        File folder = folderManager.getSubFolder("i");
+        File folder = folderManager.getImageFolder();
         String fileName = day + "_" + timestamp + ".jpg";
         File filetowrite = new File(folder, fileName);
         FileOutputStream output = null;
@@ -111,7 +111,7 @@ class CameraSavePhoto implements Runnable {
     }
 
     private void saveIntArray(int[] intArray) {
-        File folder = folderManager.getSubFolder("f");
+        File folder = folderManager.getIntArrayFolder();
         String fileName = "f"+ day + "_" + timestamp + ".txt";
         File savefile = new File(folder, fileName);
         try {

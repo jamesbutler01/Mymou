@@ -440,7 +440,6 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         Log.d(TAG,"onDestroy() called");
         cancelHandlers();
         rewardSystem.quitBt();
-        unregisterReceivers();
         quitThreads();
         this.stopLockTask();
     }
@@ -477,7 +476,6 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         num_monkeys = Integer.valueOf(getString(R.string.num_monkeys));
-
 
         // Layout views
         backgroundRed = findViewById(R.id.backgroundred);

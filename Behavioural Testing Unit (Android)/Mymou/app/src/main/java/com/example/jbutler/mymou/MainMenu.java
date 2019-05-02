@@ -56,8 +56,6 @@ public class MainMenu extends Activity  {
 
         checkIfCrashed();
 
-        initialiseFolders();
-
         initialiseRewardSystem();
 
         initialiseSpinner();
@@ -79,10 +77,6 @@ public class MainMenu extends Activity  {
         intent.putExtra("tasktoload", taskSelected);
 
         startActivity(intent);
-    }
-
-    private void initialiseFolders() {
-        new FolderManager();
     }
 
     private void initialiseRewardSystem() {

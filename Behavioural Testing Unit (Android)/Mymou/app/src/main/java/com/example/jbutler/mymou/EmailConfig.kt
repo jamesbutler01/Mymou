@@ -6,7 +6,7 @@ package com.example.jbutler.mymou
  */
 
 object EmailConfig {
-    val emailFrom = "xxx@xxx.com"
+    val emailFrom = "xxx@gmail.com"
     val PASSWORD = "genericPassword"
     val emailTo = "xxx@xxx.com"
 }

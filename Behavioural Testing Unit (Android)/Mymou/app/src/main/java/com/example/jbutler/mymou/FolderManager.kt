@@ -1,6 +1,8 @@
 package com.example.jbutler.mymou
 
+import android.content.Context
 import android.os.Environment
+import android.provider.Settings.System.getString
 import android.util.Log
 
 import java.io.File
@@ -12,10 +14,10 @@ import java.util.Locale
  * Checks if session folder already exists, and creates it if not
  */
 
-class FolderManager {
+class FolderManager(private val num_monkeys: Int = 0) {
 
     private val TAG = "FolderManager"
-    private val suffixes = arrayListOf("i","f","O","V")
+    private val suffixes = arrayListOf("Images","IntArrays")
     private var currentFolder: File? = null
 
     init {
@@ -38,7 +40,19 @@ class FolderManager {
         return appFolder
     }
 
-    fun getSubFolder(suffix: String = ""): File? {
+    fun getImageFolder(): File? {
+        return getSubFolder("Images")
+    }
+
+    fun getIntArrayFolder(): File? {
+        return getSubFolder("IntArrays")
+    }
+
+    fun getMonkeyFolder(id: Int): File? {
+        return getSubFolder("monkey"+id)
+    }
+
+    private fun getSubFolder(suffix: String = ""): File? {
         if (currentFolder == null) getFolder()
         Log.d(TAG, "getting $currentFolder/$suffix")
         return when (suffix) {
@@ -57,9 +71,14 @@ class FolderManager {
     }
 
     private fun makeFoldersForSession(path: File) {
-        Log.d(TAG, "making sub-folders..")
+        Log.d(TAG, "making static sub-folders..")
         for (s in suffixes)
             makeFolder(path, s)
+
+        Log.d(TAG, "making monkey folders..")
+         for (i in 1..num_monkeys) {
+            makeFolder(path, "monkey"+i)
+         }
     }
 
     private fun makeFullPathName(): String {
