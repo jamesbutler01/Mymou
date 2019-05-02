@@ -357,65 +357,37 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
     // Recursive function to track time and switch app off when it hits a certain time
     // TODO: Merge shutdownLoop and startupLoop
-    public static void shutdownLoop() {
+
+    public static void dailyTimer() {
         Log.d(TAG, "shutdownLoop() called");
         final Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR);
         int AMPM = c.get(Calendar.AM_PM);
-        if (hour >= 7 && AMPM == Calendar.PM) {
-            enableApp(false);
-            boolean restartNextDay = true;
-            if(restartNextDay) {
 
-                // Only restart on certain days of the week
-                int day = c.get(Calendar.DAY_OF_WEEK);
-                if (day == Calendar.THURSDAY | day == Calendar.FRIDAY | day == Calendar.SATURDAY) {
-                    startupLoop();
-                }
-
+        if (shutdown) {  // If shutdown and waiting to start up in the morning
+            if (hour >= 7 && AMPM == Calendar.PM) {
+                enableApp(false);
             }
-        } else {
-            Handler handlerOne = new Handler();
-            handlerOne.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    shutdownLoop();
-                }
-            }, 60000);
-        }
-    }
-
-    // Recursive function to track time and switch app on when it hits a certain time
-    private static void startupLoop() {
-        Log.d(TAG, "startupLoop() called");
-        Calendar c = Calendar.getInstance();
-        int hour = c.get(Calendar.HOUR);
-        int AMPM = c.get(Calendar.AM_PM);
-        if (hour >= 7 && AMPM == Calendar.AM) {
+        } else {  // If active and waiting to shutdown
+            if (hour >= 7 && AMPM == Calendar.AM) {
                 enableApp(true);
-                shutdownLoop();
-        } else {
-            Handler handlerOne = new Handler();
-            handlerOne.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    startupLoop();
-                }
-            }, 60000);
+            }
         }
+
+        Handler handlerOne = new Handler();
+        handlerOne.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dailyTimer();
+            }
+        }, 60000);
     }
 
     public static boolean enableApp(boolean bool) {
         Log.d(TAG, "Enabling app"+bool);
-        setBrightness(false);
+        setBrightness(bool);
         if (hideApplicationView != null) {
-            if (bool) {
-                hideApplicationView.setEnabled(false);
-                hideApplicationView.setVisibility(View.INVISIBLE);
-            } else {
-                hideApplicationView.setEnabled(true);
-                hideApplicationView.setVisibility(View.VISIBLE);
-            }
+            Utils.toggleView(hideApplicationView, bool);
             return true;
         } else {
             Log.d(TAG, "hideApplication object not instantiated");
@@ -593,6 +565,24 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
             case R.id.buttonGoMonkOne:
                 checkMonkeyPressedTheirCue(1);
                 break;
+            case R.id.buttonGoMonkTwo:
+                checkMonkeyPressedTheirCue(2);
+                break;
+            case R.id.buttonGoMonkThree:
+                checkMonkeyPressedTheirCue(3);
+                break;
+            case R.id.buttonGoMonkFour:
+                checkMonkeyPressedTheirCue(4);
+                break;
+            case R.id.buttonGoMonkFive:
+                checkMonkeyPressedTheirCue(5);
+                break;
+            case R.id.buttonGoMonkSix:
+                checkMonkeyPressedTheirCue(6);
+                break;
+            case R.id.buttonGoMonkSeven:
+                checkMonkeyPressedTheirCue(7);
+                break;
             case R.id.buttonRewardZero:
                 deliverReward(0);
                 break;
@@ -664,39 +654,41 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         logEvent("Monkey pressed wrong go cue..");
         commitTrialData(ec_wrongGoCuePressed);
         // Switch on red background
-        toggleBackground(backgroundRed, true);
+        Utils.toggleView(backgroundRed, true);
 
         // Switch off red background after certain delay
         h2.postDelayed(new Runnable() {
             @Override
             public void run() {
                 Utils.toggleCues(cues_Go, true);
-                toggleBackground(backgroundRed, false);
+                Utils.toggleView(backgroundRed, false);
             }
         }, timeoutWrongGoCuePressed);
     }
 
     public void trialEnded(int result) {
+        logEvent("Trial ended, result = "+result);
+
         // Kill task
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag(TAG_FRAGMENT)).commit();
         fragmentTransaction = fragmentManager.beginTransaction();
 
         if (result == ec_correctTrial) {
-            correctOptionChosen();
+            correctTrial();
         } else {
-            incorrectOptionChosen(result);
+            incorrectTrial(result);
         }
     }
 
-    private void incorrectOptionChosen(int result) {
+    private void incorrectTrial(int result) {
         logEvent("Feedback: Error trial");
-        toggleBackground(backgroundRed, true);
+        Utils.toggleView(backgroundRed, true);
         endOfTrial(result, timeoutErrorTrial);
     }
 
-    private void correctOptionChosen() {
+    private void correctTrial() {
         logEvent("Correct trial: Reward choice");
-        toggleBackground(backgroundPink, true);
+        Utils.toggleView(backgroundPink, true);
         Utils.randomlyPositionCues(cues_Reward, possible_cue_locs);
         Utils.toggleCues(cues_Reward, true);
     }
@@ -729,16 +721,6 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         }
     }
 
-    private static void toggleBackground(View view, boolean status) {
-        if (status) {
-            view.setVisibility(View.VISIBLE);
-        } else {
-            view.setVisibility(View.INVISIBLE);
-        }
-        view.setEnabled(status);
-    }
-
-
     // Recursive function to track task time
     public void resetTimer() {
         time = 0;
@@ -767,7 +749,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private static void idleTimeout() {
         logEvent("Error stage: Idle timeout");
         disableAllCues();
-        toggleBackground(backgroundRed, true);
+        Utils.toggleView(backgroundRed, true);
         endOfTrial(ec_idletimeout, timeoutErrorTrial);  // TODO: Switch this to trialEnded (which is static)
         //trialEnded(ec_idletimeout);
     }
@@ -776,8 +758,8 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     h1.postDelayed(new Runnable() {
             @Override
             public void run() {
-                toggleBackground(backgroundRed, false);
-                toggleBackground(backgroundPink, false);
+                Utils.toggleView(backgroundRed, false);
+                Utils.toggleView(backgroundPink, false);
                 Utils.toggleCues(cues_Go, true);
                 textView.setText("Initiation Stage");
             }

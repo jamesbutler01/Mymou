@@ -1,7 +1,5 @@
 package com.example.jbutler.mymou;
 
-import java.util.Arrays;
-
 public class MatrixMaths {
 
     //Tranpose matrix

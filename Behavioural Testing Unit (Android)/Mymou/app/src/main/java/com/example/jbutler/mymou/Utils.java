@@ -10,7 +10,7 @@ import android.widget.Button;
 import java.util.Random;
 
 public class Utils {
-       // Debug
+   // Debug
     public static String TAG = "MymouUtils";
 
     // Make a list of the possible locations on the screen where cues can be placed
@@ -61,14 +61,20 @@ public class Utils {
 
     // Fully enable/disable individual cue
     public static void toggleCue(Button button, boolean status) {
-        if (status) {
-            button.setVisibility(View.VISIBLE);
-        } else {
-            button.setVisibility(View.INVISIBLE);
-        }
-        button.setEnabled(status);
+        toggleView(button, status);
         button.setClickable(status);
     }
+
+    public static void toggleView(View view, boolean status) {
+        if (status) {
+            view.setVisibility(View.VISIBLE);
+        } else {
+            view.setVisibility(View.INVISIBLE);
+        }
+        view.setEnabled(status);
+    }
+
+
 
     public static void randomlyPositionCues(View[] cues, Point[] locs) {
         // Make zero array tracking which locations have already been used

@@ -16,7 +16,6 @@ public class TaskExample extends Fragment
         implements View.OnClickListener {
 
     // Debug
-    private static TextView textView;
     public static String TAG = "TaskExample";
 
      // Identifier for which monkey is currently playing the task
@@ -67,9 +66,6 @@ public class TaskExample extends Fragment
         cues_all[1][1] = getView().findViewById(R.id.buttonCue2MonkV);
 
         possible_cue_locs = new Utils().getPossibleCueLocs(getActivity());
-
-        // Textview for debug
-        textView = getView().findViewById(R.id.tvLog);
     }
 
 
