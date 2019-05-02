@@ -27,7 +27,7 @@ import java.util.Calendar;
 
 public class TaskManager extends Activity implements Thread.UncaughtExceptionHandler, View.OnClickListener {
     // Debug
-    public static String TAG = "TaskManager";
+    public static String TAG = "MyMouTaskManager";
     private static TextView textView;
 
     private static int taskId;  // Unique string prefixed to all log entries
@@ -57,12 +57,13 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private static Handler h0 = new Handler();  // Task trial_timer
     private static Handler h1 = new Handler();  // Prepare for new trial
     private static Handler h2 = new Handler();  // Timeout go cues
+    private static Handler h3 = new Handler();  // Daily timer
 
     // Predetermined locations where cues can appear on screen, calculated by Utils.calculateCueLocations()
     private static Point[] possible_cue_locs;
 
       // Used to cover/disable task when required (e.g. no bluetooth connection)
-    public static View hideApplicationView;
+    public static View foregroundBlack;
 
     // Background colours
     private static View backgroundRed, backgroundPink;
@@ -104,9 +105,8 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         setOnClickListeners();
         disableAllCues();
 
-        initaliseRewardSystem();
+        initialiseRewardSystem();
         loadCamera();
-
         loadtask();
 
         initialiseScreenSettings();
@@ -130,6 +130,13 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         }
 
         PrepareForNewTrial(0);
+
+        // Normally the reward system handles this as it has to wait for bluetooth connection
+        if (!MainMenu.useBluetooth) {
+            enableApp(true);
+        }
+
+        dailyTimer();
 
     }
 
@@ -171,7 +178,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         logHandler = new Handler(logThread.getLooper());
     }
 
-    private void initaliseRewardSystem() {
+    private void initialiseRewardSystem() {
         boolean successfullyEstablished = false;
         rewardSystem.quitBt();
         rewardSystem = new RewardSystem(this);
@@ -185,7 +192,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
             handlerOne.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    initaliseRewardSystem();
+                    initialiseRewardSystem();
                 }
             }, 5000);
         }
@@ -356,26 +363,28 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
     // Recursive function to track time and switch app off when it hits a certain time
-    // TODO: Merge shutdownLoop and startupLoop
-
+    // TODO: Add to settings menu on and off times
     public static void dailyTimer() {
-        Log.d(TAG, "shutdownLoop() called");
+        Log.d(TAG, "dailyTimer called");
         final Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR);
         int AMPM = c.get(Calendar.AM_PM);
 
         if (shutdown) {  // If shutdown and waiting to start up in the morning
-            if (hour >= 7 && AMPM == Calendar.PM) {
-                enableApp(false);
+            if (hour >= 7 && AMPM == Calendar.AM) {
+                Log.d(TAG, "dailyTimer enabling app");
+                enableApp(true);
+                shutdown = false;
             }
         } else {  // If active and waiting to shutdown
-            if (hour >= 7 && AMPM == Calendar.AM) {
-                enableApp(true);
+            if (hour >= 7 && AMPM == Calendar.PM) {
+                Log.d(TAG, "dailyTimer disabling app");
+                enableApp(false);
+                shutdown = true;
             }
         }
 
-        Handler handlerOne = new Handler();
-        handlerOne.postDelayed(new Runnable() {
+        h3.postDelayed(new Runnable() {
             @Override
             public void run() {
                 dailyTimer();
@@ -386,11 +395,11 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     public static boolean enableApp(boolean bool) {
         Log.d(TAG, "Enabling app"+bool);
         setBrightness(bool);
-        if (hideApplicationView != null) {
-            Utils.toggleView(hideApplicationView, bool);
+        if (foregroundBlack != null) {
+            Utils.toggleView(foregroundBlack, !bool);  // This is inverted as foreground object disables app
             return true;
         } else {
-            Log.d(TAG, "hideApplication object not instantiated");
+            Log.d(TAG, "foregroundBlack object not instantiated");
             return false;
         }
     }
@@ -517,7 +526,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         // Layout views
         backgroundRed = findViewById(R.id.backgroundred);
         backgroundPink = findViewById(R.id.backgroundpink);
-        hideApplicationView = findViewById(R.id.foregroundblack);
+        foregroundBlack = findViewById(R.id.foregroundblack);
         cues_Go[0] = findViewById(R.id.buttonGoMonkZero);
         cues_Go[1] = findViewById(R.id.buttonGoMonkOne);
         cues_Go[2] = findViewById(R.id.buttonGoMonkTwo);
@@ -771,6 +780,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         h0.removeCallbacksAndMessages(null);
         h1.removeCallbacksAndMessages(null);
         h2.removeCallbacksAndMessages(null);
+        h3.removeCallbacksAndMessages(null);
     }
 
 

@@ -35,17 +35,9 @@ public class MainMenu extends Activity  {
 
     private static int taskSelected = 0;
 
-    //Permission variables
-    private boolean permissions = false;
-    String[] permissionCodes = {
-        Manifest.permission.CAMERA,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.BLUETOOTH,
-        Manifest.permission.BLUETOOTH_ADMIN,
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.WRITE_SETTINGS,
-    };
-    private Button[] permissionButtons = new Button[6];
+    // Tasks cannot run unless permissions have been granted
+    private boolean permissions_granted=false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +54,22 @@ public class MainMenu extends Activity  {
 
         initialiseSpinner();
 
-        if(testingMode && permissions) {
+        if(testingMode && permissions_granted) {
             startTask();
         }
     }
 
+    private void checkPermissions() {
+        if (new RequestPermissions(this, this).checkPermissions()) {
+            permissions_granted = true;
+        }
+    }
+
     private void startTask() {
+        if (!permissions_granted) {
+            checkPermissions();
+            return;
+        }
         Button startButton = findViewById(R.id.buttonStart);
         startButton.setText("Loading ...");
 
@@ -128,88 +130,9 @@ public class MainMenu extends Activity  {
         }
     }
 
-    private void checkPermissions() {
-        // Check if all permissions granted
-        boolean permissionFlag = true;
-        for (int i = 0; i < permissionCodes.length; i++){
-            if(!checkPermissionNested(i)) {
-                permissionFlag = false;
-                break;
-            }
-        }
-        if(permissionFlag) {
-            View layout = findViewById(R.id.layoutCoveringUi);
-            layout.setVisibility(View.INVISIBLE);
-            permissions = true;
-        }
-    }
-
-    private boolean checkPermissionNested(int i_perm) {
-        final String permissionItem = permissionCodes[i_perm];
-        int hasPermission=PackageManager.PERMISSION_DENIED;
-        if (i_perm<5) {
-            hasPermission = checkSelfPermission(permissionItem);
-        } else {
-            if (Settings.System.canWrite(this)) {
-                hasPermission = PackageManager.PERMISSION_GRANTED;
-            }
-        }
-        if (hasPermission != PackageManager.PERMISSION_GRANTED) {
-            if (!shouldShowRequestPermissionRationale(permissionItem)) {
-                Toast.makeText(this, "All permissions must be enabled before app can run", Toast.LENGTH_LONG).show();
-                requestPermissionLocal(i_perm);
-                return false;
-            }
-            requestPermissionLocal(i_perm);
-            return false;
-        } else {
-            permissionButtons[i_perm].setText("Granted");
-            return true;
-        }
-    }
-
-    private void requestPermissionLocal(int i_perm){
-        if (i_perm==5) {  // This one is handled differently
-            Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS);
-            intent.setData(Uri.parse("package:" + this.getPackageName()));
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            this.startActivity(intent);
-        } else {
-            requestPermissions(new String[] {permissionCodes[i_perm]},123);
-        }
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if(grantResults.length > 0) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Permission enabled", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "Permissions granted");
-                checkPermissions();
-            } else {
-                // Permission Denied
-                Log.d(TAG, "Permissions denied");
-                Toast.makeText(this, "Permission denied, all permissions must be enabled before app can run", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
 
     private void initialiseLayoutParameters() {
-        //Permission buttons
-        permissionButtons[0] = findViewById(R.id.permbuttonCamera);
-        permissionButtons[1] = findViewById(R.id.permbuttonWrite);
-        permissionButtons[2] = findViewById(R.id.permbuttonBt0);
-        permissionButtons[3] = findViewById(R.id.permbuttonBt1);
-        permissionButtons[4] = findViewById(R.id.permbuttonBt2);
-        permissionButtons[5] = findViewById(R.id.permbuttonSettings);
-
-        findViewById(R.id.mainPermButton).setOnClickListener(buttonClickListener);
-        for (int i = 0; i < permissionButtons.length; i++) {
-            permissionButtons[i].setOnClickListener(buttonClickListener);
-        }
         findViewById(R.id.buttonStart).setOnClickListener(buttonClickListener);
-
         initialiseToggleButtons();
     }
 
@@ -256,27 +179,6 @@ public class MainMenu extends Activity  {
                 case R.id.buttonStart:
                     startTask();
                     break;
-                case R.id.mainPermButton:
-                    checkPermissions();
-                    break;
-                case R.id.permbuttonCamera:
-                    checkPermissionNested(0);
-                    break;
-                case R.id.permbuttonWrite:
-                    checkPermissionNested(1);
-                    break;
-                case R.id.permbuttonBt0:
-                    checkPermissionNested(2);
-                    break;
-                case R.id.permbuttonBt1:
-                    checkPermissionNested(3);
-                    break;
-                case R.id.permbuttonBt2:
-                    checkPermissionNested(4);
-                    break;
-                case R.id.permbuttonSettings:
-                    checkPermissionNested(5);
-                    break;
             }
         }
     };
@@ -285,7 +187,7 @@ public class MainMenu extends Activity  {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG,"onDestroy() called");
-        if(permissions) {
+        if(permissions_granted) {
             rewardSystem.quitBt();
         }
     }
