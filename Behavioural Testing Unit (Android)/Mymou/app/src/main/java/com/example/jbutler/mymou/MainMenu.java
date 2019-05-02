@@ -192,4 +192,20 @@ public class MainMenu extends Activity  {
         }
     }
 
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if(grantResults.length > 0) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permission enabled", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "Permissions granted");
+                checkPermissions();
+            } else {
+                // Permission Denied
+                Log.d(TAG, "Permissions denied");
+                Toast.makeText(this, "Permission denied, all permissions must be enabled before app can run", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
 }

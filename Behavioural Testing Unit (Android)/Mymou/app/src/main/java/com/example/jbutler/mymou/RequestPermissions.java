@@ -15,7 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class RequestPermissions extends Activity {
+public class RequestPermissions {
 
     private static String TAG = "RequestPermissions";
     private Context mContext;
@@ -78,19 +78,5 @@ public class RequestPermissions extends Activity {
 
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if(grantResults.length > 0) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(mContext, "Permission enabled", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "Permissions granted");
-                checkPermissions();
-            } else {
-                // Permission Denied
-                Log.d(TAG, "Permissions denied");
-                Toast.makeText(mContext, "Permission denied, all permissions must be enabled before app can run", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
 
 }
