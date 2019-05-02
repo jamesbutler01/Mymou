@@ -116,8 +116,6 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
         }
 
-        registerPowerReceivers();
-
         initialiseLogHandler();
 
         //only lock if we aren't in testing mode
@@ -227,6 +225,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private void restartApp() {
         Intent intent=new Intent(getApplicationContext(), TaskManager.class);
         intent.putExtra("restart",true);
+        intent.putExtra("tasktoload", taskId);
         final PendingIntent pendingIntent = PendingIntent.getActivity(
                 getApplicationContext(),
                 0, intent, PendingIntent.FLAG_ONE_SHOT);
@@ -234,40 +233,6 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, pendingIntent);
         System.exit(2);
     }
-
-
-    public static void deliverReward(int juiceChoice, int rewardAmount) {
-        rewardSystem.activateChannel(juiceChoice, rewardAmount);
-    }
-
-    private void registerPowerReceivers() {
-        IntentFilter unplugIntent = new IntentFilter(Intent.ACTION_POWER_DISCONNECTED);
-        IntentFilter plugIntent = new IntentFilter(Intent.ACTION_POWER_CONNECTED);
-        registerReceiver(powerPlugReceiver, plugIntent);
-        registerReceiver(powerUnplugReceiver, unplugIntent);
-    }
-
-    private final BroadcastReceiver powerPlugReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if(action.equals(Intent.ACTION_POWER_CONNECTED)) {
-                // Do something when power connected
-                // enableApp(True);
-            }
-        }
-    };
-
-    private final BroadcastReceiver powerUnplugReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if(action.equals(Intent.ACTION_POWER_DISCONNECTED)) {
-                // Do something when power disconnected
-                // enableApp(false);
-            }
-        }
-    };
 
 
     public static void setFaceRecogPrediction(int[] intArray) {
@@ -323,8 +288,8 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
     private void initialiseScreenSettings() {
-        this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        final View decorView = TaskManager.this.getWindow().getDecorView();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        final View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -420,7 +385,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
         // Store data for logging at end of trial
         String timestamp = folderManager.getTimestamp();
-        String msg = TaskManager.photoTimestamp + "," + timestamp + "," + data;
+        String msg = photoTimestamp + "," + timestamp + "," + data;
         trialData.add(msg);
     }
 
@@ -493,14 +458,6 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         }
     }
 
-    private void unregisterReceivers() {
-        try {
-            unregisterReceiver(powerPlugReceiver);
-            unregisterReceiver(powerUnplugReceiver);
-        } catch(IllegalArgumentException e) {
-        }
-    }
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         return false;
@@ -558,7 +515,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         resetTimer();
 
         // Make screen bright
-        TaskManager.setBrightness(true);
+        setBrightness(true);
 
         // Now decide what to do based on what button pressed
         switch (view.getId()) {
@@ -588,14 +545,14 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private static void checkMonkeyPressedTheirCue(int monkId) {
 
         // Take selfie
-        boolean photoTaken = TaskManager.checkMonkey(monkId);
+        boolean photoTaken = checkMonkey(monkId);
 
         if (MainMenu.useFaceRecognition) {
 
             if (photoTaken) {
 
                 // If photo successfully taken then do nothing as wait for faceRecog to return prediction
-                // TaskManager.setFaceRecogPrediction will ultimately call TaskExample.resultMonkeyPressedTheirCue
+                // setFaceRecogPrediction will ultimately call resultMonkeyPressedTheirCue
                 logEvent("FaceRecog started..");
 
             } else {
@@ -626,7 +583,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
             public void run()
             {
                 if (correctCuePressed) {
-                   startTrial(TaskManager.faceRecogPrediction);
+                   startTrial(faceRecogPrediction);
                 } else {
                     MonkeyPressedWrongGoCue();
                 }
@@ -637,7 +594,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     // Wrong Go cue selected so give short timeout
     public static void MonkeyPressedWrongGoCue() {
         logEvent("Monkey pressed wrong go cue..");
-        TaskManager.commitTrialData(ec_wrongGoCuePressed);
+        commitTrialData(ec_wrongGoCuePressed);
         // Switch on red background
         toggleBackground(backgroundRed, true);
 
@@ -678,13 +635,13 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
     private void deliverReward(int juiceChoice) {
         logEvent("Delivering "+rewardAmount+"ms reward on channel "+juiceChoice);
-        TaskManager.deliverReward(juiceChoice, rewardAmount);
+        rewardSystem.activateChannel(juiceChoice, rewardAmount);
         endOfTrial(ec_correctTrial, rewardAmount + 500);
     }
 
 
     private static void endOfTrial(int outcome, int newTrialDelay) {
-        TaskManager.commitTrialData(outcome);
+        commitTrialData(outcome);
 
         PrepareForNewTrial(newTrialDelay);
     }

@@ -271,5 +271,4 @@ public class RewardSystem {
         chanThreeOff = context.getString(R.string.chanThreeOff);
     }
 
-
 }
