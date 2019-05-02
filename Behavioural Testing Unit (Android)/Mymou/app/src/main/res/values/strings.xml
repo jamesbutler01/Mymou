@@ -13,6 +13,7 @@
     <string name="chanThreeOff">8</string>
 
     <string name="num_monkeys">2</string>
+    <string name="max_num_monkeys">8</string>
 
 
     <string-array name="available_tasks">

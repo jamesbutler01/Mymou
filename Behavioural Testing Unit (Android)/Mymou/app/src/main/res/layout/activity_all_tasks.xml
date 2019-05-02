@@ -33,6 +33,48 @@
             android:textSize="30sp"
             android:id="@+id/buttonGoMonkOne"/>
 
+    <Button
+            android:text="Monkey 2\n Start"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:textSize="30sp"
+            android:id="@+id/buttonGoMonkTwo"/>
+
+    <Button
+            android:text="Monkey 3\n Start"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:textSize="30sp"
+            android:id="@+id/buttonGoMonkThree"/>
+
+    <Button
+            android:text="Monkey 4\n Start"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:textSize="30sp"
+            android:id="@+id/buttonGoMonkFour"/>
+
+    <Button
+            android:text="Monkey 5\n Start"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:textSize="30sp"
+            android:id="@+id/buttonGoMonkFive"/>
+
+    <Button
+            android:text="Monkey 6\n Start"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:textSize="30sp"
+            android:id="@+id/buttonGoMonkSix"/>
+
+    <Button
+            android:text="Monkey 7\n Start"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:textSize="30sp"
+            android:id="@+id/buttonGoMonkSeven"/>
+
  <Button
             android:text="Reward\nChoice #0"
             android:layout_width="175dp"

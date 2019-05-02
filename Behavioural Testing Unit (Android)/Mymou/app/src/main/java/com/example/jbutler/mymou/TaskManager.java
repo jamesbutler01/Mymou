@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 public class TaskManager extends Activity implements Thread.UncaughtExceptionHandler, View.OnClickListener {
@@ -82,7 +83,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private static int ec_idletimeout = 3;
 
     // Task objects
-    private static Button[] cues_Go; // Go cues to start a trial
+    private static Button[] cues_Go = new Button[8]; // Go cues to start a trial
     private static Button[] cues_Reward = new Button[4];  // Reward cues for the different reward options
 
      // Reward
@@ -98,6 +99,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         setContentView(R.layout.activity_all_tasks);
 
         assignObjects();
+        setNumMonkeys();
         positionGoCues();
         setOnClickListeners();
         disableAllCues();
@@ -152,6 +154,15 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
             new Exception("No task specified");
         }
 
+    }
+
+    private void setNumMonkeys() {
+        // Disable go cues for extra monkeys
+        Button[] cues_excluded = Arrays.copyOfRange(cues_Go, num_monkeys, cues_Go.length);
+        Utils.toggleCues(cues_excluded, false);
+
+        // Shorten list to number needed
+        cues_Go = Arrays.copyOf(cues_Go, num_monkeys);
     }
 
     private void initialiseLogHandler() {
@@ -522,15 +533,27 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         num_monkeys = Integer.valueOf(getString(R.string.num_monkeys));
-        folderManager = new FolderManager(num_monkeys);
+        if (num_monkeys > Integer.valueOf(getString(R.string.max_num_monkeys))) {
+            new Exception("This many monkeys not supported");
+        }
+        if (MainMenu.useFaceRecognition) {
+            folderManager = new FolderManager(num_monkeys);
+        } else {
+            folderManager = new FolderManager();
+        }
 
         // Layout views
         backgroundRed = findViewById(R.id.backgroundred);
         backgroundPink = findViewById(R.id.backgroundpink);
         hideApplicationView = findViewById(R.id.foregroundblack);
-        cues_Go = new Button[num_monkeys];
         cues_Go[0] = findViewById(R.id.buttonGoMonkZero);
         cues_Go[1] = findViewById(R.id.buttonGoMonkOne);
+        cues_Go[2] = findViewById(R.id.buttonGoMonkTwo);
+        cues_Go[3] = findViewById(R.id.buttonGoMonkThree);
+        cues_Go[4] = findViewById(R.id.buttonGoMonkFour);
+        cues_Go[5] = findViewById(R.id.buttonGoMonkFive);
+        cues_Go[6] = findViewById(R.id.buttonGoMonkSix);
+        cues_Go[7] = findViewById(R.id.buttonGoMonkSeven);
         cues_Reward[0]  = findViewById(R.id.buttonRewardZero);
         cues_Reward[1]  = findViewById(R.id.buttonRewardOne);
         cues_Reward[2]  = findViewById(R.id.buttonRewardTwo);
@@ -699,10 +722,11 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
     // Go cues are in static location to make it easier for monkeys to press their own cue
     private void positionGoCues() {
-        cues_Go[0].setX(possible_cue_locs[7].x);
-        cues_Go[0].setY(possible_cue_locs[7].y);
-        cues_Go[1].setX(possible_cue_locs[16].x);
-        cues_Go[1].setY(possible_cue_locs[16].y);
+        int[] go_locs = {14, 9, 1, 22, 6, 17, 18, 5};
+        for (int i_monk = 0; i_monk < num_monkeys; i_monk++) {
+            cues_Go[i_monk].setX(possible_cue_locs[go_locs[i_monk]].x);
+            cues_Go[i_monk].setY(possible_cue_locs[go_locs[i_monk]].y);
+        }
     }
 
     private static void toggleBackground(View view, boolean status) {
