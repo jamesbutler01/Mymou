@@ -16,6 +16,11 @@ import android.view.*;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -33,7 +38,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private static int trialCounter = 0;
     public static RewardSystem rewardSystem;
 
-    private static FolderManager folderManager = new FolderManager();
+    private static FolderManager folderManager;
     private static FaceRecog faceRecog;
     private static ArrayList<String> trialData;
     public static String photoTimestamp;
@@ -266,12 +271,15 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
     public static void commitTrialData(int overallTrialOutcome) {
-        if (dateHasChanged()) {
-            trialCounter = 0;
-        } else {
-            trialCounter++;
-        }
         if (trialData != null) {
+            // End of trial so increment trial counter
+            if (dateHasChanged()) {
+                trialCounter = 0;
+            } else {
+                trialCounter++;
+            }
+
+            // Append all static variables to each line of trial data and write to file
             int length = trialData.size();
             for (int i = 0; i < length; i++) {
                 String s = trialData.get(i);
@@ -280,6 +288,44 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
                 logHandler.post(new LogEvent(s));
                 Log.d(TAG, "commitTrialData: " + s);
             }
+
+            // Place photo in correct monkey's folder
+            if (MainMenu.useFaceRecognition) {
+                // Find name of photo and old/new location
+                String photo_name =  folderManager.getBaseDate() + "_" + photoTimestamp + ".jpg";
+                File original_photo = new File(folderManager.getImageFolder(), photo_name);
+                File new_photo = new File (folderManager.getMonkeyFolder(faceRecogPrediction), photo_name);
+
+                // Copy from originalphoto to newphoto
+                boolean copy_successful = true;
+                FileChannel inputStream = null;
+                FileChannel outputStream = null;
+                try {
+                    inputStream = new FileInputStream(original_photo).getChannel();
+                    outputStream = new FileOutputStream(new_photo).getChannel();
+                    outputStream.transferFrom(inputStream, 0, inputStream.size());
+                } catch (IOException e) {
+                    copy_successful = false;
+                    e.printStackTrace();
+                } finally {
+                    if (inputStream != null) {
+                        try {
+                            inputStream.close();
+                            outputStream.close();
+                        } catch (IOException e) {
+                            copy_successful = false;
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                // Erase original photo if copy successful
+                if (copy_successful) {
+                    original_photo.delete();
+                }
+
+            }
+
         }
 
         // And now clear the list ready for the next trial
@@ -476,6 +522,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         num_monkeys = Integer.valueOf(getString(R.string.num_monkeys));
+        folderManager = new FolderManager(num_monkeys);
 
         // Layout views
         backgroundRed = findViewById(R.id.backgroundred);
