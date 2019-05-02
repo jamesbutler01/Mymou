@@ -15,19 +15,21 @@ public class MainMenu extends Activity  {
 
     public static String TAG = "MainMenu";
 
-    // If true this automatically starts the task upon application startup
-    // Speeds up debugging/testing
+    // If true this automatically starts the task upon application startup (Speeds up debugging/testing)
     public static final boolean testingMode = true;
 
     // Camera can crash the emulator, so disable if not using a tablet
     public static final boolean useCamera = false;
 
-    // Can disable bluetooth and RewardSystem connectivity here
+    // Disable bluetooth and RewardSystem connectivity here
     public static final boolean useBluetooth = false;
 
-    // Can disable facial recognition here
+    // Disable facial recognition here
     // To use faceRecog must have the weights for the ANN (wo.txt, wi.txt, meanAndVar.txt) present in the Mymou folder
     public static final boolean useFaceRecognition = false;
+
+    // Disable ability to automatically restart app on crash here
+    public static final boolean restartOnCrash = false;
 
     public static RewardSystem rewardSystem; //TODO this is flagged as a memory leak (Context classes should not be in static fields)
 

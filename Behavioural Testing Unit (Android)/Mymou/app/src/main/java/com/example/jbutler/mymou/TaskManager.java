@@ -110,7 +110,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         loadtask();
 
         initialiseScreenSettings();
-
+        initialiseAutoRestartHandler();
 
         if (MainMenu.useFaceRecognition) {
             // Load facerecog off the main thread as takes a while
@@ -120,7 +120,6 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
                 }
             });
             t.start();
-
         }
 
         initialiseLogHandler();
@@ -130,20 +129,21 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
             this.startLockTask();
         }
 
-//            // Enable this if you want task to automatically restart on crash
-//            Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-//                @Override
-//                public void uncaughtException(Thread thread, Throwable throwable) {
-//                    logHandler.post(new CrashReport(throwable));
-//                    quitBt();
-//                    restartApp();
-//                }
-//            });
-
-
-        setBrightness(true);
-
         PrepareForNewTrial(0);
+
+    }
+
+    private void initialiseAutoRestartHandler() {
+            if (MainMenu.restartOnCrash) {
+         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+             @Override
+             public void uncaughtException(Thread thread, Throwable throwable) {
+                 logHandler.post(new CrashReport(throwable));
+                rewardSystem.quitBt();
+                 restartApp();
+             }
+         });
+     }
 
     }
 
@@ -755,6 +755,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
     private static void PrepareForNewTrial(int delay) {
+        setBrightness(true);
     h1.postDelayed(new Runnable() {
             @Override
             public void run() {
