@@ -1,12 +1,9 @@
 package com.example.jbutler.mymou;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -60,12 +57,13 @@ public class MainMenu extends Activity  {
     }
 
     private void checkPermissions() {
-        if (new RequestPermissions(this, this).checkPermissions()) {
+        if (new PermissionManager(this, this).checkPermissions()) {
             permissions_granted = true;
         }
     }
 
     private void startTask() {
+        // Task can only start if all permissions granted
         if (!permissions_granted) {
             checkPermissions();
             return;
@@ -84,7 +82,7 @@ public class MainMenu extends Activity  {
     }
 
     private void initialiseRewardSystem() {
-        rewardSystem = new RewardSystem(this);
+        rewardSystem = new RewardSystem(this, this);
         TextView tv1 = findViewById(R.id.tvBluetooth);
         if (rewardSystem.bluetoothConnection) {
             tv1.setText("Bluetooth status: Connected");
@@ -197,12 +195,9 @@ public class MainMenu extends Activity  {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if(grantResults.length > 0) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Permission enabled", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "Permissions granted");
                 checkPermissions();
             } else {
-                // Permission Denied
-                Log.d(TAG, "Permissions denied");
                 Toast.makeText(this, "Permission denied, all permissions must be enabled before app can run", Toast.LENGTH_LONG).show();
             }
         }

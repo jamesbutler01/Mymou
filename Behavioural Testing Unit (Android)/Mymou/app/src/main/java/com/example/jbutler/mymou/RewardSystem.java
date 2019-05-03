@@ -37,12 +37,13 @@ public class RewardSystem {
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     private static String address = "20:16:06:08:64:22";
 
-    public RewardSystem(Context context_in) {
+    public RewardSystem(Context context_in, Activity activity) {
 
         context = context_in;
 
         initialiseRewardChannelStrings();
-        if (MainMenu.useBluetooth) {
+
+        if (MainMenu.useBluetooth && new PermissionManager(context_in, activity).checkPermissions()) {
             loopUntilConnected();
         }
 
@@ -119,7 +120,7 @@ public class RewardSystem {
         bluetoothEnabled = true;
     }
 
-    public static void stopAllChannels() {
+    private static void stopAllChannels() {
         sendData(allChanOff);
     }
 
@@ -177,7 +178,7 @@ public class RewardSystem {
         }.start();
     }
 
-    public static void sendData(String message) {
+    private static void sendData(String message) {
         if(bluetoothConnection) {
             byte[] msgBuffer = message.getBytes();
             try {
@@ -241,7 +242,7 @@ public class RewardSystem {
         }
     };
 
-    public static void loopUntilConnected() {
+    private static void loopUntilConnected() {
 
         connectToBluetooth();
 

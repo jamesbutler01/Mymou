@@ -181,7 +181,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private void initialiseRewardSystem() {
         boolean successfullyEstablished = false;
         rewardSystem.quitBt();
-        rewardSystem = new RewardSystem(this);
+        rewardSystem = new RewardSystem(this, this);
         if (rewardSystem.bluetoothConnection | !MainMenu.useBluetooth) {
             successfullyEstablished = enableApp(true);
         }

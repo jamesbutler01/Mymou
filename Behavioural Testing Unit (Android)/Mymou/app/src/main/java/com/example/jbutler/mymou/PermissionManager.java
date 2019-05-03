@@ -15,13 +15,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class RequestPermissions {
+public class PermissionManager {
 
-    private static String TAG = "RequestPermissions";
+    private static String TAG = "PermissionManager";
     private Context mContext;
     private Activity activity;
 
-    RequestPermissions(Context context, Activity activity) {
+    PermissionManager(Context context, Activity activity) {
         this.mContext = context;
         this.activity = activity;
     }
