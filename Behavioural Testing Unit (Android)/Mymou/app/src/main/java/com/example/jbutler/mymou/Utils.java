@@ -44,6 +44,12 @@ public class Utils {
 
     }
 
+    public static void setOnClickListenerLoop(Button[] buttons, View.OnClickListener view) {
+        for (Button button: buttons) {
+            button.setOnClickListener(view);
+        }
+    }
+
     // Switches on a particular monkeys cues, and switches off other monkey's cues
     public static void toggleMonkeyCues(int monkId, Button[][] all_cues) {
         for (int i_monk = 0; i_monk < all_cues.length; i_monk++) {

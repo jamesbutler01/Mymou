@@ -13,7 +13,7 @@ public class MainMenu extends Activity  {
     public static String TAG = "MainMenu";
 
     // If true this automatically starts the task upon application startup (Speeds up debugging/testing)
-    public static final boolean testingMode = true;
+    public static final boolean testingMode = false;
 
     // Camera can crash the emulator, so disable if not using a tablet
     public static final boolean useCamera = false;
@@ -139,6 +139,8 @@ public class MainMenu extends Activity  {
             public void onCheckedChanged(CompoundButton v, boolean isChecked) {
                 if (!rewardSystem.bluetoothConnection) {
                     Log.d(TAG, "Error: Bluetooth not connected");
+                    Toast.makeText(MainMenu.this, "Error: Bluetooth not connected/enabled", Toast.LENGTH_LONG).show();
+                    v.setChecked(false);
                     return;
                 }
                 int chan = -1;

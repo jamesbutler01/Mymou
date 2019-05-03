@@ -542,15 +542,9 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         textView = findViewById(R.id.tvLog);
     }
 
-    private void setOnClickListenerLoop(Button[] buttons) {
-        for (int i = 0; i < buttons.length; i++) {
-            buttons[i].setOnClickListener(this);
-        }
-    }
-
      private void setOnClickListeners() {
-         setOnClickListenerLoop(cues_Reward);
-         setOnClickListenerLoop(cues_Go);
+         Utils.setOnClickListenerLoop(cues_Reward, this);
+         Utils.setOnClickListenerLoop(cues_Go, this);
     }
 
 

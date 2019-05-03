@@ -5,15 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.app.Fragment;
 
 // A basic object discrimination task showcasing the main features of the Mymou system:
-// Uses facial recognition to deliver separate tasks to two different subjects
-// Offers choice of rewards for successful trial completion
 
-public class TaskExample extends Fragment
-        implements View.OnClickListener {
+public class TaskExample extends Fragment implements View.OnClickListener {
 
     // Debug
     public static String TAG = "TaskExample";
@@ -23,7 +19,7 @@ public class TaskExample extends Fragment
 
     // Task objects
     private static int num_cues = 2;
-    private static Button[] cues = new Button[num_cues];  // List of all trial objects for an individual monkey
+    private static Button[] cues;  // List of all trial objects for an individual monkey
     private static Button[][] cues_all = {new Button[num_cues], new Button[num_cues]};  // All cues across all monkeys
 
     // Event codes for trials
@@ -45,15 +41,18 @@ public class TaskExample extends Fragment
         // Instantiate task objects
         assignObjects();
 
-        // Load cues for specific monkey, disable cues for other monkeys
+        // Find which monkey is playing (faceRecog result)
         current_monkey = getArguments().getInt("current_monkey");
+
+        // Load cues for specific monkey, disable cues for other monkeys
         Utils.toggleMonkeyCues(current_monkey, cues_all);
         cues = cues_all[current_monkey];
-        setOnClickListenerLoop(cues);
+
+        // Activate cues
+        Utils.setOnClickListenerLoop(cues, this);
 
         // Randomise cue locations
         Utils.randomlyPositionCues(cues, possible_cue_locs);
-
     }
 
     private void assignObjects() {
@@ -66,13 +65,6 @@ public class TaskExample extends Fragment
         cues_all[1][1] = getView().findViewById(R.id.buttonCue2MonkV);
 
         possible_cue_locs = new Utils().getPossibleCueLocs(getActivity());
-    }
-
-
-    private void setOnClickListenerLoop(Button[] buttons) {
-        for (int i = 0; i < buttons.length; i++) {
-            buttons[i].setOnClickListener(this);
-        }
     }
 
     @Override
