@@ -12,10 +12,10 @@ public class LoadPrefs extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_prefs);
 
-                    Fragment preferenceFragment = new PreferencesCompat();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(R.id.container_, preferenceFragment);
-            ft.commit();
+        Fragment preferenceFragment = new PreferencesCompat();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.container_, preferenceFragment);
+        ft.commit();
 
     }
 }

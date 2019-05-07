@@ -1,14 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        app:key="system_settings"
+        app:title="System settings">
 
     <SwitchPreferenceCompat
-            app:key="notifications"
-            app:title="Enable message notifications"/>
+            app:key="bluetooth"
+            app:title="Enable bluetooth/reward system"
+            app:defaultValue="@string/default_switch_bluetooth"/>
+    <SwitchPreferenceCompat
+            app:key="camera"
+            app:title="Enable camera"
+            app:defaultValue="@string/default_switch_camera"/>
+    <SwitchPreferenceCompat
+            app:key="facerecog"
+            app:title="Enable facial recognition"
+            app:defaultValue="@string/default_switch_facerecog"/>
+    <SwitchPreferenceCompat
+            app:key="restartoncrash"
+            app:title="Automatically restart task on crash"
+            app:defaultValue="@string/default_switch_restartoncrash"/>
+    <SwitchPreferenceCompat
+            app:key="sound"
+            app:title="Enable sounds"
+            app:defaultValue="@string/default_switch_sound"/>
+    </PreferenceCategory>
 
-    <Preference
-            app:key="feedback"
-            app:title="Send feedback"
-            app:summary="Report technical issues or suggest new features"/>
+  <PreferenceCategory
+        app:key="task_settings"
+        app:title="Common task settings">
+
+      <EditTextPreference
+          app:key="rewardduration"
+          app:title="Reward duration (ms)"
+          app:defaultValue="@string/default_duration_reward"
+      />
+
+      <EditTextPreference
+           app:key="timeoutduration"
+           app:title="Timeout duration for error trials (ms)"
+           app:defaultValue="@string/default_duration_timeout"
+      />
+
+      <EditTextPreference
+           app:key="responseduration"
+           app:title="Maximum response duration (ms)"
+           app:defaultValue="@string/default_duration_choicetime"/>
+
+      <ListPreference
+           app:key="taskbackgroundcolour"
+           app:title="Task background colour"
+           android:entries="@array/colournames"
+           android:entryValues="@array/colourvalues"
+           android:defaultValue="0"/>
+
+      <ListPreference
+           app:key="rewardbackgroundcolour"
+           app:title="Reward background colour"
+           android:entries="@array/colournames"
+           android:entryValues="@array/colourvalues"
+           android:defaultValue="14"/>
+
+      <ListPreference
+           app:key="timeoutbackgroundcolour"
+           app:title="Timeout background colour"
+           android:entries="@array/colournames"
+           android:entryValues="@array/colourvalues"
+           android:defaultValue="6"/>
+
+    </PreferenceCategory>
+
+       <PreferenceCategory
+        app:key="auto_start_stop"
+        app:title="Automatic startup and shutdown">
+
+        <SwitchPreferenceCompat
+            app:key="autostartswitch"
+            app:title="Auto task startup"
+            app:defaultValue="@string/default_switch_autostart"/>
+
+        <SeekBarPreference
+            app:key="startuptime"
+            app:title="Start up time"
+            app:isPreferenceVisible="false"/>
+
+        <SwitchPreferenceCompat
+            app:key="autostopswitch"
+            app:title="Auto task shutdown"
+            app:defaultValue="@string/default_switch_autostop"/>
+
+
+        <SeekBarPreference
+            app:key="shutdowntime"
+            app:title="Shut down time"
+            app:isPreferenceVisible="false"/>
+
+    </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>
