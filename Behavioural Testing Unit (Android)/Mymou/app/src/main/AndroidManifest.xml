@@ -19,7 +19,8 @@
             android:icon="@drawable/ic_launcher"
             android:label="Mymou"
             android:theme="@android:style/Theme.Black.NoTitleBar">
-        <activity android:name=".PermissionManager">
+        <activity android:name=".LoadPrefs"
+         android:theme="@style/AppTheme.FullScreen">
         </activity>
         <activity
                 android:name=".MainMenu"

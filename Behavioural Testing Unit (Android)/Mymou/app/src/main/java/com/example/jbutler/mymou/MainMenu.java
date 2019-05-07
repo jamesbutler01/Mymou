@@ -1,6 +1,7 @@
 package com.example.jbutler.mymou;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -10,7 +11,7 @@ import android.widget.*;
 
 public class MainMenu extends Activity  {
 
-    public static String TAG = "MainMenu";
+    public static String TAG = "MyMouMainMenu";
 
     // If true this automatically starts the task upon application startup (Speeds up debugging/testing)
     public static final boolean testingMode = false;
@@ -35,7 +36,7 @@ public class MainMenu extends Activity  {
     // Tasks cannot run unless permissions have been granted
     private boolean permissions_granted=false;
 
-
+    private Context context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +55,7 @@ public class MainMenu extends Activity  {
         if(testingMode && permissions_granted) {
             startTask();
         }
+
     }
 
     private void checkPermissions() {
@@ -77,7 +79,6 @@ public class MainMenu extends Activity  {
 
         Intent intent = new Intent(this, TaskManager.class);
         intent.putExtra("tasktoload", taskSelected);
-
         startActivity(intent);
     }
 
@@ -131,6 +132,7 @@ public class MainMenu extends Activity  {
 
     private void initialiseLayoutParameters() {
         findViewById(R.id.buttonStart).setOnClickListener(buttonClickListener);
+        findViewById(R.id.buttonSettings).setOnClickListener(buttonClickListener);
         initialiseToggleButtons();
     }
 
@@ -179,6 +181,10 @@ public class MainMenu extends Activity  {
                 case R.id.buttonStart:
                     startTask();
                     break;
+                case R.id.buttonSettings:
+                    Intent intent = new Intent(context, LoadPrefs.class);
+                    startActivity(intent);
+                    break;
             }
         }
     };
@@ -192,7 +198,7 @@ public class MainMenu extends Activity  {
         }
     }
 
-
+    // TODO: Figure out how to move this to PermissionsManager
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if(grantResults.length > 0) {
@@ -204,5 +210,6 @@ public class MainMenu extends Activity  {
             }
         }
     }
+
 
 }

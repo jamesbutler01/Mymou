@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <color name="colorPrimary">#009688</color>
+<color name="colorPrimaryLight">#b2dfdb</color>
 <color name="colorPrimaryDark">#00796B</color>
     <color name="colorDiscrete">#B2DFDB</color>
 <color name="white">#ffffff</color>
