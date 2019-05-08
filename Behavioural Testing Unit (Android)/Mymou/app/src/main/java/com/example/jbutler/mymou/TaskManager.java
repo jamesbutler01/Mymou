@@ -203,6 +203,10 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
              TaskFromPaper fragment = new TaskFromPaper();
             fragment.setArguments(bundle);
             fragmentTransaction.add(R.id.task_container, fragment, TAG_FRAGMENT);
+        } else if (taskId == 2) {
+            TaskObjectDiscrimination fragment = new TaskObjectDiscrimination();
+            fragment.setArguments(bundle);
+            fragmentTransaction.add(R.id.task_container, fragment, TAG_FRAGMENT);
         }
         commitFragment();
 

@@ -1,26 +1,34 @@
 package com.example.jbutler.mymou;
+
+import android.app.Fragment;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.app.Fragment;
+import android.widget.LinearLayout;
 
 // A basic object discrimination task showcasing the main features of the Mymou system:
 
-public class TaskExample extends Fragment implements View.OnClickListener {
+public class TaskObjectDiscrimination extends Fragment implements View.OnClickListener {
 
     // Debug
     public static String TAG = "TaskExample";
 
-     // Identifier for which monkey is currently playing the task
+    // Identifier for which monkey is currently playing the task
     private static int current_monkey;
 
+    // Task settings
+    private static int num_correct_cues = 5;
+    private static int num_correct_cues_shown = 2;
+    private static int num_incorrect_cues = 5;
+    private static int num_incorrect_cues_shown = 2;
+    private static int num_steps_needed = 2;
+    private static boolean repeat_on_error = true;
+
     // Task objects
-    private static int num_cues = 2;
     private static Button[] cues;  // List of all trial objects for an individual monkey
-    private static Button[][] cues_all = {new Button[num_cues], new Button[num_cues]};  // All cues across all monkeys
 
     // Predetermined locations where cues can appear on screen, calculated by UtilsTask.calculateCueLocations()
     private static Point[] possible_cue_locs;
@@ -28,7 +36,7 @@ public class TaskExample extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_task_example, container, false);
+        return inflater.inflate(R.layout.activity_task_object_discrimination, container, false);
     }
 
     @Override
@@ -37,30 +45,35 @@ public class TaskExample extends Fragment implements View.OnClickListener {
         // Instantiate task objects
         assignObjects();
 
-        // Find which monkey is playing (faceRecog result)
-        current_monkey = getArguments().getInt("current_monkey");
-
-        // Load cues for specific monkey, disable cues for other monkeys
-        UtilsTask.toggleMonkeyCues(current_monkey, cues_all);
-        cues = cues_all[current_monkey];
-
-        // Activate cues
-        UtilsSystem.setOnClickListenerLoop(cues, this);
-
-        // Randomise cue locations
-        UtilsTask.randomlyPositionCues(cues, possible_cue_locs);
     }
 
     private void assignObjects() {
-        // Monkey 0 cues
-        cues_all[0][0] = getView().findViewById(R.id.buttonCue1MonkO);
-        cues_all[0][1] = getView().findViewById(R.id.buttonCue2MonkO);
-
-        // Monkey 1's cues
-        cues_all[1][0] = getView().findViewById(R.id.buttonCue1MonkV);
-        cues_all[1][1] = getView().findViewById(R.id.buttonCue2MonkV);
+        int i_buttons = 0;
+        cues = new Button[num_incorrect_cues_shown+num_correct_cues_shown];
+        // Add correct cues
+        for (int i_correct = 0; i_correct < num_correct_cues_shown; i_correct++) {
+            addButton(i_correct, i_correct);
+            i_buttons += 1;
+        }
+        for (int i_incorrect = 0; i_incorrect < num_incorrect_cues_shown; i_incorrect++) {
+            addButton(i_buttons, i_incorrect);
+            i_buttons += 1;
+        }
 
         possible_cue_locs = new UtilsTask().getPossibleCueLocs(getActivity());
+    }
+
+    private void addButton(int id, int color) {
+        int[] colors = this.getResources().getIntArray(R.array.colorarray);
+        LinearLayout layout = getView().findViewById(R.id.container_object_discrim);
+        Button button = new Button(getContext());
+        button.setWidth(175);
+        button.setHeight(175);
+        button.setId(id);
+        button.setBackgroundColor(colors[color]);
+        button.setOnClickListener(this);
+        layout.addView(button);
+        cues[id] = button;
     }
 
     @Override
@@ -73,15 +86,11 @@ public class TaskExample extends Fragment implements View.OnClickListener {
          ((TaskManager) getActivity()).resetTimer();
 
         // Now decide what to do based on what button pressed
+        // The id of correct cues come first so this is how we determine if it's a correct cue or not
         boolean successfulTrial = false;
-        switch (view.getId()) {
-            // If they pressed the correct cue, then set the bool to true
-            case R.id.buttonCue1MonkO:
-                successfulTrial = true;
-                break;
-            case R.id.buttonCue2MonkV:
-                successfulTrial = true;
-                break;
+
+        if (Integer.valueOf(view.getId()) < num_correct_cues_shown) {
+            successfulTrial = true;
         }
         endOfTrial(successfulTrial);
     }

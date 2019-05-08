@@ -64,6 +64,7 @@ public class UtilsTask {
         button.setClickable(status);
     }
 
+
     public static void toggleView(View view, boolean status) {
         if (status) {
             view.setVisibility(View.VISIBLE);

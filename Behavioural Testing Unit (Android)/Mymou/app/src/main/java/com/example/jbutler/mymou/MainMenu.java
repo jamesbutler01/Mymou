@@ -14,7 +14,7 @@ public class MainMenu extends Activity  {
     private static String TAG = "MyMouMainMenu";
 
     // If true this automatically starts the task upon application startup (Speeds up debugging/testing)
-    private static final boolean testingMode = false;
+    private static final boolean testingMode = true;
 
     // Disable bluetooth and RewardSystem connectivity here
     private static PreferencesManager preferencesManager;
@@ -22,7 +22,7 @@ public class MainMenu extends Activity  {
     private static RewardSystem rewardSystem; //TODO this is flagged as a memory leak (Context classes should not be in static fields)
 
     // The task to be loaded, set by the spinner
-    private static int taskSelected = 0;
+    private static int taskSelected = 2;
 
     // Tasks cannot run unless permissions have been granted
     private boolean permissions_granted=false;

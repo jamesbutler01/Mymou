@@ -17,6 +17,7 @@
     <string-array name="available_tasks">
         <item>Example task</item>
         <item>Task from Butler, Kennerley (2018)</item>
+        <item>Object discrimination</item>
     </string-array>
 
     <string name="default_taskbackgroundcolour">0</string>
