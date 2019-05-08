@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <integer name="default_num_monkeys">2</integer>
     <integer name="default_startuptime">0700</integer>
     <integer name="default_shutdowntime">1900</integer>
 </resources>

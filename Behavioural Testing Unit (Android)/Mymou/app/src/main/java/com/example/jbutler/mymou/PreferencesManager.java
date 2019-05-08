@@ -7,9 +7,11 @@ import androidx.preference.PreferenceManager;
 
 public class PreferencesManager {
     private String TAG = "MyMouPreferencesManager";
+
     public static boolean bluetooth, camera, facerecog, restartoncrash, sound, autostart, autostop;
     public static int rewardduration, responseduration, timeoutduration, startuptime, shutdowntime;
     public static int taskbackground, rewardbackground, timeoutbackground;
+    public static int num_monkeys;
 
     public PreferencesManager(Context context) {
         // Get sharedpreferences
@@ -33,6 +35,8 @@ public class PreferencesManager {
         int taskbackgroundcolour = Integer.valueOf(sharedPrefs.getString("taskbackgroundcolour", context.getResources().getString(R.string.default_taskbackgroundcolour)));
         int rewardbackgroundcolour = Integer.valueOf(sharedPrefs.getString("rewardbackgroundcolour", context.getResources().getString(R.string.default_rewardbackgroundcolour)));
         int timeoutbackgroundcolour = Integer.valueOf(sharedPrefs.getString("timeoutbackgroundcolour", context.getResources().getString(R.string.default_timeoutbackgroundcolour)));
+
+        num_monkeys = sharedPrefs.getInt("num_monkeys", context.getResources().getInteger(R.integer.default_num_monkeys));
 
         int[] colors = context.getResources().getIntArray(R.array.colorarray);
         taskbackground = colors[taskbackgroundcolour];

@@ -69,6 +69,12 @@
            android:entryValues="@array/colourvalues"
            android:defaultValue="6"/>
 
+        <SeekBarPreference
+            app:key="num_monkeys"
+            app:title="Number of monkeys"
+            android:max="8"
+            android:summary="Number of monkeys in total that will use the device"/>
+
     </PreferenceCategory>
 
        <PreferenceCategory
@@ -80,7 +86,7 @@
             app:title="Auto task startup"
             app:defaultValue="@bool/default_autostart"/>
 
-        <SeekBarPreference0
+        <SeekBarPreference
             app:key="startuptime"
             app:title="Start up time"
             app:isPreferenceVisible="false"/>

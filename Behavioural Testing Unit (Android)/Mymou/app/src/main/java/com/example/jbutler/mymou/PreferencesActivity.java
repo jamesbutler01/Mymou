@@ -12,9 +12,11 @@ public class PreferencesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences);
 
-        Fragment preferenceFragment = new PreferencesMenu();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        Fragment preferenceFragment = new PreferencesMenu();
         ft.add(R.id.container_, preferenceFragment);
+
         ft.commit();
 
     }
