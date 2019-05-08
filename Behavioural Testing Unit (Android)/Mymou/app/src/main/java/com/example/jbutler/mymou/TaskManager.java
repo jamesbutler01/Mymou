@@ -62,9 +62,6 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     // Predetermined locations where cues can appear on screen, calculated by UtilsTask.calculateCueLocations()
     private static Point[] possible_cue_locs;
 
-    // Used to cover/disable task when required (e.g. no bluetooth connection)
-    public static View foregroundBlack;
-
     // Timeouts for wrong choices by subject
     private static int timeoutWrongGoCuePressed = 300;  // Timeout for not pressing their own Go cue
 
@@ -388,6 +385,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     public static boolean enableApp(boolean bool) {
         Log.d(TAG, "Enabling app"+bool);
         setBrightness(bool);
+        View foregroundBlack = activity.findViewById(R.id.foregroundblack);
         if (foregroundBlack != null) {
             UtilsTask.toggleView(foregroundBlack, !bool);  // This is inverted as foreground object disables app
             return true;
@@ -523,7 +521,6 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         }
 
         // Layout views
-        foregroundBlack = findViewById(R.id.foregroundblack);
         cues_Go[0] = findViewById(R.id.buttonGoMonkZero);
         cues_Go[1] = findViewById(R.id.buttonGoMonkOne);
         cues_Go[2] = findViewById(R.id.buttonGoMonkTwo);

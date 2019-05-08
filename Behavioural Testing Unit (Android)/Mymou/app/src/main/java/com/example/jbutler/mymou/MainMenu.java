@@ -73,7 +73,6 @@ public class MainMenu extends Activity  {
 
         Intent intent = new Intent(this, TaskManager.class);
         intent.putExtra("tasktoload", taskSelected);
-        intent.putExtra("testingmode", testingMode);
         startActivity(intent);
     }
 
