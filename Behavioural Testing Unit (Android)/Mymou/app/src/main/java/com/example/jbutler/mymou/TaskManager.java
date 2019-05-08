@@ -51,10 +51,9 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private static Context mContext;
     private static Activity activity;
 
-        // Unique numbers assigned to each subject, used for facial recognition
     private static int num_monkeys;
 
-      // Aync handlers used to posting delayed task events
+    // Aync handlers used to posting delayed task events
     private static Handler h0 = new Handler();  // Task trial_timer
     private static Handler h1 = new Handler();  // Prepare for new trial
     private static Handler h2 = new Handler();  // Timeout go cues
@@ -63,18 +62,13 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     // Predetermined locations where cues can appear on screen, calculated by UtilsTask.calculateCueLocations()
     private static Point[] possible_cue_locs;
 
-      // Used to cover/disable task when required (e.g. no bluetooth connection)
+    // Used to cover/disable task when required (e.g. no bluetooth connection)
     public static View foregroundBlack;
-
-    // Background colours
-    private static View backgroundRed, backgroundPink;
 
     // Timeouts for wrong choices by subject
     private static int timeoutWrongGoCuePressed = 300;  // Timeout for not pressing their own Go cue
-    private static int timeoutErrorTrial = 1000;  // Timeout for error trial
 
     // Timer to reset task if subject stops halfway through a trial
-    private static int maxTrialDuration = 10000;  // Milliseconds until task timeouts and resets
     private static int time = 0;  // Time from last press - used for idle timeout if it reaches maxTrialDuration
     private static boolean timerRunning;  // Signals if trial_timer currently active
 
@@ -88,9 +82,6 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private static Button[] cues_Go = new Button[8]; // Go cues to start a trial
     private static Button[] cues_Reward = new Button[4];  // Reward cues for the different reward options
 
-     // Reward
-    static int rewardAmount = 1000;  // Duration (ms) that rewardSystem activated for
-
     // Boolean to signal if task should be active or not (e.g. overnight it is set to true)
     public static boolean shutdown = false;
 
@@ -101,6 +92,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         setContentView(R.layout.activity_all_tasks);
 
         assignObjects();
+        loadAndApplySettings();
         setNumMonkeys();
         positionGoCues();
         setOnClickListeners();
@@ -211,11 +203,11 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         if (taskId == 0) {
             TaskExample fragment = new TaskExample();
             fragment.setArguments(bundle);
-            fragmentTransaction.add(R.id.container, fragment, TAG_FRAGMENT);
+            fragmentTransaction.add(R.id.task_container, fragment, TAG_FRAGMENT);
         } else if (taskId == 1) {
              TaskFromPaper fragment = new TaskFromPaper();
             fragment.setArguments(bundle);
-            fragmentTransaction.add(R.id.container, fragment, TAG_FRAGMENT);
+            fragmentTransaction.add(R.id.task_container, fragment, TAG_FRAGMENT);
         }
         commitFragment();
 
@@ -235,7 +227,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         Log.d(TAG, "Loading camera fragment");
         fragmentTransaction = fragmentManager.beginTransaction();
         CameraMain cM = new CameraMain();
-        fragmentTransaction.add(R.id.container, cM);
+        fragmentTransaction.add(R.id.task_container, cM);
         commitFragment();
     }
 
@@ -506,6 +498,16 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         return false;
     }
 
+    private void loadAndApplySettings() {
+        if (preferencesManager.facerecog) {
+            folderManager = new FolderManager(num_monkeys);
+        } else {
+            folderManager = new FolderManager();
+        }
+        findViewById(R.id.task_container).setBackgroundColor(preferencesManager.taskbackground);
+
+    }
+
     private void assignObjects() {
         // Global variables
         activity = this;
@@ -519,15 +521,8 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         if (num_monkeys > Integer.valueOf(getString(R.string.max_num_monkeys))) {
             new Exception("This many monkeys not supported");
         }
-        if (preferencesManager.facerecog) {
-            folderManager = new FolderManager(num_monkeys);
-        } else {
-            folderManager = new FolderManager();
-        }
 
         // Layout views
-        backgroundRed = findViewById(R.id.backgroundred);
-        backgroundPink = findViewById(R.id.backgroundpink);
         foregroundBlack = findViewById(R.id.foregroundblack);
         cues_Go[0] = findViewById(R.id.buttonGoMonkZero);
         cues_Go[1] = findViewById(R.id.buttonGoMonkOne);
@@ -659,14 +654,14 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         logEvent("Monkey pressed wrong go cue..");
         commitTrialData(ec_wrongGoCuePressed);
         // Switch on red background
-        UtilsTask.toggleView(backgroundRed, true);
+        activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.timeoutbackground);
 
         // Switch off red background after certain delay
         h2.postDelayed(new Runnable() {
             @Override
             public void run() {
                 UtilsTask.toggleCues(cues_Go, true);
-                UtilsTask.toggleView(backgroundRed, false);
+                activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.taskbackground);
             }
         }, timeoutWrongGoCuePressed);
     }
@@ -687,21 +682,21 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
     private void incorrectTrial(int result) {
         logEvent("Feedback: Error trial");
-        UtilsTask.toggleView(backgroundRed, true);
-        endOfTrial(result, timeoutErrorTrial);
+        activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.timeoutbackground);
+        endOfTrial(result, preferencesManager.timeoutduration);
     }
 
     private void correctTrial() {
         logEvent("Correct trial: Reward choice");
-        UtilsTask.toggleView(backgroundPink, true);
+        activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.rewardbackground);
         UtilsTask.randomlyPositionCues(cues_Reward, possible_cue_locs);
         UtilsTask.toggleCues(cues_Reward, true);
     }
 
     private void deliverReward(int juiceChoice) {
-        logEvent("Delivering "+rewardAmount+"ms reward on channel "+juiceChoice);
-        rewardSystem.activateChannel(juiceChoice, rewardAmount);
-        endOfTrial(ec_correctTrial, rewardAmount + 500);
+        logEvent("Delivering "+preferencesManager.rewardduration+"ms reward on channel "+juiceChoice);
+        rewardSystem.activateChannel(juiceChoice, preferencesManager.rewardduration);
+        endOfTrial(ec_correctTrial, preferencesManager.rewardduration + 500);
     }
 
 
@@ -737,7 +732,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         h0.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (time > maxTrialDuration) {
+                if (time > preferencesManager.responseduration) {
                     time = 0;
                     timerRunning = false;
 
@@ -754,8 +749,8 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private static void idleTimeout() {
         logEvent("Error stage: Idle timeout");
         disableAllCues();
-        UtilsTask.toggleView(backgroundRed, true);
-        endOfTrial(ec_idletimeout, timeoutErrorTrial);  // TODO: Switch this to trialEnded (which is static)
+        activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.timeoutbackground);
+        endOfTrial(ec_idletimeout, preferencesManager.timeoutduration);  // TODO: Switch this to trialEnded (which is static)
         //trialEnded(ec_idletimeout);
     }
 
@@ -764,8 +759,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     h1.postDelayed(new Runnable() {
             @Override
             public void run() {
-                UtilsTask.toggleView(backgroundRed, false);
-                UtilsTask.toggleView(backgroundPink, false);
+                activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.taskbackground);
                 UtilsTask.toggleCues(cues_Go, true);
                 textView.setText("Initiation Stage");
             }

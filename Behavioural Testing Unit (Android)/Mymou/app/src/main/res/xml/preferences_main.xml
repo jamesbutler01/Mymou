@@ -34,19 +34,19 @@
       <EditTextPreference
           app:key="rewardduration"
           app:title="Reward duration (ms)"
-          app:defaultValue="@int/default_rewardduration"
+          app:defaultValue="@string/default_rewardduration"
       />
 
       <EditTextPreference
            app:key="timeoutduration"
            app:title="Timeout duration for error trials (ms)"
-           app:defaultValue="@int/default_timeoutduration"
+           app:defaultValue="@string/default_timeoutduration"
       />
 
       <EditTextPreference
            app:key="responseduration"
            app:title="Maximum response duration (ms)"
-           app:defaultValue="@int/default_responseduration"/>
+           app:defaultValue="@string/default_responseduration"/>
 
       <ListPreference
            app:key="taskbackgroundcolour"
@@ -78,9 +78,9 @@
         <SwitchPreferenceCompat
             app:key="autostartswitch"
             app:title="Auto task startup"
-            app:defaultValue="@int/default_autostart"/>
+            app:defaultValue="@bool/default_autostart"/>
 
-        <SeekBarPreference
+        <SeekBarPreference0
             app:key="startuptime"
             app:title="Start up time"
             app:isPreferenceVisible="false"/>
@@ -88,7 +88,7 @@
         <SwitchPreferenceCompat
             app:key="autostopswitch"
             app:title="Auto task shutdown"
-            app:defaultValue="@int/default_autostop"/>
+            app:defaultValue="@bool/default_autostop"/>
 
 
         <SeekBarPreference

@@ -20,58 +20,23 @@
     </string-array>
 
     <string-array name="colourvalues">
-        <item>#ffffff</item>
-        <item>#000000</item>
-        <item>#696969</item>
-        <item>#0f52ba</item>
-        <item>#FFFF00</item>
-        <item>#FF00FF</item>
-        <item>#FF0000</item>
-        <item>#C0C0C0</item>
-        <item>#808000</item>
-        <item>#800080</item>
-        <item>#800000</item>
-        <item>#00FFFF</item>
-        <item>#00FF00</item>
-        <item>#008080</item>
-        <item>#008000</item>
-        <item>#000080</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
     </string-array>
 
-    <string-array name="preference_names">
-        <item>bluetooth</item>
-        <item>camera</item>
-        <item>facerecog</item>
-        <item>restartoncrash</item>
-        <item>sound</item>
-        <item>rewardduration</item>
-        <item>timeoutduration</item>
-        <item>responseduration</item>
-        <item>taskbackgroundcolour</item>
-        <item>rewardbackgroundcolour</item>
-        <item>timeoutbackgroundcolour</item>
-        <item>autostartswitch</item>
-        <item>startuptime</item>
-        <item>autostopswitch</item>
-        <item>shutdowntime</item>
-    </string-array>
-
-    <string-array name="preference_defaults">
-        <item>false</item>
-        <item>true</item>
-        <item>false</item>
-        <item>false</item>
-        <item>true</item>
-        <item>1500</item>
-        <item>1500</item>
-        <item>10000</item>
-        <item>#ffffff</item>
-        <item>#008000</item>
-        <item>#FF0000</item>
-        <item>false</item>
-        <item>0700</item>
-        <item>false</item>
-        <item>1900</item>
-    </string-array>
 
 </resources>
