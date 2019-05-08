@@ -8,23 +8,23 @@
     <SwitchPreferenceCompat
             app:key="bluetooth"
             app:title="Enable bluetooth/reward system"
-            app:defaultValue="@string/default_switch_bluetooth"/>
+            app:defaultValue="@bool/default_bluetooth"/>
     <SwitchPreferenceCompat
             app:key="camera"
             app:title="Enable camera"
-            app:defaultValue="@string/default_switch_camera"/>
+            app:defaultValue="@bool/default_camera"/>
     <SwitchPreferenceCompat
             app:key="facerecog"
             app:title="Enable facial recognition"
-            app:defaultValue="@string/default_switch_facerecog"/>
+            app:defaultValue="@bool/default_facerecog"/>
     <SwitchPreferenceCompat
             app:key="restartoncrash"
             app:title="Automatically restart task on crash"
-            app:defaultValue="@string/default_switch_restartoncrash"/>
+            app:defaultValue="@bool/default_restartoncrash"/>
     <SwitchPreferenceCompat
             app:key="sound"
             app:title="Enable sounds"
-            app:defaultValue="@string/default_switch_sound"/>
+            app:defaultValue="@bool/default_sound"/>
     </PreferenceCategory>
 
   <PreferenceCategory
@@ -34,19 +34,19 @@
       <EditTextPreference
           app:key="rewardduration"
           app:title="Reward duration (ms)"
-          app:defaultValue="@string/default_duration_reward"
+          app:defaultValue="@int/default_rewardduration"
       />
 
       <EditTextPreference
            app:key="timeoutduration"
            app:title="Timeout duration for error trials (ms)"
-           app:defaultValue="@string/default_duration_timeout"
+           app:defaultValue="@int/default_timeoutduration"
       />
 
       <EditTextPreference
            app:key="responseduration"
            app:title="Maximum response duration (ms)"
-           app:defaultValue="@string/default_duration_choicetime"/>
+           app:defaultValue="@int/default_responseduration"/>
 
       <ListPreference
            app:key="taskbackgroundcolour"
@@ -78,7 +78,7 @@
         <SwitchPreferenceCompat
             app:key="autostartswitch"
             app:title="Auto task startup"
-            app:defaultValue="@string/default_switch_autostart"/>
+            app:defaultValue="@int/default_autostart"/>
 
         <SeekBarPreference
             app:key="startuptime"
@@ -88,7 +88,7 @@
         <SwitchPreferenceCompat
             app:key="autostopswitch"
             app:title="Auto task shutdown"
-            app:defaultValue="@string/default_switch_autostop"/>
+            app:defaultValue="@int/default_autostop"/>
 
 
         <SeekBarPreference

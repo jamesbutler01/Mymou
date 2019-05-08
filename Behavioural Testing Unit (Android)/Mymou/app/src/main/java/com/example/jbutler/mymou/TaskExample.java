@@ -26,7 +26,7 @@ public class TaskExample extends Fragment implements View.OnClickListener {
     private static int ec_correctTrial = 1;  // TODO: Move these to resources xml file
     private static int ec_incorrectTrial = 0;
 
-    // Predetermined locations where cues can appear on screen, calculated by Utils.calculateCueLocations()
+    // Predetermined locations where cues can appear on screen, calculated by UtilsTask.calculateCueLocations()
     private static Point[] possible_cue_locs;
 
     @Override
@@ -45,14 +45,14 @@ public class TaskExample extends Fragment implements View.OnClickListener {
         current_monkey = getArguments().getInt("current_monkey");
 
         // Load cues for specific monkey, disable cues for other monkeys
-        Utils.toggleMonkeyCues(current_monkey, cues_all);
+        UtilsTask.toggleMonkeyCues(current_monkey, cues_all);
         cues = cues_all[current_monkey];
 
         // Activate cues
-        Utils.setOnClickListenerLoop(cues, this);
+        UtilsSystem.setOnClickListenerLoop(cues, this);
 
         // Randomise cue locations
-        Utils.randomlyPositionCues(cues, possible_cue_locs);
+        UtilsTask.randomlyPositionCues(cues, possible_cue_locs);
     }
 
     private void assignObjects() {
@@ -64,14 +64,14 @@ public class TaskExample extends Fragment implements View.OnClickListener {
         cues_all[1][0] = getView().findViewById(R.id.buttonCue1MonkV);
         cues_all[1][1] = getView().findViewById(R.id.buttonCue2MonkV);
 
-        possible_cue_locs = new Utils().getPossibleCueLocs(getActivity());
+        possible_cue_locs = new UtilsTask().getPossibleCueLocs(getActivity());
     }
 
     @Override
     public void onClick(View view) {
 
         // Always disable all cues after a press as monkeys love to bash repeatedly
-        Utils.toggleCues(cues, false);
+        UtilsTask.toggleCues(cues, false);
 
          // Reset timer for idle timeout on each press
          ((TaskManager) getActivity()).resetTimer();

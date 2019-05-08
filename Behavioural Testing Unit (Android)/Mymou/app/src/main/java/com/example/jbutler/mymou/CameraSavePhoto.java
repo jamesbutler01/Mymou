@@ -71,10 +71,8 @@ class CameraSavePhoto implements Runnable {
             intArray[i] = Color.red(intArray[i]); //Any colour will do as greyscale
         }
 
-        //Log text data with photoId
-        if (MainMenu.useFaceRecognition) {
-            TaskManager.setFaceRecogPrediction(intArray);
-        }
+        // Run image through faceRecog
+        TaskManager.setFaceRecogPrediction(intArray);
 
         //Save pixel values
         saveIntArray(intArray);

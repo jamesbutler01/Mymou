@@ -37,4 +37,41 @@
         <item>#008000</item>
         <item>#000080</item>
     </string-array>
+
+    <string-array name="preference_names">
+        <item>bluetooth</item>
+        <item>camera</item>
+        <item>facerecog</item>
+        <item>restartoncrash</item>
+        <item>sound</item>
+        <item>rewardduration</item>
+        <item>timeoutduration</item>
+        <item>responseduration</item>
+        <item>taskbackgroundcolour</item>
+        <item>rewardbackgroundcolour</item>
+        <item>timeoutbackgroundcolour</item>
+        <item>autostartswitch</item>
+        <item>startuptime</item>
+        <item>autostopswitch</item>
+        <item>shutdowntime</item>
+    </string-array>
+
+    <string-array name="preference_defaults">
+        <item>false</item>
+        <item>true</item>
+        <item>false</item>
+        <item>false</item>
+        <item>true</item>
+        <item>1500</item>
+        <item>1500</item>
+        <item>10000</item>
+        <item>#ffffff</item>
+        <item>#008000</item>
+        <item>#FF0000</item>
+        <item>false</item>
+        <item>0700</item>
+        <item>false</item>
+        <item>1900</item>
+    </string-array>
+
 </resources>

@@ -2,14 +2,13 @@ package com.example.jbutler.mymou;
 
 import android.app.Activity;
 import android.graphics.Point;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 
 import java.util.Random;
 
-public class Utils {
+public class UtilsTask {
    // Debug
     public static String TAG = "MymouUtils";
 
@@ -44,12 +43,6 @@ public class Utils {
 
     }
 
-    public static void setOnClickListenerLoop(Button[] buttons, View.OnClickListener view) {
-        for (Button button: buttons) {
-            button.setOnClickListener(view);
-        }
-    }
-
     // Switches on a particular monkeys cues, and switches off other monkey's cues
     public static void toggleMonkeyCues(int monkId, Button[][] all_cues) {
         for (int i_monk = 0; i_monk < all_cues.length; i_monk++) {
@@ -61,7 +54,7 @@ public class Utils {
     // Iterates through a list of cues enabling/disabling all in list
     public static void toggleCues(Button[] buttons, boolean status) {
         for (int i = 0; i < buttons.length; i++) {
-            Utils.toggleCue(buttons[i], status);
+            UtilsTask.toggleCue(buttons[i], status);
         }
     }
 

@@ -5,14 +5,14 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-public class LoadPrefs extends AppCompatActivity {
+public class PreferencesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_load_prefs);
+        setContentView(R.layout.activity_preferences);
 
-        Fragment preferenceFragment = new PreferencesCompat();
+        Fragment preferenceFragment = new PreferencesMenu();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.container_, preferenceFragment);
         ft.commit();

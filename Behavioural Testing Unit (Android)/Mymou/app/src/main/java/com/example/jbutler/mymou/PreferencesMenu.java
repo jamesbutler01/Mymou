@@ -3,18 +3,13 @@ package com.example.jbutler.mymou;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import androidx.fragment.app.DialogFragment;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
-import java.util.prefs.PreferenceChangeEvent;
-import java.util.prefs.PreferenceChangeListener;
+public class PreferencesMenu extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-public class PreferencesCompat extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
-
-    public PreferencesCompat() {
+    public PreferencesMenu() {
     }
 
     @Override

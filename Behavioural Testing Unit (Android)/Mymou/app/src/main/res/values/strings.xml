@@ -15,19 +15,6 @@
     <string name="num_monkeys">2</string>
     <string name="max_num_monkeys">8</string>
 
-    <string name="default_duration_reward">1500</string>
-    <string name="default_duration_timeout">1500</string>
-    <string name="default_duration_choicetime">10000</string>
-    <string name="default_switch_bluetooth">false</string>
-        <string name="default_switch_camera">true</string>
-    <string name="default_switch_facerecog">false</string>
-    <string name="default_switch_restartoncrash">false</string>
-    <string name="default_switch_sound">true</string>
-    <string name="default_switch_autostart">false</string>
-    <string name="default_switch_autostop">false</string>
-
-
-
     <string-array name="available_tasks">
         <item>Example task</item>
         <item>Task from Butler, Kennerley (2018)</item>

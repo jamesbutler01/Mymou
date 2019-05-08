@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="default_bluetooth">false</bool>
+    <bool name="default_camera">true</bool>
+    <bool name="default_facerecog">false</bool>
+    <bool name="default_restartoncrash">false</bool>
+    <bool name="default_sound">true</bool>
+    <bool name="default_autostart">false</bool>
+    <bool name="default_autostop">false</bool>
+
+</resources>

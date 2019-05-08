@@ -43,7 +43,7 @@ public class RewardSystem {
 
         initialiseRewardChannelStrings();
 
-        if (MainMenu.useBluetooth && new PermissionManager(context_in, activity).checkPermissions()) {
+        if (new PreferencesManager(context).bluetooth && new PermissionManager(context_in, activity).checkPermissions()) {
             loopUntilConnected();
         }
 

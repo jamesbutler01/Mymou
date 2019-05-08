@@ -11,26 +11,17 @@ import android.widget.*;
 
 public class MainMenu extends Activity  {
 
-    public static String TAG = "MyMouMainMenu";
+    private static String TAG = "MyMouMainMenu";
 
     // If true this automatically starts the task upon application startup (Speeds up debugging/testing)
-    public static final boolean testingMode = false;
-
-    // Camera can crash the emulator, so disable if not using a tablet
-    public static final boolean useCamera = false;
+    private static final boolean testingMode = false;
 
     // Disable bluetooth and RewardSystem connectivity here
-    public static final boolean useBluetooth = false;
+    private static PreferencesManager preferencesManager;
 
-    // Disable facial recognition here
-    // To use faceRecog must have the weights for the ANN (wo.txt, wi.txt, meanAndVar.txt) present in the Mymou folder
-    public static final boolean useFaceRecognition = false;
+    private static RewardSystem rewardSystem; //TODO this is flagged as a memory leak (Context classes should not be in static fields)
 
-    // Disable ability to automatically restart app on crash here
-    public static final boolean restartOnCrash = false;
-
-    public static RewardSystem rewardSystem; //TODO this is flagged as a memory leak (Context classes should not be in static fields)
-
+    // The task to be loaded, set by the spinner
     private static int taskSelected = 0;
 
     // Tasks cannot run unless permissions have been granted
@@ -41,6 +32,9 @@ public class MainMenu extends Activity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
+        // Retrieve settings
+        preferencesManager = new PreferencesManager(this);
 
         initialiseLayoutParameters();
 
@@ -79,6 +73,7 @@ public class MainMenu extends Activity  {
 
         Intent intent = new Intent(this, TaskManager.class);
         intent.putExtra("tasktoload", taskSelected);
+        intent.putExtra("testingmode", testingMode);
         startActivity(intent);
     }
 
@@ -87,7 +82,7 @@ public class MainMenu extends Activity  {
         TextView tv1 = findViewById(R.id.tvBluetooth);
         if (rewardSystem.bluetoothConnection) {
             tv1.setText("Bluetooth status: Connected");
-        } else if (!useBluetooth) {
+        } else if (!preferencesManager.bluetooth) {
             tv1.setText("Bluetooth status: Disabled");
         }
     }
@@ -182,7 +177,7 @@ public class MainMenu extends Activity  {
                     startTask();
                     break;
                 case R.id.buttonSettings:
-                    Intent intent = new Intent(context, LoadPrefs.class);
+                    Intent intent = new Intent(context, PreferencesActivity.class);
                     startActivity(intent);
                     break;
             }

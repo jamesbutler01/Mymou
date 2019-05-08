@@ -39,6 +39,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private static int trialCounter = 0;
     public static RewardSystem rewardSystem;
 
+    private static PreferencesManager preferencesManager;
     private static FolderManager folderManager;
     private static FaceRecog faceRecog;
     private static ArrayList<String> trialData;
@@ -59,7 +60,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private static Handler h2 = new Handler();  // Timeout go cues
     private static Handler h3 = new Handler();  // Daily timer
 
-    // Predetermined locations where cues can appear on screen, calculated by Utils.calculateCueLocations()
+    // Predetermined locations where cues can appear on screen, calculated by UtilsTask.calculateCueLocations()
     private static Point[] possible_cue_locs;
 
       // Used to cover/disable task when required (e.g. no bluetooth connection)
@@ -112,7 +113,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         initialiseScreenSettings();
         initialiseAutoRestartHandler();
 
-        if (MainMenu.useFaceRecognition) {
+        if (preferencesManager.facerecog) {
             // Load facerecog off the main thread as takes a while
             Thread t = new Thread(new Runnable() {
                 public void run() {
@@ -125,14 +126,15 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         initialiseLogHandler();
 
         //only lock if we aren't in testing mode
-        if (!MainMenu.testingMode) {
+        boolean testingmode = getIntent().getBooleanExtra("testingmode", false);
+        if (!testingmode) {
             this.startLockTask();
         }
 
         PrepareForNewTrial(0);
 
         // Normally the reward system handles this as it has to wait for bluetooth connection
-        if (!MainMenu.useBluetooth) {
+        if (!preferencesManager.bluetooth) {
             enableApp(true);
         }
 
@@ -141,7 +143,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
     private void initialiseAutoRestartHandler() {
-            if (MainMenu.restartOnCrash) {
+            if (preferencesManager.restartoncrash) {
          Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
              @Override
              public void uncaughtException(Thread thread, Throwable throwable) {
@@ -155,8 +157,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
     private void loadtask() {
-        Intent intent = getIntent();
-        taskId = intent.getIntExtra("tasktoload", -1);
+        taskId = getIntent().getIntExtra("tasktoload", -1);
         if (taskId == -1) {
             new Exception("No task specified");
         }
@@ -166,7 +167,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private void setNumMonkeys() {
         // Disable go cues for extra monkeys
         Button[] cues_excluded = Arrays.copyOfRange(cues_Go, num_monkeys, cues_Go.length);
-        Utils.toggleCues(cues_excluded, false);
+        UtilsTask.toggleCues(cues_excluded, false);
 
         // Shorten list to number needed
         cues_Go = Arrays.copyOf(cues_Go, num_monkeys);
@@ -182,7 +183,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         boolean successfullyEstablished = false;
         rewardSystem.quitBt();
         rewardSystem = new RewardSystem(this, this);
-        if (rewardSystem.bluetoothConnection | !MainMenu.useBluetooth) {
+        if (rewardSystem.bluetoothConnection | !preferencesManager.bluetooth) {
             successfullyEstablished = enableApp(true);
         }
 
@@ -227,7 +228,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
     private void loadCamera() {
-        if (!MainMenu.useCamera) {
+        if (!preferencesManager.camera) {
             return;
         }
 
@@ -308,7 +309,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
             }
 
             // Place photo in correct monkey's folder
-            if (MainMenu.useFaceRecognition) {
+            if (preferencesManager.facerecog) {
                 // Find name of photo and old/new location
                 String photo_name =  folderManager.getBaseDate() + "_" + photoTimestamp + ".jpg";
                 File original_photo = new File(folderManager.getImageFolder(), photo_name);
@@ -396,7 +397,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         Log.d(TAG, "Enabling app"+bool);
         setBrightness(bool);
         if (foregroundBlack != null) {
-            Utils.toggleView(foregroundBlack, !bool);  // This is inverted as foreground object disables app
+            UtilsTask.toggleView(foregroundBlack, !bool);  // This is inverted as foreground object disables app
             return true;
         } else {
             Log.d(TAG, "foregroundBlack object not instantiated");
@@ -429,14 +430,14 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
     // Takes selfie and checks to see if it matches with which monkey it should be
     public static boolean checkMonkey(int monkId) {
-        if (MainMenu.useFaceRecognition && faceRecogRunning) {
+        if (preferencesManager.facerecog && faceRecogRunning) {
             // Previous face recog still running
             return false;
         }
 
         boolean photoTaken = takePhoto();
 
-        if (photoTaken && MainMenu.useFaceRecognition) {
+        if (photoTaken && preferencesManager.facerecog) {
             // Photo taken, now we wait for faceRecog to return prediction
             faceRecogRunning = true;
             monkeyButtonPressed = monkId;
@@ -447,7 +448,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
     public static boolean takePhoto() {
-        if (MainMenu.useCamera) {
+        if (preferencesManager.camera) {
             Log.d(TAG, "takePhoto() called");
             photoTimestamp = folderManager.getTimestamp();
             boolean photoTaken = CameraMain.captureStillPicture(photoTimestamp);
@@ -509,7 +510,8 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         // Global variables
         activity = this;
         mContext = getApplicationContext();
-        possible_cue_locs = new Utils().getPossibleCueLocs(this);
+        preferencesManager = new PreferencesManager(this);
+        possible_cue_locs = new UtilsTask().getPossibleCueLocs(this);
         trialData = new ArrayList<String>();
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -517,7 +519,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         if (num_monkeys > Integer.valueOf(getString(R.string.max_num_monkeys))) {
             new Exception("This many monkeys not supported");
         }
-        if (MainMenu.useFaceRecognition) {
+        if (preferencesManager.facerecog) {
             folderManager = new FolderManager(num_monkeys);
         } else {
             folderManager = new FolderManager();
@@ -543,8 +545,8 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
      private void setOnClickListeners() {
-         Utils.setOnClickListenerLoop(cues_Reward, this);
-         Utils.setOnClickListenerLoop(cues_Go, this);
+         UtilsSystem.setOnClickListenerLoop(cues_Reward, this);
+         UtilsSystem.setOnClickListenerLoop(cues_Go, this);
     }
 
 
@@ -608,7 +610,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         // Take selfie
         boolean photoTaken = checkMonkey(monkId);
 
-        if (MainMenu.useFaceRecognition) {
+        if (preferencesManager.facerecog) {
 
             if (photoTaken) {
 
@@ -619,7 +621,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
             } else {
 
                 // Photo not taken as camera/faceRecog wasn't ready so reset go cues to let them press again
-                Utils.toggleCues(cues_Go, true);
+                UtilsTask.toggleCues(cues_Go, true);
 
             }
 
@@ -630,7 +632,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
                 startTrial(monkId);
             } else {
                 // Photo not taken as camera wasn't ready so reset go cues to let them press again
-                Utils.toggleCues(cues_Go, true);
+                UtilsTask.toggleCues(cues_Go, true);
             }
 
         }
@@ -657,14 +659,14 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         logEvent("Monkey pressed wrong go cue..");
         commitTrialData(ec_wrongGoCuePressed);
         // Switch on red background
-        Utils.toggleView(backgroundRed, true);
+        UtilsTask.toggleView(backgroundRed, true);
 
         // Switch off red background after certain delay
         h2.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Utils.toggleCues(cues_Go, true);
-                Utils.toggleView(backgroundRed, false);
+                UtilsTask.toggleCues(cues_Go, true);
+                UtilsTask.toggleView(backgroundRed, false);
             }
         }, timeoutWrongGoCuePressed);
     }
@@ -685,15 +687,15 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
     private void incorrectTrial(int result) {
         logEvent("Feedback: Error trial");
-        Utils.toggleView(backgroundRed, true);
+        UtilsTask.toggleView(backgroundRed, true);
         endOfTrial(result, timeoutErrorTrial);
     }
 
     private void correctTrial() {
         logEvent("Correct trial: Reward choice");
-        Utils.toggleView(backgroundPink, true);
-        Utils.randomlyPositionCues(cues_Reward, possible_cue_locs);
-        Utils.toggleCues(cues_Reward, true);
+        UtilsTask.toggleView(backgroundPink, true);
+        UtilsTask.randomlyPositionCues(cues_Reward, possible_cue_locs);
+        UtilsTask.toggleCues(cues_Reward, true);
     }
 
     private void deliverReward(int juiceChoice) {
@@ -711,8 +713,8 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
 
     private static void disableAllCues() {
-        Utils.toggleCues(cues_Reward, false);
-        Utils.toggleCues(cues_Go, false);
+        UtilsTask.toggleCues(cues_Reward, false);
+        UtilsTask.toggleCues(cues_Go, false);
     }
 
     // Go cues are in static location to make it easier for monkeys to press their own cue
@@ -752,7 +754,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private static void idleTimeout() {
         logEvent("Error stage: Idle timeout");
         disableAllCues();
-        Utils.toggleView(backgroundRed, true);
+        UtilsTask.toggleView(backgroundRed, true);
         endOfTrial(ec_idletimeout, timeoutErrorTrial);  // TODO: Switch this to trialEnded (which is static)
         //trialEnded(ec_idletimeout);
     }
@@ -762,9 +764,9 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     h1.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Utils.toggleView(backgroundRed, false);
-                Utils.toggleView(backgroundPink, false);
-                Utils.toggleCues(cues_Go, true);
+                UtilsTask.toggleView(backgroundRed, false);
+                UtilsTask.toggleView(backgroundPink, false);
+                UtilsTask.toggleCues(cues_Go, true);
                 textView.setText("Initiation Stage");
             }
         }, delay);
