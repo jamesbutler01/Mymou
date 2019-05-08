@@ -29,6 +29,13 @@
     <string name="default_startuptime">0700</string>
     <string name="default_shutdowntime">1900</string>
 
+    <string name="default_eventcode_correct_trial">1</string>
+    <string name="default_eventcode_error_trial">0</string>
+    <string name="default_eventcode_timeout_trial">2</string>
+    <string name="default_eventcode_wrong_gocue">3</string>
+
+
+
 
 </resources>
 

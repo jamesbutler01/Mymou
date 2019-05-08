@@ -12,6 +12,7 @@ public class PreferencesManager {
     public static int rewardduration, responseduration, timeoutduration, startuptime, shutdowntime;
     public static int taskbackground, rewardbackground, timeoutbackground;
     public static int num_monkeys;
+    public static String ec_correct_trial, ec_incorrect_trial, ec_trial_timeout, ec_wrong_gocue_pressed;
 
     public PreferencesManager(Context context) {
         // Get sharedpreferences
@@ -43,6 +44,10 @@ public class PreferencesManager {
         rewardbackground = colors[rewardbackgroundcolour];
         timeoutbackground = colors[timeoutbackgroundcolour];
 
+        ec_correct_trial = sharedPrefs.getString("eventcode_correct_trial", context.getResources().getString(R.string.default_eventcode_correct_trial));
+        ec_incorrect_trial = sharedPrefs.getString("eventcode_error_trial", context.getResources().getString(R.string.default_eventcode_error_trial));
+        ec_trial_timeout = sharedPrefs.getString("eventcode_timeout_trial", context.getResources().getString(R.string.default_eventcode_timeout_trial));
+        ec_wrong_gocue_pressed = sharedPrefs.getString("eventcode_wrong_gocue", context.getResources().getString(R.string.default_eventcode_wrong_gocue));
     }
     
 }

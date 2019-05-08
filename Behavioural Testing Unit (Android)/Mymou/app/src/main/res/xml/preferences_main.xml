@@ -24,6 +24,7 @@
     <SwitchPreferenceCompat
             app:key="sound"
             app:title="Enable sounds"
+            android:summary="Device will beep on successful trials to aid secondary reinforcement"
             app:defaultValue="@bool/default_sound"/>
     </PreferenceCategory>
 
@@ -74,6 +75,12 @@
             app:title="Number of monkeys"
             android:max="8"
             android:summary="Number of monkeys in total that will use the device"/>
+
+      <Preference
+              app:fragment="com.example.jbutler.mymou.PreferencesEventCodes"
+              app:title="Event codes"
+              android:summary="Common event codes that are stored in log data for various task events"/>
+
 
     </PreferenceCategory>
 

@@ -276,7 +276,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         faceRecogRunning = false;
     }
 
-    public static void commitTrialData(int overallTrialOutcome) {
+    public static void commitTrialData(String overallTrialOutcome) {
         if (trialData != null) {
             // End of trial so increment trial counter
             if (dateHasChanged()) {
@@ -643,7 +643,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     // Wrong Go cue selected so give short timeout
     public static void MonkeyPressedWrongGoCue() {
         logEvent("Monkey pressed wrong go cue..");
-        commitTrialData(ec_wrongGoCuePressed);
+        commitTrialData(preferencesManager.ec_wrong_gocue_pressed);
         // Switch on red background
         activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.timeoutbackground);
 
@@ -657,21 +657,21 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         }, timeoutWrongGoCuePressed);
     }
 
-    public void trialEnded(int result) {
+    public void trialEnded(String result) {
         logEvent("Trial ended, result = "+result);
 
         // Kill task
         getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag(TAG_FRAGMENT)).commit();
         fragmentTransaction = fragmentManager.beginTransaction();
 
-        if (result == ec_correctTrial) {
+        if (result == preferencesManager.ec_correct_trial) {
             correctTrial();
         } else {
             incorrectTrial(result);
         }
     }
 
-    private void incorrectTrial(int result) {
+    private void incorrectTrial(String result) {
         logEvent("Feedback: Error trial");
         activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.timeoutbackground);
         endOfTrial(result, preferencesManager.timeoutduration);
@@ -687,11 +687,11 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private void deliverReward(int juiceChoice) {
         logEvent("Delivering "+preferencesManager.rewardduration+"ms reward on channel "+juiceChoice);
         rewardSystem.activateChannel(juiceChoice, preferencesManager.rewardduration);
-        endOfTrial(ec_correctTrial, preferencesManager.rewardduration + 500);
+        endOfTrial(preferencesManager.ec_correct_trial, preferencesManager.rewardduration + 500);
     }
 
 
-    private static void endOfTrial(int outcome, int newTrialDelay) {
+    private static void endOfTrial(String outcome, int newTrialDelay) {
         commitTrialData(outcome);
 
         PrepareForNewTrial(newTrialDelay);
@@ -741,7 +741,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         logEvent("Error stage: Idle timeout");
         disableAllCues();
         activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.timeoutbackground);
-        endOfTrial(ec_idletimeout, preferencesManager.timeoutduration);  // TODO: Switch this to trialEnded (which is static)
+        endOfTrial(preferencesManager.ec_trial_timeout, preferencesManager.timeoutduration);  // TODO: Switch this to trialEnded (which is static)
         //trialEnded(ec_idletimeout);
     }
 

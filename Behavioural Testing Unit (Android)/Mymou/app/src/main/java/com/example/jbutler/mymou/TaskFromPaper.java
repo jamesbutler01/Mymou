@@ -325,7 +325,7 @@ public class TaskFromPaper extends Fragment
                 ibCurrLoc.setEnabled(true);
                 ibCurrLoc.setBackground(ContextCompat.getDrawable(mContext, R.drawable.outline_thick));
                 ibTarget.setBackground(ContextCompat.getDrawable(mContext, R.drawable.outline_thick));
-                endOfTrial(0);
+                endOfTrial("0");
             }
         }, (animationDuration));
     }
@@ -353,7 +353,7 @@ public class TaskFromPaper extends Fragment
                 ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
                 toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
 
-                endOfTrial(1);
+                endOfTrial("1");
             }
         }, (animationDuration*2 + 400));
 
@@ -562,7 +562,7 @@ public class TaskFromPaper extends Fragment
         }, delay);
     }
 
-    private void endOfTrial(int outcome) {
+    private void endOfTrial(String outcome) {
        h5.postDelayed(new Runnable() {
             @Override
             public void run() {

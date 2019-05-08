@@ -91,11 +91,12 @@ public class TaskExample extends Fragment implements View.OnClickListener {
     }
 
     private void endOfTrial(boolean successfulTrial) {
-        int outcome;
+        String outcome;
+        PreferencesManager preferencesManager = new PreferencesManager(getContext());
         if (successfulTrial) {
-            outcome = ec_correctTrial;
+            outcome = preferencesManager.ec_correct_trial;
         } else {
-            outcome = ec_incorrectTrial;
+            outcome = preferencesManager.ec_incorrect_trial;
         }
         // Send outcome up to parent
         ((TaskManager) getActivity()).trialEnded(outcome);
