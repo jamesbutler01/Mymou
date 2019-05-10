@@ -24,6 +24,7 @@ public class TaskObjectDiscrimination extends Fragment implements View.OnClickLi
     private static int num_correct_cues_shown = 2;
     private static int num_incorrect_cues = 5;
     private static int num_incorrect_cues_shown = 2;
+    private static int total_num_cues = num_correct_cues_shown + num_incorrect_cues_shown;
     private static int num_steps_needed = 2;
     private static boolean repeat_on_error = true;
 
@@ -44,12 +45,13 @@ public class TaskObjectDiscrimination extends Fragment implements View.OnClickLi
 
         // Instantiate task objects
         assignObjects();
+        UtilsTask.randomlyPositionCues(cues,  new UtilsTask().getPossibleCueLocs(getActivity()));
 
     }
 
     private void assignObjects() {
         int i_buttons = 0;
-        cues = new Button[num_incorrect_cues_shown+num_correct_cues_shown];
+        cues = new Button[total_num_cues];
         // Add correct cues
         for (int i_correct = 0; i_correct < num_correct_cues_shown; i_correct++) {
             addButton(i_correct, i_correct);

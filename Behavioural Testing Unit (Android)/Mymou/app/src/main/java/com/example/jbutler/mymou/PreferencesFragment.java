@@ -8,9 +8,9 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.SeekBarPreference;
 
-public class PreferencesMenu extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class PreferencesFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    public PreferencesMenu() {
+    public PreferencesFragment() {
     }
 
     @Override
@@ -24,7 +24,7 @@ public class PreferencesMenu extends PreferenceFragmentCompat implements SharedP
         // Set onchange listener
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
-        final SeekBarPreference wait1 = (SeekBarPreference) findPreference("num_monkeys"); wait1.setMin(1);
+        final SeekBarPreference seekBar = (SeekBarPreference) findPreference("num_monkeys"); seekBar.setMin(1);
 
         // Only show times if auto start/stop is enabled
         if(sharedPrefs.getBoolean("autostartswitch",false)) {
@@ -49,6 +49,4 @@ public class PreferencesMenu extends PreferenceFragmentCompat implements SharedP
             editTextPreference.setVisible(sharedPreferences.getBoolean("autostopswitch",false));
         }
     }
-
-
-    }
+}

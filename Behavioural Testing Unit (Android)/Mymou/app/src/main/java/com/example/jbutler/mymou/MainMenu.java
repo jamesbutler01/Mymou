@@ -14,7 +14,7 @@ public class MainMenu extends Activity  {
     private static String TAG = "MyMouMainMenu";
 
     // If true this automatically starts the task upon application startup (Speeds up debugging/testing)
-    private static final boolean testingMode = true;
+    private static final boolean testingMode = false;
 
     // Disable bluetooth and RewardSystem connectivity here
     private static PreferencesManager preferencesManager;
@@ -49,6 +49,12 @@ public class MainMenu extends Activity  {
         if(testingMode && permissions_granted) {
             startTask();
         }
+
+//        Intent intent = new Intent(context, ColourPickerActivity.class);
+//        intent.putExtra("pref_tag", "obj_disc_corr_cues");
+//        startActivity(intent);
+        Intent intent = new Intent(context, PreferencesActivity.class);
+        startActivity(intent);
 
     }
 

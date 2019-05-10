@@ -19,8 +19,12 @@
             android:icon="@drawable/ic_launcher"
             android:label="Mymou"
             android:theme="@android:style/Theme.Black.NoTitleBar">
-        <activity android:name=".PreferencesActivity"
-         android:theme="@style/AppTheme.FullScreen">
+        <activity android:name=".ColourPickerActivity"
+                 android:theme="@style/AppTheme.FullScreen">
+        </activity>
+        <activity
+                android:name=".PreferencesActivity"
+                android:theme="@style/AppTheme.FullScreen">
         </activity>
         <activity
                 android:name=".MainMenu"

@@ -13,11 +13,11 @@ public class PreferencesManager {
     public static int taskbackground, rewardbackground, timeoutbackground;
     public static int num_monkeys;
     public static String ec_correct_trial, ec_incorrect_trial, ec_trial_timeout, ec_wrong_gocue_pressed;
+    private SharedPreferences sharedPrefs;
 
     public PreferencesManager(Context context) {
-        // Get sharedpreferences
-        SharedPreferences sharedPrefs =
-                PreferenceManager.getDefaultSharedPreferences(context);
+
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);        // Get sharedpreferences
 
         bluetooth = sharedPrefs.getBoolean("bluetooth", context.getResources().getBoolean(R.bool.default_bluetooth));
         camera = sharedPrefs.getBoolean("camera", context.getResources().getBoolean(R.bool.default_camera));
@@ -48,6 +48,11 @@ public class PreferencesManager {
         ec_incorrect_trial = sharedPrefs.getString("eventcode_error_trial", context.getResources().getString(R.string.default_eventcode_error_trial));
         ec_trial_timeout = sharedPrefs.getString("eventcode_timeout_trial", context.getResources().getString(R.string.default_eventcode_timeout_trial));
         ec_wrong_gocue_pressed = sharedPrefs.getString("eventcode_wrong_gocue", context.getResources().getString(R.string.default_eventcode_wrong_gocue));
+    }
+
+    public void ObjectDiscrimination() {
+
+
     }
     
 }

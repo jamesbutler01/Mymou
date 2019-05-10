@@ -35,8 +35,9 @@
     <string name="default_eventcode_timeout_trial">2</string>
     <string name="default_eventcode_wrong_gocue">3</string>
 
-
-
+    <string name="preftag_gocuecolors">colours_gocues</string>
+    <string name="preftag_task_objdisc_corr">colours_obj_disc_corr_cues</string>
+    <string name="preftag_task_objdisc_incorr">colours_obj_disc_incorr_cues</string>
 
 </resources>
 

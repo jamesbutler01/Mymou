@@ -22,9 +22,6 @@ public class TaskExample extends Fragment implements View.OnClickListener {
     private static Button[] cues;  // List of all trial objects for an individual monkey
     private static Button[][] cues_all = {new Button[num_cues], new Button[num_cues]};  // All cues across all monkeys
 
-    // Predetermined locations where cues can appear on screen, calculated by UtilsTask.calculateCueLocations()
-    private static Point[] possible_cue_locs;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,7 +45,7 @@ public class TaskExample extends Fragment implements View.OnClickListener {
         UtilsSystem.setOnClickListenerLoop(cues, this);
 
         // Randomise cue locations
-        UtilsTask.randomlyPositionCues(cues, possible_cue_locs);
+        UtilsTask.randomlyPositionCues(cues,  new UtilsTask().getPossibleCueLocs(getActivity()));
     }
 
     private void assignObjects() {
@@ -59,8 +56,6 @@ public class TaskExample extends Fragment implements View.OnClickListener {
         // Monkey 1's cues
         cues_all[1][0] = getView().findViewById(R.id.buttonCue1MonkV);
         cues_all[1][1] = getView().findViewById(R.id.buttonCue2MonkV);
-
-        possible_cue_locs = new UtilsTask().getPossibleCueLocs(getActivity());
     }
 
     @Override
