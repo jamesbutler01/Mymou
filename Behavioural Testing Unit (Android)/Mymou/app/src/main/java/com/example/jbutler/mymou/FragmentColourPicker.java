@@ -1,6 +1,5 @@
 package com.example.jbutler.mymou;
 
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -82,7 +81,6 @@ public class FragmentColourPicker extends PreferenceFragmentCompat implements Sh
         // Only let them exit if they have selected enough colours for the number of monkeys specified
         if (currPrefTag == getString(R.string.preftag_gocuecolors)) {
             if (IntStream.of(coloursChosen).sum() != new PreferencesManager(mContext).num_monkeys) {
-                Log.d("asdf", IntStream.of(coloursChosen).sum()+" "+new PreferencesManager(mContext).num_monkeys);
                 Toast.makeText(mContext, "Please select one cue for each monkey \n(To select fewer Go cues you first need to decrease the number of monkeys setting)", Toast.LENGTH_LONG).show();
                 return false;
             }

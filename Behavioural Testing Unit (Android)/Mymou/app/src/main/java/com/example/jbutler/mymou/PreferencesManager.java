@@ -13,6 +13,7 @@ public class PreferencesManager {
     public static int taskbackground, rewardbackground, timeoutbackground;
     public static int num_monkeys;
     public static String ec_correct_trial, ec_incorrect_trial, ec_trial_timeout, ec_wrong_gocue_pressed;
+    public static int[] colours_gocues;
     private SharedPreferences sharedPrefs;
 
     public PreferencesManager(Context context) {
@@ -43,6 +44,18 @@ public class PreferencesManager {
         taskbackground = colors[taskbackgroundcolour];
         rewardbackground = colors[rewardbackgroundcolour];
         timeoutbackground = colors[timeoutbackgroundcolour];
+
+        // Cue colour settings
+        String tag = context.getString(R.string.preftag_gocuecolors);
+        int[] gocue_colors = UtilsSystem.loadIntArray(tag, colors.length, sharedPrefs);
+        colours_gocues = new int[8];
+        int i_monk=0;
+        for (int i=0; i<gocue_colors.length; i++) {
+            if (gocue_colors[i] == 1) {
+                colours_gocues[i_monk] = colors[i];
+                i_monk += 1;
+            }
+        }
 
         ec_correct_trial = sharedPrefs.getString("eventcode_correct_trial", context.getResources().getString(R.string.default_eventcode_correct_trial));
         ec_incorrect_trial = sharedPrefs.getString("eventcode_error_trial", context.getResources().getString(R.string.default_eventcode_error_trial));

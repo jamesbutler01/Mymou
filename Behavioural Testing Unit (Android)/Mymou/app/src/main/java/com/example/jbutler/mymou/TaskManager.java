@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -88,7 +89,6 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
         assignObjects();
         loadAndApplySettings();
-        setNumMonkeys();
         positionGoCues();
         setOnClickListeners();
         disableAllCues();
@@ -151,7 +151,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
     }
 
-    private void setNumMonkeys() {
+    private void disableExtraGoCues() {
         // Disable go cues for extra monkeys
         Button[] cues_excluded = Arrays.copyOfRange(cues_Go, preferencesManager.num_monkeys, cues_Go.length);
         UtilsTask.toggleCues(cues_excluded, false);
@@ -499,19 +499,30 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
     private void loadAndApplySettings() {
+        preferencesManager = new PreferencesManager(this);
+
+        // Face recog
         if (preferencesManager.facerecog) {
             folderManager = new FolderManager(preferencesManager.num_monkeys);
         } else {
             folderManager = new FolderManager();
         }
+
+        // Colours
         findViewById(R.id.task_container).setBackgroundColor(preferencesManager.taskbackground);
+        for (int i=0; i<preferencesManager.num_monkeys; i++) {
+            cues_Go[i].setBackgroundColor(preferencesManager.colours_gocues[i]);
+        }
+
+        disableExtraGoCues();
+
+
     }
 
     private void assignObjects() {
         // Global variables
         activity = this;
         mContext = getApplicationContext();
-        preferencesManager = new PreferencesManager(this);
         possible_cue_locs = new UtilsTask().getPossibleCueLocs(this);
         trialData = new ArrayList<String>();
         fragmentManager = getFragmentManager();

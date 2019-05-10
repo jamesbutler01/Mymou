@@ -53,8 +53,8 @@ public class MainMenu extends Activity  {
 //        Intent intent = new Intent(context, ColourPickerActivity.class);
 //        intent.putExtra("pref_tag", "obj_disc_corr_cues");
 //        startActivity(intent);
-        Intent intent = new Intent(context, PreferencesActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(context, PreferencesActivity.class);
+//        startActivity(intent);
 
     }
 
