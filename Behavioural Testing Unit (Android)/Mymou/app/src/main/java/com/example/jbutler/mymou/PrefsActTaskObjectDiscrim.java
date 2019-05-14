@@ -1,15 +1,14 @@
 package com.example.jbutler.mymou;
 
-import android.util.Log;
-import android.view.Choreographer;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-public class PreferencesActivity extends AppCompatActivity implements
+public class PrefsActTaskObjectDiscrim extends AppCompatActivity implements
         PreferenceFragmentCompat.OnPreferenceStartFragmentCallback  {
 
     @Override
@@ -18,7 +17,7 @@ public class PreferencesActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_preferences);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment preferenceFragment = new PreferencesFragment();
+        Fragment preferenceFragment = new PrefsFragTaskObjectDiscrim();
         ft.add(R.id.container_, preferenceFragment);
         ft.commit();
 
@@ -28,7 +27,7 @@ public class PreferencesActivity extends AppCompatActivity implements
     public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference pref) {
         // Instantiate the new Fragment
         Bundle args = pref.getExtras();
-        args.putString("pref_tag", getString(R.string.preftag_gocuecolors));
+        args.putString("pref_tag", pref.getKey());
 
         final Fragment fragment = getSupportFragmentManager().getFragmentFactory().instantiate(
                 getClassLoader(),
@@ -46,13 +45,14 @@ public class PreferencesActivity extends AppCompatActivity implements
     }
 
 
+
     @Override
     public void onBackPressed() {
         boolean allowExit;
         // Don't let user exit if in colour picker fragment
         Fragment f = getSupportFragmentManager().findFragmentById(R.id.container_);
-        if (f instanceof FragmentColourPicker) {
-            FragmentColourPicker fragment = (FragmentColourPicker) getSupportFragmentManager().findFragmentById(R.id.container_);
+        if (f instanceof PrefsFragColourPicker) {
+            PrefsFragColourPicker fragment = (PrefsFragColourPicker) getSupportFragmentManager().findFragmentById(R.id.container_);
             allowExit = fragment.onBackPressed();
         } else {
             allowExit = true;

@@ -77,12 +77,12 @@
             android:summary="Number of monkeys in total that will use the device"/>
 
       <Preference
-              app:fragment="com.example.jbutler.mymou.FragmentColourPicker"
+              app:fragment="com.example.jbutler.mymou.PrefsFragColourPicker"
               app:title="Go cue colours"
               android:summary="Choose colours of the go/start cue for each monkey here"/>
 
       <Preference
-              app:fragment="com.example.jbutler.mymou.PreferencesEventCodes"
+              app:fragment="com.example.jbutler.mymou.PrefsFragEventCodes"
               app:title="Event codes"
               android:summary="Common event codes that are stored in log data for various task events"/>
 

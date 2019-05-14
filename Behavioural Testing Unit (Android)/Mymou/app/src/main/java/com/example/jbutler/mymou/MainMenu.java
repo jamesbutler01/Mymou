@@ -14,7 +14,7 @@ public class MainMenu extends Activity  {
     private static String TAG = "MyMouMainMenu";
 
     // If true this automatically starts the task upon application startup (Speeds up debugging/testing)
-    private static final boolean testingMode = false;
+    private static final boolean testingMode = true;
 
     // Disable bluetooth and RewardSystem connectivity here
     private static PreferencesManager preferencesManager;
@@ -50,11 +50,8 @@ public class MainMenu extends Activity  {
             startTask();
         }
 
-//        Intent intent = new Intent(context, ColourPickerActivity.class);
-//        intent.putExtra("pref_tag", "obj_disc_corr_cues");
-//        startActivity(intent);
-//        Intent intent = new Intent(context, PreferencesActivity.class);
-//        startActivity(intent);
+        Intent intent2 = new Intent(context, TaskObjectDiscrim.class);
+        startActivity(intent2);
 
     }
 
@@ -133,6 +130,7 @@ public class MainMenu extends Activity  {
     private void initialiseLayoutParameters() {
         findViewById(R.id.buttonStart).setOnClickListener(buttonClickListener);
         findViewById(R.id.buttonSettings).setOnClickListener(buttonClickListener);
+        findViewById(R.id.buttonTaskSettings).setOnClickListener(buttonClickListener);
         initialiseToggleButtons();
     }
 
@@ -182,8 +180,12 @@ public class MainMenu extends Activity  {
                     startTask();
                     break;
                 case R.id.buttonSettings:
-                    Intent intent = new Intent(context, PreferencesActivity.class);
+                    Intent intent = new Intent(context, PrefsActSystem.class);
                     startActivity(intent);
+                    break;
+                case R.id.buttonTaskSettings:
+                    Intent intent2 = new Intent(context, PrefsActTaskObjectDiscrim.class);
+                    startActivity(intent2);
                     break;
             }
         }

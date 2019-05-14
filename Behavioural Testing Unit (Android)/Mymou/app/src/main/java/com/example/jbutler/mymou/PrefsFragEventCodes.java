@@ -8,9 +8,9 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.SeekBarPreference;
 
-public class PreferencesEventCodes extends PreferenceFragmentCompat {
+public class PrefsFragEventCodes extends PreferenceFragmentCompat {
 
-    public PreferencesEventCodes() {
+    public PrefsFragEventCodes() {
     }
 
     @Override

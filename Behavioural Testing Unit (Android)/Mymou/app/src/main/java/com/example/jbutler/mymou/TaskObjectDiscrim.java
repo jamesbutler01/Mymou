@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 
 // A basic object discrimination task showcasing the main features of the Mymou system:
 
-public class TaskObjectDiscrimination extends Fragment implements View.OnClickListener {
+public class TaskObjectDiscrim extends Fragment implements View.OnClickListener {
 
     // Debug
     public static String TAG = "TaskExample";
@@ -37,7 +37,7 @@ public class TaskObjectDiscrimination extends Fragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_task_object_discrimination, container, false);
+        return inflater.inflate(R.layout.activity_task_object_discrim, container, false);
     }
 
     @Override

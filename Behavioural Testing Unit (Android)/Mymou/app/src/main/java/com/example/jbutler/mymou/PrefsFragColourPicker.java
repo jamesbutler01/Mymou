@@ -11,7 +11,7 @@ import androidx.preference.*;
 
 import java.util.stream.IntStream;
 
-public class FragmentColourPicker extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class PrefsFragColourPicker extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     int[] coloursChosen;
     String currPrefTag;
@@ -55,9 +55,10 @@ public class FragmentColourPicker extends PreferenceFragmentCompat implements Sh
 
         // Now iterate through colours and add them as checkboxes
         for (int i=0; i < num_colours; i++) {
-            // Skip colours used by go cues
+            // Exclude colours used by go cues
             if (currPrefTag != getString(R.string.preftag_gocuecolors)) {
                 if (goCueColours[i] == 1 | otherCues[i] == 1) {
+                    coloursChosen[i] = 0;
                     continue;
                 }
             }
@@ -78,6 +79,12 @@ public class FragmentColourPicker extends PreferenceFragmentCompat implements Sh
     }
 
     public boolean onBackPressed() {
+        // First check they've selected at least one colour
+         if (IntStream.of(coloursChosen).sum() == 0) {
+             Toast.makeText(mContext, "Please select at least one cue colour", Toast.LENGTH_LONG).show();
+             return false;
+         }
+
         // Only let them exit if they have selected enough colours for the number of monkeys specified
         if (currPrefTag == getString(R.string.preftag_gocuecolors)) {
             if (IntStream.of(coloursChosen).sum() != new PreferencesManager(mContext).num_monkeys) {
@@ -102,8 +109,6 @@ public class FragmentColourPicker extends PreferenceFragmentCompat implements Sh
 
         // Store in shared preferences
         sharedPreferences.edit().putString(currPrefTag, UtilsSystem.convertIntArrayToString(coloursChosen)).commit();
-
-        String t = sharedPreferences.getString(currPrefTag, "");
 
         // Go cues have special behaviour:
         // 1: Can only select as many go cues as there are number of monkey using the device

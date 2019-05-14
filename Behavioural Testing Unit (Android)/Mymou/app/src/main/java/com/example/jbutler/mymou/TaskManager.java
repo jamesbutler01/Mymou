@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -204,7 +203,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
             fragment.setArguments(bundle);
             fragmentTransaction.add(R.id.task_container, fragment, TAG_FRAGMENT);
         } else if (taskId == 2) {
-            TaskObjectDiscrimination fragment = new TaskObjectDiscrimination();
+            TaskObjectDiscrim fragment = new TaskObjectDiscrim();
             fragment.setArguments(bundle);
             fragmentTransaction.add(R.id.task_container, fragment, TAG_FRAGMENT);
         }

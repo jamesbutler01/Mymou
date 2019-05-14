@@ -132,7 +132,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
+                android:background="@color/colorDiscrete"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginHorizontal="16dp"
@@ -164,6 +164,21 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tvTask"
                     android:layout_marginStart="32dp"/>
+
+            <Button
+                    android:text="  Task Settings  "
+                    android:textSize="30sp"
+                    android:background="@drawable/toggle_button"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:id="@+id/buttonTaskSettings"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/spinnerTaskMenu"/>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

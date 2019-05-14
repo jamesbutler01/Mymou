@@ -8,14 +8,14 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.SeekBarPreference;
 
-public class PreferencesFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class PrefsFragSystem extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    public PreferencesFragment() {
+    public PrefsFragSystem() {
     }
 
     @Override
     public void onCreatePreferences(Bundle bundle, String rootKey) {
-        setPreferencesFromResource(R.xml.preferences_main, rootKey);
+        setPreferencesFromResource(R.xml.preferences_system, rootKey);
 
         // Get sharedpreferences
         SharedPreferences sharedPrefs =

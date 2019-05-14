@@ -19,11 +19,12 @@
             android:icon="@drawable/ic_launcher"
             android:label="Mymou"
             android:theme="@android:style/Theme.Black.NoTitleBar">
-        <activity android:name=".ColourPickerActivity"
-                 android:theme="@style/AppTheme.FullScreen">
+        <activity
+                android:name=".PrefsActSystem"
+                android:theme="@style/AppTheme.FullScreen">
         </activity>
         <activity
-                android:name=".PreferencesActivity"
+                android:name=".PrefsActTaskObjectDiscrim"
                 android:theme="@style/AppTheme.FullScreen">
         </activity>
         <activity
