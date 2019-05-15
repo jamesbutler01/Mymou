@@ -1,10 +1,15 @@
 package com.example.jbutler.mymou;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.GradientDrawable;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 
 import java.util.Random;
 
@@ -41,6 +46,23 @@ public class UtilsTask {
 
         return locs;
 
+    }
+
+    public static Button addCue(int id, int color, Context context, View.OnClickListener onClickListener, View view) {
+//        ConstraintLayout layout = fragment.getView().findViewById(R.id.parent_object_discrim);
+        ConstraintLayout layout = view.findViewById(R.id.parent_object_discrim);
+        Button button = new Button(context);
+        button.setWidth(262);
+        button.setHeight(262);
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setShape(GradientDrawable.RECTANGLE);
+        drawable.setStroke(5, Color.MAGENTA);
+        drawable.setColor(color);
+        button.setBackgroundDrawable(drawable);
+        button.setId(id);
+        button.setOnClickListener(onClickListener);
+        layout.addView(button);
+        return button;
     }
 
     // Switches on a particular monkeys cues, and switches off other monkey's cues
