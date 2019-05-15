@@ -10,12 +10,17 @@ public class PreferencesManager {
     public static boolean bluetooth, camera, facerecog, restartoncrash, sound, autostart, autostop;
     public static int rewardduration, responseduration, timeoutduration, startuptime, shutdowntime;
     public static int taskbackground, rewardbackground, timeoutbackground;
+    public static int border_colour, border_size, cue_size, cue_spacing;
     public static int num_monkeys;
     public static String ec_correct_trial, ec_incorrect_trial, ec_trial_timeout, ec_wrong_gocue_pressed;
     public static int[] colours_gocues;
+    public static boolean valid_configuration = true;
+    public static String error_message;
+
     private SharedPreferences sharedPrefs;
     private int[] colors;
     private Context mContext;
+
 
     public PreferencesManager(Context context) {
         mContext = context;
@@ -35,16 +40,22 @@ public class PreferencesManager {
         startuptime = sharedPrefs.getInt("startuptime", context.getResources().getInteger(R.integer.default_startuptime));
         shutdowntime = sharedPrefs.getInt("shutdowntime", context.getResources().getInteger(R.integer.default_shutdowntime));
 
+        cue_size = sharedPrefs.getInt("cue_size", context.getResources().getInteger(R.integer.default_cuesize));
+        cue_spacing = sharedPrefs.getInt("cue_spacing", context.getResources().getInteger(R.integer.default_cuespacing));
+        border_size = sharedPrefs.getInt("cue_border_size", context.getResources().getInteger(R.integer.default_bordersize));
+        num_monkeys = sharedPrefs.getInt("num_monkeys", context.getResources().getInteger(R.integer.default_num_monkeys));
+
         int taskbackgroundcolour = Integer.valueOf(sharedPrefs.getString("taskbackgroundcolour", context.getResources().getString(R.string.default_taskbackgroundcolour)));
         int rewardbackgroundcolour = Integer.valueOf(sharedPrefs.getString("rewardbackgroundcolour", context.getResources().getString(R.string.default_rewardbackgroundcolour)));
         int timeoutbackgroundcolour = Integer.valueOf(sharedPrefs.getString("timeoutbackgroundcolour", context.getResources().getString(R.string.default_timeoutbackgroundcolour)));
+        int bordercolour = Integer.valueOf(sharedPrefs.getString(context.getResources().getString(R.string.preftag_cuebordercolors), context.getResources().getString(R.string.default_bordercolour)));
 
-        num_monkeys = sharedPrefs.getInt("num_monkeys", context.getResources().getInteger(R.integer.default_num_monkeys));
 
         colors = context.getResources().getIntArray(R.array.colorarray);
         taskbackground = colors[taskbackgroundcolour];
         rewardbackground = colors[rewardbackgroundcolour];
         timeoutbackground = colors[timeoutbackgroundcolour];
+        border_colour = colors[bordercolour];
 
         // Cue colour settings
         String tag = context.getString(R.string.preftag_gocuecolors);
@@ -62,9 +73,6 @@ public class PreferencesManager {
         ec_incorrect_trial = sharedPrefs.getString("eventcode_error_trial", context.getResources().getString(R.string.default_eventcode_error_trial));
         ec_trial_timeout = sharedPrefs.getString("eventcode_timeout_trial", context.getResources().getString(R.string.default_eventcode_timeout_trial));
         ec_wrong_gocue_pressed = sharedPrefs.getString("eventcode_wrong_gocue", context.getResources().getString(R.string.default_eventcode_wrong_gocue));
-
-        String keyprefix = "two_";
-
 
     }
 

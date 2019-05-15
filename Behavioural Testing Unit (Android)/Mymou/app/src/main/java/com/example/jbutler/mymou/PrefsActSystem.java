@@ -26,7 +26,7 @@ public class PrefsActSystem extends AppCompatActivity implements
     public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference pref) {
         // Instantiate the new Fragment
         Bundle args = pref.getExtras();
-        args.putString("pref_tag", getString(R.string.preftag_gocuecolors));
+        args.putString("pref_tag", pref.getKey());
 
         final Fragment fragment = getSupportFragmentManager().getFragmentFactory().instantiate(
                 getClassLoader(),

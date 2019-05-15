@@ -109,8 +109,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         initialiseLogHandler();
 
         //only lock if we aren't in testing mode
-        boolean testingmode = getIntent().getBooleanExtra("testingmode", false);
-        if (!testingmode) {
+        if (!MainMenu.testingMode) {
             this.startLockTask();
         }
 

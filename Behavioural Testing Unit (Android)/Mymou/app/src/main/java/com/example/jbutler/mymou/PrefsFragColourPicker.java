@@ -40,7 +40,6 @@ public class PrefsFragColourPicker extends PreferenceFragmentCompat implements S
         }
         int[] otherCues = UtilsSystem.loadIntArray(TAG_othercues, num_colours, sharedPrefs);
 
-
         // Set onchange listener
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 

@@ -23,6 +23,7 @@
     <string name="default_taskbackgroundcolour">0</string>
     <string name="default_rewardbackgroundcolour">14</string>
     <string name="default_timeoutbackgroundcolour">6</string>
+    <string name="default_bordercolour">1</string>
 
     <string name="default_rewardduration">1500</string>
     <string name="default_timeoutduration">1500</string>
@@ -36,6 +37,7 @@
     <string name="default_eventcode_wrong_gocue">3</string>
 
     <string name="preftag_gocuecolors">colours_gocues</string>
+    <string name="preftag_cuebordercolors">colours_cueborders</string>
     <string name="preftag_task_objdisc_corr">colours_obj_disc_corr_cues</string>
     <string name="preftag_task_objdisc_incorr">colours_obj_disc_incorr_cues</string>
 

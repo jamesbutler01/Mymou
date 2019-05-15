@@ -19,8 +19,9 @@ public class UtilsTask {
 
     // Make a list of the possible locations on the screen where cues can be placed
     public Point[] getPossibleCueLocs(Activity activity) {
-        int imageWidths = 175 + 175/2;
-        int border = 30;  // Spacing between different task objects
+        PreferencesManager preferencesManager = new PreferencesManager(activity);
+        int imageWidths = preferencesManager.cue_size;
+        int border = preferencesManager.cue_spacing;  // Spacing between different task objects
         int totalImageSize = imageWidths + border;
 
         // Find centre of screen in pixels
@@ -49,14 +50,14 @@ public class UtilsTask {
     }
 
     public static Button addCue(int id, int color, Context context, View.OnClickListener onClickListener, View view) {
-//        ConstraintLayout layout = fragment.getView().findViewById(R.id.parent_object_discrim);
+        PreferencesManager preferencesManager = new PreferencesManager(context);
         ConstraintLayout layout = view.findViewById(R.id.parent_object_discrim);
         Button button = new Button(context);
-        button.setWidth(262);
-        button.setHeight(262);
+        button.setWidth(preferencesManager.cue_size);
+        button.setHeight(preferencesManager.cue_size);
         GradientDrawable drawable = new GradientDrawable();
         drawable.setShape(GradientDrawable.RECTANGLE);
-        drawable.setStroke(5, Color.MAGENTA);
+        drawable.setStroke(preferencesManager.border_size, preferencesManager.border_colour);
         drawable.setColor(color);
         button.setBackgroundDrawable(drawable);
         button.setId(id);

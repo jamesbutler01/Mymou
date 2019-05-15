@@ -3,4 +3,8 @@
     <integer name="default_num_monkeys">2</integer>
     <integer name="default_startuptime">0700</integer>
     <integer name="default_shutdowntime">1900</integer>
+    <integer name="default_bordersize">20</integer>
+    <integer name="default_cuesize">300</integer>
+    <integer name="default_cuespacing">300</integer>
+
 </resources>
