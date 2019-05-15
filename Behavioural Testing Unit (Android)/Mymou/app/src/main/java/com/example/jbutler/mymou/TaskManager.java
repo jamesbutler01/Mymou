@@ -206,6 +206,8 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
             TaskObjectDiscrim fragment = new TaskObjectDiscrim();
             fragment.setArguments(bundle);
             fragmentTransaction.add(R.id.task_container, fragment, TAG_FRAGMENT);
+        }else{
+            new Exception("No valid task specified");
         }
         commitFragment();
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Point;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +35,7 @@ public class UtilsSystem {
 
     public static int[] loadIntArray(String tag, int n , SharedPreferences prefs) {
         String savedString = prefs.getString(tag, convertIntArrayToString(new int[n]));
+        Log.d(TAG, "Loaded "+savedString+"from "+tag);
         StringTokenizer st = new StringTokenizer(savedString, ",");
         int[] savedList = new int[n];
         for (int i = 0; i < n; i++) {

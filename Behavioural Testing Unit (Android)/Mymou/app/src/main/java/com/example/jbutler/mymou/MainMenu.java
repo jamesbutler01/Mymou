@@ -14,7 +14,7 @@ public class MainMenu extends Activity  {
     private static String TAG = "MyMouMainMenu";
 
     // If true this automatically starts the task upon application startup (Speeds up debugging/testing)
-    private static final boolean testingMode = true;
+    private static final boolean testingMode = false;
 
     // Disable bluetooth and RewardSystem connectivity here
     private static PreferencesManager preferencesManager;
@@ -50,8 +50,9 @@ public class MainMenu extends Activity  {
             startTask();
         }
 
-        Intent intent2 = new Intent(context, TaskObjectDiscrim.class);
-        startActivity(intent2);
+//        Intent intent2 = new Intent(context, TaskManager.class);
+//        intent2.putExtra("tasktoload", 2);
+//        startActivity(intent2);
 
     }
 
@@ -76,6 +77,7 @@ public class MainMenu extends Activity  {
 
         Intent intent = new Intent(this, TaskManager.class);
         intent.putExtra("tasktoload", taskSelected);
+        intent.putExtra("tasktoload", 2);
         startActivity(intent);
     }
 

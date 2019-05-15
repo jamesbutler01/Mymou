@@ -13,6 +13,7 @@ import java.util.stream.IntStream;
 
 public class PrefsFragColourPicker extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    private String TAG = "MymouColourPicker";
     int[] coloursChosen;
     String currPrefTag;
     Context mContext;
@@ -91,13 +92,17 @@ public class PrefsFragColourPicker extends PreferenceFragmentCompat implements S
                 Toast.makeText(mContext, "Please select one cue for each monkey \n(To select fewer Go cues you first need to decrease the number of monkeys setting)", Toast.LENGTH_LONG).show();
                 return false;
             }
-            return true;
         }
+
+        // On exit unregister shared preference change listener
+        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+
         return true;
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Log.d(TAG, key+" preference changed");
         try {
             Integer.valueOf(key);
         } catch (NumberFormatException e) {
@@ -108,6 +113,7 @@ public class PrefsFragColourPicker extends PreferenceFragmentCompat implements S
         coloursChosen[Integer.valueOf(key)] = sharedPreferences.getBoolean(key, false) ? 1 : 0;
 
         // Store in shared preferences
+        Log.d(TAG, "Writing "+UtilsSystem.convertIntArrayToString(coloursChosen)+"to ID: "+currPrefTag);
         sharedPreferences.edit().putString(currPrefTag, UtilsSystem.convertIntArrayToString(coloursChosen)).commit();
 
         // Go cues have special behaviour:
