@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/task_container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFF"
-    tools:context="com.example.jbutler.mymou.MainMenu" >
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:background="@android:color/transparent"
+        android:id="@+id/task_container"
+    tools:context="com.example.jbutler.mymou.MainMenu">
 
     <View
             android:id="@+id/background_main"
@@ -13,96 +12,40 @@
             android:layout_height="fill_parent"
             android:background="@drawable/pinkrectangle"/>
 
-    <Button
-            android:text="Monkey 0\n Start"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:textSize="30sp"
-            android:id="@+id/buttonGoMonkZero"/>
+     <Button
+                android:text="Reward\nChoice #0"
+                android:layout_width="175dp"
+                android:layout_height="175dp"
+                android:textSize="30sp"
+                android:id="@+id/buttonRewardZero"/>
 
-    <Button
-            android:text="Monkey 1\n Start"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:textSize="30sp"
-            android:id="@+id/buttonGoMonkOne"/>
+        <Button
+                android:text="Reward\nChoice #1"
+                android:layout_width="175dp"
+                android:layout_height="175dp"
+                android:textSize="30sp"
+                android:id="@+id/buttonRewardOne"/>
 
-    <Button
-            android:text="Monkey 2\n Start"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:textSize="30sp"
-            android:id="@+id/buttonGoMonkTwo"/>
+        <Button
+                android:text="Reward\nChoice #2"
+                android:layout_width="175dp"
+                android:layout_height="175dp"
+                android:textSize="30sp"
+                android:id="@+id/buttonRewardTwo"/>
 
-    <Button
-            android:text="Monkey 3\n Start"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:textSize="30sp"
-            android:id="@+id/buttonGoMonkThree"/>
-
-    <Button
-            android:text="Monkey 4\n Start"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:textSize="30sp"
-            android:id="@+id/buttonGoMonkFour"/>
-
-    <Button
-            android:text="Monkey 5\n Start"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:textSize="30sp"
-            android:id="@+id/buttonGoMonkFive"/>
-
-    <Button
-            android:text="Monkey 6\n Start"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:textSize="30sp"
-            android:id="@+id/buttonGoMonkSix"/>
-
-    <Button
-            android:text="Monkey 7\n Start"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:textSize="30sp"
-            android:id="@+id/buttonGoMonkSeven"/>
-
- <Button
-            android:text="Reward\nChoice #0"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:textSize="30sp"
-            android:id="@+id/buttonRewardZero"/>
-
-    <Button
-            android:text="Reward\nChoice #1"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:textSize="30sp"
-            android:id="@+id/buttonRewardOne"/>
-
-    <Button
-            android:text="Reward\nChoice #2"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:textSize="30sp"
-            android:id="@+id/buttonRewardTwo"/>
-
-    <Button
-            android:text="Reward\nChoice #3"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:textSize="30sp"
-            android:id="@+id/buttonRewardThree"/>
+        <Button
+                android:text="Reward\nChoice #3"
+                android:layout_width="175dp"
+                android:layout_height="175dp"
+                android:textSize="30sp"
+                android:id="@+id/buttonRewardThree"/>
 
 
-    <View
-            android:id="@+id/foregroundblack"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@drawable/blackrectangle"/>
+        <View
+                android:id="@+id/foregroundblack"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/blackrectangle"/>
 
 
     <TextView
@@ -114,5 +57,4 @@
             android:textColor="@color/grey"/>
 
 
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

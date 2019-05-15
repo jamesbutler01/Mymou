@@ -5,11 +5,4 @@
        android:background="@android:color/transparent"
         android:id="@+id/parent_object_discrim">
 
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/container_object_discrim">
-    </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

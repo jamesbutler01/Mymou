@@ -486,6 +486,10 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // Allow user to exit task if testing mode is enabled
+        if (MainMenu.testingMode) {
+            super.onBackPressed();
+        }
         return false;
     }
 
@@ -512,7 +516,6 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
         disableExtraGoCues();
 
-
     }
 
     private void assignObjects() {
@@ -524,16 +527,10 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
 
-
         // Layout views
-        cues_Go[0] = findViewById(R.id.buttonGoMonkZero);
-        cues_Go[1] = findViewById(R.id.buttonGoMonkOne);
-        cues_Go[2] = findViewById(R.id.buttonGoMonkTwo);
-        cues_Go[3] = findViewById(R.id.buttonGoMonkThree);
-        cues_Go[4] = findViewById(R.id.buttonGoMonkFour);
-        cues_Go[5] = findViewById(R.id.buttonGoMonkFive);
-        cues_Go[6] = findViewById(R.id.buttonGoMonkSix);
-        cues_Go[7] = findViewById(R.id.buttonGoMonkSeven);
+        for (int i=0; i<cues_Go.length; i++) {
+            cues_Go[i] = UtilsTask.addCue(i, preferencesManager.colours_gocues[i], this, this, findViewById(R.id.task_container));
+        }
         cues_Reward[0]  = findViewById(R.id.buttonRewardZero);
         cues_Reward[1]  = findViewById(R.id.buttonRewardOne);
         cues_Reward[2]  = findViewById(R.id.buttonRewardTwo);
@@ -560,43 +557,18 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         setBrightness(true);
 
         // Now decide what to do based on what button pressed
+        boolean rewardcuepressed = false;
         switch (view.getId()) {
-            case R.id.buttonGoMonkZero:
-                checkMonkeyPressedTheirCue(0);
-                break;
-            case R.id.buttonGoMonkOne:
-                checkMonkeyPressedTheirCue(1);
-                break;
-            case R.id.buttonGoMonkTwo:
-                checkMonkeyPressedTheirCue(2);
-                break;
-            case R.id.buttonGoMonkThree:
-                checkMonkeyPressedTheirCue(3);
-                break;
-            case R.id.buttonGoMonkFour:
-                checkMonkeyPressedTheirCue(4);
-                break;
-            case R.id.buttonGoMonkFive:
-                checkMonkeyPressedTheirCue(5);
-                break;
-            case R.id.buttonGoMonkSix:
-                checkMonkeyPressedTheirCue(6);
-                break;
-            case R.id.buttonGoMonkSeven:
-                checkMonkeyPressedTheirCue(7);
-                break;
             case R.id.buttonRewardZero:
                 deliverReward(0);
-                break;
             case R.id.buttonRewardOne:
                 deliverReward(1);
-                break;
             case R.id.buttonRewardTwo:
                 deliverReward(2);
-                break;
             case R.id.buttonRewardThree:
                 deliverReward(3);
-                break;
+            default:
+                checkMonkeyPressedTheirCue(view.getId());
         }
     }
 
