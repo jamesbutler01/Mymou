@@ -14,7 +14,6 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
     // Debug
     public static String TAG = "TaskExample";
 
-    // Identifier for which monkey is currently playing the task
     private static int current_monkey;
     private static int num_steps;
     private static PreferencesManager prefManager;
@@ -31,10 +30,15 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
 
-        // Instantiate task objects
         assignObjects();
-        UtilsTask.randomlyPositionCues(cues,  new UtilsTask().getPossibleCueLocs(getActivity()));
 
+        positionAndDisplayCues();
+
+    }
+
+    private void positionAndDisplayCues() {
+        UtilsTask.randomlyPositionCues(cues,  new UtilsTask().getPossibleCueLocs(getActivity()));
+        UtilsTask.toggleCues(cues, true);
     }
 
     private void assignObjects() {
@@ -78,20 +82,19 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
         }
 
         // Check how many correct presses they've got and how many they need per trial
-        if (num_steps == prefManager.objectdiscim_num_steps | !successfulTrial) {
+        if (num_steps == prefManager.objectdiscrim_num_steps | !successfulTrial) {
             endOfTrial(successfulTrial);
         } else {
-            UtilsTask.randomlyPositionCues(cues,  new UtilsTask().getPossibleCueLocs(getActivity()));
+            positionAndDisplayCues();
         }
     }
 
     private void endOfTrial(boolean successfulTrial) {
         String outcome;
-        PreferencesManager preferencesManager = new PreferencesManager(getContext());
         if (successfulTrial) {
-            outcome = preferencesManager.ec_correct_trial;
+            outcome = prefManager.ec_correct_trial;
         } else {
-            outcome = preferencesManager.ec_incorrect_trial;
+            outcome = prefManager.ec_incorrect_trial;
         }
         // Send outcome up to parent
         ((TaskManager) getActivity()).trialEnded(outcome);

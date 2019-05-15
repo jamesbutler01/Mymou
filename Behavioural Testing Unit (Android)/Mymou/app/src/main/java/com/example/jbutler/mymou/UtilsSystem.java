@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import androidx.preference.PreferenceManager;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.StringTokenizer;
 
@@ -26,11 +27,13 @@ public class UtilsSystem {
     }
 
     public static String convertIntArrayToString(int[] list) {
+//        String out = Arrays.toString(list);
         StringBuilder str = new StringBuilder();
         for (int s : list) {
             str.append(s).append(",");
         }
-        return str.toString();
+        String out = str.toString();
+        return out;
     }
 
     public static int[] loadIntArray(String tag, int n , SharedPreferences prefs) {

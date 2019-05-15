@@ -672,9 +672,10 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     public static void trialEnded(String result) {
         logEvent("Trial ended, result = "+result);
 
-        // Kill task
+        // Kill task and task timer
         fragmentTransaction.remove(fragmentManager.findFragmentByTag(TAG_FRAGMENT));
         commitFragment();
+        h0.removeCallbacksAndMessages(null);
 
         if (result == preferencesManager.ec_correct_trial) {
             correctTrial();

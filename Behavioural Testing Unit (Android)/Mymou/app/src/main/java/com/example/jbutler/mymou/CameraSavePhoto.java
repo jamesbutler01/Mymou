@@ -48,10 +48,10 @@ class CameraSavePhoto implements Runnable {
         boolean cropBitmap = true;
         Bitmap bitmapCropped;
         if (cropBitmap) {
-            int cropLeft = 63;
-            int cropRight = 123;
-            int cropTop = 95;
-            int cropBottom = 31;
+            int cropLeft = 30;
+            int cropRight = 30;
+            int cropTop = 30;
+            int cropBottom = 30;
             int startX = cropLeft;
             int startY = cropTop;
             int endX = bitmap.getWidth() - cropLeft - cropRight;

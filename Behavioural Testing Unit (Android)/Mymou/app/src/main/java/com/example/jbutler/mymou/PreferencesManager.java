@@ -2,7 +2,6 @@ package com.example.jbutler.mymou;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 import androidx.preference.PreferenceManager;
 
 public class PreferencesManager {
@@ -69,7 +68,7 @@ public class PreferencesManager {
 
     }
 
-    public int objectdiscrim_num_corr, objectdiscrim_num_incorr, objectdiscrim_num_corr_shown, objectdiscrim_num_incorr_shown, objectdiscim_num_steps;
+    public int objectdiscrim_num_corr, objectdiscrim_num_incorr, objectdiscrim_num_corr_shown, objectdiscrim_num_incorr_shown, objectdiscrim_num_steps;
     public int[] objectdiscrim_corr_colours, objectdiscrim_incorr_colours;
     public boolean repeatOnError;
 
@@ -77,7 +76,7 @@ public class PreferencesManager {
         String keyprefix = "two_";
         objectdiscrim_num_corr_shown = sharedPrefs.getInt(keyprefix+"num_corr_cues", 1);
         objectdiscrim_num_incorr_shown = sharedPrefs.getInt(keyprefix+"num_incorr_cues", 1);
-        objectdiscim_num_steps = sharedPrefs.getInt(keyprefix+"num_steps", 1);
+        objectdiscrim_num_steps = sharedPrefs.getInt(keyprefix+"num_steps", 1);
         repeatOnError = sharedPrefs.getBoolean(keyprefix+"repeat_error", false);
 
         int max_cues = 15;

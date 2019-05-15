@@ -46,7 +46,7 @@ import java.util.concurrent.TimeUnit;
 public class CameraMain extends Fragment
         implements FragmentCompat.OnRequestPermissionsResultCallback {
 
-    public static String TAG = "CameraMain";
+    public static String TAG = "MyMouCameraMain";
     //  Camera variables
     private static String mCameraId;
     private static TextureView mTextureView;
