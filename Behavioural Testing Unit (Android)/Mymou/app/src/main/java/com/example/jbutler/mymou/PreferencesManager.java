@@ -2,7 +2,10 @@ package com.example.jbutler.mymou;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import androidx.preference.PreferenceManager;
+
+import javax.mail.Quota;
 
 public class PreferencesManager {
     private String TAG = "MyMouPreferencesManager";
@@ -25,33 +28,34 @@ public class PreferencesManager {
     public PreferencesManager(Context context) {
         mContext = context;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        Resources r = context.getResources();
+        
+        bluetooth = sharedPrefs.getBoolean("bluetooth", r.getBoolean(R.bool.default_bluetooth));
+        camera = sharedPrefs.getBoolean("camera", r.getBoolean(R.bool.default_camera));
+        facerecog = sharedPrefs.getBoolean("facerecog", r.getBoolean(R.bool.default_facerecog));
+        restartoncrash = sharedPrefs.getBoolean("restartoncrash", r.getBoolean(R.bool.default_restartoncrash));
+        sound = sharedPrefs.getBoolean("sound", r.getBoolean(R.bool.default_sound));
+        autostart = sharedPrefs.getBoolean("autostart", r.getBoolean(R.bool.default_autostart));
+        autostop = sharedPrefs.getBoolean("autostop", r.getBoolean(R.bool.default_autostop));
 
-        bluetooth = sharedPrefs.getBoolean("bluetooth", context.getResources().getBoolean(R.bool.default_bluetooth));
-        camera = sharedPrefs.getBoolean("camera", context.getResources().getBoolean(R.bool.default_camera));
-        facerecog = sharedPrefs.getBoolean("facerecog", context.getResources().getBoolean(R.bool.default_facerecog));
-        restartoncrash = sharedPrefs.getBoolean("restartoncrash", context.getResources().getBoolean(R.bool.default_restartoncrash));
-        sound = sharedPrefs.getBoolean("sound", context.getResources().getBoolean(R.bool.default_sound));
-        autostart = sharedPrefs.getBoolean("autostart", context.getResources().getBoolean(R.bool.default_autostart));
-        autostop = sharedPrefs.getBoolean("autostop", context.getResources().getBoolean(R.bool.default_autostop));
+        rewardduration = sharedPrefs.getInt("rewardduration", r.getInteger(R.integer.default_rewardduration));
+        rewardduration = sharedPrefs.getInt("responseduration", r.getInteger(R.integer.default_responseduration));
+        rewardduration = sharedPrefs.getInt("timeoutduration", r.getInteger(R.integer.default_timeoutduration));
+        startuptime = sharedPrefs.getInt("startuptime", r.getInteger(R.integer.default_startuptime));
+        shutdowntime = sharedPrefs.getInt("shutdowntime", r.getInteger(R.integer.default_shutdowntime));
 
-        rewardduration = Integer.valueOf(sharedPrefs.getString("rewardduration", context.getResources().getString(R.string.default_rewardduration)));
-        responseduration = Integer.valueOf(sharedPrefs.getString("responseduration", context.getResources().getString(R.string.default_responseduration)));
-        timeoutduration = Integer.valueOf(sharedPrefs.getString("timeoutduration", context.getResources().getString(R.string.default_timeoutduration)));
-        startuptime = sharedPrefs.getInt("startuptime", context.getResources().getInteger(R.integer.default_startuptime));
-        shutdowntime = sharedPrefs.getInt("shutdowntime", context.getResources().getInteger(R.integer.default_shutdowntime));
+        cue_size = sharedPrefs.getInt("cue_size", r.getInteger(R.integer.default_cuesize));
+        cue_spacing = sharedPrefs.getInt("cue_spacing", r.getInteger(R.integer.default_cuespacing));
+        border_size = sharedPrefs.getInt("cue_border_size", r.getInteger(R.integer.default_bordersize));
+        num_monkeys = sharedPrefs.getInt("num_monkeys", r.getInteger(R.integer.default_num_monkeys));
 
-        cue_size = sharedPrefs.getInt("cue_size", context.getResources().getInteger(R.integer.default_cuesize));
-        cue_spacing = sharedPrefs.getInt("cue_spacing", context.getResources().getInteger(R.integer.default_cuespacing));
-        border_size = sharedPrefs.getInt("cue_border_size", context.getResources().getInteger(R.integer.default_bordersize));
-        num_monkeys = sharedPrefs.getInt("num_monkeys", context.getResources().getInteger(R.integer.default_num_monkeys));
-
-        int taskbackgroundcolour = Integer.valueOf(sharedPrefs.getString("taskbackgroundcolour", context.getResources().getString(R.string.default_taskbackgroundcolour)));
-        int rewardbackgroundcolour = Integer.valueOf(sharedPrefs.getString("rewardbackgroundcolour", context.getResources().getString(R.string.default_rewardbackgroundcolour)));
-        int timeoutbackgroundcolour = Integer.valueOf(sharedPrefs.getString("timeoutbackgroundcolour", context.getResources().getString(R.string.default_timeoutbackgroundcolour)));
-        int bordercolour = Integer.valueOf(sharedPrefs.getString(context.getResources().getString(R.string.preftag_cuebordercolors), context.getResources().getString(R.string.default_bordercolour)));
+        int taskbackgroundcolour = Integer.valueOf(sharedPrefs.getString("taskbackgroundcolour", Integer.toString(r.getInteger(R.integer.default_taskbackgroundcolour))));
+        int rewardbackgroundcolour = Integer.valueOf(sharedPrefs.getString("rewardbackgroundcolour", Integer.toString(r.getInteger(R.integer.default_taskbackgroundcolour))));
+        int timeoutbackgroundcolour = Integer.valueOf(sharedPrefs.getString("timeoutbackgroundcolour", Integer.toString(r.getInteger(R.integer.default_taskbackgroundcolour))));
+        int bordercolour = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_cuebordercolors),Integer.toString(r.getInteger(R.integer.default_bordercolour))));
 
 
-        colors = context.getResources().getIntArray(R.array.colorarray);
+        colors = r.getIntArray(R.array.colorarray);
         taskbackground = colors[taskbackgroundcolour];
         rewardbackground = colors[rewardbackgroundcolour];
         timeoutbackground = colors[timeoutbackgroundcolour];
@@ -69,10 +73,10 @@ public class PreferencesManager {
             }
         }
 
-        ec_correct_trial = sharedPrefs.getString("eventcode_correct_trial", context.getResources().getString(R.string.default_eventcode_correct_trial));
-        ec_incorrect_trial = sharedPrefs.getString("eventcode_error_trial", context.getResources().getString(R.string.default_eventcode_error_trial));
-        ec_trial_timeout = sharedPrefs.getString("eventcode_timeout_trial", context.getResources().getString(R.string.default_eventcode_timeout_trial));
-        ec_wrong_gocue_pressed = sharedPrefs.getString("eventcode_wrong_gocue", context.getResources().getString(R.string.default_eventcode_wrong_gocue));
+        ec_correct_trial = sharedPrefs.getString("eventcode_correct_trial", r.getString(R.string.default_eventcode_correct_trial));
+        ec_incorrect_trial = sharedPrefs.getString("eventcode_error_trial", r.getString(R.string.default_eventcode_error_trial));
+        ec_trial_timeout = sharedPrefs.getString("eventcode_timeout_trial", r.getString(R.string.default_eventcode_timeout_trial));
+        ec_wrong_gocue_pressed = sharedPrefs.getString("eventcode_wrong_gocue", r.getString(R.string.default_eventcode_wrong_gocue));
 
     }
 

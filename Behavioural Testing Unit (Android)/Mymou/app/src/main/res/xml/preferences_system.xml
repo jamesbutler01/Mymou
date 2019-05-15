@@ -1,117 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+                                      xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
-        app:key="system_settings"
-        app:title="System settings">
+            app:key="system_settings"
+            app:title="System settings">
 
-    <SwitchPreferenceCompat
-            app:key="bluetooth"
-            app:title="Enable bluetooth/reward system"
-            app:defaultValue="@bool/default_bluetooth"/>
-    <SwitchPreferenceCompat
-            app:key="camera"
-            app:title="Enable camera"
-            app:defaultValue="@bool/default_camera"/>
-    <SwitchPreferenceCompat
-            app:key="facerecog"
-            app:title="Enable facial recognition"
-            app:defaultValue="@bool/default_facerecog"/>
-    <SwitchPreferenceCompat
-            app:key="restartoncrash"
-            app:title="Automatically restart task on crash"
-            app:defaultValue="@bool/default_restartoncrash"/>
-    <SwitchPreferenceCompat
-            app:key="sound"
-            app:title="Enable sounds"
-            android:summary="Device will beep on successful trials to aid secondary reinforcement"
-            app:defaultValue="@bool/default_sound"/>
+        <SwitchPreferenceCompat
+                app:key="bluetooth"
+                app:title="Enable bluetooth/reward system"
+                app:defaultValue="@bool/default_bluetooth"/>
+        <SwitchPreferenceCompat
+                app:key="camera"
+                app:title="Enable camera"
+                app:defaultValue="@bool/default_camera"/>
+        <SwitchPreferenceCompat
+                app:key="facerecog"
+                app:title="Enable facial recognition"
+                app:defaultValue="@bool/default_facerecog"/>
+        <SwitchPreferenceCompat
+                app:key="restartoncrash"
+                app:title="Automatically restart task on crash"
+                app:defaultValue="@bool/default_restartoncrash"/>
+        <SwitchPreferenceCompat
+                app:key="sound"
+                app:title="Enable sounds"
+                android:summary="Device will beep on successful trials to aid secondary reinforcement"
+                app:defaultValue="@bool/default_sound"/>
     </PreferenceCategory>
 
-  <PreferenceCategory
-        app:key="task_settings"
-        app:title="Common task settings">
-
-      <EditTextPreference
-          app:key="rewardduration"
-          app:title="Reward duration (ms)"
-          app:defaultValue="@string/default_rewardduration"
-      />
-
-      <EditTextPreference
-           app:key="timeoutduration"
-           app:title="Timeout duration for error trials (ms)"
-           app:defaultValue="@string/default_timeoutduration"
-      />
-
-      <EditTextPreference
-           app:key="responseduration"
-           app:title="Maximum response duration (ms)"
-           app:defaultValue="@string/default_responseduration"/>
-
-      <Preference
-              app:fragment="com.example.jbutler.mymou.PrefsFragCues"
-              app:title="Cue settings"
-              android:summary="Border thickness, border colour, cue size, cue spacing"/>
-
-      <ListPreference
-           app:key="taskbackgroundcolour"
-           app:title="Task background colour"
-           android:entries="@array/colournames"
-           android:entryValues="@array/colourvalues"
-           android:defaultValue="0"/>
-
-      <ListPreference
-           app:key="rewardbackgroundcolour"
-           app:title="Reward background colour"
-           android:entries="@array/colournames"
-           android:entryValues="@array/colourvalues"
-           android:defaultValue="14"/>
-
-      <ListPreference
-           app:key="timeoutbackgroundcolour"
-           app:title="Timeout background colour"
-           android:entries="@array/colournames"
-           android:entryValues="@array/colourvalues"
-           android:defaultValue="6"/>
+    <PreferenceCategory
+            app:key="task_settings"
+            app:title="Common task settings">
 
         <SeekBarPreference
-            app:key="num_monkeys"
-            app:title="Number of monkeys"
-            android:max="8"
-            android:summary="Number of monkeys in total that will use the device"/>
+                app:key="rewardduration"
+                app:title="Reward duration (ms)"
+                app:defaultValue="@integer/default_rewardduration"
+                android:max="10000"/>
 
-      <Preference
-              app:fragment="com.example.jbutler.mymou.PrefsFragEventCodes"
-              app:title="Event codes"
-              android:summary="Common event codes that are stored in log data for various task events"/>
+        <SeekBarPreference
+                app:key="timeoutduration"
+                app:title="Timeout duration for error trials (ms)"
+                app:defaultValue="@integer/default_timeoutduration"
+                android:max="10000"/>
 
-  </PreferenceCategory>
+        <SeekBarPreference
+                app:key="responseduration"
+                app:title="Maximum response duration (ms)"
+                app:defaultValue="@integer/default_responseduration"
+                android:max="60000"/>
 
-       <PreferenceCategory
-        app:key="auto_start_stop"
-        app:title="Automatic startup and shutdown">
+        <Preference
+                app:fragment="com.example.jbutler.mymou.PrefsFragCues"
+                app:title="Cue settings"
+                android:summary="Border thickness, border colour, cue size, cue spacing"/>
+
+        <ListPreference
+                app:key="taskbackgroundcolour"
+                app:title="Task background colour"
+                android:entries="@array/colournames"
+                android:entryValues="@array/colourvalues"
+                android:defaultValue="@integer/default_taskbackgroundcolour"/>
+
+        <ListPreference
+                app:key="rewardbackgroundcolour"
+                app:title="Reward background colour"
+                android:entries="@array/colournames"
+                android:entryValues="@array/colourvalues"
+                android:defaultValue="@integer/default_rewardbackgroundcolour"/>
+
+        <ListPreference
+                app:key="timeoutbackgroundcolour"
+                app:title="Timeout background colour"
+                android:entries="@array/colournames"
+                android:entryValues="@array/colourvalues"
+                android:defaultValue="@integer/default_timeoutbackgroundcolour"/>
+
+        <SeekBarPreference
+                app:key="num_monkeys"
+                app:title="Number of monkeys"
+                android:max="@integer/max_num_monkeys"
+                android:summary="Number of monkeys in total that will use the device"
+            android:defaultValue="@integer/default_num_monkeys"/>
+
+        <Preference
+                app:fragment="com.example.jbutler.mymou.PrefsFragEventCodes"
+                app:title="Event codes"
+                android:summary="Common event codes that are stored in log data for various task events"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            app:key="auto_start_stop"
+            app:title="Automatic startup and shutdown">
 
         <SwitchPreferenceCompat
-            app:key="autostartswitch"
-            app:title="Auto task startup"
-            app:defaultValue="@bool/default_autostart"/>
+                app:key="autostartswitch"
+                app:title="Auto task startup"
+                app:defaultValue="@bool/default_autostart"/>
 
         <SeekBarPreference
-            app:key="startuptime"
-            app:title="Start up time"
-            app:isPreferenceVisible="false"/>
+                app:key="startuptime"
+                app:title="Start up time"
+                app:isPreferenceVisible="false"/>
 
         <SwitchPreferenceCompat
-            app:key="autostopswitch"
-            app:title="Auto task shutdown"
-            app:defaultValue="@bool/default_autostop"/>
+                app:key="autostopswitch"
+                app:title="Auto task shutdown"
+                app:defaultValue="@bool/default_autostop"/>
 
 
         <SeekBarPreference
-            app:key="shutdowntime"
-            app:title="Shut down time"
-            app:isPreferenceVisible="false"/>
+                app:key="shutdowntime"
+                app:title="Shut down time"
+                app:isPreferenceVisible="false"/>
 
     </PreferenceCategory>
 

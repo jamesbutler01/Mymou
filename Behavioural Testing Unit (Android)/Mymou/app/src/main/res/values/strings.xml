@@ -12,22 +12,12 @@
     <string name="chanThreeOn">7</string>
     <string name="chanThreeOff">8</string>
 
-    <string name="max_num_monkeys">8</string>
-
     <string-array name="available_tasks">
         <item>Example task</item>
         <item>Task from Butler, Kennerley (2018)</item>
         <item>Object discrimination</item>
     </string-array>
 
-    <string name="default_taskbackgroundcolour">0</string>
-    <string name="default_rewardbackgroundcolour">14</string>
-    <string name="default_timeoutbackgroundcolour">6</string>
-    <string name="default_bordercolour">1</string>
-
-    <string name="default_rewardduration">1500</string>
-    <string name="default_timeoutduration">1500</string>
-    <string name="default_responseduration">10000</string>
     <string name="default_startuptime">0700</string>
     <string name="default_shutdowntime">1900</string>
 
