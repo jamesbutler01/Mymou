@@ -68,10 +68,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private static boolean timerRunning;  // Signals if trial_timer currently active
 
       // Event codes for data logging
-    private static int ec_correctTrial = 1;
-    private static int ec_incorrectTrial = 0;
-    private static int ec_wrongGoCuePressed = 2;
-    private static int ec_idletimeout = 3;
+    private static String ec_idletimeout = "3";
 
     // Task objects
     private static Button[] cues_Go = new Button[8]; // Go cues to start a trial
@@ -225,7 +222,6 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         }
 
         Log.d(TAG, "Loading camera fragment");
-        fragmentTransaction = fragmentManager.beginTransaction();
         CameraMain cM = new CameraMain();
         fragmentTransaction.add(R.id.task_container, cM);
         commitFragment();
@@ -673,12 +669,12 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         }, timeoutWrongGoCuePressed);
     }
 
-    public void trialEnded(String result) {
+    public static void trialEnded(String result) {
         logEvent("Trial ended, result = "+result);
 
         // Kill task
-        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag(TAG_FRAGMENT)).commit();
-        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.remove(fragmentManager.findFragmentByTag(TAG_FRAGMENT));
+        commitFragment();
 
         if (result == preferencesManager.ec_correct_trial) {
             correctTrial();
@@ -687,13 +683,13 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         }
     }
 
-    private void incorrectTrial(String result) {
+    private static void incorrectTrial(String result) {
         logEvent("Feedback: Error trial");
         activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.timeoutbackground);
         endOfTrial(result, preferencesManager.timeoutduration);
     }
 
-    private void correctTrial() {
+    private static void correctTrial() {
         logEvent("Correct trial: Reward choice");
         activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.rewardbackground);
         UtilsTask.randomlyPositionCues(cues_Reward, possible_cue_locs);
@@ -757,8 +753,8 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         logEvent("Error stage: Idle timeout");
         disableAllCues();
         activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.timeoutbackground);
-        endOfTrial(preferencesManager.ec_trial_timeout, preferencesManager.timeoutduration);  // TODO: Switch this to trialEnded (which is static)
-        //trialEnded(ec_idletimeout);
+        //endOfTrial(preferencesManager.ec_trial_timeout, preferencesManager.timeoutduration);  // TODO: Switch this to trialEnded (which is static)
+        trialEnded(ec_idletimeout);
     }
 
     private static void PrepareForNewTrial(int delay) {
