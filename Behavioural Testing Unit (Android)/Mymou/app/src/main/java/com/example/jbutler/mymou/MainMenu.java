@@ -50,9 +50,9 @@ public class MainMenu extends Activity  {
             startTask();
         }
 
-//        Intent intent2 = new Intent(context, TaskManager.class);
-//        intent2.putExtra("tasktoload", 2);
-//        startActivity(intent2);
+        Intent intent2 = new Intent(context, TaskManager.class);
+        intent2.putExtra("tasktoload", 2);
+        startActivity(intent2);
 
     }
 

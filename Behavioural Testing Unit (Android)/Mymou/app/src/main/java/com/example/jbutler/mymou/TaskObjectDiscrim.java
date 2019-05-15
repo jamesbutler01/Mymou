@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 // A basic object discrimination task showcasing the main features of the Mymou system:
 
@@ -42,18 +43,16 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
         // Instantiate task objects
         assignObjects();
         UtilsTask.randomlyPositionCues(cues,  new UtilsTask().getPossibleCueLocs(getActivity()));
-
     }
 
     private void assignObjects() {
         preferencesManager = new PreferencesManager(getContext());
         preferencesManager.ObjectDiscrimination();
+        possible_cue_locs = new UtilsTask().getPossibleCueLocs(getActivity());
 
         int total_num_cues = preferencesManager.objectdiscrim_num_corr_shown + preferencesManager.objectdiscrim_num_incorr_shown;
         int i_buttons = 0;
         cues = new Button[total_num_cues];
-
-        Log.d("asdf", "id:"+preferencesManager.objectdiscrim_num_corr_shown+" col:"+preferencesManager.objectdiscrim_num_incorr_shown);
 
         // Add correct cues
         for (int i_correct = 0; i_correct < preferencesManager.objectdiscrim_num_corr_shown; i_correct++) {
@@ -65,23 +64,19 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
             i_buttons += 1;
         }
 
-        possible_cue_locs = new UtilsTask().getPossibleCueLocs(getActivity());
     }
 
     private void addButton(int id, int color) {
-        Log.d("asdf", "id:"+id+" col:"+color);
-        int[] colors = this.getResources().getIntArray(R.array.colorarray);
-        LinearLayout layout = getView().findViewById(R.id.container_object_discrim);
+        ConstraintLayout layout = getView().findViewById(R.id.parent_object_discrim);
         Button button = new Button(getContext());
-        button.setWidth(175);
-        button.setHeight(175);
+        button.setWidth(262);
+        button.setHeight(262);
         GradientDrawable drawable = new GradientDrawable();
         drawable.setShape(GradientDrawable.RECTANGLE);
         drawable.setStroke(5, Color.MAGENTA);
         drawable.setColor(color);
         button.setBackgroundDrawable(drawable);
         button.setId(id);
-        //button.setBackgroundColor(color);
         button.setOnClickListener(this);
         layout.addView(button);
         cues[id] = button;
