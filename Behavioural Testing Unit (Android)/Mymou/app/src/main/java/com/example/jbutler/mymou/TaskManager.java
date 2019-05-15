@@ -557,18 +557,23 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         setBrightness(true);
 
         // Now decide what to do based on what button pressed
-        boolean rewardcuepressed = false;
         switch (view.getId()) {
             case R.id.buttonRewardZero:
                 deliverReward(0);
+                break;
             case R.id.buttonRewardOne:
                 deliverReward(1);
+                break;
             case R.id.buttonRewardTwo:
                 deliverReward(2);
+                break;
             case R.id.buttonRewardThree:
                 deliverReward(3);
+                break;
             default:
+                // If it wasn't a reward cue it must be a go cue
                 checkMonkeyPressedTheirCue(view.getId());
+                break;
         }
     }
 

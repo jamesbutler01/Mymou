@@ -2,6 +2,7 @@ package com.example.jbutler.mymou;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
+        Log.d(TAG, "TaskObjectDiscrim started");
 
         assignObjects();
 
@@ -65,7 +67,6 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
 
     @Override
     public void onClick(View view) {
-
         // Always disable all cues after a press as monkeys love to bash repeatedly
         UtilsTask.toggleCues(cues, false);
 
@@ -75,14 +76,13 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
         // Now decide what to do based on what button pressed
         // The id of correct cues come first so this is how we determine if it's a correct cue or not
         boolean successfulTrial = false;
-
         if (Integer.valueOf(view.getId()) < prefManager.objectdiscrim_num_corr_shown) {
             successfulTrial = true;
             num_steps += 1;
         }
 
         // Check how many correct presses they've got and how many they need per trial
-        if (num_steps == prefManager.objectdiscrim_num_steps | !successfulTrial) {
+        if (!successfulTrial | num_steps == prefManager.objectdiscrim_num_steps) {
             endOfTrial(successfulTrial);
         } else {
             positionAndDisplayCues();
@@ -98,6 +98,7 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
         }
         // Send outcome up to parent
         ((TaskManager) getActivity()).trialEnded(outcome);
+
     }
 
 }

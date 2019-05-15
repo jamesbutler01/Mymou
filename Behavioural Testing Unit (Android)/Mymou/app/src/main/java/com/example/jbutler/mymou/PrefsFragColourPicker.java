@@ -28,9 +28,9 @@ public class PrefsFragColourPicker extends PreferenceFragmentCompat implements S
         String[] colornames = getResources().getStringArray(R.array.colournames);
         int num_colours = colornames.length;
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        coloursChosen = UtilsSystem.loadIntArray(currPrefTag, num_colours, sharedPrefs);
+        coloursChosen = UtilsSystem.loadIntArray(currPrefTag, sharedPrefs, mContext);
 
-        int[] goCueColours = UtilsSystem.loadIntArray(getString(R.string.preftag_gocuecolors), num_colours, sharedPrefs);
+        int[] goCueColours = UtilsSystem.loadIntArray(getString(R.string.preftag_gocuecolors), sharedPrefs, mContext);
         // TODO handle this iteratively
         String TAG_othercues;
         if (currPrefTag == getString(R.string.preftag_task_objdisc_corr)) {
@@ -38,10 +38,7 @@ public class PrefsFragColourPicker extends PreferenceFragmentCompat implements S
         } else {
             TAG_othercues = getString(R.string.preftag_task_objdisc_corr);
         }
-        int[] otherCues = UtilsSystem.loadIntArray(TAG_othercues, num_colours, sharedPrefs);
-
-        // Set onchange listener
-        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        int[] otherCues = UtilsSystem.loadIntArray(TAG_othercues, sharedPrefs, mContext);
 
         // Add preferences
         PreferenceScreen preferenceScreen = getPreferenceManager().createPreferenceScreen(mContext);
@@ -75,6 +72,8 @@ public class PrefsFragColourPicker extends PreferenceFragmentCompat implements S
             preferenceCategory.addPreference(checkBoxPreference);
         }
 
+        // Set onchange listener
+        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
     }
 
@@ -135,7 +134,7 @@ public class PrefsFragColourPicker extends PreferenceFragmentCompat implements S
 
             for (String other_tag : otherColorChoices) {
                 // Load the other options
-                int[] coloursTemp = UtilsSystem.loadIntArray(other_tag, coloursChosen.length, sharedPreferences);
+                int[] coloursTemp = UtilsSystem.loadIntArray(other_tag, sharedPreferences, mContext);
 
                 // Set to 0
                 coloursTemp[Integer.valueOf(key)] = 0;

@@ -22,13 +22,14 @@ public class PreferencesManager {
 
     private SharedPreferences sharedPrefs;
     private int[] colors;
+    private Resources r;
     private Context mContext;
 
 
     public PreferencesManager(Context context) {
         mContext = context;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        Resources r = context.getResources();
+        r = context.getResources();
         
         bluetooth = sharedPrefs.getBoolean("bluetooth", r.getBoolean(R.bool.default_bluetooth));
         camera = sharedPrefs.getBoolean("camera", r.getBoolean(R.bool.default_camera));
@@ -39,8 +40,8 @@ public class PreferencesManager {
         autostop = sharedPrefs.getBoolean("autostop", r.getBoolean(R.bool.default_autostop));
 
         rewardduration = sharedPrefs.getInt("rewardduration", r.getInteger(R.integer.default_rewardduration));
-        rewardduration = sharedPrefs.getInt("responseduration", r.getInteger(R.integer.default_responseduration));
-        rewardduration = sharedPrefs.getInt("timeoutduration", r.getInteger(R.integer.default_timeoutduration));
+        responseduration = sharedPrefs.getInt("responseduration", r.getInteger(R.integer.default_responseduration));
+        timeoutduration = sharedPrefs.getInt("timeoutduration", r.getInteger(R.integer.default_timeoutduration));
         startuptime = sharedPrefs.getInt("startuptime", r.getInteger(R.integer.default_startuptime));
         shutdowntime = sharedPrefs.getInt("shutdowntime", r.getInteger(R.integer.default_shutdowntime));
 
@@ -54,7 +55,6 @@ public class PreferencesManager {
         int timeoutbackgroundcolour = Integer.valueOf(sharedPrefs.getString("timeoutbackgroundcolour", Integer.toString(r.getInteger(R.integer.default_taskbackgroundcolour))));
         int bordercolour = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_cuebordercolors),Integer.toString(r.getInteger(R.integer.default_bordercolour))));
 
-
         colors = r.getIntArray(R.array.colorarray);
         taskbackground = colors[taskbackgroundcolour];
         rewardbackground = colors[rewardbackgroundcolour];
@@ -63,7 +63,7 @@ public class PreferencesManager {
 
         // Cue colour settings
         String tag = context.getString(R.string.preftag_gocuecolors);
-        int[] gocue_colors = UtilsSystem.loadIntArray(tag, colors.length, sharedPrefs);
+        int[] gocue_colors = UtilsSystem.loadIntArray(tag, sharedPrefs, context);
         colours_gocues = new int[8];
         int i_monk=0;
         for (int i=0; i<gocue_colors.length; i++) {
@@ -95,7 +95,7 @@ public class PreferencesManager {
         objectdiscrim_corr_colours = new int[max_cues];
         objectdiscrim_incorr_colours = new int[max_cues];
 
-        int[] chosen_cols = UtilsSystem.loadIntArray(mContext.getResources().getString(R.string.preftag_task_objdisc_corr), max_cues, sharedPrefs);
+        int[] chosen_cols = UtilsSystem.loadIntArray(r.getString(R.string.preftag_task_objdisc_corr), sharedPrefs, mContext);
         int i_chosen=0;
         for (int i=0; i<chosen_cols.length; i++) {
             if (chosen_cols[i] == 1) {
@@ -105,7 +105,7 @@ public class PreferencesManager {
         }
         objectdiscrim_num_corr = i_chosen;
 
-        chosen_cols = UtilsSystem.loadIntArray(mContext.getResources().getString(R.string.preftag_task_objdisc_incorr), max_cues, sharedPrefs);
+        chosen_cols = UtilsSystem.loadIntArray(r.getString(R.string.preftag_task_objdisc_incorr), sharedPrefs, mContext);
         i_chosen=0;
         for (int i=0; i<chosen_cols.length; i++) {
             if (chosen_cols[i] == 1) {
