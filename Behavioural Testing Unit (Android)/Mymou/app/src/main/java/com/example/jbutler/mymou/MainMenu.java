@@ -3,11 +3,13 @@ package com.example.jbutler.mymou;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+import androidx.preference.PreferenceManager;
 
 public class MainMenu extends Activity  {
 
@@ -98,6 +100,13 @@ public class MainMenu extends Activity  {
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
+        // Find previously selected task and set spinner to this position
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        String key = "task_selected";
+        int prev_task_selected = settings.getInt(key, 0);
+        taskSelected = prev_task_selected;
+        spinner.setSelection(taskSelected);
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -105,6 +114,11 @@ public class MainMenu extends Activity  {
                                        int position, long id) {
                 // Update task selected
                 taskSelected = position;
+
+                // Store for future reference
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putInt(key, position);
+                editor.commit();
             }
 
             @Override
