@@ -75,7 +75,6 @@ public class MainMenu extends Activity  {
 
         Intent intent = new Intent(this, TaskManager.class);
         intent.putExtra("tasktoload", taskSelected);
-        intent.putExtra("tasktoload", 2);
         startActivity(intent);
     }
 
@@ -106,6 +105,9 @@ public class MainMenu extends Activity  {
         int prev_task_selected = settings.getInt(key, 0);
         taskSelected = prev_task_selected;
         spinner.setSelection(taskSelected);
+        if(taskSelected < 2) {
+            UtilsTask.toggleCue(findViewById(R.id.buttonTaskSettings), false);
+        }
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -114,6 +116,11 @@ public class MainMenu extends Activity  {
                                        int position, long id) {
                 // Update task selected
                 taskSelected = position;
+                if(taskSelected < 2) {
+                    UtilsTask.toggleCue(findViewById(R.id.buttonTaskSettings), false);
+                } else {
+                    UtilsTask.toggleCue(findViewById(R.id.buttonTaskSettings), true);
+                }
 
                 // Store for future reference
                 SharedPreferences.Editor editor = settings.edit();
@@ -196,8 +203,10 @@ public class MainMenu extends Activity  {
                     startActivity(intent);
                     break;
                 case R.id.buttonTaskSettings:
-                    Intent intent2 = new Intent(context, PrefsActTaskObjectDiscrim.class);
-                    startActivity(intent2);
+                    if (taskSelected == 2) {
+                        Intent intent2 = new Intent(context, PrefsActTaskObjectDiscrim.class);
+                        startActivity(intent2);
+                    }
                     break;
             }
         }

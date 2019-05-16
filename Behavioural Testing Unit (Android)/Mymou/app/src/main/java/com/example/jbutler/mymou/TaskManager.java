@@ -177,8 +177,6 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         }
     }
 
-    static TaskObjectDiscrim fragment;
-
 
     public static void startTrial(int monkId) {
         logEvent("Trial started for monkey "+monkId);
@@ -198,8 +196,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
             fragment.setArguments(bundle);
             fragmentTransaction.add(R.id.task_container, fragment, TAG_FRAGMENT);
         } else if (taskId == 2) {
-            fragment = new TaskObjectDiscrim();
-//            TaskObjectDiscrim fragment = new TaskObjectDiscrim();
+            TaskObjectDiscrim fragment = new TaskObjectDiscrim();
             fragment.setArguments(bundle);
             fragmentTransaction.add(R.id.task_container, fragment, TAG_FRAGMENT);
         }else{
