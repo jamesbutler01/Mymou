@@ -3,12 +3,12 @@
     <integer name="default_num_monkeys">2</integer>
     <integer name="max_num_monkeys">8</integer>
 
-    <integer name="default_startuptime">0700</integer>
-    <integer name="default_shutdowntime">1900</integer>
+    <integer name="default_autostart_hour">7</integer>
+    <integer name="default_autostop_hour">19</integer>
 
     <integer name="default_rewardduration">1500</integer>
     <integer name="default_timeoutduration">1500</integer>
-    <integer name="default_responseduration">20000</integer>
+    <integer name="default_responseduration">20</integer>
 
     <integer name="default_taskbackgroundcolour">0</integer>
     <integer name="default_rewardbackgroundcolour">14</integer>

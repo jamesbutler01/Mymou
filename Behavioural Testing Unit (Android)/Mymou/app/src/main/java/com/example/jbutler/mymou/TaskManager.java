@@ -67,9 +67,6 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private static int time = 0;  // Time from last press - used for idle timeout if it reaches maxTrialDuration
     private static boolean timerRunning;  // Signals if trial_timer currently active
 
-      // Event codes for data logging
-    private static String ec_idletimeout = "3";
-
     // Task objects
     private static Button[] cues_Go = new Button[8]; // Go cues to start a trial
     private static Button[] cues_Reward = new Button[4];  // Reward cues for the different reward options
@@ -359,16 +356,18 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         Log.d(TAG, "dailyTimer called");
         final Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR);
+        int min = c.get(Calendar.MINUTE);
         int AMPM = c.get(Calendar.AM_PM);
+        if (AMPM == Calendar.PM) { hour += 12; }
 
         if (shutdown) {  // If shutdown and waiting to start up in the morning
-            if (hour >= 7 && AMPM == Calendar.AM) {
+            if (hour >= preferencesManager.autostart_hour && min > preferencesManager.autostart_min) {
                 Log.d(TAG, "dailyTimer enabling app");
                 enableApp(true);
                 shutdown = false;
             }
         } else {  // If active and waiting to shutdown
-            if (hour >= 7 && AMPM == Calendar.PM) {
+            if (hour >= preferencesManager.autostop_hour && min > preferencesManager.autostop_min) {
                 Log.d(TAG, "dailyTimer disabling app");
                 enableApp(false);
                 shutdown = true;
@@ -746,8 +745,8 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         logEvent("Error stage: Idle timeout");
         disableAllCues();
         activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.timeoutbackground);
-        //endOfTrial(preferencesManager.ec_trial_timeout, preferencesManager.timeoutduration);  // TODO: Switch this to trialEnded (which is static)
-        trialEnded(ec_idletimeout);
+
+        trialEnded(preferencesManager.ec_trial_timeout);
     }
 
     private static void PrepareForNewTrial(int delay) {

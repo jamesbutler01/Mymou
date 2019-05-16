@@ -28,11 +28,11 @@ public class PrefsFragSystem extends PreferenceFragmentCompat implements SharedP
 
         // Only show times if auto start/stop is enabled
         if(sharedPrefs.getBoolean("autostartswitch",false)) {
-            Preference editTextPreference = findPreference("startuptime");
+            Preference editTextPreference = findPreference("autostart");
             editTextPreference.setVisible(true);
         }
         if(sharedPrefs.getBoolean("autostopswitch",false)) {
-            Preference editTextPreference = findPreference("startuptime");
+            Preference editTextPreference = findPreference("autostop");
             editTextPreference.setVisible(true);
         }
 
@@ -41,11 +41,11 @@ public class PrefsFragSystem extends PreferenceFragmentCompat implements SharedP
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals("autostartswitch")) {
-            Preference editTextPreference = findPreference("startuptime");
+            Preference editTextPreference = findPreference("autostart");
             editTextPreference.setVisible(sharedPreferences.getBoolean("autostartswitch",false));
         }
         if (key.equals("autostopswitch")) {
-            Preference editTextPreference = findPreference("shutdowntime");
+            Preference editTextPreference = findPreference("autostop");
             editTextPreference.setVisible(sharedPreferences.getBoolean("autostopswitch",false));
         }
     }

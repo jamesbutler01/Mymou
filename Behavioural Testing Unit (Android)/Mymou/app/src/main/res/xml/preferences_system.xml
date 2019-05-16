@@ -46,9 +46,9 @@
 
         <SeekBarPreference
                 app:key="responseduration"
-                app:title="Maximum response duration (ms)"
+                app:title="Maximum response duration (seconds)"
                 app:defaultValue="@integer/default_responseduration"
-                android:max="60000"/>
+                android:max="60"/>
 
         <Preference
                 app:fragment="com.example.jbutler.mymou.PrefsFragCues"
@@ -99,9 +99,10 @@
                 app:title="Auto task startup"
                 app:defaultValue="@bool/default_autostart"/>
 
-        <SeekBarPreference
-                app:key="startuptime"
-                app:title="Start up time"
+          <Preference
+                app:fragment="com.example.jbutler.mymou.PrefsFragTimePicker"
+                app:key="autostart"
+                app:title="Configure start up time"
                 app:isPreferenceVisible="false"/>
 
         <SwitchPreferenceCompat
@@ -109,10 +110,10 @@
                 app:title="Auto task shutdown"
                 app:defaultValue="@bool/default_autostop"/>
 
-
-        <SeekBarPreference
-                app:key="shutdowntime"
-                app:title="Shut down time"
+          <Preference
+                app:fragment="com.example.jbutler.mymou.PrefsFragTimePicker"
+                app:key="autostop"
+                app:title="Configure shut down time"
                 app:isPreferenceVisible="false"/>
 
     </PreferenceCategory>

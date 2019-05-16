@@ -14,7 +14,7 @@ public class MainMenu extends Activity  {
     private static String TAG = "MyMouMainMenu";
 
     // If true this automatically starts the task upon application startup (Speeds up debugging/testing)
-    public static final boolean testingMode = true;
+    public static final boolean testingMode = false;
 
     // Disable bluetooth and RewardSystem connectivity here
     private static PreferencesManager preferencesManager;

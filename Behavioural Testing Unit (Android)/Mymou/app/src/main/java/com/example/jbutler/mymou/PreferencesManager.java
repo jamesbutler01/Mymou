@@ -11,7 +11,8 @@ public class PreferencesManager {
     private String TAG = "MyMouPreferencesManager";
 
     public static boolean bluetooth, camera, facerecog, restartoncrash, sound, autostart, autostop;
-    public static int rewardduration, responseduration, timeoutduration, startuptime, shutdowntime;
+    public static int rewardduration, responseduration, timeoutduration;
+    public static int autostart_hour, autostop_hour, autostart_min, autostop_min;
     public static int taskbackground, rewardbackground, timeoutbackground;
     public static int border_colour, border_size, cue_size, cue_spacing;
     public static int num_monkeys;
@@ -41,9 +42,13 @@ public class PreferencesManager {
 
         rewardduration = sharedPrefs.getInt("rewardduration", r.getInteger(R.integer.default_rewardduration));
         responseduration = sharedPrefs.getInt("responseduration", r.getInteger(R.integer.default_responseduration));
+        responseduration *= 1000;
         timeoutduration = sharedPrefs.getInt("timeoutduration", r.getInteger(R.integer.default_timeoutduration));
-        startuptime = sharedPrefs.getInt("startuptime", r.getInteger(R.integer.default_startuptime));
-        shutdowntime = sharedPrefs.getInt("shutdowntime", r.getInteger(R.integer.default_shutdowntime));
+
+        autostart_hour = sharedPrefs.getInt("autostart_hour", r.getInteger(R.integer.default_autostart_hour));
+        autostart_min = sharedPrefs.getInt("autostart_min", 0);
+        autostop_hour = sharedPrefs.getInt("autostop_hour", r.getInteger(R.integer.default_autostop_hour));
+        autostop_min = sharedPrefs.getInt("autostop_min", 0);
 
         cue_size = sharedPrefs.getInt("cue_size", r.getInteger(R.integer.default_cuesize));
         cue_spacing = sharedPrefs.getInt("cue_spacing", r.getInteger(R.integer.default_cuespacing));
