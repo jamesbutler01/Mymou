@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import androidx.preference.PreferenceManager;
 
 import javax.mail.Quota;
+import java.util.Arrays;
 
 public class PreferencesManager {
     private String TAG = "MyMouPreferencesManager";
@@ -86,10 +87,10 @@ public class PreferencesManager {
 
     public void ObjectDiscrimination() {
         String keyprefix = "two_";
-        objectdiscrim_num_corr_shown = sharedPrefs.getInt(keyprefix+"num_corr_cues", 1);
-        objectdiscrim_num_incorr_shown = sharedPrefs.getInt(keyprefix+"num_incorr_cues", 1);
-        objectdiscrim_num_steps = sharedPrefs.getInt(keyprefix+"num_steps", 1);
-        repeatOnError = sharedPrefs.getBoolean(keyprefix+"repeat_error", false);
+        objectdiscrim_num_corr_shown = sharedPrefs.getInt(keyprefix+"num_corr_cues", r.getInteger(R.integer.default_objdisc_num_corr_shown));
+        objectdiscrim_num_incorr_shown = sharedPrefs.getInt(keyprefix+"num_incorr_cues", r.getInteger(R.integer.default_objdisc_num_incorr_shown));
+        objectdiscrim_num_steps = sharedPrefs.getInt(keyprefix+"num_steps", r.getInteger(R.integer.default_objdisc_num_steps));
+        repeatOnError = sharedPrefs.getBoolean(keyprefix+"repeat_error", r.getBoolean(R.bool.default_objdisc_repeaterror));
 
         int max_cues = 15;
         objectdiscrim_corr_colours = new int[max_cues];
@@ -104,6 +105,8 @@ public class PreferencesManager {
             }
         }
         objectdiscrim_num_corr = i_chosen;
+        objectdiscrim_corr_colours = Arrays.copyOf(objectdiscrim_corr_colours, objectdiscrim_num_corr);
+
 
         chosen_cols = UtilsSystem.loadIntArray(r.getString(R.string.preftag_task_objdisc_incorr), sharedPrefs, mContext);
         i_chosen=0;
@@ -114,6 +117,7 @@ public class PreferencesManager {
             }
         }
         objectdiscrim_num_incorr = i_chosen;
+        objectdiscrim_incorr_colours = Arrays.copyOf(objectdiscrim_incorr_colours, objectdiscrim_num_incorr);
 
     }
     

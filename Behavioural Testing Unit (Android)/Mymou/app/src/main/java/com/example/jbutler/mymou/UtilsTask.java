@@ -11,7 +11,9 @@ import android.widget.Button;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import java.util.Arrays;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 public class UtilsTask {
    // Debug
@@ -96,7 +98,21 @@ public class UtilsTask {
         view.setEnabled(status);
     }
 
+    // Returns random index whose entry is valid in validColours
+    public static int pickARandomColour(int[] validColours) {
+        if (IntStream.of(validColours).sum() == 0) {
+            new Exception("No valid colours available");
+        }
+        Random r = new Random();
+        int choice = r.nextInt(validColours.length);
+        while(validColours[choice] == 0) {
+            choice = r.nextInt(validColours.length);
+        }
 
+        return choice;
+
+
+    }
 
     public static void randomlyPositionCues(View[] cues, Point[] locs) {
         // Make zero array tracking which locations have already been used

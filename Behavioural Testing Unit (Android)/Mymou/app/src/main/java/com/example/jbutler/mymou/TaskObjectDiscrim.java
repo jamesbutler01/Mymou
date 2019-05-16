@@ -8,15 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.Arrays;
+
 // A basic object discrimination task showcasing the main features of the Mymou system:
 
 public class TaskObjectDiscrim extends Fragment implements View.OnClickListener {
 
     // Debug
-    public static String TAG = "TaskExample";
+    public static String TAG = "MyMouTaskExample";
 
-    private static int current_monkey;
-    private static int num_steps;
+    private static int current_monkey = -1;
+    private static int num_steps = 0;
     private static PreferencesManager prefManager;
 
     // Task objects
@@ -31,7 +33,7 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         Log.d(TAG, "TaskObjectDiscrim started");
-
+        num_steps=0;
         assignObjects();
 
         positionAndDisplayCues();
@@ -43,24 +45,32 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
         UtilsTask.toggleCues(cues, true);
     }
 
+    private void pickCueColours() {
+
+    }
+
     private void assignObjects() {
         prefManager = new PreferencesManager(getContext());
         prefManager.ObjectDiscrimination();
 
         int total_num_cues = prefManager.objectdiscrim_num_corr_shown + prefManager.objectdiscrim_num_incorr_shown;
-        int i_buttons = 0;
+        int i_cues = 0;
         cues = new Button[total_num_cues];
 
         // Add correct cues
-        for (int i_correct = 0; i_correct < prefManager.objectdiscrim_num_corr_shown; i_correct++) {
-            cues[i_correct] = UtilsTask.addCue(i_correct, prefManager.objectdiscrim_corr_colours[i_correct], getContext(), this, getView().findViewById(R.id.parent_object_discrim));
-            i_buttons += 1;
+        int[] random_cols_corr = MatrixMaths.randomNoRepeat(prefManager.objectdiscrim_num_corr_shown, prefManager.objectdiscrim_num_corr);
+        for (int i_corr = 0; i_corr < prefManager.objectdiscrim_num_corr_shown; i_corr++) {
+            cues[i_corr] = UtilsTask.addCue(i_corr, prefManager.objectdiscrim_corr_colours[random_cols_corr[i_corr]],
+                    getContext(), this, getView().findViewById(R.id.parent_object_discrim));
+            i_cues += 1;
         }
 
         // Add distractor cues
-        for (int i_incorrect = 0; i_incorrect < prefManager.objectdiscrim_num_incorr_shown; i_incorrect++) {
-            cues[i_buttons] = UtilsTask.addCue(i_buttons, prefManager.objectdiscrim_incorr_colours[i_incorrect], getContext(), this, getView().findViewById(R.id.parent_object_discrim));
-            i_buttons += 1;
+        int[] random_cols_incorr = MatrixMaths.randomNoRepeat(prefManager.objectdiscrim_num_corr_shown, prefManager.objectdiscrim_num_corr);
+        for (int i_incorr = 0; i_incorr < prefManager.objectdiscrim_num_incorr_shown; i_incorr++) {
+            cues[i_cues] = UtilsTask.addCue(i_cues, prefManager.objectdiscrim_incorr_colours[random_cols_incorr[i_incorr]],
+                    getContext(), this, getView().findViewById(R.id.parent_object_discrim));
+            i_cues += 1;
         }
 
     }

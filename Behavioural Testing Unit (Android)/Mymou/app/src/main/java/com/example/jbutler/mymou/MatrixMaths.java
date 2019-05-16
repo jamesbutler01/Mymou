@@ -1,5 +1,10 @@
 package com.example.jbutler.mymou;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class MatrixMaths {
 
     //Tranpose matrix
@@ -116,5 +121,23 @@ public class MatrixMaths {
             }
         }
         return output;
+    }
+
+    // For a range of size max_n returns n random elements
+    public static int[] randomNoRepeat(int n, int max_n) {
+        // Make range
+        ArrayList<Integer> range = new ArrayList<Integer>();
+        for (int i = 0; i < max_n; i++) range.add(i);
+
+        // Shuffle the range
+        Collections.shuffle(range);
+
+        // Take first elements up to n
+        int[] out = new int[n];
+        for (int i = 0;i < n;i++) {
+            out[i] = range.get(i);
+        }
+
+        return out;
     }
 }
