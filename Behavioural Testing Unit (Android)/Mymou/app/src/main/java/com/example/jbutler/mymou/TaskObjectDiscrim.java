@@ -1,14 +1,14 @@
 package com.example.jbutler.mymou;
 
 import android.app.Fragment;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
-import java.util.Arrays;
+import androidx.preference.PreferenceManager;
 
 // A basic object discrimination task showcasing the main features of the Mymou system:
 
@@ -23,6 +23,7 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
 
     // Task objects
     private static Button[] cues;  // List of all trial objects for an individual monkey
+    private static int[] random_cols_corr, random_cols_incorr;  // Cues selected for certain trial
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,9 +46,6 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
         UtilsTask.toggleCues(cues, true);
     }
 
-    private void pickCueColours() {
-
-    }
 
     private void assignObjects() {
         prefManager = new PreferencesManager(getContext());
@@ -57,8 +55,17 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
         int i_cues = 0;
         cues = new Button[total_num_cues];
 
+        // Check to see if we should reload the previous trial's cues
+        if (!prefManager.objectdiscrim_repeatOnError | !prefManager.objectdiscrim_previous_error) {
+            random_cols_corr = MatrixMaths.randomNoRepeat(prefManager.objectdiscrim_num_corr_shown, prefManager.objectdiscrim_num_corr);
+            random_cols_incorr = MatrixMaths.randomNoRepeat(prefManager.objectdiscrim_num_incorr_shown, prefManager.objectdiscrim_num_incorr);
+        } else {
+            // Load previous trials cues
+            random_cols_corr = prefManager.objectdiscrim_prev_cols_corr;
+            random_cols_incorr = prefManager.objectdiscrim_prev_cols_incorr;
+        }
+
         // Add correct cues
-        int[] random_cols_corr = MatrixMaths.randomNoRepeat(prefManager.objectdiscrim_num_corr_shown, prefManager.objectdiscrim_num_corr);
         for (int i_corr = 0; i_corr < prefManager.objectdiscrim_num_corr_shown; i_corr++) {
             cues[i_corr] = UtilsTask.addCue(i_corr, prefManager.objectdiscrim_corr_colours[random_cols_corr[i_corr]],
                     getContext(), this, getView().findViewById(R.id.parent_object_discrim));
@@ -66,7 +73,6 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
         }
 
         // Add distractor cues
-        int[] random_cols_incorr = MatrixMaths.randomNoRepeat(prefManager.objectdiscrim_num_corr_shown, prefManager.objectdiscrim_num_corr);
         for (int i_incorr = 0; i_incorr < prefManager.objectdiscrim_num_incorr_shown; i_incorr++) {
             cues[i_cues] = UtilsTask.addCue(i_cues, prefManager.objectdiscrim_incorr_colours[random_cols_incorr[i_incorr]],
                     getContext(), this, getView().findViewById(R.id.parent_object_discrim));
@@ -99,7 +105,19 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
         }
     }
 
+    // Save outcome of this trial and the cues used so that it can be repeated if it was unsuccessful
+    private void saveTrialParams(boolean successfulTrial) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("two_previous_error", successfulTrial);
+        editor.putString("two_prev_cols_corr", UtilsSystem.convertIntArrayToString(random_cols_corr));
+        editor.putString("two_prev_cols_incorr", UtilsSystem.convertIntArrayToString(random_cols_incorr));
+        editor.commit();
+    }
+
     private void endOfTrial(boolean successfulTrial) {
+        saveTrialParams(successfulTrial);
+
         String outcome;
         if (successfulTrial) {
             outcome = prefManager.ec_correct_trial;

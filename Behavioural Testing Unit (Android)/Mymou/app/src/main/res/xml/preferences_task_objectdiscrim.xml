@@ -9,13 +9,13 @@
             <Preference
             app:fragment="com.example.jbutler.mymou.PrefsFragColourPicker"
             app:title="Correct cue colours"
-            app:key="@string/preftag_task_objdisc_corr"
+            app:key="@string/preftag_objdisc_corr_cols"
             android:summary="Choose colours of the correct (CS+) cues here"/>
 
             <Preference
             app:fragment="com.example.jbutler.mymou.PrefsFragColourPicker"
             app:title="Incorrect cue colours"
-            app:key="@string/preftag_task_objdisc_incorr"
+            app:key="@string/preftag_objdisc_incorr_cols"
             android:summary="Choose colours of the incorrect (CS-) cues here"/>
 
     </PreferenceCategory>

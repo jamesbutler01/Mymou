@@ -44,10 +44,12 @@ public class UtilsSystem {
     public static String getDefaultArr(String tag, Context context) {
         if (tag == context.getResources().getString(R.string.preftag_gocuecolors)) {
             return context.getResources().getString(R.string.default_gocue_colours);
-        } else if (tag == context.getResources().getString(R.string.preftag_task_objdisc_corr)) {
+        } else if (tag == context.getResources().getString(R.string.preftag_objdisc_corr_cols)) {
             return context.getResources().getString(R.string.default_objdis_corr_colours);
-        } else if (tag == context.getResources().getString(R.string.preftag_task_objdisc_incorr)) {
+        } else if (tag == context.getResources().getString(R.string.preftag_objdisc_incorr_cols)) {
             return context.getResources().getString(R.string.default_objdis_incorr_colours);
+        } else if (tag == "two_prev_cols_incorr" | tag == "two_prev_cols_corr") {
+            return "doesn't matter what this default string is as this will only be called if there is a stored value";
         }
         new Exception("Invalid tag specified");
         return "";

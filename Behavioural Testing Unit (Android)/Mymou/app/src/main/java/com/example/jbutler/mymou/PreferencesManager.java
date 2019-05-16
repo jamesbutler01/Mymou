@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import androidx.preference.PreferenceManager;
 
-import javax.mail.Quota;
 import java.util.Arrays;
 
 public class PreferencesManager {
@@ -83,20 +82,23 @@ public class PreferencesManager {
 
     public int objectdiscrim_num_corr, objectdiscrim_num_incorr, objectdiscrim_num_corr_shown, objectdiscrim_num_incorr_shown, objectdiscrim_num_steps;
     public int[] objectdiscrim_corr_colours, objectdiscrim_incorr_colours;
-    public boolean repeatOnError;
+    public int[] objectdiscrim_prev_cols_corr, objectdiscrim_prev_cols_incorr;
+    public boolean objectdiscrim_repeatOnError, objectdiscrim_previous_error;
+
 
     public void ObjectDiscrimination() {
         String keyprefix = "two_";
         objectdiscrim_num_corr_shown = sharedPrefs.getInt(keyprefix+"num_corr_cues", r.getInteger(R.integer.default_objdisc_num_corr_shown));
         objectdiscrim_num_incorr_shown = sharedPrefs.getInt(keyprefix+"num_incorr_cues", r.getInteger(R.integer.default_objdisc_num_incorr_shown));
         objectdiscrim_num_steps = sharedPrefs.getInt(keyprefix+"num_steps", r.getInteger(R.integer.default_objdisc_num_steps));
-        repeatOnError = sharedPrefs.getBoolean(keyprefix+"repeat_error", r.getBoolean(R.bool.default_objdisc_repeaterror));
+        objectdiscrim_repeatOnError = sharedPrefs.getBoolean(keyprefix+"repeat_error", r.getBoolean(R.bool.default_objdisc_repeaterror));
 
+        // Colours
         int max_cues = 15;
         objectdiscrim_corr_colours = new int[max_cues];
         objectdiscrim_incorr_colours = new int[max_cues];
 
-        int[] chosen_cols = UtilsSystem.loadIntArray(r.getString(R.string.preftag_task_objdisc_corr), sharedPrefs, mContext);
+        int[] chosen_cols = UtilsSystem.loadIntArray(r.getString(R.string.preftag_objdisc_corr_cols), sharedPrefs, mContext);
         int i_chosen=0;
         for (int i=0; i<chosen_cols.length; i++) {
             if (chosen_cols[i] == 1) {
@@ -108,7 +110,7 @@ public class PreferencesManager {
         objectdiscrim_corr_colours = Arrays.copyOf(objectdiscrim_corr_colours, objectdiscrim_num_corr);
 
 
-        chosen_cols = UtilsSystem.loadIntArray(r.getString(R.string.preftag_task_objdisc_incorr), sharedPrefs, mContext);
+        chosen_cols = UtilsSystem.loadIntArray(r.getString(R.string.preftag_objdisc_incorr_cols), sharedPrefs, mContext);
         i_chosen=0;
         for (int i=0; i<chosen_cols.length; i++) {
             if (chosen_cols[i] == 1) {
@@ -118,6 +120,12 @@ public class PreferencesManager {
         }
         objectdiscrim_num_incorr = i_chosen;
         objectdiscrim_incorr_colours = Arrays.copyOf(objectdiscrim_incorr_colours, objectdiscrim_num_incorr);
+
+        // Previous trial information
+        objectdiscrim_previous_error = sharedPrefs.getBoolean(keyprefix+"previous_error", r.getBoolean(R.bool.default_objdisc_previouserror));
+        objectdiscrim_prev_cols_corr = UtilsSystem.loadIntArray(keyprefix+"prev_cols_corr", sharedPrefs, mContext);
+        objectdiscrim_prev_cols_incorr = UtilsSystem.loadIntArray(keyprefix+"prev_cols_incorr", sharedPrefs, mContext);
+
 
     }
     

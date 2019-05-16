@@ -89,11 +89,9 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         positionGoCues();
         setOnClickListeners();
         disableAllCues();
-
         initialiseRewardSystem();
         loadCamera();
         loadtask();
-
         initialiseScreenSettings();
         initialiseAutoRestartHandler();
 
@@ -697,10 +695,25 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
     // Go cues are in static location to make it easier for monkeys to press their own cue
     private void positionGoCues() {
-        int[] go_locs = {14, 9, 1, 22, 6, 17, 18, 5};
+        if (possible_cue_locs.length < preferencesManager.num_monkeys) {
+            new Exception("Go cues too big, not enough room for number of monkeys specified." +
+                    "\nPlease reduce the size of the go cues or the number of monkeys");
+        }
+
+        int pos;
+        int step = 1;
+        // If there's enough room then space the go cues around the screen
+        if (possible_cue_locs.length > preferencesManager.num_monkeys * 2) {
+            step *= 2;
+        }
         for (int i_monk = 0; i_monk < preferencesManager.num_monkeys; i_monk++) {
-            cues_Go[i_monk].setX(possible_cue_locs[go_locs[i_monk]].x);
-            cues_Go[i_monk].setY(possible_cue_locs[go_locs[i_monk]].y);
+            if (i_monk % 2 == 0) {
+                pos = i_monk * step;
+            } else {
+                pos = possible_cue_locs.length - (i_monk * step);
+            }
+            cues_Go[i_monk].setX(possible_cue_locs[pos].x);
+            cues_Go[i_monk].setY(possible_cue_locs[pos].y);
         }
     }
 

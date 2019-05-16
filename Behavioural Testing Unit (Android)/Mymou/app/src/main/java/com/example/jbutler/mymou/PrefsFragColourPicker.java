@@ -33,10 +33,10 @@ public class PrefsFragColourPicker extends PreferenceFragmentCompat implements S
         int[] goCueColours = UtilsSystem.loadIntArray(getString(R.string.preftag_gocuecolors), sharedPrefs, mContext);
         // TODO handle this iteratively
         String TAG_othercues;
-        if (currPrefTag == getString(R.string.preftag_task_objdisc_corr)) {
-            TAG_othercues = getString(R.string.preftag_task_objdisc_incorr);
+        if (currPrefTag == getString(R.string.preftag_objdisc_corr_cols)) {
+            TAG_othercues = getString(R.string.preftag_objdisc_incorr_cols);
         } else {
-            TAG_othercues = getString(R.string.preftag_task_objdisc_corr);
+            TAG_othercues = getString(R.string.preftag_objdisc_corr_cols);
         }
         int[] otherCues = UtilsSystem.loadIntArray(TAG_othercues, sharedPrefs, mContext);
 
@@ -129,8 +129,8 @@ public class PrefsFragColourPicker extends PreferenceFragmentCompat implements S
             }
 
             // List of other options to remove the colour from
-            String[] otherColorChoices = {mContext.getString(R.string.preftag_task_objdisc_corr),
-                    mContext.getString(R.string.preftag_task_objdisc_incorr)};
+            String[] otherColorChoices = {mContext.getString(R.string.preftag_objdisc_corr_cols),
+                    mContext.getString(R.string.preftag_objdisc_incorr_cols)};
 
             for (String other_tag : otherColorChoices) {
                 // Load the other options
