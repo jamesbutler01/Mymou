@@ -57,10 +57,11 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
 
         // Check to see if we should reload the previous trial's cues
         if (!prefManager.objectdiscrim_repeatOnError | !prefManager.objectdiscrim_previous_error) {
+            Log.d(TAG, "Picking new cue colours");
             random_cols_corr = MatrixMaths.randomNoRepeat(prefManager.objectdiscrim_num_corr_shown, prefManager.objectdiscrim_num_corr);
             random_cols_incorr = MatrixMaths.randomNoRepeat(prefManager.objectdiscrim_num_incorr_shown, prefManager.objectdiscrim_num_incorr);
         } else {
-            // Load previous trials cues
+            Log.d(TAG, "Use cue colours from previous trial");
             random_cols_corr = prefManager.objectdiscrim_prev_cols_corr;
             random_cols_incorr = prefManager.objectdiscrim_prev_cols_incorr;
         }

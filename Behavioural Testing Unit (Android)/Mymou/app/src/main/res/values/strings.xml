@@ -29,7 +29,7 @@
     <string name="preftag_gocuecolors">colours_gocues</string>
     <string name="preftag_cuebordercolors">colours_cueborders</string>
     <string name="preftag_objdisc_corr_cols">colours_obj_disc_corr_cues</string>
-    <string name="preftag_objdisc_incorr_cols">colours_obj_disc_corr_cues</string>
+    <string name="preftag_objdisc_incorr_cols">colours_obj_disc_incorr_cues</string>
 
 
     <string name="default_gocue_colours">0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,</string>
