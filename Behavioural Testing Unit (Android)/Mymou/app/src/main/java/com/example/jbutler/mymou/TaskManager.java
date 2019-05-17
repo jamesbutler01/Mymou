@@ -2,8 +2,6 @@ package com.example.jbutler.mymou;
 
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.PendingIntent;
 import android.content.*;
 import android.graphics.Point;
@@ -15,6 +13,9 @@ import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.TextView;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,7 +26,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
-public class TaskManager extends Activity implements Thread.UncaughtExceptionHandler, View.OnClickListener {
+//public class TaskManager extends Activity implements Thread.UncaughtExceptionHandler, View.OnClickListener {
+public class TaskManager extends FragmentActivity implements Thread.UncaughtExceptionHandler, View.OnClickListener {
     // Debug
     public static String TAG = "MyMouTaskManager";
     private static TextView textView;
@@ -47,6 +49,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     private static Handler logHandler;
     private static HandlerThread logThread;
     private static FragmentManager fragmentManager;
+    private static FragmentActivity fragmentActivity;
     private static FragmentTransaction fragmentTransaction;
     private static Context mContext;
     private static Activity activity;
@@ -220,6 +223,9 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         Log.d(TAG, "Loading camera fragment");
         CameraMain cM = new CameraMain();
         fragmentTransaction.add(R.id.task_container, cM);
+        if (isFinishing() || isDestroyed()) {
+            Log.d(TAG, "uh oh, activity was destroyed!");
+        }
         commitFragment();
     }
 
@@ -461,9 +467,16 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
     @Override
+    public boolean isFinishing(){
+        Log.d(TAG,"isFinishing() called");
+        boolean output = super.isFinishing();
+        return output;
+    }
+
+    @Override
     public void onDestroy() {
-        super.onDestroy();
         Log.d(TAG,"onDestroy() called");
+        super.onDestroy();
         cancelHandlers();
         rewardSystem.quitBt();
         quitThreads();
@@ -521,7 +534,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         mContext = getApplicationContext();
         possible_cue_locs = new UtilsTask().getPossibleCueLocs(this);
         trialData = new ArrayList<String>();
-        fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
 
         // Layout views

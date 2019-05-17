@@ -1,7 +1,6 @@
 package com.example.jbutler.mymou;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.ImageFormat;
@@ -22,6 +21,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.legacy.app.FragmentCompat;
 import android.util.Log;
 import android.util.Size;
@@ -76,19 +76,22 @@ public class CameraMain extends Fragment
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         mTextureView = (TextureView) view.findViewById(R.id.camera_texture);
 
-        // Set image to size of photo
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-        int scale = 5;
-        int camera_width = settings.getInt("camera_width", 176) * scale;
-        int camera_height = settings.getInt("camera_height", 144) * scale;
+        // If in crop picker menu, we want to make the camera preview visible
+        if (getArguments().getBoolean("crop_picker", false)) {
+            // Set image to size of photo
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+            int scale = 5;
+            int camera_width = settings.getInt("camera_width", 176) * scale;
+            int camera_height = settings.getInt("camera_height", 144) * scale;
 
-        // Centre texture view
-        Point default_position = UtilsSystem.getCropDefaultXandY(getActivity(), camera_width);
-        mTextureView.setLayoutParams(new RelativeLayout.LayoutParams(camera_width, camera_height));
-        LayoutParams lp = (LayoutParams) mTextureView.getLayoutParams();
-        mTextureView.setLayoutParams(lp);
-        mTextureView.setY(default_position.y);
-        mTextureView.setX(default_position.x);
+            // Centre texture view
+            Point default_position = UtilsSystem.getCropDefaultXandY(getActivity(), camera_width);
+            mTextureView.setLayoutParams(new RelativeLayout.LayoutParams(camera_width, camera_height));
+            LayoutParams lp = (LayoutParams) mTextureView.getLayoutParams();
+            mTextureView.setLayoutParams(lp);
+            mTextureView.setY(default_position.y);
+            mTextureView.setX(default_position.x);
+        }
 
         startBackgroundThread();
 

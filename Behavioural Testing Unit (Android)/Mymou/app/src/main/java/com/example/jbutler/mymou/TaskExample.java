@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 // A basic object discrimination task showcasing the main features of the Mymou system:
 
@@ -65,7 +65,7 @@ public class TaskExample extends Fragment implements View.OnClickListener {
         UtilsTask.toggleCues(cues, false);
 
          // Reset timer for idle timeout on each press
-         ((TaskManager) getActivity()).resetTimer();
+         ((TaskManager) getContext().getApplicationContext()).resetTimer();
 
         // Now decide what to do based on what button pressed
         boolean successfulTrial = false;
@@ -90,7 +90,7 @@ public class TaskExample extends Fragment implements View.OnClickListener {
             outcome = preferencesManager.ec_incorrect_trial;
         }
         // Send outcome up to parent
-        ((TaskManager) getActivity()).trialEnded(outcome);
+        ((TaskManager) getContext().getApplicationContext()).trialEnded(outcome);
     }
 
 }

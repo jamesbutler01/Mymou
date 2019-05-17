@@ -26,6 +26,16 @@
                 app:title="Enable sounds"
                 android:summary="Device will beep on successful trials to aid secondary reinforcement"
                 app:defaultValue="@bool/default_sound"/>
+        <SwitchPreferenceCompat
+                app:key="crop_photos"
+                app:title="Crop camera photos"
+                app:defaultValue="false"/>
+        <Preference
+                app:fragment="com.example.jbutler.mymou.PrefsFragCropPickerParent"
+                app:key="croppicker_prefsfrag"
+                app:title="Configure crop boundaries of photos"
+                app:isPreferenceVisible="false"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -81,7 +91,7 @@
                 app:title="Number of monkeys"
                 android:max="@integer/max_num_monkeys"
                 android:summary="Number of monkeys in total that will use the device"
-            android:defaultValue="@integer/default_num_monkeys"/>
+                android:defaultValue="@integer/default_num_monkeys"/>
 
         <Preference
                 app:fragment="com.example.jbutler.mymou.PrefsFragEventCodes"
@@ -99,7 +109,7 @@
                 app:title="Auto task startup"
                 app:defaultValue="@bool/default_autostart"/>
 
-          <Preference
+        <Preference
                 app:fragment="com.example.jbutler.mymou.PrefsFragTimePicker"
                 app:key="autostart"
                 app:title="Configure start up time"
@@ -110,7 +120,7 @@
                 app:title="Auto task shutdown"
                 app:defaultValue="@bool/default_autostop"/>
 
-          <Preference
+        <Preference
                 app:fragment="com.example.jbutler.mymou.PrefsFragTimePicker"
                 app:key="autostop"
                 app:title="Configure shut down time"

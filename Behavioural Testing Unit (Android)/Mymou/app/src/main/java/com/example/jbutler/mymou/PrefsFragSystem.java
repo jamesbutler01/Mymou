@@ -35,6 +35,10 @@ public class PrefsFragSystem extends PreferenceFragmentCompat implements SharedP
             Preference editTextPreference = findPreference("autostop");
             editTextPreference.setVisible(true);
         }
+        if(sharedPrefs.getBoolean("crop_photos",false)) {
+            Preference editTextPreference = findPreference("croppicker_prefsfrag");
+            editTextPreference.setVisible(true);
+        }
 
     }
 
@@ -47,6 +51,10 @@ public class PrefsFragSystem extends PreferenceFragmentCompat implements SharedP
         if (key.equals("autostopswitch")) {
             Preference editTextPreference = findPreference("autostop");
             editTextPreference.setVisible(sharedPreferences.getBoolean("autostopswitch",false));
+        }
+        if (key.equals("crop_photos")) {
+            Preference editTextPreference = findPreference("croppicker_prefsfrag");
+            editTextPreference.setVisible(sharedPreferences.getBoolean("crop_photos",false));
         }
     }
 }

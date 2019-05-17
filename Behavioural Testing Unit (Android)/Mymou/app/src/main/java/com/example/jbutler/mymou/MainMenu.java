@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
 public class MainMenu extends Activity  {
@@ -53,17 +51,6 @@ public class MainMenu extends Activity  {
         if(testingMode && permissions_granted) {
             startTask();
         }
-
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        Bundle bundle = new Bundle();
-        bundle.putInt("currMonk", 0);
-        CameraMain fragment = new CameraMain();
-        fragment.setArguments(bundle);
-        PrefsFragCropPicker fragment2 = new PrefsFragCropPicker();
-        fragmentTransaction.add(R.id.mainLayout, fragment, "camera_fragment");
-        fragmentTransaction.add(R.id.mainLayout, fragment2, "crop_fragment");
-        fragmentTransaction.commit();
 
     }
 
