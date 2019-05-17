@@ -22,7 +22,7 @@ public class PrefsFragCropPickerParent extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_timepicker, container, false);
+        return inflater.inflate(R.layout.activity_croppicker, container, false);
     }
 
     @Override
@@ -30,13 +30,19 @@ public class PrefsFragCropPickerParent extends Fragment {
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Load camera fragment
         Bundle bundle = new Bundle();
         bundle.putBoolean("crop_picker", true);
         CameraMain fragment = new CameraMain();
         fragment.setArguments(bundle);
+
+        // Load crop picker fragment
         PrefsFragCropPicker fragment2 = new PrefsFragCropPicker();
-        fragmentTransaction.add(R.id.mainLayout, fragment, "camera_fragment");
-        fragmentTransaction.add(R.id.mainLayout, fragment2, "crop_fragment");
+
+        // Commit fragments
+        fragmentTransaction.add(R.id.layout_croppicker, fragment, "camera_fragment");
+        fragmentTransaction.add(R.id.layout_croppicker, fragment2, "crop_fragment");
         fragmentTransaction.commit();
 
     }

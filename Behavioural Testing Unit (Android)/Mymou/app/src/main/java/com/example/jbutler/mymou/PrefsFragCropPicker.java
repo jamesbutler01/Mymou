@@ -21,6 +21,7 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
 
     private int max_width_crop, width, camera_width;
     private int max_height_crop, height, camera_height;
+    private int scale = 5;
     private Point default_position;
     private int i_top = 0, i_bottom = 1, i_left = 2, i_right = 3;
     private int[] crop_vals = new int[4];
@@ -46,7 +47,6 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
 
         // Load settings
         settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-        int scale = 5;
         camera_width = settings.getInt("camera_width", 176) * scale;
         camera_height = settings.getInt("camera_height", 144) * scale;
         for (int i = 0; i < crop_vals.length; i++) {
@@ -57,8 +57,6 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
 
         max_height_crop = camera_height / 2;
         max_width_crop = camera_width / 2;
-        Log.d("asdf", " max height:" + max_height_crop + " max width:" + max_width_crop);
-        Log.d("asdf", " max height:" + max_height_crop + " max width:" + max_width_crop);
 
         seekbars[0] = view.findViewById(R.id.crop_top);
         seekbars[1] = view.findViewById(R.id.crop_bottom);
@@ -66,13 +64,15 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
         seekbars[3] = view.findViewById(R.id.crop_right);
 
         for (int i = 0; i < crop_vals.length; i++) {
-            seekbars[i].setOnSeekBarChangeListener(this);
-            seekbars[i].setProgress(crop_vals[i]);
-            if (i < 2) {
+           if (i < 2) {
                 seekbars[i].setMax(max_height_crop);
             } else {
                 seekbars[i].setMax(max_width_crop);
             }
+            seekbars[i].setProgress(crop_vals[i]);
+        }
+        for (int i = 0; i < crop_vals.length; i++) {
+            seekbars[i].setOnSeekBarChangeListener(this);
         }
 
         updateImage();
@@ -91,10 +91,10 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
     }
 
     private void saveSettings() {
-         SharedPreferences.Editor editor = settings.edit();
-           for (int i = 0; i < crop_vals.length; i++) {
-            editor.putInt(crop_keys[i], seekbars[i].getProgress());
-            }
+        SharedPreferences.Editor editor = settings.edit();
+        for (int i = 0; i < crop_vals.length; i++) {
+            editor.putInt(crop_keys[i], seekbars[i].getProgress() / scale);
+        }
         editor.commit();
     }
 
@@ -102,7 +102,7 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
     public void onProgressChanged(SeekBar seekBar, int progress,
                                   boolean fromUser) {
         updateImage();
-         saveSettings();
+        saveSettings();
     }
 
     @Override
