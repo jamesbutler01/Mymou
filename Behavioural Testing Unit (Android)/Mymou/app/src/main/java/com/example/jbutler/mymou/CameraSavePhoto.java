@@ -1,10 +1,13 @@
 package com.example.jbutler.mymou;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.Image;
 import android.util.Log;
+import androidx.preference.PreferenceManager;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -23,12 +26,14 @@ class CameraSavePhoto implements Runnable {
     private final Image mImage;
     private String timestamp;
     private final String day;
+    private Context mContext;
     private FolderManager folderManager = new FolderManager();
 
-    public CameraSavePhoto(Image image, String timestampU) {
+    public CameraSavePhoto(Image image, String timestampU, Context context) {
         mImage = image;
         timestamp = timestampU;
         day = folderManager.getBaseDate();
+        mContext = context;
         Log.d(TAG, " instantiated");
     }
 
@@ -45,18 +50,17 @@ class CameraSavePhoto implements Runnable {
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
         // Crop bitmap as you want:
-        boolean cropBitmap = true;
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mContext);
         Bitmap bitmapCropped;
-        if (cropBitmap) {
-            int cropLeft = 30;
-            int cropRight = 30;
-            int cropTop = 30;
-            int cropBottom = 30;
+        if (settings.getBoolean("crop_photos", false)) {
+            int cropLeft = settings.getInt("crop_left", 0);
+            int cropRight = settings.getInt("crop_right", 0);
+            int cropTop = settings.getInt("crop_Top", 0);
+            int cropBottom = settings.getInt("crop_Bottom", 0);
             int startX = cropLeft;
             int startY = cropTop;
             int endX = bitmap.getWidth() - cropLeft - cropRight;
             int endY = bitmap.getHeight() - cropTop - cropBottom;
-
             bitmapCropped = Bitmap.createBitmap(bitmap, startX, startY, endX, endY);
         } else {
             bitmapCropped = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight());

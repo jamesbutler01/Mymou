@@ -1,15 +1,11 @@
 package com.example.jbutler.mymou;
 
-import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
 import android.graphics.ImageFormat;
+import android.graphics.Point;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -24,9 +20,9 @@ import android.media.ImageReader;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.legacy.app.FragmentCompat;
-import androidx.core.content.ContextCompat;
 import android.util.Log;
 import android.util.Size;
 import android.view.LayoutInflater;
@@ -41,7 +37,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
-
+import android.widget.RelativeLayout.LayoutParams;
+import androidx.preference.PreferenceManager;
 
 public class CameraMain extends Fragment
         implements FragmentCompat.OnRequestPermissionsResultCallback {
@@ -77,7 +74,21 @@ public class CameraMain extends Fragment
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        mTextureView = (TextureView) view.findViewById(R.id.texture);
+        mTextureView = (TextureView) view.findViewById(R.id.camera_texture);
+
+        // Set image to size of photo
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+        int scale = 5;
+        int camera_width = settings.getInt("camera_width", 176) * scale;
+        int camera_height = settings.getInt("camera_height", 144) * scale;
+
+        // Centre texture view
+        Point default_position = UtilsSystem.getCropDefaultXandY(getActivity(), camera_width);
+        mTextureView.setLayoutParams(new RelativeLayout.LayoutParams(camera_width, camera_height));
+        LayoutParams lp = (LayoutParams) mTextureView.getLayoutParams();
+        mTextureView.setLayoutParams(lp);
+        mTextureView.setY(default_position.y);
+        mTextureView.setX(default_position.x);
 
         startBackgroundThread();
 
@@ -161,7 +172,7 @@ public class CameraMain extends Fragment
                 Image image = reader.acquireNextImage();
 
                 // On camera thread as don't want to be able to take photo while saving previous photo
-                CameraSavePhoto cameraSavePhoto = new CameraSavePhoto(image, timestamp);
+                CameraSavePhoto cameraSavePhoto = new CameraSavePhoto(image, timestamp, getContext());
                 cameraSavePhoto.run();
                 takingPhoto = false;
         }
@@ -215,8 +226,15 @@ public class CameraMain extends Fragment
                 Size smallest = Collections.min(
                         Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
                         new cameraCompareAreas());
-                Log.d(TAG, "arr: " + Arrays.deepToString(map.getOutputSizes(ImageFormat.JPEG)));
+
+                // Store this to be used by crop menu
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putInt("camera_width", smallest.getWidth());
+                editor.putInt("camera_height", smallest.getHeight());
+                editor.commit();
                 Log.d(TAG, "width: "+smallest.getWidth()+", height: "+smallest.getHeight());
+
                 mImageReader = ImageReader.newInstance(smallest.getWidth(), smallest.getHeight(),
                         ImageFormat.JPEG, /*maxImages*/2);
                 mImageReader.setOnImageAvailableListener(

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextureView
-        android:id="@+id/texture"
+        android:id="@+id/camera_texture"
         android:layout_width="1dp"
         android:layout_height="1dp"/>
 

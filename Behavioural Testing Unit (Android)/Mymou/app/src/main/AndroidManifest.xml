@@ -19,6 +19,8 @@
             android:icon="@drawable/ic_launcher"
             android:label="Mymou"
             android:theme="@android:style/Theme.Black.NoTitleBar">
+        <activity android:name=".PrefsFragCropPicker">
+        </activity>
         <activity
                 android:name=".PrefsActSystem"
                 android:theme="@style/AppTheme.FullScreen">

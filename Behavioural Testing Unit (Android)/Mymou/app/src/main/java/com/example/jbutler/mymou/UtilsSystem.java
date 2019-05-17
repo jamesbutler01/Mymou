@@ -1,8 +1,11 @@
 package com.example.jbutler.mymou;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import java.util.StringTokenizer;
@@ -53,6 +56,18 @@ public class UtilsSystem {
         }
         new Exception("Invalid tag specified");
         return "";
+    }
+
+    public static Point getCropDefaultXandY(Activity activity, int camera_width) {
+        int default_y = 200;
+            // Get size of screen for centring views
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int screen_width = size.x;
+        int default_x = ((screen_width - camera_width) / 2);
+        Point out = new Point (default_x, default_y);
+        return out;
     }
 
 
