@@ -53,17 +53,23 @@ class CameraSavePhoto implements Runnable {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mContext);
         Bitmap bitmapCropped;
         if (settings.getBoolean("crop_photos", false)) {
-            int cropLeft = settings.getInt("crop_left", 0);
-            int cropRight = settings.getInt("crop_right", 0);
-            int cropTop = settings.getInt("crop_Top", 0);
-            int cropBottom = settings.getInt("crop_Bottom", 0);
+            // For some reason photo is rotated 90 degrees so adjust crop settings accordingly
+            int cropLeft = settings.getInt("crop_bottom", 0);
+            int cropRight = settings.getInt("crop_top", 0);
+            int cropTop = settings.getInt("crop_right", 0);
+            int cropBottom = settings.getInt("crop_left", 0);
+
             int startX = cropLeft;
             int startY = cropTop;
             int endX = bitmap.getWidth() - cropLeft - cropRight;
             int endY = bitmap.getHeight() - cropTop - cropBottom;
+
             bitmapCropped = Bitmap.createBitmap(bitmap, startX, startY, endX, endY);
+
         } else {
+            // Just take whole image
             bitmapCropped = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight());
+
         }
 
         // Create integer array for facerecog
@@ -83,6 +89,8 @@ class CameraSavePhoto implements Runnable {
 
         //Save photo as jpeg
         savePhoto(bitmapCropped);
+        timestamp+=2;
+        savePhoto(bitmap);
     }
 
     // TODO: Merge savephoto and saveintarray to reduce repeated code
