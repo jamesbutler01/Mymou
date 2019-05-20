@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +18,8 @@ import android.widget.RelativeLayout.LayoutParams;
 
 public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarChangeListener {
 
-    private int max_width_crop, width, camera_width;
-    private int max_height_crop, height, camera_height;
+    private int max_width_crop, crop_width, camera_width;
+    private int max_height_crop, crop_height, camera_height;
     private int scale = 5;
     private Point default_position;
     private int i_top = 0, i_bottom = 1, i_left = 2, i_right = 3;
@@ -49,14 +48,15 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
         settings = PreferenceManager.getDefaultSharedPreferences(getContext());
         camera_width = settings.getInt("camera_width", 176) * scale;
         camera_height = settings.getInt("camera_height", 144) * scale;
+
         for (int i = 0; i < crop_vals.length; i++) {
             crop_vals[i] = settings.getInt(crop_keys[i], 0) * scale;
         }
 
         default_position = UtilsSystem.getCropDefaultXandY(getActivity(), camera_width);
 
-        max_height_crop = camera_height / 2;
-        max_width_crop = camera_width / 2;
+        max_height_crop = camera_height;
+        max_width_crop = camera_width;
 
         seekbars[0] = view.findViewById(R.id.crop_top);
         seekbars[1] = view.findViewById(R.id.crop_bottom);
@@ -71,6 +71,8 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
             }
             seekbars[i].setProgress(crop_vals[i]);
         }
+
+        // Add seekbarlistener last as otherwise configuring them will trigger the listener
         for (int i = 0; i < crop_vals.length; i++) {
             seekbars[i].setOnSeekBarChangeListener(this);
         }
@@ -79,21 +81,35 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
 
     }
 
+    // Make sure that left crop + right crop is less than total width, and same for the other dimension
+    private boolean checkValidAdjustment() {
+        boolean valid = true;
+        if(seekbars[i_top].getProgress() + seekbars[i_bottom].getProgress() >  camera_height - (camera_height*0.05)) {
+            valid = false;
+        }
+        if(seekbars[i_left].getProgress() + seekbars[i_right].getProgress() >  camera_width - (camera_width*0.05)) {
+            valid = false;
+        }
+        return valid;
+    }
 
+    // Update red overlay on screen
     private void updateImage() {
-        height = camera_height - (seekbars[i_top].getProgress() + seekbars[i_bottom].getProgress());
-        width = camera_width - (seekbars[i_left].getProgress() + seekbars[i_right].getProgress());
-        mTextureView.setLayoutParams(new RelativeLayout.LayoutParams(width, height));
+        crop_height = camera_height - (seekbars[i_top].getProgress() + seekbars[i_bottom].getProgress());
+        crop_width = camera_width - (seekbars[i_left].getProgress() + seekbars[i_right].getProgress());
+        mTextureView.setLayoutParams(new RelativeLayout.LayoutParams(crop_width, crop_height));
         LayoutParams lp = (LayoutParams) mTextureView.getLayoutParams();
         mTextureView.setLayoutParams(lp);
         mTextureView.setY(default_position.y + seekbars[i_top].getProgress());  // Shift to the right by left crop amount
         mTextureView.setX(default_position.x + seekbars[i_left].getProgress());  // Shift to the right by left crop amount
     }
 
+    // Write settings to shared preferences
     private void saveSettings() {
         SharedPreferences.Editor editor = settings.edit();
         for (int i = 0; i < crop_vals.length; i++) {
             editor.putInt(crop_keys[i], seekbars[i].getProgress() / scale);
+            crop_vals[i] = seekbars[i].getProgress();
         }
         editor.commit();
     }
@@ -101,8 +117,15 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress,
                                   boolean fromUser) {
-        updateImage();
-        saveSettings();
+        if (checkValidAdjustment()) {
+            updateImage();
+            saveSettings();
+        } else {
+            // Reset previous values if they have adjusted seekbar too much
+           for (int i = 0; i < crop_vals.length; i++) {
+                seekbars[i].setProgress(crop_vals[i]);
+            }
+        }
     }
 
     @Override
