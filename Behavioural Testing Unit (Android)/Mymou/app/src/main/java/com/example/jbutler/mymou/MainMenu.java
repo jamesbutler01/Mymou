@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -199,7 +201,7 @@ public class MainMenu extends Activity  {
                     startTask();
                     break;
                 case R.id.buttonSettings:
-                    Intent intent = new Intent(context, PrefsActSystem.class);
+                                      Intent intent = new Intent(context, PrefsActSystem.class);
                     intent.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_system_settings));
                     startActivity(intent);
                     break;

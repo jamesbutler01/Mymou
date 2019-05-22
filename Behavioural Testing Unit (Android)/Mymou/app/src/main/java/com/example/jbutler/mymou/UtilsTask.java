@@ -5,6 +5,10 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.GradientDrawable;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
+import android.os.Looper;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import java.util.Arrays;
 import java.util.Random;
+import java.util.logging.Handler;
 import java.util.stream.IntStream;
 
 public class UtilsTask {
@@ -148,6 +153,5 @@ public class UtilsTask {
         return locs;
 
     }
-
 
 }

@@ -20,7 +20,7 @@ public class PrefsFragColourPicker extends PreferenceFragmentCompat implements S
 
     @Override
     public void onCreatePreferences(Bundle bundle, String rootKey) {
-        setPreferencesFromResource(R.xml.preferences_colorpicker, rootKey);
+        setPreferencesFromResource(R.xml.preferences_empty, rootKey);
 
         // Load parameters
         mContext = getActivity();

@@ -684,6 +684,7 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
     }
 
     private void deliverReward(int juiceChoice) {
+        new SoundManager(preferencesManager).playTone();
         logEvent("Delivering "+preferencesManager.rewardduration+"ms reward on channel "+juiceChoice);
         rewardSystem.activateChannel(juiceChoice, preferencesManager.rewardduration);
         endOfTrial(preferencesManager.ec_correct_trial, preferencesManager.rewardduration + 500);

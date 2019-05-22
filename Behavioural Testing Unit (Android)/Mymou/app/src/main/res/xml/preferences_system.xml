@@ -26,6 +26,11 @@
                 app:title="Enable sounds"
                 android:summary="Device will beep on successful trials to aid secondary reinforcement"
                 app:defaultValue="@bool/default_sound"/>
+              <Preference
+                app:fragment="com.example.jbutler.mymou.PrefsFragSoundPicker"
+                app:key="soundpicker_prefsfrag"
+                app:title="Choose sound for secondary reinforcer"
+                app:isPreferenceVisible="false"/>
         <SwitchPreferenceCompat
                 app:key="crop_photos"
                 app:title="Crop camera photos"

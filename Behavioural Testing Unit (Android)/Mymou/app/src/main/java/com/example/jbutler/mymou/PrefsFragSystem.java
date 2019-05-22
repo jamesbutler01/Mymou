@@ -27,6 +27,10 @@ public class PrefsFragSystem extends PreferenceFragmentCompat implements SharedP
             Preference editTextPreference = findPreference("croppicker_prefsfrag");
             editTextPreference.setVisible(true);
         }
+        if(sharedPrefs.getBoolean("sound",false)) {
+            Preference editTextPreference = findPreference("soundpicker_prefsfrag");
+            editTextPreference.setVisible(true);
+        }
 
          // Set onchange listener
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
@@ -38,6 +42,10 @@ public class PrefsFragSystem extends PreferenceFragmentCompat implements SharedP
         if (key.equals("crop_photos")) {
             Preference editTextPreference = findPreference("croppicker_prefsfrag");
             editTextPreference.setVisible(sharedPreferences.getBoolean("crop_photos",false));
+        }
+        if (key.equals("sound")) {
+            Preference editTextPreference = findPreference("soundpicker_prefsfrag");
+            editTextPreference.setVisible(sharedPreferences.getBoolean("sound",false));
         }
     }
 }
