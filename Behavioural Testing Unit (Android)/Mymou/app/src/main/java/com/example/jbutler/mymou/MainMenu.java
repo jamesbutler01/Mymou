@@ -84,9 +84,9 @@ public class MainMenu extends Activity  {
         rewardSystem = new RewardSystem(this, this);
         TextView tv1 = findViewById(R.id.tvBluetooth);
         if (rewardSystem.bluetoothConnection) {
-            tv1.setText("Bluetooth status: Connected");
+            tv1.setText("Connected");
         } else if (!preferencesManager.bluetooth) {
-            tv1.setText("Bluetooth status: Disabled");
+            tv1.setText("Disabled");
         }
     }
 
@@ -165,20 +165,6 @@ public class MainMenu extends Activity  {
                     return;
                 }
                 int chan = -1;
-                switch (v.getId()){
-                    case R.id.chanZeroButt:
-                        chan = 0;
-                        break;
-                    case R.id.chanOneButt:
-                        chan = 1;
-                        break;
-                    case R.id.chanTwoButt:
-                        chan = 2;
-                        break;
-                    case R.id.chanThreeButt:
-                        chan = 3;
-                        break;
-                }
                 if (isChecked) {
                     rewardSystem.startChannel(chan);
                 } else {
@@ -187,10 +173,7 @@ public class MainMenu extends Activity  {
             }
         };
 
-        ((ToggleButton)  findViewById(R.id.chanZeroButt)).setOnCheckedChangeListener(multiListener);
-        ((ToggleButton)  findViewById(R.id.chanOneButt)).setOnCheckedChangeListener(multiListener);
-        ((ToggleButton)  findViewById(R.id.chanTwoButt)).setOnCheckedChangeListener(multiListener);
-        ((ToggleButton)  findViewById(R.id.chanThreeButt)).setOnCheckedChangeListener(multiListener);
+//        ((Switch)  findViewById(R.id.switch1)).setOnCheckedChangeListener(multiListener);
     }
 
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {

@@ -8,136 +8,181 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@drawable/background_menu"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:baselineAligned="false"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="30dp"
+            android:paddingHorizontal="15dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:id="@+id/InitButtons"
-            android:background="@color/black">
+            android:id="@+id/rew_system_controller_layout">
 
 
-        <ToggleButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/chanZeroButt"
-                android:textOff="Chan 0"
-                android:textOn="Chan 0"
-                android:textSize="50sp"
-                android:textColor="@color/white"
-                android:background="@drawable/toggle_button"
-                android:layout_marginTop="8dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/chanOneButt"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:text="Reward system controller"
+                  android:id="@+id/tv_rew_system_title"
+                  android:textSize="40dp"
+                  android:textColor="@color/textColor"
+                  android:paddingBottom="10dp"
+                  android:gravity="center"
+        />
 
 
-        <ToggleButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/chanOneButt"
-                android:textOff="Chan 1"
-                android:textOn="Chan 1"
-                android:textSize="50sp"
-                android:textColor="@color/white"
-                android:background="@drawable/toggle_button"
-                android:layout_marginTop="8dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/chanZeroButt"
-                android:layout_marginStart="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/chanTwoButt"
-                android:layout_marginEnd="8dp" app:layout_constraintHorizontal_bias="0.5"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Channel:"
+                  android:textSize="30dp"
+                  android:id="@+id/tv_rew_system_chan_lab"
+                  app:layout_constraintEnd_toEndOf="@+id/tv_rew_system_btstatus_lab"
+                  android:textColor="@color/textColor"
+                  app:layout_constraintTop_toBottomOf="@+id/tv_rew_system_title"
+        />
 
 
-        <ToggleButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/chanTwoButt"
-                android:textOff="Chan 2"
-                android:textOn="Chan 2"
-                android:textSize="50sp"
-                android:textColor="@color/white"
-                android:background="@drawable/toggle_button"
-                app:layout_constraintStart_toEndOf="@+id/chanOneButt"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/chanThreeButt"
-                android:layout_marginEnd="8dp"/>
+        <RadioGroup android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@+id/tv_rew_system_btstatus_lab"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_rew_system_title"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="30dp"
 
+        >
 
-        <ToggleButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/chanThreeButt"
-                android:textOff="Chan 3"
-                android:textOn="Chan 3"
-                android:textSize="50sp"
-                android:textColor="@color/white"
-                android:background="@drawable/toggle_button"
-                app:layout_constraintStart_toEndOf="@+id/chanTwoButt"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="8dp"/>
+            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                         android:text="0"
+                         android:textSize="30dp"
+                         android:paddingLeft="5dp"
+                         android:paddingRight="20dp"
 
-        <Button
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:background="@drawable/toggle_button"
-                android:textColor="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="500dp"
-                android:text="START TASK"
-                android:id="@+id/buttonStart"
-                android:textSize="100sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/chanZeroButt"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp" android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/tvBluetooth"/>
+                         android:layout_weight="1"
+                         android:id="@+id/rb_chan0"/>
+            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                         android:text="1"
+                         android:textSize="30dp"
+                         android:layout_weight="1"
+                         android:paddingLeft="5dp"
+                         android:paddingRight="20dp"
 
-        <Button
-                android:text="  Settings  "
-                android:textSize="40sp"
-                android:background="@drawable/toggle_button"
-                android:textColor="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="16dp"
-                app:layout_constraintTop_toBottomOf="@+id/buttonStart"
-                android:id="@+id/buttonSettings" android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
-                app:layout_constraintStart_toStartOf="parent"/>
+                         android:id="@+id/rb_chan1"/>
+            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                         android:text="2"
+                         android:textSize="30dp"
+                         android:paddingLeft="5dp"
+                         android:paddingRight="20dp"
 
+                         android:layout_weight="1"
+                         android:id="@+id/rb_chan2"/>
+            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                         android:text="3"
+                         android:textSize="30dp"
+                         android:paddingLeft="5dp"
+                         android:paddingRight="20dp"
+
+                         android:layout_weight="1"
+                         android:id="@+id/rb_chan3"/>
+
+        </RadioGroup>
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Activate:"
+                  android:textColor="@color/textColor"
+                  android:textSize="30dp"
+                  android:id="@+id/tv_rew_system_switch_lab"
+                  app:layout_constraintEnd_toEndOf="@+id/tv_rew_system_btstatus_lab"
+                  app:layout_constraintTop_toBottomOf="@+id/tv_rew_system_chan_lab"
+        />
+
+        <RadioGroup android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@+id/tv_rew_system_switch_lab"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_rew_system_chan_lab"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="30dp"
+
+        >
+
+            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                         android:text="OFF"
+                         android:textSize="30dp"
+                         android:paddingLeft="5dp"
+                         android:paddingRight="20dp"
+
+                         android:checked="true"
+                         android:id="@+id/rb_pumpoff"/>
+            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                         android:text="ON"
+                         android:textSize="30dp"
+                         android:paddingLeft="5dp"
+                         android:paddingRight="20dp"
+                         android:id="@+id/rb_pumpon"/>
+
+        </RadioGroup>
 
 
         <TextView
-                android:text="Bluetooth status: Not connected"
-                android:textColor="#FFFFFF"
-                android:textSize="40sp"
+                android:text="Bluetooth status:"
+                android:textColor="@color/textColor"
+                android:textSize="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_rew_system_btstatus_lab"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_rew_system_switch_lab"
+
+        />
+
+        <TextView
+                android:text="Not connected"
+                android:textColor="@color/textColor"
+                android:textSize="30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvBluetooth"
-                android:layout_marginHorizontal="32dp"
-                android:layout_marginVertical="32dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/loadtasklayout"/>
+                android:layout_marginLeft="30dp"
+
+                app:layout_constraintStart_toEndOf="@+id/tv_rew_system_switch_lab"
+
+                app:layout_constraintTop_toBottomOf="@+id/tv_rew_system_switch_lab"
+
+        />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@drawable/background_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="30dp"
+            android:paddingHorizontal="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/rew_system_controller_layout"
+            app:layout_constraintStart_toStartOf="parent">
+
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:text="Settings"
+                  android:id="@+id/tv_settings_title"
+                  android:textSize="40dp"
+                  android:textColor="@color/textColor"
+                  android:paddingBottom="10dp"
+                  app:layout_constraintTop_toTopOf="parent"
+
+                  android:gravity="center"
+        />
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorDiscrete"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginVertical="32dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_settings_title"
                 android:id="@+id/loadtasklayout">
 
             <TextView
@@ -168,7 +213,7 @@
             <Button
                     android:text="  Task Settings  "
                     android:textSize="30sp"
-                    android:background="@drawable/toggle_button"
+                    android:background="@drawable/button"
                     android:textColor="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -182,6 +227,36 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+        <Button
+                android:text="  System Settings  "
+                android:textSize="40sp"
+                android:background="@drawable/button"
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/loadtasklayout"
+                android:id="@+id/buttonSettings" android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+        />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <Button
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:background="@drawable/button"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:text="START TASK"
+            android:id="@+id/buttonStart"
+            android:textSize="100sp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp" android:layout_marginBottom="8dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+

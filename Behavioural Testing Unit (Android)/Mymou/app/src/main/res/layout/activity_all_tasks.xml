@@ -9,8 +9,7 @@
     <View
             android:id="@+id/background_main"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@drawable/pinkrectangle"/>
+            android:layout_height="fill_parent"/>
 
      <Button
                 android:text="Reward\nChoice #0"
