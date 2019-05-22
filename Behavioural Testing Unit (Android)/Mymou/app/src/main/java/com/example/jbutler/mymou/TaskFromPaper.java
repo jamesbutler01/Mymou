@@ -259,7 +259,8 @@ public class TaskFromPaper extends Fragment
     @Override
     public void onClick(View view) {
          // Reset timer for idle timeout on each press
-         ((TaskManager) getContext().getApplicationContext()).resetTimer();
+         callback.resetTimer_();
+
 
          switch (view.getId()) {
             case R.id.imageButton0:
@@ -566,7 +567,7 @@ public class TaskFromPaper extends Fragment
        h5.postDelayed(new Runnable() {
             @Override
             public void run() {
-                ((TaskManager) getContext().getApplicationContext()).trialEnded(outcome);
+                        callback.trialEnded_(outcome);
             }
         }, 1000);
     }
@@ -589,7 +590,14 @@ public class TaskFromPaper extends Fragment
         cancelHandlers();
     }
 
-
-
+    // Implement interface and listener to enable communication up to TaskManager
+    FragInterface callback;
+    public void setFragInterfaceListener(FragInterface callback) {
+        this.callback = callback;
+    }
+    public interface FragInterface {
+        void resetTimer_();
+        void trialEnded_(String outcome);
+    }
 
 }

@@ -65,7 +65,7 @@ public class TaskExample extends Fragment implements View.OnClickListener {
         UtilsTask.toggleCues(cues, false);
 
          // Reset timer for idle timeout on each press
-         ((TaskManager) getContext().getApplicationContext()).resetTimer();
+        callback.resetTimer_();
 
         // Now decide what to do based on what button pressed
         boolean successfulTrial = false;
@@ -90,7 +90,18 @@ public class TaskExample extends Fragment implements View.OnClickListener {
             outcome = preferencesManager.ec_incorrect_trial;
         }
         // Send outcome up to parent
-        ((TaskManager) getContext().getApplicationContext()).trialEnded(outcome);
+        callback.trialEnded_(outcome);
     }
+
+        // Implement interface and listener to enable communication up to TaskManager
+    FragInterface callback;
+    public void setFragInterfaceListener(FragInterface callback) {
+        this.callback = callback;
+    }
+    public interface FragInterface {
+        void resetTimer_();
+        void trialEnded_(String outcome);
+    }
+
 
 }

@@ -82,13 +82,23 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
 
     }
 
+    // Implement interface and listener to enable communication up to TaskManager
+    FragInterface callback;
+    public void setFragInterfaceListener(FragInterface callback) {
+        this.callback = callback;
+    }
+    public interface FragInterface {
+        void resetTimer_();
+        void trialEnded_(String outcome);
+    }
+
     @Override
     public void onClick(View view) {
         // Always disable all cues after a press as monkeys love to bash repeatedly
         UtilsTask.toggleCues(cues, false);
 
-         // Reset timer for idle timeout on each press
-         ((TaskManager) getContext().getApplicationContext()).resetTimer();
+        // Reset timer for idle timeout on each press
+        callback.resetTimer_();
 
         // Now decide what to do based on what button pressed
         // The id of correct cues come first so this is how we determine if it's a correct cue or not
@@ -126,7 +136,7 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
             outcome = prefManager.ec_incorrect_trial;
         }
         // Send outcome up to parent
-        ((TaskManager) getContext().getApplicationContext()).trialEnded(outcome);
+        callback.trialEnded_(outcome);
 
     }
 
