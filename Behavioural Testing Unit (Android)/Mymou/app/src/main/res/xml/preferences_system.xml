@@ -9,6 +9,14 @@
                 app:key="bluetooth"
                 app:title="Enable bluetooth/reward system"
                 app:defaultValue="@bool/default_bluetooth"/>
+        <SeekBarPreference
+                app:key="@string/preftag_num_rew_chans"
+                app:title="Number reward channels"
+                app:summary="The number of channels that the reward system is connected to (and the number of options offered to the monkey after a successful trial)"
+                android:defaultValue="@integer/default_num_rew_chans"
+                android:max="@integer/max_num_rew_chans"
+                app:isPreferenceVisible="false"/>
+
         <SwitchPreferenceCompat
                 app:key="camera"
                 app:title="Enable camera"
@@ -26,7 +34,8 @@
                 app:title="Enable sounds"
                 android:summary="Device will beep on successful trials to aid secondary reinforcement"
                 app:defaultValue="@bool/default_sound"/>
-              <Preference
+
+        <Preference
                 app:fragment="com.example.jbutler.mymou.PrefsFragSoundPicker"
                 app:key="soundpicker_prefsfrag"
                 app:title="Choose sound for secondary reinforcer"
@@ -51,15 +60,14 @@
                 app:fragment="com.example.jbutler.mymou.PrefsFragCommon"
                 app:key="@string/preftag_task_all"
                 app:title="Configure settings that are common across all tasks"/>
-
-        </PreferenceCategory>
+    </PreferenceCategory>
 
 
     <PreferenceCategory
             app:key="auto_start_stop"
             app:title="Automatic startup and shutdown">
 
-           <Preference
+        <Preference
                 app:fragment="com.example.jbutler.mymou.PrefsFragAutoStartStop"
                 app:key="prefsfrag_autostartstop"
                 app:title="Configure settings for automatically starting or stopping the device each day"/>

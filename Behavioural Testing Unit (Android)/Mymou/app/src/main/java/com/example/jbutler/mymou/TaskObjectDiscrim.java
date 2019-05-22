@@ -83,13 +83,9 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
     }
 
     // Implement interface and listener to enable communication up to TaskManager
-    FragInterface callback;
-    public void setFragInterfaceListener(FragInterface callback) {
+    TaskInterface callback;
+    public void setFragInterfaceListener(TaskInterface callback) {
         this.callback = callback;
-    }
-    public interface FragInterface {
-        void resetTimer_();
-        void trialEnded_(String outcome);
     }
 
     @Override

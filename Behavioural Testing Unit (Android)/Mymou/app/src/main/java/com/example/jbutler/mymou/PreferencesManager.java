@@ -12,6 +12,7 @@ public class PreferencesManager {
 
     public static boolean bluetooth, camera, facerecog, restartoncrash, sound, autostart, autostop;
     public static int sound_to_play;
+    public static int num_reward_chans;
     public static int rewardduration, responseduration, timeoutduration;
     public static int autostart_hour, autostop_hour, autostart_min, autostop_min;
     public static int taskbackground, rewardbackground, timeoutbackground;
@@ -43,6 +44,8 @@ public class PreferencesManager {
 
         sound_to_play = sharedPrefs.getInt(r.getString(R.string.preftag_sound_to_play), 0);
 
+        num_reward_chans = sharedPrefs.getInt(r.getString(R.string.preftag_num_rew_chans), r.getInteger(R.integer.default_num_rew_chans));
+
         rewardduration = sharedPrefs.getInt("rewardduration", r.getInteger(R.integer.default_rewardduration));
         responseduration = sharedPrefs.getInt("responseduration", r.getInteger(R.integer.default_responseduration));
         responseduration *= 1000;
@@ -59,8 +62,8 @@ public class PreferencesManager {
         num_monkeys = sharedPrefs.getInt("num_monkeys", r.getInteger(R.integer.default_num_monkeys));
 
         int taskbackgroundcolour = Integer.valueOf(sharedPrefs.getString("taskbackgroundcolour", Integer.toString(r.getInteger(R.integer.default_taskbackgroundcolour))));
-        int rewardbackgroundcolour = Integer.valueOf(sharedPrefs.getString("rewardbackgroundcolour", Integer.toString(r.getInteger(R.integer.default_taskbackgroundcolour))));
-        int timeoutbackgroundcolour = Integer.valueOf(sharedPrefs.getString("timeoutbackgroundcolour", Integer.toString(r.getInteger(R.integer.default_taskbackgroundcolour))));
+        int rewardbackgroundcolour = Integer.valueOf(sharedPrefs.getString("rewardbackgroundcolour", Integer.toString(r.getInteger(R.integer.default_rewardbackgroundcolour))));
+        int timeoutbackgroundcolour = Integer.valueOf(sharedPrefs.getString("timeoutbackgroundcolour", Integer.toString(r.getInteger(R.integer.default_timeoutbackgroundcolour))));
         int bordercolour = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_cuebordercolors),Integer.toString(r.getInteger(R.integer.default_bordercolour))));
 
         colors = r.getIntArray(R.array.colorarray);

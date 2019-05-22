@@ -2,6 +2,7 @@ package com.example.jbutler.mymou;
 
 import android.os.Bundle;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.SeekBarPreference;
 
 /**
  * Common preference fragment used to manage all preferences that have no special behaviour
