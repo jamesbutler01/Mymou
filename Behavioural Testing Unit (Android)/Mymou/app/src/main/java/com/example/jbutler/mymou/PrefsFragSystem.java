@@ -31,7 +31,6 @@ public class PrefsFragSystem extends PreferenceFragmentCompat implements SharedP
          // Set onchange listener
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
-
     }
 
     @Override

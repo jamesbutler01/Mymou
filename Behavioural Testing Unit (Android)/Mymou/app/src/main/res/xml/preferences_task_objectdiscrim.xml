@@ -27,16 +27,19 @@
             <SeekBarPreference
             app:key="two_num_corr_cues"
             app:title="Number of correct cues on screen each trial"
+            android:defaultValue="@integer/default_objdisc_num_corr_shown"
             android:summary="If you wish to select more, then select more cues colours in the above options"/>
 
             <SeekBarPreference
             app:key="two_num_incorr_cues"
             app:title="Number of incorrect cues on screen each trial"
+            android:defaultValue="@integer/default_objdisc_num_incorr_shown"
             android:summary="If you wish to select more, then select more cues colours in the above options"/>
 
             <SeekBarPreference
             app:key="two_num_steps"
             app:title="Number of correct choices per trial"
+            android:defaultValue="@integer/default_objdisc_num_steps"
             android:summary="The subject will need to complete this many choices correctly before they gain reward"/>
 
             <SwitchPreferenceCompat
