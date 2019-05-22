@@ -1,5 +1,6 @@
 package com.example.jbutler.mymou;
 
+import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -8,15 +9,29 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 public class PrefsActSystem extends AppCompatActivity implements
-        PreferenceFragmentCompat.OnPreferenceStartFragmentCallback  {
+        PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
+
+    String TAG = "MymouPrefsActSystem";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_preferences);
 
+        // Get which settings to load
+        String settings_to_load = getIntent().getStringExtra(getString(R.string.preftag_settings_to_load));
+        Log.d(TAG, settings_to_load);
+
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment preferenceFragment = new PrefsFragSystem();
+        Fragment preferenceFragment=null;
+        if (settings_to_load.equals(getString(R.string.preftag_system_settings))) {
+            preferenceFragment = new PrefsFragSystem();
+        } else if (settings_to_load.equals(getString(R.string.preftag_task_obj_disc_settings))) {
+            preferenceFragment = new PrefsFragTaskObjectDiscrim();
+        } else {
+            new Exception("Invalid preferences specified");
+        }
         ft.add(R.id.container_, preferenceFragment);
         ft.commit();
 

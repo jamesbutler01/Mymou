@@ -42,89 +42,22 @@
             app:key="task_settings"
             app:title="Common task settings">
 
-        <SeekBarPreference
-                app:key="rewardduration"
-                app:title="Reward duration (ms)"
-                app:defaultValue="@integer/default_rewardduration"
-                android:max="10000"/>
-
-        <SeekBarPreference
-                app:key="timeoutduration"
-                app:title="Timeout duration for error trials (ms)"
-                app:defaultValue="@integer/default_timeoutduration"
-                android:max="10000"/>
-
-        <SeekBarPreference
-                app:key="responseduration"
-                app:title="Maximum response duration (seconds)"
-                app:defaultValue="@integer/default_responseduration"
-                android:max="60"/>
-
         <Preference
-                app:fragment="com.example.jbutler.mymou.PrefsFragCues"
-                app:title="Cue settings"
-                android:summary="Border thickness, border colour, cue size, cue spacing"/>
+                app:fragment="com.example.jbutler.mymou.PrefsFragCommon"
+                app:key="@string/preftag_task_all"
+                app:title="Configure settings that are common across all tasks"/>
 
-        <ListPreference
-                app:key="taskbackgroundcolour"
-                app:title="Task background colour"
-                android:entries="@array/colournames"
-                android:entryValues="@array/colourvalues"
-                android:defaultValue="@integer/default_taskbackgroundcolour"/>
+        </PreferenceCategory>
 
-        <ListPreference
-                app:key="rewardbackgroundcolour"
-                app:title="Reward background colour"
-                android:entries="@array/colournames"
-                android:entryValues="@array/colourvalues"
-                android:defaultValue="@integer/default_rewardbackgroundcolour"/>
-
-        <ListPreference
-                app:key="timeoutbackgroundcolour"
-                app:title="Timeout background colour"
-                android:entries="@array/colournames"
-                android:entryValues="@array/colourvalues"
-                android:defaultValue="@integer/default_timeoutbackgroundcolour"/>
-
-        <SeekBarPreference
-                app:key="num_monkeys"
-                app:title="Number of monkeys"
-                android:max="@integer/max_num_monkeys"
-                android:summary="Number of monkeys in total that will use the device"
-                android:defaultValue="@integer/default_num_monkeys"/>
-
-        <Preference
-                app:fragment="com.example.jbutler.mymou.PrefsFragEventCodes"
-                app:title="Event codes"
-                android:summary="Common event codes that are stored in log data for various task events"/>
-
-    </PreferenceCategory>
 
     <PreferenceCategory
             app:key="auto_start_stop"
             app:title="Automatic startup and shutdown">
 
-        <SwitchPreferenceCompat
-                app:key="autostartswitch"
-                app:title="Auto task startup"
-                app:defaultValue="@bool/default_autostart"/>
-
-        <Preference
-                app:fragment="com.example.jbutler.mymou.PrefsFragTimePicker"
-                app:key="autostart"
-                app:title="Configure start up time"
-                app:isPreferenceVisible="false"/>
-
-        <SwitchPreferenceCompat
-                app:key="autostopswitch"
-                app:title="Auto task shutdown"
-                app:defaultValue="@bool/default_autostop"/>
-
-        <Preference
-                app:fragment="com.example.jbutler.mymou.PrefsFragTimePicker"
-                app:key="autostop"
-                app:title="Configure shut down time"
-                app:isPreferenceVisible="false"/>
+           <Preference
+                app:fragment="com.example.jbutler.mymou.PrefsFragAutoStartStop"
+                app:key="prefsfrag_autostartstop"
+                app:title="Configure settings for automatically starting or stopping the device each day"/>
 
     </PreferenceCategory>
 

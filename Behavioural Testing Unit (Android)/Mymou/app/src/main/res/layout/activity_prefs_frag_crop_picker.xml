@@ -58,7 +58,6 @@
              android:layout_marginBottom="10dp"
              android:layout_above="@id/text_bottom"
              android:layout_marginLeft="20dp"
-
     />
 
     <TextView android:layout_width="match_parent"
@@ -68,14 +67,16 @@
               android:text="Bottom"
               android:layout_above="@id/crop_bottom"
               android:layout_marginLeft="20dp"
-              android:textSize="30dp"/>
+              android:textSize="30dp"
+    />
 
     <SeekBar android:layout_width="match_parent"
              android:layout_height="wrap_content"
              android:id="@+id/crop_bottom"
              android:layout_marginBottom="10dp"
              android:layout_marginLeft="20dp"
-             android:layout_alignParentBottom="true"/>
+             android:layout_alignParentBottom="true"
+    />
 
 
 </RelativeLayout>

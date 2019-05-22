@@ -1,18 +1,19 @@
 package com.example.jbutler.mymou;
 
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TimePicker;
-import androidx.fragment.app.DialogFragment;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.preference.PreferenceManager;
+
+/**
+ * The crop picker requires two separate fragments, one for the camera, and one for the crop overlay
+ * This parent fragment simply loads up these two fragments
+ */
 
 public class PrefsFragCropPickerParent extends Fragment {
 

@@ -200,11 +200,13 @@ public class MainMenu extends Activity  {
                     break;
                 case R.id.buttonSettings:
                     Intent intent = new Intent(context, PrefsActSystem.class);
+                    intent.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_system_settings));
                     startActivity(intent);
                     break;
                 case R.id.buttonTaskSettings:
                     if (taskSelected == 2) {
-                        Intent intent2 = new Intent(context, PrefsActTaskObjectDiscrim.class);
+                        Intent intent2 = new Intent(context, PrefsActSystem.class);
+                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_obj_disc_settings));
                         startActivity(intent2);
                     }
                     break;

@@ -26,10 +26,6 @@
                 android:theme="@style/AppTheme.FullScreen">
         </activity>
         <activity
-                android:name=".PrefsActTaskObjectDiscrim"
-                android:theme="@style/AppTheme.FullScreen">
-        </activity>
-        <activity
                 android:name=".MainMenu"
                 android:launchMode="singleTop"
                 android:screenOrientation="portrait">

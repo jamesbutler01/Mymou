@@ -30,6 +30,12 @@
     <string name="preftag_cuebordercolors">colours_cueborders</string>
     <string name="preftag_objdisc_corr_cols">colours_obj_disc_corr_cues</string>
     <string name="preftag_objdisc_incorr_cols">colours_obj_disc_incorr_cues</string>
+    <string name="preftag_task_all">preftag_task_all</string>
+    <string name="preftag_cue_settings">preftag_cue_settings</string>
+    <string name="preftag_event_codes">preftag_event_codes</string>
+    <string name="preftag_system_settings">preftag_system_settings</string>
+    <string name="preftag_task_obj_disc_settings">preftag_task_obj_disc_settings</string>
+    <string name="preftag_settings_to_load">preftag_settings_to_load</string>
 
 
     <string name="default_gocue_colours">0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,</string>

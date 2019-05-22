@@ -21,37 +21,21 @@ public class PrefsFragSystem extends PreferenceFragmentCompat implements SharedP
         SharedPreferences sharedPrefs =
                 PreferenceManager.getDefaultSharedPreferences(getContext());
 
-        // Set onchange listener
-        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
-        final SeekBarPreference seekBar = (SeekBarPreference) findPreference("num_monkeys"); seekBar.setMin(1);
-
-        // Only show times if auto start/stop is enabled
-        if(sharedPrefs.getBoolean("autostartswitch",false)) {
-            Preference editTextPreference = findPreference("autostart");
-            editTextPreference.setVisible(true);
-        }
-        if(sharedPrefs.getBoolean("autostopswitch",false)) {
-            Preference editTextPreference = findPreference("autostop");
-            editTextPreference.setVisible(true);
-        }
+        // Only show crop photos setting if crop photos enabled
         if(sharedPrefs.getBoolean("crop_photos",false)) {
             Preference editTextPreference = findPreference("croppicker_prefsfrag");
             editTextPreference.setVisible(true);
         }
 
+         // Set onchange listener
+        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+
+
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals("autostartswitch")) {
-            Preference editTextPreference = findPreference("autostart");
-            editTextPreference.setVisible(sharedPreferences.getBoolean("autostartswitch",false));
-        }
-        if (key.equals("autostopswitch")) {
-            Preference editTextPreference = findPreference("autostop");
-            editTextPreference.setVisible(sharedPreferences.getBoolean("autostopswitch",false));
-        }
         if (key.equals("crop_photos")) {
             Preference editTextPreference = findPreference("croppicker_prefsfrag");
             editTextPreference.setVisible(sharedPreferences.getBoolean("crop_photos",false));
