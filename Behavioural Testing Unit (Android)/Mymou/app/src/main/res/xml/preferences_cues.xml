@@ -6,7 +6,7 @@
             app:title="Cue settings (applied to both go cues and task cues)">
 
       <Preference
-              app:fragment="com.example.jbutler.mymou.PrefsFragColourPicker"
+              app:fragment="mymou.PrefsFragColourPicker"
               app:key="@string/preftag_gocuecolors"
               app:title="Go cue colours"
               android:summary="Choose colours of the go/start cue for each monkey here"/>

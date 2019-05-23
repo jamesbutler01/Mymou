@@ -43,7 +43,7 @@
                 app:defaultValue="@bool/default_sound"/>
 
         <Preference
-                app:fragment="com.example.jbutler.mymou.PrefsFragSoundPicker"
+                app:fragment="mymou.PrefsFragSoundPicker"
                 app:key="soundpicker_prefsfrag"
                 app:title="Choose sound for secondary reinforcer"
                 app:isPreferenceVisible="false"/>
@@ -52,7 +52,7 @@
                 app:title="Crop camera photos"
                 app:defaultValue="false"/>
         <Preference
-                app:fragment="com.example.jbutler.mymou.PrefsFragCropPickerParent"
+                app:fragment="mymou.PrefsFragCropPickerParent"
                 app:key="croppicker_prefsfrag"
                 app:title="Configure crop boundaries of photos"
                 app:isPreferenceVisible="false"/>
@@ -64,7 +64,7 @@
             app:title="Common task settings">
 
         <Preference
-                app:fragment="com.example.jbutler.mymou.PrefsFragCommon"
+                app:fragment="mymou.PrefsFragCommon"
                 app:key="@string/preftag_task_all"
                 app:title="Configure settings that are common across all tasks"/>
     </PreferenceCategory>
@@ -75,7 +75,7 @@
             app:title="Automatic startup and shutdown">
 
         <Preference
-                app:fragment="com.example.jbutler.mymou.PrefsFragAutoStartStop"
+                app:fragment="mymou.PrefsFragAutoStartStop"
                 app:key="prefsfrag_autostartstop"
                 app:title="Configure settings for automatically starting or stopping the device each day"/>
 

@@ -4,7 +4,7 @@
        android:layout_height="match_parent"
        android:background="@android:color/transparent"
         android:id="@+id/task_container"
-    tools:context="com.example.jbutler.mymou.MainMenu">
+    tools:context="com.example.jbutler.mymou.mymou.MainMenu">
 
     <View
             android:id="@+id/background_main"
