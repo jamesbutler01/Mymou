@@ -21,7 +21,7 @@
             android:theme="@android:style/Theme.Black.NoTitleBar">
             <!--android:theme="@style/MainAppTheme">-->
         <activity
-                android:name="mymou.PrefsActSystem"
+                android:name="mymou.preferences.PrefsActSystem"
                 android:theme="@style/MainAppTheme">
         </activity>
         <activity
@@ -35,7 +35,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name="mymou.TaskManager"
+                android:name="mymou.task.backend.TaskManager"
                 android:screenOrientation="portrait"/>
 
     </application>

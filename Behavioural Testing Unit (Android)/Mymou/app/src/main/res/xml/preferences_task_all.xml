@@ -24,7 +24,7 @@
                 android:max="60"/>
 
         <Preference
-                app:fragment="mymou.PrefsFragCommon"
+                app:fragment="mymou.preferences.PrefsFragCommon"
                 app:title="Cue settings"
                 app:key="@string/preftag_cue_settings"
                 android:summary="Border thickness, border colour, cue size, cue spacing"/>
@@ -58,7 +58,7 @@
                 android:defaultValue="@integer/default_num_monkeys"/>
 
         <Preference
-                app:fragment="mymou.PrefsFragCommon"
+                app:fragment="mymou.preferences.PrefsFragCommon"
                 app:title="Event codes"
                 app:key="@string/preftag_event_codes"
                 android:summary="Common event codes that are stored in log data for various task events"/>

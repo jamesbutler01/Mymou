@@ -11,7 +11,7 @@
                 app:defaultValue="@bool/default_autostart"/>
 
         <Preference
-                app:fragment="mymou.PrefsFragTimePicker"
+                app:fragment="mymou.preferences.PrefsFragTimePicker"
                 app:key="autostart"
                 app:title="Configure start up time"
                 app:isPreferenceVisible="false"/>
@@ -22,7 +22,7 @@
                 app:defaultValue="@bool/default_autostop"/>
 
         <Preference
-                app:fragment="mymou.PrefsFragTimePicker"
+                app:fragment="mymou.preferences.PrefsFragTimePicker"
                 app:key="autostop"
                 app:title="Configure shut down time"
                 app:isPreferenceVisible="false"/>

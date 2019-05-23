@@ -10,6 +10,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import androidx.preference.PreferenceManager;
+import mymou.Utils.PermissionManager;
+import mymou.preferences.PreferencesManager;
+import mymou.task.backend.RewardSystem;
+import mymou.task.backend.TaskManager;
+import mymou.task.backend.UtilsTask;
+import mymou.preferences.PrefsActSystem;
 
 public class MainMenu extends Activity  {
 
