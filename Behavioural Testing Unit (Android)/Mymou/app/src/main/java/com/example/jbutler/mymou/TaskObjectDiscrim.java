@@ -69,14 +69,14 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
         // Add correct cues
         for (int i_corr = 0; i_corr < prefManager.objectdiscrim_num_corr_shown; i_corr++) {
             cues[i_corr] = UtilsTask.addCue(i_corr, prefManager.objectdiscrim_corr_colours[random_cols_corr[i_corr]],
-                    getContext(), this, getView().findViewById(R.id.parent_object_discrim));
+                    getContext(),  getView().findViewById(R.id.parent_object_discrim));
             i_cues += 1;
         }
 
         // Add distractor cues
         for (int i_incorr = 0; i_incorr < prefManager.objectdiscrim_num_incorr_shown; i_incorr++) {
             cues[i_cues] = UtilsTask.addCue(i_cues, prefManager.objectdiscrim_incorr_colours[random_cols_incorr[i_incorr]],
-                    getContext(), this, getView().findViewById(R.id.parent_object_discrim));
+                    getContext(), getView().findViewById(R.id.parent_object_discrim));
             i_cues += 1;
         }
 

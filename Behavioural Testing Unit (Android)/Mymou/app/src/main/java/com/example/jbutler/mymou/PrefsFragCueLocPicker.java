@@ -5,29 +5,32 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 /**
- * The crop picker requires two separate fragments, one for the camera, and one for the crop overlay
- * This parent fragment simply loads up these two fragments
+ * Used for user to select location of a particular cue
  */
 
-public class PrefsFragCropPickerParent extends Fragment {
+public class PrefsFragCueLocPicker extends Fragment {
 
-    public PrefsFragCropPickerParent() {
+    View cue;
+    int cueTag=0;
+
+    public PrefsFragCueLocPicker() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_crop_picker, container, false);
+        return inflater.inflate(R.layout.activity_cuelock_picker, container, false);
     }
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
+
+        cue = UtilsTask.addCue(cueTag, 1,  getContext(), getView().findViewById(R.id.layout_cue_loc_picker));
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

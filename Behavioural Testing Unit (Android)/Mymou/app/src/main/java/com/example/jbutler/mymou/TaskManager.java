@@ -578,7 +578,7 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
 
         // Layout views
         for (int i = 0; i < cues_Go.length; i++) {
-            cues_Go[i] = UtilsTask.addCue(i, preferencesManager.colours_gocues[i], this, this, findViewById(R.id.task_container));
+            cues_Go[i] = UtilsTask.addCue(i, preferencesManager.colours_gocues[i], this, findViewById(R.id.task_container));
         }
         cues_Reward[0] = findViewById(R.id.buttonRewardZero);
         cues_Reward[1] = findViewById(R.id.buttonRewardOne);

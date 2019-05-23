@@ -56,7 +56,9 @@ public class UtilsTask {
 
     }
 
-    public static Button addCue(int id, int color, Context context, View.OnClickListener onClickListener, ConstraintLayout layout) {
+//    public static Button addCue(int id, int color, Context context, View.OnClickListener onClickListener, ConstraintLayout layout) {
+    public static Button addCue(int id, int color, Context context, ConstraintLayout layout) {
+        View.OnClickListener onClickListener = (View.OnClickListener) context;
         PreferencesManager preferencesManager = new PreferencesManager(context);
         Button button = new Button(context);
         button.setWidth(preferencesManager.cue_size);
