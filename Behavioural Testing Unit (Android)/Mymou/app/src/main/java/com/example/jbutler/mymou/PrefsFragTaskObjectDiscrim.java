@@ -22,9 +22,11 @@ public class PrefsFragTaskObjectDiscrim extends PreferenceFragmentCompat  {
         SeekBarPreference seekBar = (SeekBarPreference) findPreference("two_num_corr_cues");
         seekBar.setMin(1);
         seekBar.setMax(preferencesManager.objectdiscrim_num_incorr);
+
         SeekBarPreference seekBar2 = (SeekBarPreference) findPreference("two_num_incorr_cues");
         seekBar2.setMin(1);
         seekBar2.setMax(preferencesManager.objectdiscrim_num_corr);
+
         SeekBarPreference seekBar3 = (SeekBarPreference) findPreference("two_num_steps");
         seekBar3.setMin(1);
         seekBar3.setMax(10);

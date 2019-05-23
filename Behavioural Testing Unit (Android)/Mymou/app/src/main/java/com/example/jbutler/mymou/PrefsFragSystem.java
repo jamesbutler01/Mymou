@@ -44,6 +44,14 @@ public class PrefsFragSystem extends PreferenceFragmentCompat implements SharedP
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+
+
+    @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         checkConditionalPrefs();
     }

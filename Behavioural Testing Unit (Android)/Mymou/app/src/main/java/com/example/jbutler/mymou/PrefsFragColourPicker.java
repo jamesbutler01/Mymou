@@ -144,6 +144,12 @@ public class PrefsFragColourPicker extends PreferenceFragmentCompat implements S
             }
         }
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+    }
 }
 
 

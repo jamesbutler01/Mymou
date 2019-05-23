@@ -206,11 +206,12 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
             fragment.setFragInterfaceListener(new TaskInterface() {
                 @Override
                 public void resetTimer_() { resetTimer();}
-
                 @Override
                 public void trialEnded_(String outcome) {
                     trialEnded(outcome);
                 }
+                @Override
+                public void logEvent_(String outcome) {logEvent(outcome);}
             });
             fragment.setArguments(bundle);
             fragmentTransaction.add(R.id.task_container, fragment, TAG_FRAGMENT);
@@ -219,9 +220,10 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
             fragment.setFragInterfaceListener(new TaskInterface() {
                 @Override
                 public void resetTimer_() {resetTimer();}
-
                 @Override
                 public void trialEnded_(String outcome) {trialEnded(outcome);}
+                @Override
+                public void logEvent_(String outcome) { logEvent(outcome);}
             });
             fragment.setArguments(bundle);
             fragmentTransaction.add(R.id.task_container, fragment, TAG_FRAGMENT);
@@ -230,9 +232,10 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
             fragment.setFragInterfaceListener(new TaskInterface() {
                 @Override
                 public void resetTimer_() {resetTimer();}
-
                 @Override
                 public void trialEnded_(String outcome) {trialEnded(outcome);}
+                @Override
+                public void logEvent_(String outcome) { logEvent(outcome);}
             });
             fragment.setArguments(bundle);
             fragmentTransaction.add(R.id.task_container, fragment, TAG_FRAGMENT);
@@ -819,6 +822,9 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
 
     @Override
     public void trialEnded_(String outcome) {    }
+
+    @Override
+    public void logEvent_(String outcome) {    }
 
 
 

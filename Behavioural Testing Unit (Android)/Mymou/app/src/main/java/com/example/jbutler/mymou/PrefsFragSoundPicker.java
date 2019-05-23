@@ -86,6 +86,12 @@ public class PrefsFragSoundPicker extends PreferenceFragmentCompat implements Sh
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);  // Re-enable listener
     }
 
+        @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+    }
+
 }
 
 

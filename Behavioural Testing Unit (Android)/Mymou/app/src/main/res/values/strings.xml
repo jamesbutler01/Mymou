@@ -34,6 +34,8 @@
     <string name="preftag_cue_settings">preftag_cue_settings</string>
     <string name="preftag_event_codes">preftag_event_codes</string>
     <string name="preftag_system_settings">preftag_system_settings</string>
+    <string name="preftag_start_cue_locs">preftag_start_cue_locs</string>
+
 
     <string name="preftag_task_obj_disc_settings">preftag_task_obj_disc_settings</string>
     <string name="preftag_settings_to_load">preftag_settings_to_load</string>

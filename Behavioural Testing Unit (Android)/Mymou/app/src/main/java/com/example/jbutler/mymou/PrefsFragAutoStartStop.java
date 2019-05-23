@@ -47,4 +47,10 @@ public class PrefsFragAutoStartStop extends PreferenceFragmentCompat implements 
             editTextPreference.setVisible(sharedPreferences.getBoolean("autostopswitch",false));
         }
     }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+    }
+
 }

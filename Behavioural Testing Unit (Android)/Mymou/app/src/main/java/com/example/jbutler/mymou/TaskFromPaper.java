@@ -313,7 +313,7 @@ public class TaskFromPaper extends Fragment
         String msg =
                 numSteps + "," + result + "," + currentDistanceFromTarget + "," +
                 targetPos + "," + currentPos + "," + startingLoc + "," + pathDistance;
-         ((TaskManager) getContext().getApplicationContext()).logEvent(msg);
+         callback.logEvent_(msg);
     }
 
     private void arrivedAtWrongTarget() {
