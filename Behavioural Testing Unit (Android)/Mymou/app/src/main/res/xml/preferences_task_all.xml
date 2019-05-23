@@ -59,12 +59,6 @@
 
         <Preference
                 app:fragment="com.example.jbutler.mymou.PrefsFragCommon"
-                app:title="Start cue locations"
-                app:key="@string/preftag_start_cue_locs"
-                android:summary="Configure the static locations of each monkey's start cue"/>
-
-        <Preference
-                app:fragment="com.example.jbutler.mymou.PrefsFragCommon"
                 app:title="Event codes"
                 app:key="@string/preftag_event_codes"
                 android:summary="Common event codes that are stored in log data for various task events"/>

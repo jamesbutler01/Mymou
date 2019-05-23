@@ -28,10 +28,9 @@ import java.util.Random;
 public class TaskFromPaper extends Fragment
         implements View.OnClickListener {
 
-    public ImageButton hideApplication;
-
-    private int pathDistance = 2;
+    private int pathDistance = 1;
     private static Context mContext;
+    private int numDistractors = 0;
 
     TextView textView;
 
@@ -53,26 +52,8 @@ public class TaskFromPaper extends Fragment
             R.drawable.aabao,
             R.drawable.aabap,};
 
-    int[][] transitionMatrix = {
-            {0,1,2,3,1,2,3,4,2,3,4,5,3,4,5,6},
-            {1,0,1,2,2,1,2,3,3,2,3,4,4,3,4,5},
-            {2,1,0,1,3,2,1,2,4,3,2,3,5,4,3,4},
-            {3,2,1,0,4,3,2,1,5,4,3,2,6,5,4,3},
-            {1,2,3,4,0,1,2,3,1,2,3,4,2,3,4,5},
-            {2,1,2,3,1,0,1,2,2,1,2,3,3,2,3,4},
-            {3,2,1,2,2,1,0,1,3,2,1,2,4,3,2,3},
-            {4,3,2,1,3,2,1,0,4,3,2,1,5,4,3,2},
-            {2,3,4,5,1,2,3,4,0,1,2,3,1,2,3,4},
-            {3,2,3,4,2,1,2,3,1,0,1,2,2,1,2,3},
-            {4,3,2,3,3,2,1,2,2,1,0,1,3,2,1,2},
-            {5,4,3,2,4,3,2,1,3,2,1,0,4,3,2,1},
-            {3,4,5,6,2,3,4,5,1,2,3,4,0,1,2,3},
-            {4,3,4,5,3,2,3,4,2,1,2,3,1,0,1,2},
-            {5,4,3,4,4,3,2,3,3,2,1,2,2,1,0,1},
-            {6,5,4,3,5,4,3,2,4,3,2,1,3,2,1,0},
-    };
-
-
+    int[][] transitionMatrix;
+    private int size = 4;
     private int numNeighbours = 4;
     private int yCenter, xCenter, distanceFromCenter;
     private int[] neighbours = new int[numNeighbours];
@@ -158,6 +139,7 @@ public class TaskFromPaper extends Fragment
         pos6 = (ImageButton) getView().findViewById(R.id.posSix);
         pos7 = (ImageButton) getView().findViewById(R.id.posSeven);
         textView = (TextView)getView().findViewById(R.id.textView2);
+        transitionMatrix = MatrixMaths.generateTransitionMatrix(size, size, false);
     }
 
     private void calculateButtonLocations() {
@@ -326,7 +308,7 @@ public class TaskFromPaper extends Fragment
                 ibCurrLoc.setEnabled(true);
                 ibCurrLoc.setBackground(ContextCompat.getDrawable(mContext, R.drawable.outline_thick));
                 ibTarget.setBackground(ContextCompat.getDrawable(mContext, R.drawable.outline_thick));
-                endOfTrial("0");
+                endOfTrial(new PreferencesManager(getContext()).ec_incorrect_trial);
             }
         }, (animationDuration));
     }
@@ -348,13 +330,7 @@ public class TaskFromPaper extends Fragment
                 ibCurrLoc.setEnabled(true);
                 ibCurrLoc.setBackground(ContextCompat.getDrawable(mContext, R.drawable.double_border));
                 ibTarget.setBackground(ContextCompat.getDrawable(mContext, R.drawable.double_border));
-                bgGreen.setEnabled(true);
-                bgGreen.setVisibility(View.VISIBLE);
-
-                ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
-                toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
-
-                endOfTrial("1");
+                endOfTrial(new PreferencesManager(getContext()).ec_correct_trial);
             }
         }, (animationDuration*2 + 400));
 
@@ -448,20 +424,28 @@ public class TaskFromPaper extends Fragment
 
     private void updateChoiceButtons() {
         //Find neighbouring images
+        int distractorCount = 0;
         int j = 0;
         for (int i = 0; i < numStimulus; i++) {
             if (transitionMatrix[currentPos][i] == 1) {
-                neighbours[j] = i;
-                imageButtons[j].setEnabled(true);
-                imageButtons[j].setVisibility(View.VISIBLE);
-                imageButtons[j].setImageResource(imageList[i]);
-                j++;
+                // Is it not in correct direction
+                if (transitionMatrix[i][targetPos] >= transitionMatrix[currentPos][targetPos]) {
+                    distractorCount += 1;
+                }
+
+                // Only add if it's in correct direction or a distracter fewer than specified amount
+                if (transitionMatrix[i][targetPos] < transitionMatrix[currentPos][targetPos] | distractorCount < numDistractors) {
+                    neighbours[j] = i;
+                    imageButtons[j].setEnabled(true);
+                    imageButtons[j].setVisibility(View.VISIBLE);
+                    imageButtons[j].setImageResource(imageList[i]);
+                    j++;
+                }
             }
         }
-        Log.d("tag",j+"");
+
         //If on edge of maze set remaining neighbours to inactive
         while(j < numNeighbours) {
-            Log.d("tag",j+"");
             neighbours[j] = -1;
             imageButtons[j].setEnabled(false);
             imageButtons[j].setVisibility(View.INVISIBLE);
@@ -492,7 +476,6 @@ public class TaskFromPaper extends Fragment
         while (distanceFromTarget(currentPos) != pathDistance) {
             randomiseCurrentPos();
         }
-        currentPos = 6;
         startingLoc = currentPos;
         updateChoiceButtons();
     }
@@ -515,7 +498,6 @@ public class TaskFromPaper extends Fragment
 
     private void chooseTargetLoc() {
         targetPos = r.nextInt(numStimulus);
-        targetPos = 4; // Static start target for demonstration
         ibTarget.setImageResource(imageList[targetPos]);
     }
 

@@ -8,6 +8,7 @@
     <integer name="default_autostop_hour">19</integer>
 
     <integer name="default_num_rew_chans">2</integer>
+    <integer name="default_rew_chan">1</integer>
     <integer name="max_num_rew_chans">4</integer>
 
     <integer name="default_rewardduration">1500</integer>

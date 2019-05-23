@@ -30,16 +30,14 @@ public class PrefsFragSystem extends PreferenceFragmentCompat implements SharedP
 
         // Only show crop photos setting if crop photos enabled
         if (sharedPrefs.getBoolean("crop_photos", false)) {
-            Preference editTextPreference = findPreference("croppicker_prefsfrag");
-            editTextPreference.setVisible(true);
+            findPreference("croppicker_prefsfrag").setVisible(true);
         }
         if (sharedPrefs.getBoolean("bluetooth", false)) {
-            Preference editTextPreference = findPreference(getString(R.string.preftag_num_rew_chans));
-            editTextPreference.setVisible(true);
+            findPreference(getString(R.string.preftag_num_rew_chans)).setVisible(true);
+            findPreference(getString(R.string.preftag_default_rew_chan)).setVisible(true);
         }
         if (sharedPrefs.getBoolean("sound", false)) {
-            Preference editTextPreference = findPreference("soundpicker_prefsfrag");
-            editTextPreference.setVisible(true);
+            findPreference("soundpicker_prefsfrag").setVisible(true);
         }
     }
 

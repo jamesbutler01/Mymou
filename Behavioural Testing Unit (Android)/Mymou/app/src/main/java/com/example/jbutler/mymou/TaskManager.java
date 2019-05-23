@@ -126,17 +126,14 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
     }
 
     private void initialiseAutoRestartHandler() {
-        if (preferencesManager.restartoncrash) {
-            Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-                @Override
-                public void uncaughtException(Thread thread, Throwable throwable) {
-                    logHandler.post(new CrashReport(throwable));
-                    rewardSystem.quitBt();
-                    restartApp();
-                }
-            });
-        }
-
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread thread, Throwable throwable) {
+                logHandler.post(new CrashReport(throwable));
+                rewardSystem.quitBt();
+                restartApp();
+            }
+        });
     }
 
     private void loadtask() {
@@ -205,11 +202,11 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
             TaskExample fragment = new TaskExample();
             fragment.setFragInterfaceListener(new TaskInterface() {
                 @Override
-                public void resetTimer_() { resetTimer();}
+                public void resetTimer_() {resetTimer();}
+
                 @Override
-                public void trialEnded_(String outcome) {
-                    trialEnded(outcome);
-                }
+                public void trialEnded_(String outcome) {trialEnded(outcome);}
+
                 @Override
                 public void logEvent_(String outcome) {logEvent(outcome);}
             });
@@ -220,10 +217,12 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
             fragment.setFragInterfaceListener(new TaskInterface() {
                 @Override
                 public void resetTimer_() {resetTimer();}
+
                 @Override
                 public void trialEnded_(String outcome) {trialEnded(outcome);}
+
                 @Override
-                public void logEvent_(String outcome) { logEvent(outcome);}
+                public void logEvent_(String outcome) {logEvent(outcome);}
             });
             fragment.setArguments(bundle);
             fragmentTransaction.add(R.id.task_container, fragment, TAG_FRAGMENT);
@@ -232,10 +231,12 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
             fragment.setFragInterfaceListener(new TaskInterface() {
                 @Override
                 public void resetTimer_() {resetTimer();}
+
                 @Override
                 public void trialEnded_(String outcome) {trialEnded(outcome);}
+
                 @Override
-                public void logEvent_(String outcome) { logEvent(outcome);}
+                public void logEvent_(String outcome) {logEvent(outcome);}
             });
             fragment.setArguments(bundle);
             fragmentTransaction.add(R.id.task_container, fragment, TAG_FRAGMENT);
@@ -245,6 +246,18 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
         commitFragment();
 
     }
+
+//    // For some reason this wont work, so have to type it out each time
+//   private static TaskInterface taskInterface = new TaskInterface()  {
+//            @Override
+//            public void resetTimer_() {resetTimer();}
+//
+//            @Override
+//            public void trialEnded_(String outcome) {trialEnded(outcome);}
+//
+//            @Override
+//            public void logEvent_(String outcome) {logEvent(outcome);}
+//        };
 
     // Automatically restart static fragmentTransaction so it is always available to use
     private static void commitFragment() {
@@ -274,15 +287,17 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
     }
 
     private void restartApp() {
-        Intent intent = new Intent(getApplicationContext(), TaskManager.class);
-        intent.putExtra("restart", true);
-        intent.putExtra("tasktoload", taskId);
-        final PendingIntent pendingIntent = PendingIntent.getActivity(
-                getApplicationContext(),
-                0, intent, PendingIntent.FLAG_ONE_SHOT);
-        AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, pendingIntent);
-        System.exit(2);
+        if (preferencesManager.restartoncrash) {
+            Intent intent = new Intent(getApplicationContext(), TaskManager.class);
+            intent.putExtra("restart", true);
+            intent.putExtra("tasktoload", taskId);
+            final PendingIntent pendingIntent = PendingIntent.getActivity(
+                    getApplicationContext(),
+                    0, intent, PendingIntent.FLAG_ONE_SHOT);
+            AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, pendingIntent);
+            System.exit(2);
+        }
     }
 
 
@@ -716,13 +731,17 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
 
     private static void correctTrial() {
         logEvent("Correct trial: Reward choice");
-        new SoundManager(preferencesManager).playTone();
         activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.rewardbackground);
+        if (preferencesManager.num_reward_chans == 1) {
+            new SoundManager(preferencesManager).playTone();
+            deliverReward(preferencesManager.default_rew_chan);
+        } else {
         UtilsTask.randomlyPositionCues(cues_Reward, possible_cue_locs);
         UtilsTask.toggleCues(cues_Reward, true);
+        }
     }
 
-    private void deliverReward(int juiceChoice) {
+    private static void deliverReward(int juiceChoice) {
         logEvent("Delivering " + preferencesManager.rewardduration + "ms reward on channel " + juiceChoice);
         rewardSystem.activateChannel(juiceChoice, preferencesManager.rewardduration);
         endOfTrial(preferencesManager.ec_correct_trial, preferencesManager.rewardduration + 500);
@@ -748,6 +767,14 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
                     "\nPlease reduce the size of the go cues or the number of monkeys");
         }
 
+        // If only one monkey then put start cue in middle of screen
+        if (preferencesManager.num_monkeys == 1) {
+            cues_Go[0].setX(possible_cue_locs[possible_cue_locs.length / 2].x);
+            cues_Go[0].setY(possible_cue_locs[possible_cue_locs.length / 2].y);
+            return;
+        }
+
+        // If multiple monkeys then tile the space evenly
         int pos;
         int step = 1;
         // If there's enough room then space the go cues around the screen
@@ -765,11 +792,11 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
         }
     }
 
-    // Recursive function to track task time
     private static void resetTimer() {
         time = 0;
     }
 
+    // Recursive function to track task time
     private static void trial_timer() {
         time += 1000;
 
@@ -818,14 +845,16 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
     }
 
     @Override
-    public void resetTimer_() {   }
+    public void resetTimer_() {
+    }
 
     @Override
-    public void trialEnded_(String outcome) {    }
+    public void trialEnded_(String outcome) {
+    }
 
     @Override
-    public void logEvent_(String outcome) {    }
-
+    public void logEvent_(String outcome) {
+    }
 
 
 }

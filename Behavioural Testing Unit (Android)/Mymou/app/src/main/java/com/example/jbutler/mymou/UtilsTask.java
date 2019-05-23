@@ -25,7 +25,7 @@ public class UtilsTask {
     public static String TAG = "MymouUtils";
 
     // Make a list of the possible locations on the screen where cues can be placed
-    public Point[] getPossibleCueLocs(Activity activity) {
+    public static Point[] getPossibleCueLocs(Activity activity) {
         PreferencesManager preferencesManager = new PreferencesManager(activity);
         int imageWidths = preferencesManager.cue_size;
         int border = preferencesManager.cue_spacing;  // Spacing between different task objects
