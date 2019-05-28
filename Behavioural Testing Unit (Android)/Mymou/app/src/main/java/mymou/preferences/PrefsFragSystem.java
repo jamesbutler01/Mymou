@@ -3,6 +3,7 @@ package mymou.preferences;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import mymou.R;
@@ -28,17 +29,13 @@ public class PrefsFragSystem extends PreferenceFragmentCompat implements SharedP
         SharedPreferences sharedPrefs =
                 PreferenceManager.getDefaultSharedPreferences(getContext());
 
+        Log.d("ASDF", "checking prefs "+sharedPrefs.getBoolean("bluetooth", false));
+
         // Only show crop photos setting if crop photos enabled
-        if (sharedPrefs.getBoolean("crop_photos", false)) {
-            findPreference("croppicker_prefsfrag").setVisible(true);
-        }
-        if (sharedPrefs.getBoolean("bluetooth", false)) {
-            findPreference(getString(R.string.preftag_num_rew_chans)).setVisible(true);
-            findPreference(getString(R.string.preftag_default_rew_chan)).setVisible(true);
-        }
-        if (sharedPrefs.getBoolean("sound", false)) {
-            findPreference("soundpicker_prefsfrag").setVisible(true);
-        }
+        findPreference("croppicker_prefsfrag").setVisible(sharedPrefs.getBoolean("crop_photos", false));
+        findPreference(getString(R.string.preftag_num_rew_chans)).setVisible(sharedPrefs.getBoolean("bluetooth", false));
+        findPreference(getString(R.string.preftag_default_rew_chan)).setVisible(sharedPrefs.getBoolean("bluetooth", false));
+        findPreference("soundpicker_prefsfrag").setVisible(sharedPrefs.getBoolean("sound", false));
     }
 
     @Override
@@ -46,7 +43,6 @@ public class PrefsFragSystem extends PreferenceFragmentCompat implements SharedP
         super.onDestroyView();
         getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
-
 
 
     @Override

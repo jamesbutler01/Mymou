@@ -93,6 +93,7 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
 
         setContentView(R.layout.activity_all_tasks);
 
+        initialiseAutoRestartHandler();
         assignObjects();
         loadAndApplySettings();
         disableExtraGoCues();
@@ -104,7 +105,6 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
         loadCamera();
         loadtask();
         initialiseScreenSettings();
-        initialiseAutoRestartHandler();
 
         if (preferencesManager.facerecog) {
             // Load facerecog off the main thread as takes a while
@@ -574,8 +574,6 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
     }
 
     private void loadAndApplySettings() {
-        preferencesManager = new PreferencesManager(this);
-
         // Face recog
         if (preferencesManager.facerecog) {
             folderManager = new FolderManager(preferencesManager.num_monkeys);
@@ -595,6 +593,7 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
         // Global variables
         activity = this;
         mContext = getApplicationContext();
+        preferencesManager = new PreferencesManager(this);
         possible_cue_locs = new UtilsTask().getPossibleCueLocs(this);
         trialData = new ArrayList<String>();
         fragmentManager = getSupportFragmentManager();

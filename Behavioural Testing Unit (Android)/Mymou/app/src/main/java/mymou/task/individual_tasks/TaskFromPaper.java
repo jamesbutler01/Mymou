@@ -32,7 +32,7 @@ public class TaskFromPaper extends Fragment
 
     private int pathDistance = 1;
     private static Context mContext;
-    private int numDistractors = 0;
+    private int numDistractors = 1;
 
     TextView textView;
 
@@ -436,7 +436,7 @@ public class TaskFromPaper extends Fragment
                 }
 
                 // Only add if it's in correct direction or a distracter fewer than specified amount
-                if (transitionMatrix[i][targetPos] < transitionMatrix[currentPos][targetPos] | distractorCount < numDistractors) {
+                if (transitionMatrix[i][targetPos] < transitionMatrix[currentPos][targetPos] | distractorCount < numDistractors+1) {
                     neighbours[j] = i;
                     imageButtons[j].setEnabled(true);
                     imageButtons[j].setVisibility(View.VISIBLE);

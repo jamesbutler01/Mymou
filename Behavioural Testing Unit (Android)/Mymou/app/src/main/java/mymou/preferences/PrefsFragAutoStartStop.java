@@ -16,7 +16,7 @@ public class PrefsFragAutoStartStop extends PreferenceFragmentCompat implements 
 
     @Override
     public void onCreatePreferences(Bundle bundle, String rootKey) {
-        setPreferencesFromResource(R.xml.preferences_system, rootKey);
+        setPreferencesFromResource(R.xml.preferences_auto_start_stop, rootKey);
 
         // Get sharedpreferences
         SharedPreferences sharedPrefs =
