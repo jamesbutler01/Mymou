@@ -29,8 +29,6 @@ public class PrefsFragSystem extends PreferenceFragmentCompat implements SharedP
         SharedPreferences sharedPrefs =
                 PreferenceManager.getDefaultSharedPreferences(getContext());
 
-        Log.d("ASDF", "checking prefs "+sharedPrefs.getBoolean("bluetooth", false));
-
         // Only show crop photos setting if crop photos enabled
         findPreference("croppicker_prefsfrag").setVisible(sharedPrefs.getBoolean("crop_photos", false));
         findPreference(getString(R.string.preftag_num_rew_chans)).setVisible(sharedPrefs.getBoolean("bluetooth", false));
