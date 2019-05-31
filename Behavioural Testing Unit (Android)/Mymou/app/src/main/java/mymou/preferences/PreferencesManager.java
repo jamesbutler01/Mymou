@@ -3,6 +3,7 @@ package mymou.preferences;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.util.Log;
 import androidx.preference.PreferenceManager;
 import mymou.R;
 import mymou.Utils.UtilsSystem;
@@ -22,8 +23,6 @@ public class PreferencesManager {
     public static int num_monkeys;
     public static String ec_correct_trial, ec_incorrect_trial, ec_trial_timeout, ec_wrong_gocue_pressed;
     public static int[] colours_gocues;
-    public static boolean valid_configuration = true;
-    public static String error_message;
 
     private SharedPreferences sharedPrefs;
     private int[] colors;
@@ -35,7 +34,7 @@ public class PreferencesManager {
         mContext = context;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         r = context.getResources();
-        
+
         bluetooth = sharedPrefs.getBoolean("bluetooth", r.getBoolean(R.bool.default_bluetooth));
         camera = sharedPrefs.getBoolean("camera", r.getBoolean(R.bool.default_camera));
         facerecog = sharedPrefs.getBoolean("facerecog", r.getBoolean(R.bool.default_facerecog));
@@ -48,7 +47,6 @@ public class PreferencesManager {
 
         num_reward_chans = sharedPrefs.getInt(r.getString(R.string.preftag_num_rew_chans), r.getInteger(R.integer.default_num_rew_chans));
         default_rew_chan = sharedPrefs.getInt(r.getString(R.string.preftag_default_rew_chan), r.getInteger(R.integer.default_rew_chan));
-
         rewardduration = sharedPrefs.getInt("rewardduration", r.getInteger(R.integer.default_rewardduration));
         responseduration = sharedPrefs.getInt("responseduration", r.getInteger(R.integer.default_responseduration));
         responseduration *= 1000;

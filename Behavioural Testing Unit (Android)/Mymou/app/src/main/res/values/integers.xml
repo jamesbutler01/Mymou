@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <integer name="default_num_monkeys">2</integer>
     <integer name="max_num_monkeys">8</integer>
 
@@ -27,5 +26,10 @@
     <integer name="default_objdisc_num_corr_shown">2</integer>
     <integer name="default_objdisc_num_incorr_shown">2</integer>
     <integer name="default_objdisc_num_steps">2</integer>
+
+    <integer name="num_error_messages">10</integer>
+    <integer name="i_bt_couldnt_connect">0</integer>
+    <integer name="i_bt_disabled">1</integer>
+
 
 </resources>

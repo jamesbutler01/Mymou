@@ -41,7 +41,8 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
 
     // Debug
     public static String TAG = "MyMouTaskManager";
-    private static TextView textView;
+    private static TextView tvExplanation, tvErrors;  // Explanatory messages for demo mode, and any errors present
+
 
     private static int taskId;  // Unique string prefixed to all log entries
     public static String TAG_FRAGMENT = "taskfrag";
@@ -85,7 +86,7 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
     private static Button[] cues_Reward = new Button[4];  // Reward cues for the different reward options
 
     // Boolean to signal if task should be active or not (e.g. overnight it is set to true)
-    public static boolean shutdown = false;
+    public static boolean task_enabled = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +99,7 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
         loadAndApplySettings();
         disableExtraGoCues();
         disableExtraRewardCues();
+        enableApp(false);
         positionGoCues();
         setOnClickListeners();
         disableAllCues();
@@ -105,6 +107,7 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
         loadCamera();
         loadtask();
         initialiseScreenSettings();
+        dailyTimer(false);
 
         if (preferencesManager.facerecog) {
             // Load facerecog off the main thread as takes a while
@@ -127,10 +130,12 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
 
         // Normally the reward system handles this as it has to wait for bluetooth connection
         if (!preferencesManager.bluetooth) {
+            tvErrors.setText(getResources().getStringArray(R.array.error_messages)[getResources().getInteger(R.integer.i_bt_disabled)]);
             enableApp(true);
+        } else if (!rewardSystem.bluetoothConnection) {
+            tvErrors.setText(getResources().getStringArray(R.array.error_messages)[getResources().getInteger(R.integer.i_bt_couldnt_connect)]);
         }
 
-        dailyTimer();
 
     }
 
@@ -201,9 +206,9 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
     public static void startTrial(int monkId) {
         logEvent("Trial started for monkey " + monkId);
 
-        if (!timerRunning) {
-            trial_timer();
-        }
+        if (!timerRunning) { trial_timer(); }  // Start task timer first (so will still timeout if task is disabled)
+
+        if (!task_enabled) { return; }  // Abort if task currently disabled
 
         Bundle bundle = new Bundle();
         bundle.putInt("currMonk", monkId);
@@ -256,7 +261,7 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
 
     }
 
-//    // For some reason this wont work, so have to type it out each time
+//    // For some reason this wont work, so have to type it out each time above for each task
 //   private static TaskInterface taskInterface = new TaskInterface()  {
 //            @Override
 //            public void resetTimer_() {resetTimer();}
@@ -275,9 +280,7 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
     }
 
     private void loadCamera() {
-        if (!preferencesManager.camera) {
-            return;
-        }
+        if (!preferencesManager.camera) { return; }
 
         Log.d(TAG, "Loading camera fragment");
         CameraMain cM = new CameraMain();
@@ -416,7 +419,7 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
 
     // Recursive function to track time and switch app off when it hits a certain time
     // TODO: Add to settings menu on and off times
-    public static void dailyTimer() {
+    public static void dailyTimer(boolean shutdown) {
         Log.d(TAG, "dailyTimer called");
         final Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR);
@@ -440,10 +443,11 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
             }
         }
 
+        final boolean shutdown_f = shutdown;
         h3.postDelayed(new Runnable() {
             @Override
             public void run() {
-                dailyTimer();
+                dailyTimer(shutdown_f);
             }
         }, 60000);
     }
@@ -451,8 +455,12 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
     public static boolean enableApp(boolean bool) {
         Log.d(TAG, "Enabling app" + bool);
         setBrightness(bool);
+
         View foregroundBlack = activity.findViewById(R.id.foregroundblack);
         if (foregroundBlack != null) {
+            task_enabled = bool;
+            foregroundBlack.bringToFront();
+            activity.findViewById(R.id.tvError).bringToFront();
             UtilsTask.toggleView(foregroundBlack, !bool);  // This is inverted as foreground object disables app
             return true;
         } else {
@@ -476,7 +484,7 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
 
     public static void logEvent(String data) {
         // Show (human) user on screen what is happening during the task
-        textView.setText(data);
+        tvExplanation.setText(data);
 
         // Store data for logging at end of trial
         String timestamp = folderManager.getTimestamp();
@@ -607,10 +615,12 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
         cues_Reward[1] = findViewById(R.id.buttonRewardOne);
         cues_Reward[2] = findViewById(R.id.buttonRewardTwo);
         cues_Reward[3] = findViewById(R.id.buttonRewardThree);
-        textView = findViewById(R.id.tvLog);
+        tvExplanation = findViewById(R.id.tvLog);
+        tvErrors = findViewById(R.id.tvError);
     }
 
     private void setOnClickListeners() {
+        activity.findViewById(R.id.foregroundblack).setOnClickListener(this);
         UtilsSystem.setOnClickListenerLoop(cues_Reward, this);
         UtilsSystem.setOnClickListenerLoop(cues_Go, this);
     }
@@ -618,6 +628,9 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
 
     @Override
     public void onClick(View view) {
+        Log.d(TAG, "onClickListener called for "+view.getId());
+
+        if (!task_enabled) { return; }
 
         // Always disable all cues after a press as monkeys love to bash repeatedly
         disableAllCues();
@@ -630,6 +643,9 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
 
         // Now decide what to do based on what button pressed
         switch (view.getId()) {
+            case R.id.foregroundblack:
+                // Absorb any touch events while disabled
+                break;
             case R.id.buttonRewardZero:
                 deliverReward(0);
                 break;
@@ -840,7 +856,7 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
             public void run() {
                 activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.taskbackground);
                 UtilsTask.toggleCues(cues_Go, true);
-                textView.setText("Initiation Stage");
+                tvExplanation.setText("Initiation Stage");
             }
         }, delay);
     }

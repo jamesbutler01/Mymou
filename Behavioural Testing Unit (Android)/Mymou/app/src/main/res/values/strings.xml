@@ -41,10 +41,14 @@
     <string name="preftag_sound_to_play">preftag_sound_to_play</string>
     <string name="preftag_num_rew_chans">preftag_num_rew_chans</string>
     <string name="preftag_default_rew_chan">preftag_default_rew_chan</string>
-
     <string name="default_gocue_colours">0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,</string>
     <string name="default_objdis_corr_colours">0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,</string>
     <string name="default_objdis_incorr_colours">0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,</string>
+
+    <string-array name="error_messages">
+        <item>Bluetooth couldn\'t connect to reward system\n</item>
+        <item>Reward system disabled - no reward will be given\n</item>
+    </string-array>
 
 </resources>
 
