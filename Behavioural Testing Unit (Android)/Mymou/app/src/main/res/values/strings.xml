@@ -46,7 +46,7 @@
     <string name="default_objdis_incorr_colours">0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,</string>
 
     <string-array name="error_messages">
-        <item>Bluetooth couldn\'t connect to reward system\n</item>
+        <item>Bluetooth couldn\'t connect to reward system (to run task without reward system, disable the reward system option in system settings)\n</item>
         <item>Reward system disabled - no reward will be given\n</item>
     </string-array>
 

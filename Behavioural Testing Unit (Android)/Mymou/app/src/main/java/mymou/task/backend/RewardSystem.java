@@ -26,6 +26,8 @@ import java.util.UUID;
 
 public class RewardSystem {
 
+    private static String TAG = "MymouRewardSystem";
+
     public static boolean bluetoothConnection = false;
     private static Handler connectionLoopHandler;
     private static boolean bluetoothEnabled = false;
@@ -60,6 +62,7 @@ public class RewardSystem {
     }
 
     private static void connectToBluetooth() {
+        Log.d(TAG, "Connecting to bluetooth");
         checkBluetoothEnabled();
         if (bluetoothEnabled) {
             establishConnection();
@@ -68,13 +71,13 @@ public class RewardSystem {
 
 
     private static void establishConnection() {
-        Log.d("RewardSystem","Connecting to bluetooth..");
+        Log.d(TAG,"Connecting to bluetooth..");
         // Set up a pointer to the remote node using it's address.
         BluetoothDevice device = btAdapter.getRemoteDevice(address);
         try {
             btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
         } catch (IOException e) {
-            Log.d("RewardSystem","Error: Could not create socket");
+            Log.d(TAG,"Error: Could not create socket");
             return;
         }
 
@@ -83,15 +86,15 @@ public class RewardSystem {
         // Establish the connection.  This will block until it connects.
         try {
             btSocket.connect();
-            Log.d("RewardSystem", "Connected to Bluetooth");
+            Log.d(TAG, "Connected to Bluetooth");
             bluetoothConnection = true;
             registerBluetoothReceivers();
         } catch (IOException e) {
-            Log.d("RewardSystem","Error: Failed to establish connection");
+            Log.d(TAG,"Error: Failed to establish connection");
             try {
                 btSocket.close();
             } catch (IOException e2) {
-                Log.d("RewardSystem","Error: Failed to close socket");
+                Log.d(TAG,"Error: Failed to close socket");
             }
         }
 
@@ -99,7 +102,7 @@ public class RewardSystem {
         try {
             outStream = btSocket.getOutputStream();
         } catch (IOException e) {
-            Log.d("RewardSystem","Error: Failed to create output stream");
+            Log.d(TAG,"Error: Failed to create output stream");
         }
     }
 
@@ -109,10 +112,10 @@ public class RewardSystem {
         btAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if (btAdapter == null) {
-            Log.d("RewardSystem","Error: No Bluetooth support found");
+            Log.d(TAG,"Error: No Bluetooth support found");
         } else if (!btAdapter.isEnabled()) {
             //Prompt user to turn on Bluetooth
-            Log.d("RewardSystem", "Error: Bluetooth not enabled");
+            Log.d(TAG, "Error: Bluetooth not enabled");
             Toast.makeText(context, "Bluetooth is disabled, please enable and restart", Toast.LENGTH_LONG).show();
             Intent enableBtIntent = new Intent(btAdapter.ACTION_REQUEST_ENABLE);
             Activity activity = (Activity) context;
@@ -138,7 +141,7 @@ public class RewardSystem {
         } else if (Ch == 3) {
             offString = chanThreeOff;
         } else {
-            Log.d("RewardSystem", "Error: No valid Ch specified");
+            Log.d(TAG, "Error: No valid Ch specified");
         }
         return offString;
     }
@@ -154,25 +157,25 @@ public class RewardSystem {
         } else if (Ch == 3) {
             onString = chanThreeOn;
         } else {
-            Log.d("RewardSystem", "Error: Invalid ch specified");
+            Log.d(TAG, "Error: Invalid ch specified");
         }
         return onString;
     }
 
     public static void stopChannel(int Ch) {
-        Log.d("RewardSystem", "Stopping channel "+Ch);
+        Log.d(TAG, "Stopping channel "+Ch);
         String stopString = getStopString(Ch);
         sendData(stopString);
     }
 
     public static void startChannel(int Ch) {
-        Log.d("RewardSystem", "Starting channel "+Ch);
+        Log.d(TAG, "Starting channel "+Ch);
         String startString = getStartString(Ch);
         sendData(startString);
     }
 
     public static void activateChannel(final int Ch, int amount) {
-        Log.d("RewardSystem","Giving reward "+amount+" ms on channel "+Ch);
+        Log.d(TAG,"Giving reward "+amount+" ms on channel "+Ch);
         startChannel(Ch);
 
         new CountDownTimer(amount, 100) {
@@ -187,15 +190,15 @@ public class RewardSystem {
             try {
                 outStream.write(msgBuffer);
             } catch (IOException e) {
-                Log.d("RewardSystem", "Error: No socket");
+                Log.d(TAG, "Error: No socket");
             }
         } else {
-            Log.d("RewardSystem", "Error: No connection");
+            Log.d(TAG, "Error: No connection");
         }
     }
 
     public static void quitBt() {
-        Log.d("RewardSystem", "Quitting bluetooth");
+        Log.d(TAG, "Quitting bluetooth");
         if (connectionLoopHandler != null) {
             connectionLoopHandler.removeCallbacksAndMessages(null);
         }
@@ -231,12 +234,12 @@ public class RewardSystem {
             switch (action){
                 case BluetoothDevice.ACTION_ACL_CONNECTED:
                     //Bluetooth connected
-                    Log.d("RewardSystem","Bluetooth reconnected");
+                    Log.d(TAG,"Bluetooth reconnected");
                     TaskManager.enableApp(true);
                     break;
                 case BluetoothDevice.ACTION_ACL_DISCONNECTED:
                     //Bluetooth disconnected
-                    Log.d("RewardSystem","Lost bluetooth connection..");
+                    Log.d(TAG,"Lost bluetooth connection..");
                     bluetoothConnection = false;
                     TaskManager.enableApp(false);
                     loopUntilConnected();
