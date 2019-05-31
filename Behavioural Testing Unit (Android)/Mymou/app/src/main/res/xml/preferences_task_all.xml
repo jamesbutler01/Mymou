@@ -6,22 +6,22 @@
             app:title="Common task settings">
 
         <SeekBarPreference
-                app:key="rewardduration"
+                app:key="@string/preftag_rewardduration"
                 app:title="Reward duration (ms)"
                 app:defaultValue="@integer/default_rewardduration"
-                android:max="10000"/>
+                android:max="@integer/max_rewardtimeoutduration"/>
 
         <SeekBarPreference
-                app:key="timeoutduration"
+                app:key="@string/preftag_timeoutduration"
                 app:title="Timeout duration for error trials (ms)"
                 app:defaultValue="@integer/default_timeoutduration"
-                android:max="10000"/>
+                android:max="@integer/max_rewardtimeoutduration"/>
 
         <SeekBarPreference
-                app:key="responseduration"
+                app:key="@string/preftag_responseduration"
                 app:title="Maximum response duration (seconds)"
                 app:defaultValue="@integer/default_responseduration"
-                android:max="60"/>
+                android:max="@integer/max_responseduration"/>
 
         <Preference
                 app:fragment="mymou.preferences.PrefsFragCommon"
@@ -51,7 +51,7 @@
                 android:defaultValue="@integer/default_timeoutbackgroundcolour"/>
 
         <SeekBarPreference
-                app:key="num_monkeys"
+                app:key="@string/preftag_num_monkeys"
                 app:title="Number of monkeys"
                 android:max="@integer/max_num_monkeys"
                 android:summary="Number of monkeys in total that will use the device"

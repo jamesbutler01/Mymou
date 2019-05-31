@@ -13,6 +13,9 @@
     <integer name="default_rewardduration">1500</integer>
     <integer name="default_timeoutduration">1500</integer>
     <integer name="default_responseduration">20</integer>
+    <integer name="max_responseduration">60</integer>
+    <integer name="max_rewardtimeoutduration">10000</integer>
+
 
     <integer name="default_taskbackgroundcolour">0</integer>
     <integer name="default_rewardbackgroundcolour">14</integer>

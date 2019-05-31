@@ -64,7 +64,7 @@
             app:title="Common task settings">
 
         <Preference
-                app:fragment="mymou.preferences.PrefsFragCommon"
+                app:fragment="mymou.preferences.PrefsFragTaskAll"
                 app:key="@string/preftag_task_all"
                 app:title="Configure settings that are common across all tasks"/>
     </PreferenceCategory>

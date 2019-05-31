@@ -47,10 +47,10 @@ public class PreferencesManager {
 
         num_reward_chans = sharedPrefs.getInt(r.getString(R.string.preftag_num_rew_chans), r.getInteger(R.integer.default_num_rew_chans));
         default_rew_chan = sharedPrefs.getInt(r.getString(R.string.preftag_default_rew_chan), r.getInteger(R.integer.default_rew_chan));
-        rewardduration = sharedPrefs.getInt("rewardduration", r.getInteger(R.integer.default_rewardduration));
-        responseduration = sharedPrefs.getInt("responseduration", r.getInteger(R.integer.default_responseduration));
+        rewardduration = sharedPrefs.getInt(r.getString(R.string.preftag_rewardduration), r.getInteger(R.integer.default_rewardduration));
+        responseduration = sharedPrefs.getInt(r.getString(R.string.preftag_responseduration), r.getInteger(R.integer.default_responseduration));
         responseduration *= 1000;
-        timeoutduration = sharedPrefs.getInt("timeoutduration", r.getInteger(R.integer.default_timeoutduration));
+        timeoutduration = sharedPrefs.getInt(r.getString(R.string.preftag_timeoutduration), r.getInteger(R.integer.default_timeoutduration));
 
         autostart_hour = sharedPrefs.getInt("autostart_hour", r.getInteger(R.integer.default_autostart_hour));
         autostart_min = sharedPrefs.getInt("autostart_min", 0);
@@ -60,7 +60,7 @@ public class PreferencesManager {
         cue_size = sharedPrefs.getInt("cue_size", r.getInteger(R.integer.default_cuesize));
         cue_spacing = sharedPrefs.getInt("cue_spacing", r.getInteger(R.integer.default_cuespacing));
         border_size = sharedPrefs.getInt("cue_border_size", r.getInteger(R.integer.default_bordersize));
-        num_monkeys = sharedPrefs.getInt("num_monkeys", r.getInteger(R.integer.default_num_monkeys));
+        num_monkeys = sharedPrefs.getInt(r.getString(R.string.preftag_num_monkeys), r.getInteger(R.integer.default_num_monkeys));
 
         int taskbackgroundcolour = Integer.valueOf(sharedPrefs.getString("taskbackgroundcolour", Integer.toString(r.getInteger(R.integer.default_taskbackgroundcolour))));
         int rewardbackgroundcolour = Integer.valueOf(sharedPrefs.getString("rewardbackgroundcolour", Integer.toString(r.getInteger(R.integer.default_rewardbackgroundcolour))));

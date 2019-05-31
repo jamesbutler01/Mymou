@@ -46,7 +46,6 @@
                 android:layout_height="fill_parent"
                 android:background="@color/black"/>
 
-
     <TextView
             android:id="@+id/tvLog"
             android:layout_width="fill_parent"
@@ -62,6 +61,7 @@
             android:layout_centerHorizontal="true"
             android:textSize="30sp"
             android:textColor="@color/grey"
+            android:layout_marginHorizontal="20dp"
             app:layout_constraintBottom_toBottomOf="@+id/foregroundblack"/>
 
 

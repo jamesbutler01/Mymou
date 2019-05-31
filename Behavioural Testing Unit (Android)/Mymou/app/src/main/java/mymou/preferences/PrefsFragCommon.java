@@ -18,11 +18,7 @@ public class PrefsFragCommon extends PreferenceFragmentCompat {
 
         String prefTag = getArguments().getString("pref_tag");
 
-        if (prefTag == getString(R.string.preftag_task_all)) {
-
-            setPreferencesFromResource(R.xml.preferences_task_all, rootKey);
-
-        } else if (prefTag == getString(R.string.preftag_cue_settings)) {
+        if (prefTag ==getString(R.string.preftag_cue_settings)) {
 
             setPreferencesFromResource(R.xml.preferences_cues, rootKey);
 
