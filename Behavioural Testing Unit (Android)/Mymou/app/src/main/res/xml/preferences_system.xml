@@ -9,20 +9,6 @@
                 app:key="bluetooth"
                 app:title="Enable bluetooth/reward system"
                 app:defaultValue="@bool/default_bluetooth"/>
-        <SeekBarPreference
-                app:key="@string/preftag_num_rew_chans"
-                app:title="Number reward channels"
-                app:summary="The number of channels that the reward system is connected to (and the number of options offered to the monkey after a successful trial)"
-                android:defaultValue="@integer/default_num_rew_chans"
-                android:max="@integer/max_num_rew_chans"
-                app:isPreferenceVisible="false"/>
-        <SeekBarPreference
-                app:key="@string/preftag_default_rew_chan"
-                app:title="Default reward channel"
-                app:summary="The reward channel automatically activated when number of reward channels is set to 1"
-                android:defaultValue="@integer/default_rew_chan"
-                android:max="@integer/max_num_rew_chans"
-                app:isPreferenceVisible="false"/>
 
         <SwitchPreferenceCompat
                 app:key="camera"
@@ -69,6 +55,37 @@
                 app:title="Configure settings that are common across all tasks"/>
     </PreferenceCategory>
 
+    <PreferenceCategory
+            app:key="reward_settings"
+            app:title="Reward settings">
+
+        <SeekBarPreference
+                app:key="@string/preftag_num_rew_chans"
+                app:title="Number reward channels"
+                app:summary="The number of channels that the reward system is connected to (and the number of options offered to the monkey after a successful trial)"
+                android:defaultValue="@integer/default_num_rew_chans"
+                android:max="@integer/max_num_rew_chans"/>
+        <SeekBarPreference
+                app:key="@string/preftag_default_rew_chan"
+                app:title="Default reward channel"
+                app:summary="The reward channel automatically activated when number of reward channels is set to 1"
+                android:defaultValue="@integer/default_rew_chan"
+                android:max="@integer/max_num_rew_chans"/>
+
+        <SeekBarPreference
+                app:key="@string/preftag_rewardduration"
+                app:title="Reward duration (ms)"
+                app:defaultValue="@integer/default_rewardduration"
+                android:max="@integer/max_rewardtimeoutduration"/>
+
+        <ListPreference
+                app:key="rewardbackgroundcolour"
+                app:title="Reward background colour"
+                android:entries="@array/colournames"
+                android:entryValues="@array/colourvalues"
+                android:defaultValue="@integer/default_rewardbackgroundcolour"/>
+
+    </PreferenceCategory>
 
     <PreferenceCategory
             app:key="auto_start_stop"
