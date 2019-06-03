@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
-public class TaskManager extends FragmentActivity implements Thread.UncaughtExceptionHandler, View.OnClickListener,
+public class TaskManager extends FragmentActivity implements View.OnClickListener,
         TaskInterface {
 
 
@@ -144,7 +144,8 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread thread, Throwable throwable) {
-                logHandler.post(new CrashReport(throwable));
+                Log.d(TAG, "Task crashed");
+                new CrashReport(throwable);
                 rewardSystem.quitBt();
                 restartApp();
             }
@@ -292,15 +293,10 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
         commitFragment();
     }
 
-    @Override
-    public void uncaughtException(Thread thread, Throwable throwable) {
-        logHandler.post(new CrashReport(throwable));
-        rewardSystem.quitBt();
-        restartApp();
-    }
 
     private void restartApp() {
         if (preferencesManager.restartoncrash) {
+            Log.d(TAG, "Restarting task");
             Intent intent = new Intent(getApplicationContext(), TaskManager.class);
             intent.putExtra("restart", true);
             intent.putExtra("tasktoload", taskId);
@@ -309,8 +305,8 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
                     0, intent, PendingIntent.FLAG_ONE_SHOT);
             AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, pendingIntent);
-            System.exit(2);
         }
+        System.exit(2);
     }
 
 
@@ -661,6 +657,7 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
                 break;
             default:
                 // If it wasn't a reward cue it must be a go cue
+                cues_Go[10] = null;
                 checkMonkeyPressedTheirCue(view.getId());
                 break;
         }

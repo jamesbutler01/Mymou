@@ -1,6 +1,7 @@
 package mymou.Utils;
 
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,16 +15,14 @@ import java.util.Calendar;
 /**
  * Saves linked String into  CURRENT_DATE.txt
  */
-public class CrashReport implements Runnable {
+public class CrashReport  {
 
     private final Throwable message;
+    private String TAG = "MymouCrashReport";
 
     public CrashReport(Throwable msg) {
         message = msg;
-    }
-
-    @Override
-    public void run() {
+         Log.d(TAG, "Logging message: "+message);
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         message.printStackTrace(pw);
