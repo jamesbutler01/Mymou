@@ -47,7 +47,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_rew_system_title"
                     android:orientation="horizontal"
                     android:layout_marginLeft="30dp"
-
+                    android:id="@+id/rg_rewchanpicker"
         >
 
             <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -55,7 +55,6 @@
                          android:textSize="30dp"
                          android:paddingLeft="5dp"
                          android:paddingRight="20dp"
-
                          android:layout_weight="1"
                          android:id="@+id/rb_chan0"/>
             <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -64,14 +63,12 @@
                          android:layout_weight="1"
                          android:paddingLeft="5dp"
                          android:paddingRight="20dp"
-
                          android:id="@+id/rb_chan1"/>
             <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
                          android:text="2"
                          android:textSize="30dp"
                          android:paddingLeft="5dp"
                          android:paddingRight="20dp"
-
                          android:layout_weight="1"
                          android:id="@+id/rb_chan2"/>
             <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -79,10 +76,8 @@
                          android:textSize="30dp"
                          android:paddingLeft="5dp"
                          android:paddingRight="20dp"
-
                          android:layout_weight="1"
                          android:id="@+id/rb_chan3"/>
-
         </RadioGroup>
 
         <TextView android:layout_width="wrap_content"
@@ -100,6 +95,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_rew_system_chan_lab"
                     android:orientation="horizontal"
                     android:layout_marginLeft="30dp"
+                    android:id="@+id/rg_rewonoff"
 
         >
 
@@ -108,7 +104,6 @@
                          android:textSize="30dp"
                          android:paddingLeft="5dp"
                          android:paddingRight="20dp"
-
                          android:checked="true"
                          android:id="@+id/rb_pumpoff"/>
             <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"

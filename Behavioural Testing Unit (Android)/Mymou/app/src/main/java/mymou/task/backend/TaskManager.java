@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceManager;
 import mymou.*;
 import mymou.Utils.CrashReport;
 import mymou.Utils.FolderManager;
@@ -525,7 +526,7 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
     //Checks if todays date is the same as the last time function was called
     public static boolean dateHasChanged() {
         String todaysDate = folderManager.getBaseDate();
-        SharedPreferences sharedPref = activity.getPreferences(mContext.MODE_PRIVATE);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
         String lastRecordedDate = sharedPref.getString("lastdate", "null");
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("lastdate", todaysDate);

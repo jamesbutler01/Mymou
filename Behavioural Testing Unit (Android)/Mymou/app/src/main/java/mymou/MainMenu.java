@@ -17,17 +17,18 @@ import mymou.task.backend.TaskManager;
 import mymou.task.backend.UtilsTask;
 import mymou.preferences.PrefsActSystem;
 
-public class MainMenu extends Activity  {
+public class MainMenu extends Activity {
 
     private static String TAG = "MyMouMainMenu";
 
     // If true this automatically starts the task upon application startup (Speeds up debugging/testing)
     public static final boolean testingMode = false;
 
-    // Disable bluetooth and RewardSystem connectivity here
     private static PreferencesManager preferencesManager;
+    private static RewardSystem rewardSystem;
 
-    private static RewardSystem rewardSystem; //TODO this is flagged as a memory leak (Context classes should not be in static fields)
+    // Default channel to be activated by the pump
+    private static int reward_chan;
 
     // The task to be loaded, set by the spinner
     private static int taskSelected = 2;
@@ -36,6 +37,7 @@ public class MainMenu extends Activity  {
     private boolean permissions_granted=false;
 
     private Context context = this;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,32 +155,73 @@ public class MainMenu extends Activity  {
 
 
     private void initialiseLayoutParameters() {
+        // Buttons
         findViewById(R.id.buttonStart).setOnClickListener(buttonClickListener);
         findViewById(R.id.buttonSettings).setOnClickListener(buttonClickListener);
         findViewById(R.id.buttonTaskSettings).setOnClickListener(buttonClickListener);
-        initialiseToggleButtons();
+
+        // Radio groups (reward system controller)
+        reward_chan = preferencesManager.default_rew_chan;
+        if (reward_chan == 0) {
+            RadioButton radioButton = findViewById(R.id.rb_chan0);
+            radioButton.setChecked(true);
+        } else if (reward_chan == 1) {
+            RadioButton radioButton = findViewById(R.id.rb_chan1);
+            radioButton.setChecked(true);
+        } else if (reward_chan == 2) {
+            RadioButton radioButton = findViewById(R.id.rb_chan2);
+            radioButton.setChecked(true);
+        } else if (reward_chan == 3) {
+            RadioButton radioButton = findViewById(R.id.rb_chan3);
+            radioButton.setChecked(true);
+        }
+        RadioGroup group = findViewById(R.id.rg_rewchanpicker);
+        group.setOnCheckedChangeListener(checkedChangeListener);
+        RadioGroup group2 = findViewById(R.id.rg_rewonoff);
+        group2.setOnCheckedChangeListener(checkedChangeListener);
+
     }
 
-    private void initialiseToggleButtons() {
-        CompoundButton.OnCheckedChangeListener multiListener = new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton v, boolean isChecked) {
-                if (!rewardSystem.bluetoothConnection) {
-                    Log.d(TAG, "Error: Bluetooth not connected");
-                    Toast.makeText(MainMenu.this, "Error: Bluetooth not connected/enabled", Toast.LENGTH_LONG).show();
-                    v.setChecked(false);
-                    return;
-                }
-                int chan = -1;
-                if (isChecked) {
-                    rewardSystem.startChannel(chan);
-                } else {
-                    rewardSystem.stopChannel(chan);
-                }
+    private RadioGroup.OnCheckedChangeListener checkedChangeListener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            int id = group.getCheckedRadioButtonId();
+            switch (id) {
+                case R.id.rb_chan0:
+                    reward_chan = 0;
+                    break;
+                case R.id.rb_chan1:
+                    reward_chan = 1;
+                    break;
+                case R.id.rb_chan2:
+                    reward_chan = 2;
+                    break;
+                case R.id.rb_chan3:
+                    reward_chan = 3;
+                    break;
+                case R.id.rb_pumpon:
+                    if (!rewardSystem.bluetoothConnection) {
+                        Log.d(TAG, "Error: Bluetooth not connected");
+                        Toast.makeText(MainMenu.this, "Error: Bluetooth not connected/enabled", Toast.LENGTH_LONG).show();
+                        RadioButton radioButton = findViewById(R.id.rb_pumpoff);
+                        radioButton.setChecked(true);
+                        return;
+                    } else {
+                        rewardSystem.startChannel(reward_chan);
+                    }
+                    break;
+                case R.id.rb_pumpoff:
+                    rewardSystem.stopChannel(reward_chan);
+                    break;
             }
-        };
 
-//        ((Switch)  findViewById(R.id.switch1)).setOnCheckedChangeListener(multiListener);
-    }
+            // And always update default reward channel in case they changed value
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putInt(getString(R.string.preftag_default_rew_chan), reward_chan).commit();
+        }
+    };
+
 
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
