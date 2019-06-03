@@ -1,8 +1,6 @@
 package mymou.Utils
 
-import android.content.Context
 import android.os.Environment
-import android.provider.Settings.System.getString
 import android.util.Log
 
 import java.io.File
@@ -22,12 +20,12 @@ class FolderManager(private val num_monkeys: Int = 0) {
 
     init {
 
-        getFolder()
+        getSessionFolder()
 
     }
 
-    fun getFolder(): File {
-        val appFolder = File(makeFullPathName())
+    fun getSessionFolder(): File {
+        val appFolder = File(generateSessionFolder())
         if (!appFolder.exists()) {
             Log.d(TAG, "$appFolder doesn't exist...")
             appFolder.mkdirs()
@@ -53,7 +51,7 @@ class FolderManager(private val num_monkeys: Int = 0) {
     }
 
     private fun getSubFolder(suffix: String = ""): File? {
-        if (currentFolder == null) getFolder()
+        if (currentFolder == null) getSessionFolder()
         Log.d(TAG, "getting $currentFolder/$suffix")
         return when (suffix) {
             "" -> currentFolder
@@ -81,7 +79,7 @@ class FolderManager(private val num_monkeys: Int = 0) {
          }
     }
 
-    private fun makeFullPathName(): String {
+    private fun generateSessionFolder(): String {
         return Environment.getExternalStorageDirectory().absolutePath + "/Mymou/" + getBaseDate()
     }
 

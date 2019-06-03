@@ -18,10 +18,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 import mymou.*;
-import mymou.Utils.CrashReport;
-import mymou.Utils.FolderManager;
-import mymou.Utils.SoundManager;
-import mymou.Utils.UtilsSystem;
+import mymou.Utils.*;
 import mymou.preferences.PreferencesManager;
 import mymou.task.individual_tasks.TaskExample;
 import mymou.task.individual_tasks.TaskFromPaper;
@@ -657,7 +654,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 break;
             default:
                 // If it wasn't a reward cue it must be a go cue
-                cues_Go[10] = null;
                 checkMonkeyPressedTheirCue(view.getId());
                 break;
         }
