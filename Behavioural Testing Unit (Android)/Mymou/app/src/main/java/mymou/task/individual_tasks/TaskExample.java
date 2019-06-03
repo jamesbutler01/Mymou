@@ -71,7 +71,7 @@ public class TaskExample extends Fragment implements View.OnClickListener {
          // Reset timer for idle timeout on each press
         callback.resetTimer_();
 
-        // Now decide what to do based on what button pressed
+        // Now decide what to do based on what menu_button pressed
         boolean successfulTrial = false;
         switch (view.getId()) {
             // If they pressed the correct cue, then set the bool to true

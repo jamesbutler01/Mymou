@@ -315,13 +315,13 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
             if (faceRecogPrediction == monkeyButtonPressed) {
 
-                // If monkey clicked it's designated button
+                // If monkey clicked it's designated menu_button
                 Log.d(TAG, "Monkey pressed correct cue");
                 resultMonkeyPressedTheirCue(true);
 
             } else {
 
-                // If monkey clicked wrong button
+                // If monkey clicked wrong menu_button
                 Log.d(TAG, "Monkey pressed wrong cue");
                 resultMonkeyPressedTheirCue(false);
 
@@ -635,7 +635,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         // Make screen bright
         setBrightness(true);
 
-        // Now decide what to do based on what button pressed
+        // Now decide what to do based on what menu_button pressed
         switch (view.getId()) {
             case R.id.foregroundblack:
                 // Absorb any touch events while disabled

@@ -102,7 +102,7 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
         // Reset timer for idle timeout on each press
         callback.resetTimer_();
 
-        // Now decide what to do based on what button pressed
+        // Now decide what to do based on what menu_button pressed
         // The id of correct cues come first so this is how we determine if it's a correct cue or not
         boolean successfulTrial = false;
         if (Integer.valueOf(view.getId()) < prefManager.objectdiscrim_num_corr_shown) {
