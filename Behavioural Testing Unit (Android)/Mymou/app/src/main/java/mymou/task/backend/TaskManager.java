@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.TextView;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -32,6 +33,7 @@ import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 public class TaskManager extends FragmentActivity implements View.OnClickListener,
         TaskInterface {
@@ -284,9 +286,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         Log.d(TAG, "Loading camera fragment");
         CameraMain cM = new CameraMain();
         fragmentTransaction.add(R.id.task_container, cM);
-        if (isFinishing() || isDestroyed()) {
-            Log.d(TAG, "uh oh, activity was destroyed!");
-        }
         commitFragment();
     }
 
@@ -477,6 +476,8 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     }
 
     public static void logEvent(String data) {
+        Log.d(TAG, "logEvent");
+
         // Show (human) user on screen what is happening during the task
         tvExplanation.setText(data);
 
@@ -531,12 +532,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         }
     }
 
-    @Override
-    public boolean isFinishing() {
-        Log.d(TAG, "isFinishing() called");
-        boolean output = super.isFinishing();
-        return output;
-    }
 
     @Override
     public void onDestroy() {
@@ -603,7 +598,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
         // Layout views
         for (int i = 0; i < cues_Go.length; i++) {
-            cues_Go[i] = UtilsTask.addCue(i, preferencesManager.colours_gocues[i], this, findViewById(R.id.task_container));
+            cues_Go[i] = UtilsTask.addCue(i, preferencesManager.colours_gocues[i], this, this, findViewById(R.id.task_container));
         }
         cues_Reward[0] = findViewById(R.id.buttonRewardZero);
         cues_Reward[1] = findViewById(R.id.buttonRewardOne);
@@ -727,6 +722,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     }
 
     private static void trialEnded(String result) {
+        Log.d(TAG, "trial ended");
         logEvent("Trial ended, result = " + result);
 
         // Kill task and task timer
@@ -811,6 +807,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     }
 
     private static void resetTimer() {
+        Log.d(TAG, "resetTimer");
         time = 0;
     }
 

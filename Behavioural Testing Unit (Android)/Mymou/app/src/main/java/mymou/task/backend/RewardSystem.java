@@ -15,6 +15,7 @@ import android.widget.Toast;
 import mymou.Utils.PermissionManager;
 import mymou.preferences.PreferencesManager;
 import mymou.R;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -206,6 +207,8 @@ public class RewardSystem {
             context.unregisterReceiver(bluetoothReceiver);
         } catch (IllegalArgumentException e) {
             // No receiver registered
+        } catch (NullPointerException e) {
+            // Invalid ref
         }
         if (bluetoothConnection) {
             stopAllChannels();

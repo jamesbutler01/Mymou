@@ -18,7 +18,7 @@ import mymou.task.backend.UtilsTask;
 
 // A basic object discrimination task showcasing the main features of the Mymou system:
 
-public class TaskObjectDiscrim extends Fragment implements View.OnClickListener {
+public class TaskObjectDiscrim extends Fragment {
 
     // Debug
     public static String TAG = "MyMouTaskExample";
@@ -40,7 +40,9 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         Log.d(TAG, "TaskObjectDiscrim started");
-        num_steps=0;
+
+        num_steps = 0;
+
         assignObjects();
 
         positionAndDisplayCues();
@@ -48,7 +50,8 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
     }
 
     private void positionAndDisplayCues() {
-        UtilsTask.randomlyPositionCues(cues,  new UtilsTask().getPossibleCueLocs(getActivity()));
+        Log.d(TAG, "positionAndDisplayCues");
+        UtilsTask.randomlyPositionCues(cues, new UtilsTask().getPossibleCueLocs(getActivity()));
         UtilsTask.toggleCues(cues, true);
     }
 
@@ -75,14 +78,14 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
         // Add correct cues
         for (int i_corr = 0; i_corr < prefManager.objectdiscrim_num_corr_shown; i_corr++) {
             cues[i_corr] = UtilsTask.addCue(i_corr, prefManager.objectdiscrim_corr_colours[random_cols_corr[i_corr]],
-                    getContext(),  getView().findViewById(R.id.parent_object_discrim));
+                   getContext() , buttonClickListener, getView().findViewById(R.id.parent_object_discrim));
             i_cues += 1;
         }
 
         // Add distractor cues
         for (int i_incorr = 0; i_incorr < prefManager.objectdiscrim_num_incorr_shown; i_incorr++) {
             cues[i_cues] = UtilsTask.addCue(i_cues, prefManager.objectdiscrim_incorr_colours[random_cols_incorr[i_incorr]],
-                    getContext(), getView().findViewById(R.id.parent_object_discrim));
+                    getContext(), buttonClickListener, getView().findViewById(R.id.parent_object_discrim));
             i_cues += 1;
         }
 
@@ -90,33 +93,38 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
 
     // Implement interface and listener to enable communication up to TaskManager
     TaskInterface callback;
+
     public void setFragInterfaceListener(TaskInterface callback) {
         this.callback = callback;
     }
 
-    @Override
-    public void onClick(View view) {
-        // Always disable all cues after a press as monkeys love to bash repeatedly
-        UtilsTask.toggleCues(cues, false);
+    private View.OnClickListener buttonClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Log.d(TAG, "onClick");
 
-        // Reset timer for idle timeout on each press
-        callback.resetTimer_();
+            // Always disable all cues after a press as monkeys love to bash repeatedly
+            UtilsTask.toggleCues(cues, false);
 
-        // Now decide what to do based on what menu_button pressed
-        // The id of correct cues come first so this is how we determine if it's a correct cue or not
-        boolean successfulTrial = false;
-        if (Integer.valueOf(view.getId()) < prefManager.objectdiscrim_num_corr_shown) {
-            successfulTrial = true;
-            num_steps += 1;
+            // Reset timer for idle timeout on each press
+            callback.resetTimer_();
+
+            // Now decide what to do based on what menu_button pressed
+            // The id of correct cues come first so this is how we determine if it's a correct cue or not
+            boolean successfulTrial = false;
+            if (Integer.valueOf(view.getId()) < prefManager.objectdiscrim_num_corr_shown) {
+                successfulTrial = true;
+                num_steps += 1;
+            }
+
+            // Check how many correct presses they've got and how many they need per trial
+            if (!successfulTrial | num_steps == prefManager.objectdiscrim_num_steps) {
+                endOfTrial(successfulTrial);
+            } else {
+                positionAndDisplayCues();
+            }
         }
-
-        // Check how many correct presses they've got and how many they need per trial
-        if (!successfulTrial | num_steps == prefManager.objectdiscrim_num_steps) {
-            endOfTrial(successfulTrial);
-        } else {
-            positionAndDisplayCues();
-        }
-    }
+    };
 
     // Save outcome of this trial and the cues used so that it can be repeated if it was unsuccessful
     private void saveTrialParams(boolean successfulTrial) {
@@ -129,6 +137,8 @@ public class TaskObjectDiscrim extends Fragment implements View.OnClickListener 
     }
 
     private void endOfTrial(boolean successfulTrial) {
+        Log.d(TAG, "endOfTrial");
+
         saveTrialParams(successfulTrial);
 
         String outcome;
