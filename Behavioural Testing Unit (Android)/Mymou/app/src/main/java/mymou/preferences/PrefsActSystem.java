@@ -1,5 +1,6 @@
 package mymou.preferences;
 
+import android.content.Intent;
 import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,6 +41,8 @@ public class PrefsActSystem extends AppCompatActivity implements
 
     @Override
     public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference pref) {
+        Log.d(TAG,  pref.getKey());
+
         // Instantiate the new Fragment
         Bundle args = pref.getExtras();
         args.putString("pref_tag", pref.getKey());
@@ -59,7 +62,10 @@ public class PrefsActSystem extends AppCompatActivity implements
         return true;
     }
 
-
+     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+         Log.d("asdf", "onActivityResult_act_parent");
+     }
 
 
     @Override

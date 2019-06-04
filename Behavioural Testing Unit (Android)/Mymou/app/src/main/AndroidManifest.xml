@@ -19,7 +19,7 @@
             android:icon="@drawable/ic_launcher"
             android:label="Mymou"
             android:theme="@android:style/Theme.Black.NoTitleBar">
-            <!--android:theme="@style/MainAppTheme">-->
+        <!--android:theme="@style/MainAppTheme">-->
         <activity
                 android:name="mymou.preferences.PrefsActSystem"
                 android:theme="@style/MainAppTheme">

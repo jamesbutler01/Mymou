@@ -37,6 +37,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+
 import android.widget.RelativeLayout.LayoutParams;
 import androidx.preference.PreferenceManager;
 import mymou.R;
@@ -79,21 +80,25 @@ public class CameraMain extends Fragment
         mTextureView = (TextureView) view.findViewById(R.id.camera_texture);
 
         // If in crop picker menu, we want to make the camera preview visible
-        if (getArguments() != null) { if (getArguments().getBoolean("crop_picker", false)) {
-            // Set image to size of photo
-            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-            int scale = 5;
-            int camera_width = settings.getInt("camera_width", 176) * scale;
-            int camera_height = settings.getInt("camera_height", 144) * scale;
-
-            // Centre texture view
-            Point default_position = UtilsSystem.getCropDefaultXandY(getActivity(), camera_width);
-            mTextureView.setLayoutParams(new RelativeLayout.LayoutParams(camera_width, camera_height));
-            LayoutParams lp = (LayoutParams) mTextureView.getLayoutParams();
-            mTextureView.setLayoutParams(lp);
-            mTextureView.setY(default_position.y);
-            mTextureView.setX(default_position.x);
-        }}
+        if (getArguments() != null) {
+            if (getArguments().getBoolean("crop_picker", false)) {
+                // Set image to size of photo
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+                int camera_width = settings.getInt("camera_width", 176);
+                int camera_height = settings.getInt("camera_height", 144);
+                int scale = UtilsSystem.getCropScale(getActivity(), camera_width);
+                camera_width *= scale;
+                camera_height *= scale;
+                Log.d(TAG, "width: " + camera_width + " height:" + camera_height);
+                // Centre texture view
+                Point default_position = UtilsSystem.getCropDefaultXandY(getActivity(), camera_width);
+                mTextureView.setLayoutParams(new RelativeLayout.LayoutParams(camera_width, camera_height));
+                LayoutParams lp = (LayoutParams) mTextureView.getLayoutParams();
+                mTextureView.setLayoutParams(lp);
+                mTextureView.setY(default_position.y);
+                mTextureView.setX(default_position.x);
+            }
+        }
 
         startBackgroundThread();
 
@@ -123,7 +128,8 @@ public class CameraMain extends Fragment
         }
 
         @Override
-        public void onSurfaceTextureSizeChanged(SurfaceTexture texture, int width, int height) {}
+        public void onSurfaceTextureSizeChanged(SurfaceTexture texture, int width, int height) {
+        }
 
         @Override
         public boolean onSurfaceTextureDestroyed(SurfaceTexture texture) {
@@ -131,7 +137,8 @@ public class CameraMain extends Fragment
         }
 
         @Override
-        public void onSurfaceTextureUpdated(SurfaceTexture texture) {}
+        public void onSurfaceTextureUpdated(SurfaceTexture texture) {
+        }
 
     };
 
@@ -174,19 +181,20 @@ public class CameraMain extends Fragment
             = new ImageReader.OnImageAvailableListener() {
         @Override
         public void onImageAvailable(ImageReader reader) {
-                Image image = reader.acquireNextImage();
+            Image image = reader.acquireNextImage();
 
-                // On camera thread as don't want to be able to take photo while saving previous photo
-                CameraSavePhoto cameraSavePhoto = new CameraSavePhoto(image, timestamp, getContext());
-                cameraSavePhoto.run();
-                takingPhoto = false;
+            // On camera thread as don't want to be able to take photo while saving previous photo
+            CameraSavePhoto cameraSavePhoto = new CameraSavePhoto(image, timestamp, getContext());
+            cameraSavePhoto.run();
+            takingPhoto = false;
         }
 
     };
 
     // Handles events related to JPEG capture.
     private CameraCaptureSession.CaptureCallback mCaptureCallback
-            = new CameraCaptureSession.CaptureCallback() {};
+            = new CameraCaptureSession.CaptureCallback() {
+    };
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -238,7 +246,7 @@ public class CameraMain extends Fragment
                 editor.putInt("camera_width", smallest.getWidth());
                 editor.putInt("camera_height", smallest.getHeight());
                 editor.commit();
-                Log.d(TAG, "width: "+smallest.getWidth()+", height: "+smallest.getHeight());
+                Log.d(TAG, "width: " + smallest.getWidth() + ", height: " + smallest.getHeight());
 
                 mImageReader = ImageReader.newInstance(smallest.getWidth(), smallest.getHeight(),
                         ImageFormat.JPEG, /*maxImages*/2);
@@ -291,7 +299,7 @@ public class CameraMain extends Fragment
                 mImageReader = null;
             }
         } catch (InterruptedException e) {
-            Toast.makeText(getActivity().getApplicationContext(),"Error 3",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity().getApplicationContext(), "Error 3", Toast.LENGTH_LONG).show();
             throw new RuntimeException("Interrupted while trying to lock camera closing.", e);
         } finally {
             mCameraOpenCloseLock.release();
@@ -371,7 +379,7 @@ public class CameraMain extends Fragment
 
     // Say cheese
     public static boolean captureStillPicture(String ts) {
-        Log.d(TAG, "captureStillPicture("+ts+") called");
+        Log.d(TAG, "captureStillPicture(" + ts + ") called");
         // If the camera is still in process of taking previous picture it will not take another one
         // If it took multiple photos the timestamp for saving/indexing the photos would be wrong
         // Tasks need to handle this behaviour
@@ -406,7 +414,8 @@ public class CameraMain extends Fragment
                 @Override
                 public void onCaptureCompleted(@NonNull CameraCaptureSession session,
                                                @NonNull CaptureRequest request,
-                                               @NonNull TotalCaptureResult result) {}
+                                               @NonNull TotalCaptureResult result) {
+                }
             };
 
             mCaptureSession.stopRepeating();

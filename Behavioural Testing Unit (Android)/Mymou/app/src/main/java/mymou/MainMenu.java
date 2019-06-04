@@ -34,7 +34,7 @@ public class MainMenu extends Activity {
     private static int taskSelected = 2;
 
     // Tasks cannot run unless permissions have been granted
-    private boolean permissions_granted=false;
+    private boolean permissions_granted = false;
 
     private Context context = this;
 
@@ -56,10 +56,15 @@ public class MainMenu extends Activity {
 
         initialiseSpinner();
 
-        if(testingMode && permissions_granted) {
+        if (testingMode && permissions_granted) {
             startTask();
         }
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("asdf", "onActivityResult_act_mainmenu");
     }
 
     private void checkPermissions() {
@@ -113,7 +118,7 @@ public class MainMenu extends Activity {
         int prev_task_selected = settings.getInt(key, 0);
         taskSelected = prev_task_selected;
         spinner.setSelection(taskSelected);
-        if(taskSelected < 2) {
+        if (taskSelected < 2) {
             UtilsTask.toggleCue(findViewById(R.id.buttonTaskSettings), false);
         }
 
@@ -124,7 +129,7 @@ public class MainMenu extends Activity {
                                        int position, long id) {
                 // Update task selected
                 taskSelected = position;
-                if(taskSelected < 2) {
+                if (taskSelected < 2) {
                     UtilsTask.toggleCue(findViewById(R.id.buttonTaskSettings), false);
                 } else {
                     UtilsTask.toggleCue(findViewById(R.id.buttonTaskSettings), true);
@@ -137,20 +142,21 @@ public class MainMenu extends Activity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> arg0) { }
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
         });
 
     }
 
     private void checkIfCrashed() {
         Bundle extras = getIntent().getExtras();
-        if(extras != null) {
+        if (extras != null) {
             if (extras.getBoolean("restart")) {
                 //If crashed then restart task
                 Log.d(TAG, "checkIfCrashed() restarted task");
                 startTask();
             }
-        }
+         }
     }
 
 
@@ -231,7 +237,7 @@ public class MainMenu extends Activity {
                     startTask();
                     break;
                 case R.id.buttonSettings:
-                                      Intent intent = new Intent(context, PrefsActSystem.class);
+                    Intent intent = new Intent(context, PrefsActSystem.class);
                     intent.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_system_settings));
                     startActivity(intent);
                     break;
@@ -249,8 +255,8 @@ public class MainMenu extends Activity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(TAG,"onDestroy() called");
-        if(permissions_granted) {
+        Log.d(TAG, "onDestroy() called");
+        if (permissions_granted) {
             rewardSystem.quitBt();
         }
     }
@@ -258,7 +264,7 @@ public class MainMenu extends Activity {
     // TODO: Figure out how to move this to PermissionsManager
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if(grantResults.length > 0) {
+        if (grantResults.length > 0) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Log.d(TAG, "Permissions granted");
                 checkPermissions();

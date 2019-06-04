@@ -2,6 +2,7 @@ package mymou.preferences;
 
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -91,11 +92,14 @@ public class PrefsFragSystem extends PreferenceFragmentCompat implements SharedP
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
-        Log.d(TAG, "onDestroyView");
         getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        super.onDestroyView();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+         Log.d("asdf", "onActivityResult_prefsfragsystem");
+     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
