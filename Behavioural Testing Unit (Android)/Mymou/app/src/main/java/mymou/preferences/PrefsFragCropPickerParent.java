@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import mymou.task.backend.CameraMain;
@@ -19,22 +20,29 @@ import mymou.R;
  * This parent fragment simply loads up these two fragments
  */
 
-public class PrefsFragCropPickerParent extends Fragment {
+public class PrefsFragCropPickerParent extends FragmentActivity {
 
-    public PrefsFragCropPickerParent() {
-    }
+//    public PrefsFragCropPickerParent() {
+//    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_crop_picker, container, false);
-    }
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                             Bundle savedInstanceState) {
+//        return inflater.inflate(R.layout.activity_crop_picker, container, false);
+//    }
 
-    @Override
-    public void onViewCreated(final View view, Bundle savedInstanceState) {
+//    @Override
+//    public void onViewCreated(final View view, Bundle savedInstanceState) {
 
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        FragmentManager fragmentManager = getFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+          @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_crop_picker);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
 
         // Load camera fragment
         Bundle bundle = new Bundle();
@@ -49,7 +57,6 @@ public class PrefsFragCropPickerParent extends Fragment {
         fragmentTransaction.add(R.id.layout_croppicker, fragment, "camera_fragment");
         fragmentTransaction.add(R.id.layout_croppicker, fragment2, "crop_fragment");
         fragmentTransaction.commit();
-
     }
 
      @Override

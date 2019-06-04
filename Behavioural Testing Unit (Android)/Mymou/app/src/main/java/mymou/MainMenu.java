@@ -12,6 +12,7 @@ import android.widget.*;
 import androidx.preference.PreferenceManager;
 import mymou.Utils.PermissionManager;
 import mymou.preferences.PreferencesManager;
+import mymou.preferences.PrefsFragCropPickerParent;
 import mymou.task.backend.RewardSystem;
 import mymou.task.backend.TaskManager;
 import mymou.task.backend.UtilsTask;
@@ -59,6 +60,7 @@ public class MainMenu extends Activity {
         if (testingMode && permissions_granted) {
             startTask();
         }
+
 
     }
 

@@ -26,7 +26,7 @@ public class PrefsActSystem extends AppCompatActivity implements
         Log.d(TAG, settings_to_load);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment preferenceFragment=null;
+        Fragment preferenceFragment = null;
         if (settings_to_load.equals(getString(R.string.preftag_system_settings))) {
             preferenceFragment = new PrefsFragSystem();
         } else if (settings_to_load.equals(getString(R.string.preftag_task_obj_disc_settings))) {
@@ -37,12 +37,18 @@ public class PrefsActSystem extends AppCompatActivity implements
         ft.add(R.id.container_, preferenceFragment);
         ft.commit();
 
+
     }
 
     @Override
     public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference pref) {
-        Log.d(TAG,  pref.getKey());
+        Log.d(TAG, pref.getKey());
+        if (pref.getKey().equals("croppicker_prefsfrag")) {
+            Intent intent = new Intent(this, PrefsFragCropPickerParent.class);
+            startActivity(intent);
+                    return true;
 
+        }
         // Instantiate the new Fragment
         Bundle args = pref.getExtras();
         args.putString("pref_tag", pref.getKey());
@@ -62,10 +68,10 @@ public class PrefsActSystem extends AppCompatActivity implements
         return true;
     }
 
-     @Override
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-         Log.d("asdf", "onActivityResult_act_parent");
-     }
+        Log.d("asdf", "onActivityResult_act_parent");
+    }
 
 
     @Override

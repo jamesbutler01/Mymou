@@ -262,6 +262,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     }
 
+
 //    // For some reason this wont work, so have to type it out each time above for each task
 //   private static TaskInterface taskInterface = new TaskInterface()  {
 //            @Override

@@ -111,6 +111,10 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
             }
         });
 
+        // Disabled as not functioning at the moment
+        view.findViewById(R.id.butt_selectimage).setEnabled(false);
+        view.findViewById(R.id.butt_selectimage).setVisibility(View.INVISIBLE);
+
         updateImage();
 
 
@@ -119,13 +123,14 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
     private static int SELECT_PICTURE = 30;
 
     void openImageChooser() {
-            Intent intent = new Intent();
+        Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
     }
 
     // For returning selected image
+    // TODO: Get onActivityResult working
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "onActivityResult");
