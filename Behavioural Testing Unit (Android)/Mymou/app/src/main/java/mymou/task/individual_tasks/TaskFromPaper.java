@@ -32,7 +32,7 @@ public class TaskFromPaper extends Fragment
 
     private int pathDistance = 1;
     private static Context mContext;
-    private int numDistractors = 2;
+    private int numDistractors = 3;
 
     TextView textView;
 

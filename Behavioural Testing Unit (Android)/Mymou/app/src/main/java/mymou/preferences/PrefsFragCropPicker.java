@@ -117,7 +117,6 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
 
         updateImage();
 
-
     }
 
     private static int SELECT_PICTURE = 30;

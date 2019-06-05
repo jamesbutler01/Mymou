@@ -41,38 +41,41 @@ public class PrefsFragSystem extends PreferenceFragmentCompat implements SharedP
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "oncreateview");
 
-            SeekBarPreference rewardDuration = (SeekBarPreference) findPreference(getString(R.string.preftag_rewardduration));
-           rewardDuration.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                                                           @Override
-                                                           public boolean onPreferenceClick(Preference preference) {
-                                                               // Number dialog
-                                                               AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-                                                               alert.setTitle("Input number");
-                                                               final EditText input = new EditText(getContext());
-                                                               input.setInputType(InputType.TYPE_CLASS_NUMBER);
-                                                               input.setRawInputType(Configuration.KEYBOARD_12KEY);
-                                                               alert.setView(input);
-                                                               alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                                                   public void onClick(DialogInterface dialog, int whichButton) {
-                                                                       try {
+        SeekBarPreference rewardDuration = (SeekBarPreference) findPreference(getString(R.string.preftag_rewardduration));
+        rewardDuration.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                // Number dialog
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                alert.setTitle("Input number");
+                final EditText input = new EditText(getContext());
+                input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                input.setRawInputType(Configuration.KEYBOARD_12KEY);
+                alert.setView(input);
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        try {
 
-                                                                           int value = Integer.valueOf(input.getText().toString());
-                                                                           if (value < rewardDuration.getMax()) {
-                                                                               rewardDuration.setValue(value);
-                                                                           } else {
-                                                                               Toast.makeText(getContext(), "Value too high", Toast.LENGTH_LONG).show();
-                                                                           }
+                            int value = Integer.valueOf(input.getText().toString());
+                            if (value < rewardDuration.getMax()) {
+                                rewardDuration.setValue(value);
+                            } else {
+                                Toast.makeText(getContext(), "Value too high", Toast.LENGTH_LONG).show();
+                            }
 
-                                                                       } catch (NumberFormatException e) {
-                                                                           Toast.makeText(getContext(), "Invalid number", Toast.LENGTH_LONG).show();
-                                                                       }
+                        } catch (NumberFormatException e) {
+                            Toast.makeText(getContext(), "Invalid number", Toast.LENGTH_LONG).show();
+                        }
 
-                                                                   }
-                                                               });
-                                                               alert.show();
-                                                               return false;
-                                                           }
-                                                       });
+                    }
+                });
+                alert.show();
+                return false;
+            }
+        });
+
+        SeekBarPreference sb_rewardchan= (SeekBarPreference) findPreference(getString(R.string.preftag_num_rew_chans));
+        sb_rewardchan.setMin(1);
 
         // Set onchange listener
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
@@ -98,8 +101,8 @@ public class PrefsFragSystem extends PreferenceFragmentCompat implements SharedP
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-         Log.d("asdf", "onActivityResult_prefsfragsystem");
-     }
+        Log.d("asdf", "onActivityResult_prefsfragsystem");
+    }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
