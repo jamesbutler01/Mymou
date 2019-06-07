@@ -30,7 +30,7 @@ import java.util.Random;
 public class TaskFromPaper extends Fragment
         implements View.OnClickListener {
 
-    private int pathDistance = 1;
+    private int pathDistance = 2;
     private static Context mContext;
     private int numDistractors = 3;
 
@@ -475,7 +475,7 @@ public class TaskFromPaper extends Fragment
 
     private void setStartingPosition() {
         randomiseCurrentPos();
-        while (distanceFromTarget(currentPos) != pathDistance) {
+        while (distanceFromTarget(currentPos) > pathDistance+1 | distanceFromTarget(currentPos)==0) {
             randomiseCurrentPos();
         }
         startingLoc = currentPos;
