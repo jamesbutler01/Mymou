@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:key="cue_settings"
+        app:title="Cue settings">
+
+            <Preference
+            app:fragment="mymou.preferences.PrefsFragColourPicker"
+            app:title="Correct cue colours"
+            app:key="@string/preftag_objdisc_corr_cols"
+            android:summary="Choose colours of the correct (CS+) cues here"/>
+
+            <Preference
+            app:fragment="mymou.preferences.PrefsFragColourPicker"
+            app:title="Incorrect cue colours"
+            app:key="@string/preftag_objdisc_incorr_cols"
+            android:summary="Choose colours of the incorrect (CS-) cues here"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="task_settings"
+        app:title="Task settings">
+
+            <SeekBarPreference
+            app:key="two_num_corr_cues"
+            app:title="Number of correct cues on screen each trial"
+            android:defaultValue="@integer/default_objdisc_num_corr_shown"
+            android:summary="If you wish to select more, then select more cues colours in the above options"/>
+
+            <SeekBarPreference
+            app:key="two_num_incorr_cues"
+            app:title="Number of incorrect cues on screen each trial"
+            android:defaultValue="@integer/default_objdisc_num_incorr_shown"
+            android:summary="If you wish to select more, then select more cues colours in the above options"/>
+
+            <SeekBarPreference
+            app:key="two_num_steps"
+            app:title="Number of correct choices per trial"
+            android:defaultValue="@integer/default_objdisc_num_steps"
+            android:summary="The subject will need to complete this many choices correctly before they gain reward"/>
+
+            <SwitchPreferenceCompat
+            app:key="two_repeat_error"
+            app:title="Repeat trial on error"
+            android:summary="If selected, subjects will be given same trial until they get it correct"/>
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

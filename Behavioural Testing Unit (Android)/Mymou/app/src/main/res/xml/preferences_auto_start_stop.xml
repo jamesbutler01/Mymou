@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+            app:key="auto_start_stop"
+            app:title="Automatic startup and shutdown">
+
+        <SwitchPreferenceCompat
+                app:key="autostartswitch"
+                app:title="Automatic device startup"
+                app:defaultValue="@bool/default_autostart"/>
+
+        <Preference
+                app:fragment="mymou.preferences.PrefsFragTimePicker"
+                app:key="autostart"
+                app:title="Configure start up time"
+                app:isPreferenceVisible="false"/>
+
+        <SwitchPreferenceCompat
+                app:key="autostopswitch"
+                app:title="Automatic device shutdown"
+                app:defaultValue="@bool/default_autostop"/>
+
+        <Preference
+                app:fragment="mymou.preferences.PrefsFragTimePicker"
+                app:key="autostop"
+                app:title="Configure shut down time"
+                app:isPreferenceVisible="false"/>
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

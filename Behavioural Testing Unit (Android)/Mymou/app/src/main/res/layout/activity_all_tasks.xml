@@ -1,16 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#000"
-    tools:context="com.example.jbutler.mymou.MainMenu" >
-    <TextView
-            android:text="Loading..."
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:background="@android:color/transparent"
+        android:id="@+id/task_container"
+    tools:context="com.example.jbutler.mymou.mymou.MainMenu">
+
+    <View
+            android:id="@+id/background_main"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:gravity="center"
-            android:textSize="32dp"
-            android:id="@+id/textView"/>
-</FrameLayout>
+            android:layout_height="fill_parent"/>
+
+     <Button
+                android:text="Reward\nChoice #0"
+                android:layout_width="175dp"
+                android:layout_height="175dp"
+                android:textSize="30sp"
+                android:id="@+id/buttonRewardZero"/>
+
+        <Button
+                android:text="Reward\nChoice #1"
+                android:layout_width="175dp"
+                android:layout_height="175dp"
+                android:textSize="30sp"
+                android:id="@+id/buttonRewardOne"/>
+
+        <Button
+                android:text="Reward\nChoice #2"
+                android:layout_width="175dp"
+                android:layout_height="175dp"
+                android:textSize="30sp"
+                android:id="@+id/buttonRewardTwo"/>
+
+        <Button
+                android:text="Reward\nChoice #3"
+                android:layout_width="175dp"
+                android:layout_height="175dp"
+                android:textSize="30sp"
+                android:id="@+id/buttonRewardThree"/>
+
+
+        <View
+                android:id="@+id/foregroundblack"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/black"/>
+
+    <TextView
+            android:id="@+id/tvLog"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="40sp"
+            android:textColor="@color/grey"/>
+
+    <TextView
+            android:id="@+id/tvError"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="30sp"
+            android:textColor="@color/grey"
+            android:layout_marginHorizontal="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/foregroundblack"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

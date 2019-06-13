@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+            app:key="system_settings"
+            app:title="System settings">
+
+        <SwitchPreferenceCompat
+                app:key="bluetooth"
+                app:title="Enable bluetooth/reward system"
+                app:defaultValue="@bool/default_bluetooth"/>
+
+        <SwitchPreferenceCompat
+                app:key="camera"
+                app:title="Enable camera"
+                app:defaultValue="@bool/default_camera"/>
+        <SwitchPreferenceCompat
+                app:key="facerecog"
+                app:title="Enable facial recognition"
+                app:defaultValue="@bool/default_facerecog"/>
+        <SwitchPreferenceCompat
+                app:key="restartoncrash"
+                app:title="Automatically restart task on crash"
+                app:defaultValue="@bool/default_restartoncrash"/>
+        <SwitchPreferenceCompat
+                app:key="sound"
+                app:title="Enable sounds"
+                android:summary="Device will beep on successful trials to aid secondary reinforcement"
+                app:defaultValue="@bool/default_sound"/>
+
+        <Preference
+                app:fragment="mymou.preferences.PrefsFragSoundPicker"
+                app:key="soundpicker_prefsfrag"
+                app:title="Choose sound for secondary reinforcer"
+                app:isPreferenceVisible="false"/>
+        <SwitchPreferenceCompat
+                app:key="crop_photos"
+                app:title="Crop camera photos"
+                app:defaultValue="false"/>
+        <Preference
+                app:fragment="mymou.preferences.PrefsFragCropPickerParent"
+                app:key="croppicker_prefsfrag"
+                app:title="Configure crop boundaries of photos"
+                app:isPreferenceVisible="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            app:key="task_settings"
+            app:title="Common task settings">
+
+        <Preference
+                app:fragment="mymou.preferences.PrefsFragTaskAll"
+                app:key="@string/preftag_task_all"
+                app:title="Configure settings that are common across all tasks"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            app:key="reward_settings"
+            app:title="Reward settings">
+
+        <SeekBarPreference
+                app:key="@string/preftag_num_rew_chans"
+                app:title="Number reward channels"
+                app:summary="The number of channels that the reward system is connected to (and the number of options offered to the monkey after a successful trial)"
+                android:defaultValue="@integer/default_num_rew_chans"
+                android:max="@integer/max_num_rew_chans"/>
+        <SeekBarPreference
+                app:key="@string/preftag_default_rew_chan"
+                app:title="Default reward channel"
+                app:summary="The reward channel automatically activated when number of reward channels is set to 1"
+                android:defaultValue="@integer/default_rew_chan"
+                android:max="@integer/max_num_rew_chans"/>
+
+        <SeekBarPreference
+                app:key="@string/preftag_rewardduration"
+                app:title="Reward duration (ms)"
+                app:defaultValue="@integer/default_rewardduration"
+                android:max="@integer/max_rewardtimeoutduration"/>
+
+        <ListPreference
+                app:key="rewardbackgroundcolour"
+                app:title="Reward background colour"
+                android:entries="@array/colournames"
+                android:entryValues="@array/colourvalues"
+                android:defaultValue="@integer/default_rewardbackgroundcolour"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            app:key="auto_start_stop"
+            app:title="Automatic startup and shutdown">
+
+        <Preference
+                app:fragment="mymou.preferences.PrefsFragAutoStartStop"
+                app:key="prefsfrag_autostartstop"
+                app:title="Configure settings for automatically starting or stopping the device each day"/>
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+            app:key="task_settings"
+            app:title="Common task settings">
+
+        <SeekBarPreference
+                app:key="@string/preftag_rewardduration"
+                app:title="Reward duration (ms)"
+                app:defaultValue="@integer/default_rewardduration"
+                android:max="@integer/max_rewardtimeoutduration"/>
+
+        <SeekBarPreference
+                app:key="@string/preftag_timeoutduration"
+                app:title="Timeout duration for error trials (ms)"
+                app:defaultValue="@integer/default_timeoutduration"
+                android:max="@integer/max_rewardtimeoutduration"/>
+
+        <SeekBarPreference
+                app:key="@string/preftag_responseduration"
+                app:title="Maximum response duration (seconds)"
+                app:defaultValue="@integer/default_responseduration"
+                android:max="@integer/max_responseduration"/>
+
+        <Preference
+                app:fragment="mymou.preferences.PrefsFragCommon"
+                app:title="Cue settings"
+                app:key="@string/preftag_cue_settings"
+                android:summary="Border thickness, border colour, cue size, cue spacing"/>
+
+        <ListPreference
+                app:key="taskbackgroundcolour"
+                app:title="Task background colour"
+                android:entries="@array/colournames"
+                android:entryValues="@array/colourvalues"
+                android:defaultValue="@integer/default_taskbackgroundcolour"/>
+
+        <ListPreference
+                app:key="rewardbackgroundcolour"
+                app:title="Reward background colour"
+                android:entries="@array/colournames"
+                android:entryValues="@array/colourvalues"
+                android:defaultValue="@integer/default_rewardbackgroundcolour"/>
+
+        <ListPreference
+                app:key="timeoutbackgroundcolour"
+                app:title="Timeout background colour"
+                android:entries="@array/colournames"
+                android:entryValues="@array/colourvalues"
+                android:defaultValue="@integer/default_timeoutbackgroundcolour"/>
+
+        <SeekBarPreference
+                app:key="@string/preftag_num_monkeys"
+                app:title="Number of monkeys"
+                android:max="@integer/max_num_monkeys"
+                android:summary="Number of monkeys in total that will use the device"
+                android:defaultValue="@integer/default_num_monkeys"/>
+
+        <Preference
+                app:fragment="mymou.preferences.PrefsFragCommon"
+                app:title="Event codes"
+                app:key="@string/preftag_event_codes"
+                android:summary="Common event codes that are stored in log data for various task events"/>
+
+
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

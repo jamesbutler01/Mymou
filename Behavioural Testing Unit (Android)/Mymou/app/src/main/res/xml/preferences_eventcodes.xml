@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        app:key="system_settings"
+        app:title="Event codes"
+        android:summary="Common event codes that are stored in log data for various task events">
+
+      <EditTextPreference
+          app:key="eventcode_correct_trial"
+          app:title="Correct trial"
+          app:defaultValue="@string/default_eventcode_correct_trial"
+      />
+
+      <EditTextPreference
+           app:key="eventcode_error_trial"
+           app:title="Error trial"
+           app:defaultValue="@string/default_eventcode_error_trial"
+      />
+
+      <EditTextPreference
+           app:key="eventcode_timeout_trial"
+           app:title="Idle timeout"
+           app:defaultValue="@string/default_eventcode_timeout_trial"/>
+
+      <EditTextPreference
+           app:key="eventcode_wrong_gocue"
+           app:title="Wrong monkey's go cue pressed"
+           app:defaultValue="@string/default_eventcode_wrong_gocue"/>
+
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

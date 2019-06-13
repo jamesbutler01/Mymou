@@ -1,11 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<color name="colorPrimary">#009688</color>
-<color name="colorPrimaryDark">#00796B</color>
+    <color name="colorPrimary">#009688</color>
+    <color name="colorPrimaryLight">#b2dfdb</color>
+    <color name="colorPrimaryDark">#00796B</color>
     <color name="colorDiscrete">#B2DFDB</color>
-<color name="white">#ffffff</color>
-<color name="black">#000000</color>
-<color name="grey">#696969</color>
-<color name="blue">#0f52ba</color>
+    <color name="textColor">#ffffff</color>
+
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="grey">#696969</color>
+    <color name="blue">#0f52ba</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="fuchsia">#FF00FF</color>
+    <color name="red">#FF0000</color>
+    <color name="silver">#C0C0C0</color>
+    <color name="olive">#808000</color>
+    <color name="purple">#800080</color>
+    <color name="maroon">#800000</color>
+    <color name="aqua">#00FFFF</color>
+    <color name="lime">#00FF00</color>
+    <color name="teal">#008080</color>
+    <color name="green">#008000</color>
+    <color name="navy">#000080</color>
+
+    <array name="colorarray">
+        <item>@color/white</item>
+        <item>@color/black</item>
+        <item>@color/grey</item>
+        <item>@color/blue</item>
+        <item>@color/yellow</item>
+        <item>@color/fuchsia</item>
+        <item>@color/red</item>
+        <item>@color/silver</item>
+        <item>@color/olive</item>
+        <item>@color/purple</item>
+        <item>@color/maroon</item>
+        <item>@color/aqua</item>
+        <item>@color/lime</item>
+        <item>@color/teal</item>
+        <item>@color/green</item>
+        <item>@color/navy</item>
+    </array>
 
 </resources>

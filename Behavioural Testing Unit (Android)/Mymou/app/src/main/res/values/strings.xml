@@ -12,4 +12,47 @@
     <string name="chanThreeOn">7</string>
     <string name="chanThreeOff">8</string>
 
+    <string-array name="available_tasks">
+        <item>Example task</item>
+        <item>Task from Butler, Kennerley (2018)</item>
+        <item>Object discrimination</item>
+    </string-array>
+
+    <string name="default_startuptime">0700</string>
+    <string name="default_shutdowntime">1900</string>
+
+    <string name="default_eventcode_correct_trial">1</string>
+    <string name="default_eventcode_error_trial">0</string>
+    <string name="default_eventcode_timeout_trial">2</string>
+    <string name="default_eventcode_wrong_gocue">3</string>
+
+    <string name="preftag_gocuecolors">colours_gocues</string>
+    <string name="preftag_cuebordercolors">colours_cueborders</string>
+    <string name="preftag_objdisc_corr_cols">colours_obj_disc_corr_cues</string>
+    <string name="preftag_objdisc_incorr_cols">colours_obj_disc_incorr_cues</string>
+    <string name="preftag_task_all">preftag_task_all</string>
+    <string name="preftag_cue_settings">preftag_cue_settings</string>
+    <string name="preftag_event_codes">preftag_event_codes</string>
+    <string name="preftag_system_settings">preftag_system_settings</string>
+    <string name="preftag_rewardduration">preftag_rewardduration</string>
+    <string name="preftag_timeoutduration">preftag_timeoutduration</string>
+    <string name="preftag_responseduration">preftag_responseduration</string>
+    <string name="preftag_num_monkeys">preftag_num_monkeys</string>
+
+
+    <string name="preftag_task_obj_disc_settings">preftag_task_obj_disc_settings</string>
+    <string name="preftag_settings_to_load">preftag_settings_to_load</string>
+    <string name="preftag_sound_to_play">preftag_sound_to_play</string>
+    <string name="preftag_num_rew_chans">preftag_num_rew_chans</string>
+    <string name="preftag_default_rew_chan">preftag_default_rew_chan</string>
+    <string name="default_gocue_colours">0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,</string>
+    <string name="default_objdis_corr_colours">0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,</string>
+    <string name="default_objdis_incorr_colours">0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,</string>
+
+    <string-array name="error_messages">
+        <item>Bluetooth couldn\'t connect to reward system (to run task without reward system, disable the reward system option in system settings)\n</item>
+        <item>Reward system disabled - no reward will be given\n</item>
+    </string-array>
+
 </resources>
+

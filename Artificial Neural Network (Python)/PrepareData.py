@@ -1,62 +1,126 @@
 import os
 import numpy as np
 
+"""
+
+Run on folder that contains folders 'O' and 'V' and 'f', where 'O' and 'V' contain selfies corresponding to each 
+subject and 'f' contains the corresponding integer arrays for all the images found in folders 'O' and 'V'
+
+Function will then sort through each image and appends them into a single 2D matrix with 1 row per image with the
+first two points of each row correspond to a 1-hot label for the identity of that image
+
+"""
+
+mypath = "raw/"  # Location of files that contains one folder of all integer arrays, and one folder per subject
+# containing the .jpg files for that subject
+folder1name = 'O'  # Name of folder containing images for subject1
+folder2name = 'V'  # Name of folder containing imges for subject2
+folders = (folder1name, folder2name)
+numsubjects = len(folders)
 
 def makeCSV():
-    mypath = "raw/"  # Location of files that contains one folder of all integer arrays, and one folder per subject
-    # containing the .jpg files for that subject
-    folder1name = 'O'  # Name of folder containing images for subject1
-    folder2name = 'V'  # Name of folder containing imges for subject2
-
     # Get list of all images in folder
-    f = []
+    list_of_photos = []
     for dirpath, dirnames, filenames in os.walk(mypath):
         for filename in [f for f in filenames if f.endswith(".jpg")]:
-            f.append(os.path.join(dirpath, filename))
+            list_of_photos.append(os.path.join(dirpath, filename))
 
-    subject1count = 0
-    subject2count = 0
+    counts = [0 for _ in range(numsubjects)]
 
-    # For all files
-    for i in range(len(f)):
+    # For all photos
+    for i, photo_path in enumerate(list_of_photos):
 
         # Find corresponding float array for each figure
-        floatPath = f[i][:-25] + "f\\f" + f[i][-23:-4] + ".txt"
+        floatPath = photo_path[:-25] + "f\\f" + photo_path[-23:-4] + ".txt"
 
-        if os.path.isfile(floatPath):
+        if not os.path.isfile(floatPath):
+            raise Exception('Error! No matching .txt file found!')
 
-            # Load file and get label from folder name
-            temp_arr = np.loadtxt(floatPath)
-            label = f[i][-25:-24]
+        # Load file and get label from folder name
+        temp_arr = np.loadtxt(floatPath)
+        label = photo_path[-25:-24]
 
-            # Add one hot to front
-            if label is folder1name:
-                one_hot_arr = np.array([1, 0])
-                subject1count += 1
-            elif label is folder2name:
-                one_hot_arr = np.array([0, 1])
-                subject2count += 1
-            else:
-                print("ERROR - NO LABEL FOUND!")
+        # Make one hot array
+        one_hot_arr = np.zeros(numsubjects)
+        subj = folders.index(label)
+        one_hot_arr[subj] = 1
+        counts[subj] += 1
 
-            # Append label to front of image
-            temp_arr = np.hstack([one_hot_arr, temp_arr])
+        # Append label to front of image
+        temp_arr = np.hstack([one_hot_arr, temp_arr])
 
-            if i == 0:
-                arr = np.copy(temp_arr)
-            else:
-                arr = np.vstack([arr,temp_arr])
+        try:
 
-        else:
+            arr = np.vstack([arr,temp_arr])
 
-            os.remove(f[i])  # Remove any integer arrays that don't have a corresponding image
+        except NameError:
 
-        print(i,"/",len(f)," ",temp_arr.shape, " ", subject2count, "/", subject1count, floatPath)
+            arr = np.copy(temp_arr)
 
+        if i % 10 == 0:
+
+            print(f'Sorting photos, progress: {i}/{len(list_of_photos)}')
+
+    print('Saving data..')
     np.save("labeledData.npy",arr)
+    print('Data saved')
 
-    print("Done!")
 
+# Deletes photos such that all subjects have same number of photos
+def MakeSameNumberPhotosPerSubject():
+
+    # Get list of photos in each folder
+    photodirs = [[] for _ in range(numsubjects)]
+    for photodir, subjPath in zip(photodirs, folders):
+        for file in os.listdir(mypath+subjPath):
+            if file.endswith(".jpg"):
+                photodir.append(os.path.join(mypath+subjPath, file))
+
+    # Find subject with fewest photos
+    num_photos_per_subj = [len(photo) for photo in photodirs]
+    min_num_photos = np.min(num_photos_per_subj)
+
+    count = 0
+    for photodir in photodirs:
+
+        # Loop until reach min_num_photos
+        while len(photodir) != min_num_photos:
+
+            # Pick a random photo and delete it
+            randphoto = np.random.randint(0, len(photodir))
+            os.remove(photodir[randphoto])
+
+            # Remove entry from list
+            del(photodir[randphoto])
+            count += 1
+
+    print(count, "items deleted")
+
+
+# Remove any .txt files that don't have a matching photo in directory
+def RemoveUnwantedFloatArrays():
+    photoList = []
+    for dirpath, dirnames, filenames in os.walk(mypath):
+        for filename in [f for f in filenames if f.endswith(".jpg")]:
+            photoList.append(filename[:-4])
+
+    floatList = []
+    floatPaths = []
+    for dirpath, dirnames, filenames in os.walk(mypath):
+        for filename in [f for f in filenames if f.endswith(".txt")]:
+            floatList.append(filename[1:-4])
+            floatPaths.append(os.path.join(dirpath, filename))
+
+    count = 0
+    for floatname, floatpath in zip(floatList, floatPaths):
+        if floatname not in photoList:
+            if os.path.isfile(floatpath):
+                os.remove(floatpath)
+                count += 1
+
+    print(count, "items deleted")
 
 if __name__ == '__main__':
+    MakeSameNumberPhotosPerSubject()
+    RemoveUnwantedFloatArrays()
     makeCSV()

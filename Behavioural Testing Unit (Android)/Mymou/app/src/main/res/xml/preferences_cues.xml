@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+            app:key="cue_settings_"
+            app:title="Cue settings (applied to both go cues and task cues)">
+
+      <Preference
+              app:fragment="mymou.preferences.PrefsFragColourPicker"
+              app:key="@string/preftag_gocuecolors"
+              app:title="Go cue colours"
+              android:summary="Choose colours of the go/start cue for each monkey here"/>
+
+           <ListPreference
+           app:key="@string/preftag_cuebordercolors"
+           app:title="Cue border colour"
+           android:entries="@array/colournames"
+           android:entryValues="@array/colourvalues"
+           android:defaultValue="@integer/default_bordercolour"/>
+
+         <SeekBarPreference
+            app:key="cue_size"
+            app:title="Cue size (pixels)"
+            android:defaultValue="@integer/default_cuesize"
+            android:max="400"/>
+
+         <SeekBarPreference
+            app:key="cue_border_size"
+            app:title="Border thickness"
+            android:defaultValue="@integer/default_bordersize"
+            android:max="80"/>
+
+         <SeekBarPreference
+            app:key="cue_spacing"
+            app:title="Cue spacing"
+            android:defaultValue="@integer/default_cuespacing"
+            android:summary="Minimum spacing between cues on screen (pixels)"
+            android:max="80"/>
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

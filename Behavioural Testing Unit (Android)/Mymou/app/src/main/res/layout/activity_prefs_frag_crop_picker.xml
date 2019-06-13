@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <View android:id="@+id/crop_picker_texture"
+          android:background="#FF0000"
+          android:layout_width="1dp"
+          android:layout_height="1dp"/>
+
+    <TextView android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/tv_croppickertitle"
+              android:layout_marginTop="10dp"
+              android:text="Select boundaries to crop photos when saved"
+              android:layout_alignParentTop="true"
+              android:textSize="35dp"
+              android:layout_marginLeft="20dp"/>
+
+    <TextView android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/text_left"
+              android:layout_marginTop="10dp"
+              android:text="Left"
+              android:layout_above="@id/crop_left"
+              android:textSize="30dp"
+              android:layout_marginLeft="20dp"/>
+
+    <SeekBar android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:id="@+id/crop_left"
+             android:layout_marginBottom="10dp"
+             android:layout_above="@id/text_right"
+             android:layout_marginLeft="20dp"
+    />
+
+    <TextView android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/text_right"
+              android:layout_marginTop="10dp"
+              android:text="Right"
+              android:layout_above="@id/crop_right"
+              android:layout_marginLeft="20dp"
+              android:textSize="30dp"/>
+
+    <SeekBar android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:id="@+id/crop_right"
+             android:layout_marginBottom="10dp"
+             android:layout_above="@id/text_top"
+             android:layout_marginLeft="20dp"
+
+    />
+
+    <TextView android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/text_top"
+              android:layout_marginTop="10dp"
+              android:text="Top"
+              android:layout_above="@id/crop_top"
+              android:layout_marginLeft="20dp"
+              android:textSize="30dp"/>
+
+    <SeekBar android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:id="@+id/crop_top"
+             android:layout_marginBottom="10dp"
+             android:layout_above="@id/text_bottom"
+             android:layout_marginLeft="20dp"
+    />
+
+    <TextView android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/text_bottom"
+              android:layout_marginTop="10dp"
+              android:text="Bottom"
+              android:layout_above="@id/crop_bottom"
+              android:layout_marginLeft="20dp"
+              android:textSize="30dp"
+    />
+
+    <SeekBar android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:id="@+id/crop_bottom"
+             android:layout_marginBottom="20dp"
+             android:layout_marginLeft="20dp"
+             android:layout_above="@id/ll_croppicker_butts"
+
+    />
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginHorizontal="20dp"
+            android:orientation="horizontal"
+            android:id="@+id/ll_croppicker_butts">
+    <Button
+            android:text="Save and Exit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/butt_exitcroppicker"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="30dp"
+            android:layout_weight="0.5"
+            android:layout_marginBottom="10dp"/>
+
+    <Button
+            android:text="Select image"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/butt_selectimage"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="0.5"
+            android:textSize="30dp"
+            android:layout_marginBottom="10dp"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

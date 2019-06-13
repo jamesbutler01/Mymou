@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="default_num_monkeys">2</integer>
+    <integer name="max_num_monkeys">8</integer>
+
+    <integer name="default_autostart_hour">7</integer>
+    <integer name="default_autostop_hour">19</integer>
+
+    <integer name="default_num_rew_chans">2</integer>
+    <integer name="default_rew_chan">1</integer>
+    <integer name="max_num_rew_chans">4</integer>
+
+    <integer name="default_rewardduration">1500</integer>
+    <integer name="default_timeoutduration">1500</integer>
+    <integer name="default_responseduration">20</integer>
+    <integer name="max_responseduration">60</integer>
+    <integer name="max_rewardtimeoutduration">10000</integer>
+
+
+    <integer name="default_taskbackgroundcolour">0</integer>
+    <integer name="default_rewardbackgroundcolour">14</integer>
+    <integer name="default_timeoutbackgroundcolour">6</integer>
+    <integer name="default_bordercolour">1</integer>
+
+    <integer name="default_bordersize">20</integer>
+    <integer name="default_cuesize">300</integer>
+    <integer name="default_cuespacing">30</integer>
+
+    <integer name="default_objdisc_num_corr_shown">2</integer>
+    <integer name="default_objdisc_num_incorr_shown">2</integer>
+    <integer name="default_objdisc_num_steps">2</integer>
+
+    <integer name="num_error_messages">10</integer>
+    <integer name="i_bt_couldnt_connect">0</integer>
+    <integer name="i_bt_disabled">1</integer>
+
+
+</resources>
