@@ -3,10 +3,12 @@ package mymou.task.individual_tasks;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -16,27 +18,32 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 import mymou.task.backend.MatrixMaths;
 import mymou.preferences.PreferencesManager;
 import mymou.Utils.ProgressBarAnimation;
 import mymou.R;
 import mymou.task.backend.TaskInterface;
+import mymou.task.backend.UtilsTask;
 
 import java.util.Random;
 
 // The task used in Butler & Kennerley (2018)
 // Used to teach a 4x4 discrete world
 
-public class TaskFromPaper extends Fragment
-        implements View.OnClickListener {
+public class TaskFromPaper extends Fragment {
+
+    private String TAG = "TaskFromPaper";
 
     private int pathDistance = 2;
     private static Context mContext;
     private int numDistractors = 3;
+    private boolean prev_outcome;
+    private int prev_target, prev_start;
 
     TextView textView;
-
-    int[] imageList = {
+    int[] imageList;
+    int[] imageListMapTwo = {
             R.drawable.aabaa,
             R.drawable.aabab,
             R.drawable.aabac,
@@ -54,17 +61,31 @@ public class TaskFromPaper extends Fragment
             R.drawable.aabao,
             R.drawable.aabap,};
 
+    int[] imageListMapOne = {
+            R.drawable.aaaaa,
+            R.drawable.aaaab,
+            R.drawable.aaaac,
+            R.drawable.aaaad,
+            R.drawable.aaaae,
+            R.drawable.aaaaf,
+            R.drawable.aaaag,
+            R.drawable.aaaah,
+            R.drawable.aaaai,
+            R.drawable.aaaaj,
+    };
+
     int[][] transitionMatrix;
-    private int size = 4;
-    private int numNeighbours = 4;
+    private int x_size, y_size, numNeighbours;
+    private boolean torus;
     private int yCenter, xCenter, distanceFromCenter;
-    private int[] neighbours = new int[numNeighbours];
+    private static int rew_scalar = 1;
+
+    private int[] neighbours;
     private int[] xLocs = new int[8];
     private int[] yLocs = new int[8];
     private Random r = new Random();
-    private ImageButton bgGreen, ibWait, ibTarget, ibCurrLoc;
-    private ImageButton pos0, pos1, pos2, pos3, pos4, pos5, pos6, pos7;
-    private ImageButton[] imageButtons = new ImageButton[numNeighbours];
+    private ImageButton ibWait, ibTarget, ibCurrLoc;
+    private ImageButton[] imageButtons;
     private ProgressBar pb1;
 
     Handler h0 = new Handler();
@@ -85,15 +106,17 @@ public class TaskFromPaper extends Fragment
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
 
-        assignObjects();
+        // Decide on map
+        imageList = imageListMapOne;
+        x_size = 1;
+        y_size = 10;
+        torus = false;
+        numNeighbours = 2;
 
-        setOnClickListeners();
+        assignObjects();
+        loadTrialParams();
 
         calculateButtonLocations();
-
-        setPosLocations();
-
-        numStimulus = imageList.length;
 
         chooseTargetLoc();
         setStartingPosition();
@@ -106,8 +129,6 @@ public class TaskFromPaper extends Fragment
         switchOffChoiceButtons();
 
         //Disable unused buttons
-        bgGreen.setEnabled(false);
-        bgGreen.setVisibility(View.INVISIBLE);
         ibWait.setEnabled(false);
         ibWait.setVisibility(View.INVISIBLE);
 
@@ -123,25 +144,24 @@ public class TaskFromPaper extends Fragment
 
     private void assignObjects() {
         mContext = getActivity().getApplicationContext();
-        bgGreen = (ImageButton) getView().findViewById(R.id.imageButtonGreen);
         ibWait = (ImageButton) getView().findViewById(R.id.imageButtonWaitCue);
-        ibTarget = (ImageButton) getView().findViewById(R.id.imageButtonTarget);
-        ibCurrLoc = (ImageButton) getView().findViewById(R.id.imageButtonCurrLoc);
         pb1 = (ProgressBar) getView().findViewById(R.id.boosterBar);
-        imageButtons[0] = (ImageButton) getView().findViewById(R.id.imageButton0);
-        imageButtons[1] = (ImageButton) getView().findViewById(R.id.imageButton1);
-        imageButtons[2] = (ImageButton) getView().findViewById(R.id.imageButton2);
-        imageButtons[3] = (ImageButton) getView().findViewById(R.id.imageButton3);
-        pos0 = (ImageButton) getView().findViewById(R.id.posZero);
-        pos1 = (ImageButton) getView().findViewById(R.id.posOne);
-        pos2 = (ImageButton) getView().findViewById(R.id.posTwo);
-        pos3 = (ImageButton) getView().findViewById(R.id.posThree);
-        pos4 = (ImageButton) getView().findViewById(R.id.posFour);
-        pos5 = (ImageButton) getView().findViewById(R.id.posFive);
-        pos6 = (ImageButton) getView().findViewById(R.id.posSix);
-        pos7 = (ImageButton) getView().findViewById(R.id.posSeven);
+
+        ConstraintLayout layout = getView().findViewById(R.id.parent_task_from_paper);
+        ibTarget = UtilsTask.addImageCue(-1, getContext(), null, layout, true);
+        ibCurrLoc = UtilsTask.addImageCue(-1, getContext(), null, layout, true);
+
+        imageButtons = new ImageButton[numNeighbours];
+        for (int i = 0; i < numNeighbours; i++) {
+            imageButtons[i] = UtilsTask.addImageCue(i, getContext(), buttonClickListener, layout, true);
+        }
+        neighbours = new int[numNeighbours];
+        transitionMatrix = MatrixMaths.generateTransitionMatrix(y_size, y_size, torus);
+        numStimulus = imageList.length;
+
+
         textView = (TextView)getView().findViewById(R.id.textView2);
-        transitionMatrix = MatrixMaths.generateTransitionMatrix(size, size, false);
+        textView.setVisibility(View.INVISIBLE);
     }
 
     private void calculateButtonLocations() {
@@ -155,10 +175,10 @@ public class TaskFromPaper extends Fragment
         distanceFromCenter = imageWidths + 30;
         // Y locations
         yCenter = 1200;
-        yLocs[0] = yCenter - distanceFromCenter;
+        yLocs[0] = yCenter;
         yLocs[1] = yCenter;
-        yLocs[2] = yCenter + distanceFromCenter;
-        yLocs[3] = yCenter;
+        yLocs[2] = yCenter - distanceFromCenter;
+        yLocs[3] = yCenter + distanceFromCenter;
         yLocs[4] = yCenter + distanceFromCenter;
         yLocs[5] = yCenter - distanceFromCenter;
         yLocs[6] = yCenter + distanceFromCenter;
@@ -167,10 +187,10 @@ public class TaskFromPaper extends Fragment
         ibWait.setY(yCenter + 100 - 2*distanceFromCenter);
 
         // X locations
-        xLocs[0] = xCenter;
-        xLocs[1] = xCenter - distanceFromCenter;
+        xLocs[0] = xCenter - distanceFromCenter;
+        xLocs[1] = xCenter + distanceFromCenter;
         xLocs[2] = xCenter;
-        xLocs[3] = xCenter + distanceFromCenter;
+        xLocs[3] = xCenter;
         xLocs[4] = xCenter - distanceFromCenter;
         xLocs[5] = xCenter - distanceFromCenter;
         xLocs[6] = xCenter + distanceFromCenter;
@@ -181,48 +201,6 @@ public class TaskFromPaper extends Fragment
         ibCurrLoc.setX(xCenter);
         ibTarget.setX(xCenter);
         ibWait.setX(screenWidth / 2 - 50 - distanceFromCenter);
-    }
-
-    private void setPosLocations() {
-        pos0.setY(yLocs[0]);
-        pos0.setX(xLocs[0]);
-        pos1.setY(yLocs[1]);
-        pos1.setX(xLocs[1]);
-        pos2.setY(yLocs[2]);
-        pos2.setX(xLocs[2]);
-        pos3.setY(yLocs[3]);
-        pos3.setX(xLocs[3]);
-        pos4.setY(yLocs[4]);
-        pos4.setX(xLocs[4]);
-        pos5.setY(yLocs[5]);
-        pos5.setX(xLocs[5]);
-        pos6.setY(yLocs[6]);
-        pos6.setX(xLocs[6]);
-        pos7.setY(yLocs[7]);
-        pos7.setX(xLocs[7]);
-        pos0.setEnabled(false);
-        pos0.setVisibility(View.INVISIBLE);
-        pos1.setEnabled(false);
-        pos1.setVisibility(View.INVISIBLE);
-        pos2.setEnabled(false);
-        pos2.setVisibility(View.INVISIBLE);
-        pos3.setEnabled(false);
-        pos3.setVisibility(View.INVISIBLE);
-        pos4.setEnabled(false);
-        pos4.setVisibility(View.INVISIBLE);
-        pos5.setEnabled(false);
-        pos5.setVisibility(View.INVISIBLE);
-        pos6.setEnabled(false);
-        pos6.setVisibility(View.INVISIBLE);
-        pos7.setEnabled(false);
-        pos7.setVisibility(View.INVISIBLE);
-    }
-
-    private void setOnClickListeners() {
-        for (int i = 0; i < numNeighbours; i++) {
-            imageButtons[i].setOnClickListener(this);
-        }
-        ibWait.setOnClickListener(this);
     }
 
     int currentPos = -1;
@@ -238,29 +216,37 @@ public class TaskFromPaper extends Fragment
     int pbLength;
     int currentDistanceFromTarget;
     int numSteps = 0;
-    int startingLoc;
+    int startPos;
 
-    @Override
-    public void onClick(View view) {
-         // Reset timer for idle timeout on each press
-         callback.resetTimer_();
-
-
-         switch (view.getId()) {
-            case R.id.imageButton0:
-                moveForwards(0);
-                break;
-            case R.id.imageButton1:
-                moveForwards(1);
-                break;
-            case R.id.imageButton2:
-                moveForwards(2);
-                break;
-            case R.id.imageButton3:
-                moveForwards(3);
-                break;
-        }
+        // Save outcome of this trial and the cues used so that it can be repeated if it was unsuccessful
+    private void saveTrialParams(boolean successfulTrial) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("frompaper_previous_error", successfulTrial);
+        editor.putInt("frompaper_prev_target", targetPos);
+        editor.putInt("frompaper_prev_start", startPos);
+        editor.commit();
     }
+
+    // Load previous trial params
+    private void loadTrialParams() {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+        prev_outcome = settings.getBoolean("frompaper_previous_error", true);
+        prev_target = settings.getInt("frompaper_prev_target", -1);
+        prev_start = settings.getInt("frompaper_prev_start", -1);
+    }
+
+
+
+    private View.OnClickListener buttonClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            // Reset timer for idle timeout on each press
+            callback.resetTimer_();
+
+            moveForwards(Integer.valueOf(view.getId()));
+        }
+    };
 
     private void moveForwards(final int chosenOne) {
         textView.setText("Feedback");
@@ -286,7 +272,6 @@ public class TaskFromPaper extends Fragment
             } else {
                 //Wrong direction
                 logStep(0);
-                currentDistanceFromTarget = pbLength;
                 updateProgressBar(animationDuration + 400);
                 arrivedAtWrongTarget();
             }
@@ -296,7 +281,7 @@ public class TaskFromPaper extends Fragment
     private void logStep(int result) {
         String msg =
                 numSteps + "," + result + "," + currentDistanceFromTarget + "," +
-                targetPos + "," + currentPos + "," + startingLoc + "," + pathDistance;
+                targetPos + "," + currentPos + "," + startPos + "," + pathDistance;
          callback.logEvent_(msg);
     }
 
@@ -310,7 +295,7 @@ public class TaskFromPaper extends Fragment
                 ibCurrLoc.setEnabled(true);
                 ibCurrLoc.setBackground(ContextCompat.getDrawable(mContext, R.drawable.outline_thick));
                 ibTarget.setBackground(ContextCompat.getDrawable(mContext, R.drawable.outline_thick));
-                endOfTrial(new PreferencesManager(getContext()).ec_incorrect_trial);
+                endOfTrial(false);
             }
         }, (animationDuration));
     }
@@ -332,7 +317,7 @@ public class TaskFromPaper extends Fragment
                 ibCurrLoc.setEnabled(true);
                 ibCurrLoc.setBackground(ContextCompat.getDrawable(mContext, R.drawable.double_border));
                 ibTarget.setBackground(ContextCompat.getDrawable(mContext, R.drawable.double_border));
-                endOfTrial(new PreferencesManager(getContext()).ec_correct_trial);
+                endOfTrial(true);
             }
         }, (animationDuration*2 + 400));
 
@@ -474,11 +459,26 @@ public class TaskFromPaper extends Fragment
     }
 
     private void setStartingPosition() {
-        randomiseCurrentPos();
-        while (distanceFromTarget(currentPos) > pathDistance+1 | distanceFromTarget(currentPos)==0) {
+        if (prev_outcome) {
             randomiseCurrentPos();
+            while (distanceFromTarget(currentPos) > pathDistance | distanceFromTarget(currentPos) == 0) {
+                randomiseCurrentPos();
+            }
+
+            // If easy trial, roll again half the time
+            if (distanceFromTarget(currentPos) != pathDistance & r.nextBoolean()) {
+                while (distanceFromTarget(currentPos) != pathDistance) {
+                    randomiseCurrentPos();
+                }
+            }
+        } else {
+            currentPos = prev_start;
+            currentDistanceFromTarget = distanceFromTarget(currentPos);
+            ibCurrLoc.setImageResource(imageList[currentPos]);
         }
-        startingLoc = currentPos;
+
+        startPos = currentPos;
+        rew_scalar = distanceFromTarget(currentPos);  // Scale reward by difficulty
         updateChoiceButtons();
     }
 
@@ -499,14 +499,18 @@ public class TaskFromPaper extends Fragment
     }
 
     private void chooseTargetLoc() {
-        targetPos = r.nextInt(numStimulus);
+        if(prev_outcome) {
+            targetPos = r.nextInt(numStimulus);
+        } else {
+            targetPos = prev_target;
+        }
         ibTarget.setImageResource(imageList[targetPos]);
     }
 
     private void setMaxProgress() {
-        pbLength = pathDistance;
-        pb1.setMax(pathDistance * pbScalar);
-        pb1.setProgress(0);
+        pbLength = pathDistance + 1;
+        pb1.setMax(pbLength * pbScalar);
+        pb1.setProgress(pbScalar);
     }
 
     private int distanceFromTarget(int currentPos) {
@@ -515,10 +519,11 @@ public class TaskFromPaper extends Fragment
 
     private void randomiseImageLocation() {
         int[] chosen = {0, 0, 0, 0, 0, 0, 0, 0,};
-        int choice = r.nextInt(4);
+        int bound = 2;
+        int choice = r.nextInt(bound);
         for (int i = 0; i < numNeighbours; i++) {
             while (chosen[choice] == 1) {
-                choice = r.nextInt(4);
+                choice = r.nextInt(bound);
             }
             // choice = i;
             imageButtons[i].setX(xLocs[choice]);
@@ -547,11 +552,20 @@ public class TaskFromPaper extends Fragment
         }, delay);
     }
 
-    private void endOfTrial(String outcome) {
+    private void endOfTrial(boolean outcome) {
+
+        saveTrialParams(outcome);
+
+        String ec;
+        if (outcome) {
+            ec = new PreferencesManager(getContext()).ec_correct_trial;
+        } else {
+            ec = new PreferencesManager(getContext()).ec_incorrect_trial;
+        }
        h5.postDelayed(new Runnable() {
             @Override
             public void run() {
-                        callback.trialEnded_(outcome);
+                        callback.trialEnded_(ec, rew_scalar);
             }
         }, 1000);
     }

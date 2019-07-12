@@ -7,6 +7,9 @@ import android.graphics.drawable.GradientDrawable;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import mymou.preferences.PreferencesManager;
 
@@ -49,9 +52,8 @@ public class UtilsTask {
 
     }
 
-    public static Button addCue(int id, int color, Context context, View.OnClickListener onClickListener, ConstraintLayout layout) {
-//    public static Button addCue(int id, int color, Context context, ConstraintLayout layout) {
-//        View.OnClickListener onClickListener = (View.OnClickListener) context;
+    // Add a mono-colour cue to the task
+    public static Button addColorCue(int id, int color, Context context, View.OnClickListener onClickListener, ConstraintLayout layout) {
         PreferencesManager preferencesManager = new PreferencesManager(context);
         Button button = new Button(context);
         button.setWidth(preferencesManager.cue_size);
@@ -63,6 +65,22 @@ public class UtilsTask {
         button.setBackgroundDrawable(drawable);
         button.setId(id);
         button.setOnClickListener(onClickListener);
+        layout.addView(button);
+        return button;
+    }
+
+    // Add an image to the task
+    public static ImageButton addImageCue(int id,Context context, View.OnClickListener onClickListener, ConstraintLayout layout, boolean add_listener) {
+        PreferencesManager preferencesManager = new PreferencesManager(context);
+        ImageButton button = new ImageButton(context);
+        button.setLayoutParams(new LinearLayout.LayoutParams(preferencesManager.cue_size, preferencesManager.cue_size));
+        button.setId(id);
+        button.setScaleType(ImageView.ScaleType.FIT_XY);
+        int border = preferencesManager.border_size;
+        button.setPadding(border, border,border,border);
+        if (add_listener) {
+            button.setOnClickListener(onClickListener);
+        }
         layout.addView(button);
         return button;
     }

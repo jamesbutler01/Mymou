@@ -11,6 +11,8 @@ import android.content.IntentFilter;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 import mymou.Utils.PermissionManager;
 import mymou.preferences.PreferencesManager;
@@ -177,6 +179,7 @@ public class RewardSystem {
 
     public static void activateChannel(final int Ch, int amount) {
         Log.d(TAG,"Giving reward "+amount+" ms on channel "+Ch);
+
         startChannel(Ch);
 
         new CountDownTimer(amount, 100) {

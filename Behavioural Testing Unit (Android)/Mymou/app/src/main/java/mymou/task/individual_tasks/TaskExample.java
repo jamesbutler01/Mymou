@@ -21,6 +21,9 @@ public class TaskExample extends Fragment implements View.OnClickListener {
      // Identifier for which monkey is currently playing the task
     private static int current_monkey;
 
+    private static int rew_scalar = 1;
+
+
     // Task objects
     private static int num_cues = 2;
     private static Button[] cues;  // List of all trial objects for an individual monkey
@@ -94,7 +97,7 @@ public class TaskExample extends Fragment implements View.OnClickListener {
             outcome = preferencesManager.ec_incorrect_trial;
         }
         // Send outcome up to parent
-        callback.trialEnded_(outcome);
+        callback.trialEnded_(outcome, rew_scalar);
     }
 
         // Implement interface and listener to enable communication up to TaskManager

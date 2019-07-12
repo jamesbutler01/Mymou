@@ -140,5 +140,13 @@ public class PreferencesManager {
 
 
     }
+
+    public boolean taskfrompaper_repeatOnError;
+
+    public void TaskFromPaper() {
+        taskfrompaper_repeatOnError = true;
+
+
+    }
     
 }

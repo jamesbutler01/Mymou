@@ -25,6 +25,7 @@ public class TaskObjectDiscrim extends Fragment {
 
     private static int current_monkey = -1;
     private static int num_steps = 0;
+    private static int rew_scalar = 1;
     private static PreferencesManager prefManager;
 
     // Task objects
@@ -77,14 +78,14 @@ public class TaskObjectDiscrim extends Fragment {
 
         // Add correct cues
         for (int i_corr = 0; i_corr < prefManager.objectdiscrim_num_corr_shown; i_corr++) {
-            cues[i_corr] = UtilsTask.addCue(i_corr, prefManager.objectdiscrim_corr_colours[random_cols_corr[i_corr]],
+            cues[i_corr] = UtilsTask.addColorCue(i_corr, prefManager.objectdiscrim_corr_colours[random_cols_corr[i_corr]],
                    getContext() , buttonClickListener, getView().findViewById(R.id.parent_object_discrim));
             i_cues += 1;
         }
 
         // Add distractor cues
         for (int i_incorr = 0; i_incorr < prefManager.objectdiscrim_num_incorr_shown; i_incorr++) {
-            cues[i_cues] = UtilsTask.addCue(i_cues, prefManager.objectdiscrim_incorr_colours[random_cols_incorr[i_incorr]],
+            cues[i_cues] = UtilsTask.addColorCue(i_cues, prefManager.objectdiscrim_incorr_colours[random_cols_incorr[i_incorr]],
                     getContext(), buttonClickListener, getView().findViewById(R.id.parent_object_discrim));
             i_cues += 1;
         }
@@ -148,7 +149,7 @@ public class TaskObjectDiscrim extends Fragment {
             outcome = prefManager.ec_incorrect_trial;
         }
         // Send outcome up to parent
-        callback.trialEnded_(outcome);
+        callback.trialEnded_(outcome, rew_scalar);
 
     }
 

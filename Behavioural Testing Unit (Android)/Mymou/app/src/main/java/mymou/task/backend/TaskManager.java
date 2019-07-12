@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.TextView;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -33,7 +32,6 @@ import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 
 public class TaskManager extends FragmentActivity implements View.OnClickListener,
         TaskInterface {
@@ -136,6 +134,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             tvErrors.setText(getResources().getStringArray(R.array.error_messages)[getResources().getInteger(R.integer.i_bt_couldnt_connect)]);
         }
 
+        tvExplanation.setVisibility(View.INVISIBLE);
 
     }
 
@@ -144,9 +143,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             @Override
             public void uncaughtException(Thread thread, Throwable throwable) {
                 Log.d(TAG, "Task crashed");
-                new CrashReport(throwable);
-                rewardSystem.quitBt();
-                restartApp();
+//                new CrashReport(throwable);
+//                rewardSystem.quitBt();
+//                restartApp();
             }
         });
     }
@@ -154,6 +153,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     private void loadtask() {
         taskId = getIntent().getIntExtra("tasktoload", -1);
         if (taskId == -1) {
+            Log.d(TAG, "No task specified");
             new Exception("No task specified");
         }
 
@@ -220,7 +220,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 public void resetTimer_() {resetTimer();}
 
                 @Override
-                public void trialEnded_(String outcome) {trialEnded(outcome);}
+                public void trialEnded_(String outcome, int rew_scalar) {trialEnded(outcome, rew_scalar);}
 
                 @Override
                 public void logEvent_(String outcome) {logEvent(outcome);}
@@ -234,7 +234,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 public void resetTimer_() {resetTimer();}
 
                 @Override
-                public void trialEnded_(String outcome) {trialEnded(outcome);}
+                public void trialEnded_(String outcome, int rew_scalar) {trialEnded(outcome, rew_scalar);}
 
                 @Override
                 public void logEvent_(String outcome) {logEvent(outcome);}
@@ -248,7 +248,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 public void resetTimer_() {resetTimer();}
 
                 @Override
-                public void trialEnded_(String outcome) {trialEnded(outcome);}
+                public void trialEnded_(String outcome, int rew_scalar) {trialEnded(outcome, rew_scalar);}
 
                 @Override
                 public void logEvent_(String outcome) {logEvent(outcome);}
@@ -301,9 +301,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                     getApplicationContext(),
                     0, intent, PendingIntent.FLAG_ONE_SHOT);
             AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, pendingIntent);
+            mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 50, pendingIntent);
         }
-        System.exit(2);
+        System.exit(0);
     }
 
 
@@ -599,12 +599,16 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
         // Layout views
         for (int i = 0; i < cues_Go.length; i++) {
-            cues_Go[i] = UtilsTask.addCue(i, preferencesManager.colours_gocues[i], this, this, findViewById(R.id.task_container));
+            cues_Go[i] = UtilsTask.addColorCue(i, preferencesManager.colours_gocues[i], this, this, findViewById(R.id.task_container));
         }
-        cues_Reward[0] = findViewById(R.id.buttonRewardZero);
-        cues_Reward[1] = findViewById(R.id.buttonRewardOne);
-        cues_Reward[2] = findViewById(R.id.buttonRewardTwo);
-        cues_Reward[3] = findViewById(R.id.buttonRewardThree);
+        try {
+            cues_Reward[0] = findViewById(R.id.buttonRewardZero);
+            cues_Reward[1] = findViewById(R.id.buttonRewardOne);
+            cues_Reward[2] = findViewById(R.id.buttonRewardTwo);
+            cues_Reward[3] = findViewById(R.id.buttonRewardThree);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.exit(0);
+        }
         tvExplanation = findViewById(R.id.tvLog);
         tvErrors = findViewById(R.id.tvError);
     }
@@ -615,11 +619,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         UtilsSystem.setOnClickListenerLoop(cues_Go, this);
     }
 
-
     @Override
     public void onClick(View view) {
         Log.d(TAG, "onClickListener called for "+view.getId());
-
         if (!task_enabled) { return; }
 
         // Always disable all cues after a press as monkeys love to bash repeatedly
@@ -637,16 +639,16 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 // Absorb any touch events while disabled
                 break;
             case R.id.buttonRewardZero:
-                deliverReward(0);
+                deliverReward(0, 1);
                 break;
             case R.id.buttonRewardOne:
-                deliverReward(1);
+                deliverReward(1, 1);
                 break;
             case R.id.buttonRewardTwo:
-                deliverReward(2);
+                deliverReward(2, 1);
                 break;
             case R.id.buttonRewardThree:
-                deliverReward(3);
+                deliverReward(3, 1);
                 break;
             default:
                 // If it wasn't a reward cue it must be a go cue
@@ -722,7 +724,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         }, timeoutWrongGoCuePressed);
     }
 
-    private static void trialEnded(String result) {
+    private static void trialEnded(String result, int rew_scalar) {
         Log.d(TAG, "trial ended");
         logEvent("Trial ended, result = " + result);
 
@@ -732,7 +734,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         h0.removeCallbacksAndMessages(null);
 
         if (result == preferencesManager.ec_correct_trial) {
-            correctTrial();
+            correctTrial(rew_scalar);
         } else {
             incorrectTrial(result);
         }
@@ -744,21 +746,24 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         endOfTrial(result, preferencesManager.timeoutduration);
     }
 
-    private static void correctTrial() {
+    private static void correctTrial(int rew_scalar) {
         logEvent("Correct trial: Reward choice");
         activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.rewardbackground);
+
+        // If only one reward channel, skip reward selection stage
         if (preferencesManager.num_reward_chans == 1) {
             new SoundManager(preferencesManager).playTone();
-            deliverReward(preferencesManager.default_rew_chan);
+            deliverReward(preferencesManager.default_rew_chan, rew_scalar);
         } else {
-        UtilsTask.randomlyPositionCues(cues_Reward, possible_cue_locs);
-        UtilsTask.toggleCues(cues_Reward, true);
+            // Otherwise reveal reward cues
+            UtilsTask.randomlyPositionCues(cues_Reward, possible_cue_locs);
+            UtilsTask.toggleCues(cues_Reward, true);
         }
     }
 
-    private static void deliverReward(int juiceChoice) {
+    private static void deliverReward(int juiceChoice, int rew_scalar) {
         logEvent("Delivering " + preferencesManager.rewardduration + "ms reward on channel " + juiceChoice);
-        rewardSystem.activateChannel(juiceChoice, preferencesManager.rewardduration);
+        rewardSystem.activateChannel(juiceChoice, (int) preferencesManager.rewardduration*rew_scalar);
         endOfTrial(preferencesManager.ec_correct_trial, preferencesManager.rewardduration + 500);
     }
 
@@ -838,7 +843,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         disableAllCues();
         activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.timeoutbackground);
 
-        trialEnded(preferencesManager.ec_trial_timeout);
+        trialEnded(preferencesManager.ec_trial_timeout, 0);
     }
 
     private static void PrepareForNewTrial(int delay) {
@@ -865,7 +870,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     }
 
     @Override
-    public void trialEnded_(String outcome) {
+    public void trialEnded_(String outcome, int rew_scalar) {
     }
 
     @Override
