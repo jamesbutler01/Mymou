@@ -80,7 +80,7 @@ public class TaskFromPaper extends Fragment {
     private int x_size, y_size, numNeighbours;
     private boolean torus;
     private int yCenter, xCenter, distanceFromCenter;
-    private static int rew_scalar = 1;
+    private static double rew_scalar = 1;
 
     private int[] neighbours;
     private int[] xLocs = new int[8];
@@ -480,7 +480,7 @@ public class TaskFromPaper extends Fragment {
         }
 
         startPos = currentPos;
-        rew_scalar = distanceFromTarget(currentPos);  // Scale reward by difficulty
+        rew_scalar = 1 + ((distanceFromTarget(currentPos) - min_starting_distance) * 0.5);  // Scale reward by difficulty
         updateChoiceButtons();
     }
 

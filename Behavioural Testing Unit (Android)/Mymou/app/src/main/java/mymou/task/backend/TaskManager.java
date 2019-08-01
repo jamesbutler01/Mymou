@@ -220,7 +220,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 public void resetTimer_() {resetTimer();}
 
                 @Override
-                public void trialEnded_(String outcome, int rew_scalar) {trialEnded(outcome, rew_scalar);}
+                public void trialEnded_(String outcome, double rew_scalar) {trialEnded(outcome, rew_scalar);}
 
                 @Override
                 public void logEvent_(String outcome) {logEvent(outcome);}
@@ -234,7 +234,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 public void resetTimer_() {resetTimer();}
 
                 @Override
-                public void trialEnded_(String outcome, int rew_scalar) {trialEnded(outcome, rew_scalar);}
+                public void trialEnded_(String outcome, double rew_scalar) {trialEnded(outcome, rew_scalar);}
 
                 @Override
                 public void logEvent_(String outcome) {logEvent(outcome);}
@@ -248,7 +248,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 public void resetTimer_() {resetTimer();}
 
                 @Override
-                public void trialEnded_(String outcome, int rew_scalar) {trialEnded(outcome, rew_scalar);}
+                public void trialEnded_(String outcome, double rew_scalar) {trialEnded(outcome, rew_scalar);}
 
                 @Override
                 public void logEvent_(String outcome) {logEvent(outcome);}
@@ -724,7 +724,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         }, timeoutWrongGoCuePressed);
     }
 
-    private static void trialEnded(String result, int rew_scalar) {
+    private static void trialEnded(String result, double rew_scalar) {
         Log.d(TAG, "trial ended");
         logEvent("Trial ended, result = " + result);
 
@@ -746,7 +746,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         endOfTrial(result, preferencesManager.timeoutduration);
     }
 
-    private static void correctTrial(int rew_scalar) {
+    private static void correctTrial(double rew_scalar) {
         logEvent("Correct trial: Reward choice");
         activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.rewardbackground);
 
@@ -761,9 +761,15 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         }
     }
 
-    private static void deliverReward(int juiceChoice, int rew_scalar) {
-        logEvent("Delivering " + preferencesManager.rewardduration + "ms reward on channel " + juiceChoice);
-        rewardSystem.activateChannel(juiceChoice, (int) preferencesManager.rewardduration*rew_scalar);
+    private static void deliverReward(int juiceChoice, double rew_scalar) {
+
+        double reward_duration_double = preferencesManager.rewardduration * rew_scalar;
+        int reward_duration_int = (int) reward_duration_double;
+
+        logEvent("Delivering " + reward_duration_int + "ms reward on channel " + juiceChoice);
+
+        rewardSystem.activateChannel(juiceChoice, reward_duration_int);
+
         endOfTrial(preferencesManager.ec_correct_trial, preferencesManager.rewardduration + 500);
     }
 
@@ -870,7 +876,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     }
 
     @Override
-    public void trialEnded_(String outcome, int rew_scalar) {
+    public void trialEnded_(String outcome, double rew_scalar) {
     }
 
     @Override
