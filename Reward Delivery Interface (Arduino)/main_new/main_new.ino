@@ -3,18 +3,22 @@ SoftwareSerial Piotr(10, 11); // RX, TX
  
 // Initialise variables
 int bufferInt = -1;
+int switch_on = 72;
+int switch_off = 73;
 int channelNumber;
-int numer, stan;
-char wlacznik;
+int chan_num, stan;
+int end_message = 13;
+int message_offset = 48;
+char char_out;
  
-int pumpcommand(int numer, int stan)
+int pumpcommand(int chan_num, int stan)
 {
-  if(stan==0) {wlacznik = 73;} //wylacz pompe
-  if(stan==1) {wlacznik = 72;} //wlacz pompe
+  if(stan==0) {char_out = switch_off;} 
+  if(stan==1) {char_out = switch_on;}
   
-  Piotr.write(48+numer);    // ktory kanal aktywowany
-  Piotr.write(48+wlacznik); 
-  Piotr.write(13);
+  Piotr.write(message_offset+chan_num); 
+  Piotr.write(message_offset+char_out); 
+  Piotr.write(end_message);
 }
  
 void setup() {
@@ -26,10 +30,14 @@ void setup() {
 void loop() {
   // Check for input
   if(Serial.available() > 0){
+
+    // Read input
     bufferInt = Serial.read();
- 
+
+  // Respond according to the input
    switch (bufferInt) {
     case 0: { 
+      // Switch off all pumps
               pumpcommand(1,0); 
               pumpcommand(2,0); 
               pumpcommand(3,0); 
