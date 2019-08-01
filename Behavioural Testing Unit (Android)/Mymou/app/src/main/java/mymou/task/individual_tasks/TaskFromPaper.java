@@ -8,6 +8,7 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import android.view.Display;
@@ -35,10 +36,11 @@ public class TaskFromPaper extends Fragment {
 
     private String TAG = "TaskFromPaper";
 
-    private int pathDistance = 2;
+    private int min_starting_distance = 3;  // Inclusive
+    private int max_starting_distance = 6; // Inclusive
     private static Context mContext;
     private int numDistractors = 3;
-    private boolean prev_outcome;
+    private boolean prev_trial_correct;
     private int prev_target, prev_start;
 
     TextView textView;
@@ -120,6 +122,11 @@ public class TaskFromPaper extends Fragment {
 
         chooseTargetLoc();
         setStartingPosition();
+        setStartingPosition();
+        setStartingPosition();
+        setStartingPosition();
+        setStartingPosition();
+
         setMaxProgress();
 
         resetButtonPositionsAndBorders();
@@ -231,7 +238,7 @@ public class TaskFromPaper extends Fragment {
     // Load previous trial params
     private void loadTrialParams() {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-        prev_outcome = settings.getBoolean("frompaper_previous_error", true);
+        prev_trial_correct = settings.getBoolean("frompaper_previous_error", true);
         prev_target = settings.getInt("frompaper_prev_target", -1);
         prev_start = settings.getInt("frompaper_prev_start", -1);
     }
@@ -281,7 +288,7 @@ public class TaskFromPaper extends Fragment {
     private void logStep(int result) {
         String msg =
                 numSteps + "," + result + "," + currentDistanceFromTarget + "," +
-                targetPos + "," + currentPos + "," + startPos + "," + pathDistance;
+                targetPos + "," + currentPos + "," + startPos + "," + min_starting_distance;
          callback.logEvent_(msg);
     }
 
@@ -459,19 +466,14 @@ public class TaskFromPaper extends Fragment {
     }
 
     private void setStartingPosition() {
-        if (prev_outcome) {
+        if (prev_trial_correct) {
             randomiseCurrentPos();
-            while (distanceFromTarget(currentPos) > pathDistance | distanceFromTarget(currentPos) == 0) {
+            while (distanceFromTarget(currentPos) < min_starting_distance | distanceFromTarget(currentPos) > max_starting_distance) {
                 randomiseCurrentPos();
             }
 
-            // If easy trial, roll again half the time
-            if (distanceFromTarget(currentPos) != pathDistance & r.nextBoolean()) {
-                while (distanceFromTarget(currentPos) != pathDistance) {
-                    randomiseCurrentPos();
-                }
-            }
         } else {
+
             currentPos = prev_start;
             currentDistanceFromTarget = distanceFromTarget(currentPos);
             ibCurrLoc.setImageResource(imageList[currentPos]);
@@ -499,7 +501,7 @@ public class TaskFromPaper extends Fragment {
     }
 
     private void chooseTargetLoc() {
-        if(prev_outcome) {
+        if(prev_trial_correct) {
             targetPos = r.nextInt(numStimulus);
         } else {
             targetPos = prev_target;
@@ -508,7 +510,7 @@ public class TaskFromPaper extends Fragment {
     }
 
     private void setMaxProgress() {
-        pbLength = pathDistance + 1;
+        pbLength = max_starting_distance + 1;
         pb1.setMax(pbLength * pbScalar);
         pb1.setProgress(pbScalar);
     }
