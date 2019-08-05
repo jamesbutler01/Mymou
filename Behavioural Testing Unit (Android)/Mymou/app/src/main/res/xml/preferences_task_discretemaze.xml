@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:key="task_settings"
+        app:title="Task settings">
+            <SeekBarPreference
+            app:key="@string/preftag_dm_min_start_distance"
+            app:title="Minimum starting distance from target (inclusive)"
+            android:defaultValue="@integer/default_dm_min_start_distance"
+            android:summary="If you wish to select more, then select more cues colours in the above options"/>
+
+            <SeekBarPreference
+            app:key="@string/preftag_dm_max_start_distance"
+            app:title="Maximum starting distance from target (inclusive)"
+            android:defaultValue="@integer/default_dm_max_start_distance"
+            android:summary="If you wish to select more, then select more cues colours in the above options"/>
+
+            <SwitchPreferenceCompat
+            app:key="@string/preftag_dm_repeat_error"
+            app:title="Repeat trial on error"
+            android:summary="If selected, subjects will be given same trial until they get it correct"/>
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

@@ -8,7 +8,6 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import android.view.Display;
@@ -32,12 +31,11 @@ import java.util.Random;
 // The task used in Butler & Kennerley (2018)
 // Used to teach a 4x4 discrete world
 
-public class TaskFromPaper extends Fragment {
+public class TaskDiscreteMaze extends Fragment {
 
-    private String TAG = "TaskFromPaper";
+    private String TAG = "TaskDiscreteMaze";
 
-    private int min_starting_distance = 3;  // Inclusive
-    private int max_starting_distance = 3; // Inclusive
+    private PreferencesManager preferencesManager;
     private static Context mContext;
     private int numDistractors = 3;
     private boolean prev_trial_correct;
@@ -108,6 +106,10 @@ public class TaskFromPaper extends Fragment {
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
 
+        // Load settings
+        preferencesManager = new PreferencesManager(getContext());
+        preferencesManager.DiscreteMaze();
+
         // Decide on map
         imageList = imageListMapOne;
         x_size = 1;
@@ -130,7 +132,7 @@ public class TaskFromPaper extends Fragment {
         setMaxProgress();
 
         resetButtonPositionsAndBorders();
-        pb1.setProgress((pbLength - currentDistanceFromTarget) * pbScalar);
+        pb1.setProgress((pb_length - currentDistanceFromTarget) * pb_scalar);
         randomiseImageLocation();
 
         switchOffChoiceButtons();
@@ -164,7 +166,7 @@ public class TaskFromPaper extends Fragment {
         }
         neighbours = new int[numNeighbours];
         transitionMatrix = MatrixMaths.generateTransitionMatrix(y_size, y_size, torus);
-        numStimulus = imageList.length;
+        num_stimulus = imageList.length;
 
 
         textView = (TextView)getView().findViewById(R.id.textView2);
@@ -217,21 +219,21 @@ public class TaskFromPaper extends Fragment {
     int animationDuration = 450;
     int[] chosenXlocs = {-1, -1, -1, -1};
     int[] chosenYlocs = {-1, -1, -1, -1};
-    int targetPos;
-    int numStimulus;
-    int pbScalar = 1000;
-    int pbLength;
+    int target_pos;
+    int num_stimulus;
+    int pb_scalar = 1000;
+    int pb_length;
     int currentDistanceFromTarget;
-    int numSteps = 0;
-    int startPos;
+    int num_steps = 0;
+    int start_pos, start_dist;
 
         // Save outcome of this trial and the cues used so that it can be repeated if it was unsuccessful
     private void saveTrialParams(boolean successfulTrial) {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean("frompaper_previous_error", successfulTrial);
-        editor.putInt("frompaper_prev_target", targetPos);
-        editor.putInt("frompaper_prev_start", startPos);
+        editor.putInt("frompaper_prev_target", target_pos);
+        editor.putInt("frompaper_prev_start", start_pos);
         editor.commit();
     }
 
@@ -260,7 +262,7 @@ public class TaskFromPaper extends Fragment {
 
         if (choicePeriod) {
             choicePeriod = false;
-            numSteps++;
+            num_steps++;
             int previousDistance = currentDistanceFromTarget;
             updateCurrLoc(chosenOne);
             animateStep(chosenOne);
@@ -268,7 +270,7 @@ public class TaskFromPaper extends Fragment {
             currentDistanceFromTarget = distanceFromTarget(currentPos);
             if(previousDistance > currentDistanceFromTarget) { // If right direction
                 updateProgressBar(animationDuration + 400);
-                if (currentPos == targetPos) {
+                if (currentPos == target_pos) {
                     //Reached target
                     arrivedAtTarget(chosenOne);
                 } else {
@@ -287,8 +289,8 @@ public class TaskFromPaper extends Fragment {
 
     private void logStep(int result) {
         String msg =
-                numSteps + "," + result + "," + currentDistanceFromTarget + "," +
-                targetPos + "," + currentPos + "," + startPos + "," + min_starting_distance;
+                num_steps + "," + result + "," + currentDistanceFromTarget + "," +
+                        target_pos + "," + currentPos + "," + start_pos + "," + start_dist;
          callback.logEvent_(msg);
     }
 
@@ -420,15 +422,15 @@ public class TaskFromPaper extends Fragment {
         //Find neighbouring images
         int distractorCount = 0;
         int j = 0;
-        for (int i = 0; i < numStimulus; i++) {
+        for (int i = 0; i < num_stimulus; i++) {
             if (transitionMatrix[currentPos][i] == 1) {
                 // Is it not in correct direction
-                if (transitionMatrix[i][targetPos] >= transitionMatrix[currentPos][targetPos]) {
+                if (transitionMatrix[i][target_pos] >= transitionMatrix[currentPos][target_pos]) {
                     distractorCount += 1;
                 }
 
                 // Only add if it's in correct direction or a distracter fewer than specified amount
-                if (transitionMatrix[i][targetPos] < transitionMatrix[currentPos][targetPos] | distractorCount < numDistractors+1) {
+                if (transitionMatrix[i][target_pos] < transitionMatrix[currentPos][target_pos] | distractorCount < numDistractors+1) {
                     neighbours[j] = i;
                     imageButtons[j].setEnabled(true);
                     imageButtons[j].setVisibility(View.VISIBLE);
@@ -467,8 +469,9 @@ public class TaskFromPaper extends Fragment {
 
     private void setStartingPosition() {
         if (prev_trial_correct) {
+            // Randomly pick locations until we find one a correct distance away
             randomiseCurrentPos();
-            while (distanceFromTarget(currentPos) < min_starting_distance | distanceFromTarget(currentPos) > max_starting_distance) {
+            while (distanceFromTarget(currentPos) < preferencesManager.dm_min_start_distance | distanceFromTarget(currentPos) > preferencesManager.dm_max_start_distance) {
                 randomiseCurrentPos();
             }
 
@@ -478,14 +481,14 @@ public class TaskFromPaper extends Fragment {
             currentDistanceFromTarget = distanceFromTarget(currentPos);
             ibCurrLoc.setImageResource(imageList[currentPos]);
         }
-
-        startPos = currentPos;
-        rew_scalar = 1 + ((distanceFromTarget(currentPos) - min_starting_distance) * 0.5);  // Scale reward by difficulty
+        start_dist = currentDistanceFromTarget;
+        start_pos = currentPos;
+        rew_scalar = 1 + ((distanceFromTarget(currentPos) - preferencesManager.dm_min_start_distance) * 0.5);  // Scale reward by difficulty
         updateChoiceButtons();
     }
 
     private void randomiseCurrentPos() {
-        currentPos = r.nextInt(numStimulus);
+        currentPos = r.nextInt(num_stimulus);
         currentDistanceFromTarget = distanceFromTarget(currentPos);
         ibCurrLoc.setImageResource(imageList[currentPos]);
     }
@@ -502,21 +505,21 @@ public class TaskFromPaper extends Fragment {
 
     private void chooseTargetLoc() {
         if(prev_trial_correct) {
-            targetPos = r.nextInt(numStimulus);
+            target_pos = r.nextInt(num_stimulus);
         } else {
-            targetPos = prev_target;
+            target_pos = prev_target;
         }
-        ibTarget.setImageResource(imageList[targetPos]);
+        ibTarget.setImageResource(imageList[target_pos]);
     }
 
     private void setMaxProgress() {
-        pbLength = max_starting_distance + 1;
-        pb1.setMax(pbLength * pbScalar);
-        pb1.setProgress(pbScalar);
+        pb_length = preferencesManager.dm_max_start_distance + 1;
+        pb1.setMax(pb_length * pb_scalar);
+        pb1.setProgress(pb_scalar);
     }
 
     private int distanceFromTarget(int currentPos) {
-        return transitionMatrix[currentPos][targetPos];
+        return transitionMatrix[currentPos][target_pos];
     }
 
     private void randomiseImageLocation() {
@@ -547,7 +550,7 @@ public class TaskFromPaper extends Fragment {
         h6.postDelayed(new Runnable() {
             @Override
             public void run() {
-                ProgressBarAnimation anim = new ProgressBarAnimation(pb1, pb1.getProgress(), (pbLength - currentDistanceFromTarget) * pbScalar);
+                ProgressBarAnimation anim = new ProgressBarAnimation(pb1, pb1.getProgress(), (pb_length - currentDistanceFromTarget) * pb_scalar);
                 anim.setDuration(animationDuration);
                 pb1.startAnimation(anim);
             }

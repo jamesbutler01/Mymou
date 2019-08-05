@@ -44,9 +44,5 @@ public class PrefsFragCropPickerParent extends FragmentActivity {
         fragmentTransaction.commit();
     }
 
-     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-         Log.d("asdf", "onActivityResult)parent");
-     }
 
 }

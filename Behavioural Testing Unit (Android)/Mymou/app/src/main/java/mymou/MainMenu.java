@@ -64,11 +64,6 @@ public class MainMenu extends Activity {
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d("asdf", "onActivityResult_act_mainmenu");
-    }
-
     private void checkPermissions() {
         if (new PermissionManager(this, this).checkPermissions()) {
             permissions_granted = true;
@@ -120,7 +115,7 @@ public class MainMenu extends Activity {
         int prev_task_selected = settings.getInt(key, 0);
         taskSelected = prev_task_selected;
         spinner.setSelection(taskSelected);
-        if (taskSelected < 2) {
+        if (taskSelected < 1) {
             UtilsTask.toggleCue(findViewById(R.id.buttonTaskSettings), false);
         }
 
@@ -131,7 +126,7 @@ public class MainMenu extends Activity {
                                        int position, long id) {
                 // Update task selected
                 taskSelected = position;
-                if (taskSelected < 2) {
+                if (taskSelected < 1) {
                     UtilsTask.toggleCue(findViewById(R.id.buttonTaskSettings), false);
                 } else {
                     UtilsTask.toggleCue(findViewById(R.id.buttonTaskSettings), true);
@@ -244,11 +239,13 @@ public class MainMenu extends Activity {
                     startActivity(intent);
                     break;
                 case R.id.buttonTaskSettings:
-                    if (taskSelected == 2) {
-                        Intent intent2 = new Intent(context, PrefsActSystem.class);
+                    Intent intent2 = new Intent(context, PrefsActSystem.class);
+                    if (taskSelected == 1) {
+                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_disc_maze_settings));
+                    } else if (taskSelected == 2) {
                         intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_obj_disc_settings));
-                        startActivity(intent2);
                     }
+                        startActivity(intent2);
                     break;
             }
         }

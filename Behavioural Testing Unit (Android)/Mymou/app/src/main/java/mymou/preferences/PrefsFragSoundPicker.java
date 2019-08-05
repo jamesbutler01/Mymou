@@ -44,7 +44,7 @@ public class PrefsFragSoundPicker extends PreferenceFragmentCompat implements Sh
         preferenceCategory.setTitle("Choose sound used for secondary reinforcement");
         getPreferenceScreen().addPreference(preferenceCategory);
 
-        // Now iterate through colours and add them as checkboxes
+        // Now iterate through sounds and add them as checkboxes
         for (int i = 0; i < num_sounds; i++) {
             checkBoxPreferences[i] = new CheckBoxPreference(contextThemeWrapper);
             checkBoxPreferences[i].setTitle("Sound " + i);

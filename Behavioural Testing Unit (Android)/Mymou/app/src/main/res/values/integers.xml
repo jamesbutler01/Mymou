@@ -3,6 +3,10 @@
     <integer name="default_num_monkeys">2</integer>
     <integer name="max_num_monkeys">8</integer>
 
+    <integer name="num_error_messages">10</integer>
+    <integer name="i_bt_couldnt_connect">0</integer>
+    <integer name="i_bt_disabled">1</integer>
+
     <integer name="default_autostart_hour">7</integer>
     <integer name="default_autostop_hour">19</integer>
 
@@ -30,9 +34,8 @@
     <integer name="default_objdisc_num_incorr_shown">2</integer>
     <integer name="default_objdisc_num_steps">2</integer>
 
-    <integer name="num_error_messages">10</integer>
-    <integer name="i_bt_couldnt_connect">0</integer>
-    <integer name="i_bt_disabled">1</integer>
+    <integer name="default_dm_min_start_distance">2</integer>
+    <integer name="default_dm_max_start_distance">3</integer>
 
 
 </resources>

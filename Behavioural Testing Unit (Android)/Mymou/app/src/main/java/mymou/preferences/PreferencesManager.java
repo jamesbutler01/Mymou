@@ -30,7 +30,6 @@ public class PreferencesManager {
     private Resources r;
     private Context mContext;
 
-
     public PreferencesManager(Context context) {
         mContext = context;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -152,11 +151,14 @@ public class PreferencesManager {
 
     }
 
-    public boolean discreteMaze_repeatOnError;
+    public boolean dm_repeatOnError;
+    public int dm_min_start_distance, dm_max_start_distance, dm_max_dist_in_map;
 
-    public void TaskFromPaper() {
-        discreteMaze_repeatOnError = true;
-
+    public void DiscreteMaze() {
+        dm_repeatOnError = true;
+        dm_min_start_distance = sharedPrefs.getInt(r.getString(R.string.preftag_dm_min_start_distance), r.getInteger(R.integer.default_dm_min_start_distance));
+        dm_max_start_distance = sharedPrefs.getInt(r.getString(R.string.preftag_dm_max_start_distance), r.getInteger(R.integer.default_dm_max_start_distance));
+        dm_max_dist_in_map = 6;
 
     }
     

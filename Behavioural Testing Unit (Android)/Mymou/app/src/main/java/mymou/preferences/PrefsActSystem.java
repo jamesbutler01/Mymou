@@ -31,6 +31,8 @@ public class PrefsActSystem extends AppCompatActivity implements
             preferenceFragment = new PrefsFragSystem();
         } else if (settings_to_load.equals(getString(R.string.preftag_task_obj_disc_settings))) {
             preferenceFragment = new PrefsFragTaskObjectDiscrim();
+        } else if (settings_to_load.equals(getString(R.string.preftag_task_disc_maze_settings))) {
+            preferenceFragment = new PrefsFragTaskDiscreteMaze();
         } else {
             new Exception("Invalid preferences specified");
         }
@@ -69,9 +71,7 @@ public class PrefsActSystem extends AppCompatActivity implements
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d("asdf", "onActivityResult_act_parent");
-    }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {    }
 
 
     @Override

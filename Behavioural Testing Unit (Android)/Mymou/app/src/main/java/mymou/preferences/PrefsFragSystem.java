@@ -41,6 +41,7 @@ public class PrefsFragSystem extends PreferenceFragmentCompat implements SharedP
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "oncreateview");
 
+        // Number input dialog for reward duration preference
         SeekBarPreference rewardDuration = (SeekBarPreference) findPreference(getString(R.string.preftag_rewardduration));
         rewardDuration.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -99,10 +100,6 @@ public class PrefsFragSystem extends PreferenceFragmentCompat implements SharedP
         super.onDestroyView();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d("asdf", "onActivityResult_prefsfragsystem");
-    }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {

@@ -70,6 +70,7 @@
     <string name="preftag_autostop_min">autostop_min</string>
 
     <string name="preftag_task_obj_disc_settings">preftag_task_obj_disc_settings</string>
+    <string name="preftag_task_disc_maze_settings">preftag_task_disc_maze_settings</string>
     <string name="preftag_settings_to_load">preftag_settings_to_load</string>
     <string name="preftag_sound_to_play">preftag_sound_to_play</string>
     <string name="preftag_num_rew_chans">preftag_num_rew_chans</string>
@@ -82,6 +83,10 @@
     <string name="preftag_od_num_incorr_cues">od_num_incorr_cues</string>
     <string name="preftag_od_num_steps">od_num_steps</string>
     <string name="preftag_od_repeat_error">od_repeat_on_error</string>
+
+    <string name="preftag_dm_min_start_distance">dm_min_start</string>
+    <string name="preftag_dm_max_start_distance">dm_max_start</string>
+    <string name="preftag_dm_repeat_error">dm_repeat_on_error</string>
 
     <string name="od_previous_error">od_previous_error</string>
     <string name="od_prev_cols_corr">od_prev_cols_corr</string>

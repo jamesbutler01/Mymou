@@ -20,8 +20,8 @@ import androidx.preference.PreferenceManager;
 import mymou.*;
 import mymou.Utils.*;
 import mymou.preferences.PreferencesManager;
+import mymou.task.individual_tasks.TaskDiscreteMaze;
 import mymou.task.individual_tasks.TaskExample;
-import mymou.task.individual_tasks.TaskFromPaper;
 import mymou.task.individual_tasks.TaskObjectDiscrim;
 
 import java.io.File;
@@ -232,7 +232,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 fragmentTransaction.add(R.id.task_container, fragment0, TAG_FRAGMENT);
                 break;
             case 1:
-                TaskFromPaper fragment1 = new TaskFromPaper();
+                TaskDiscreteMaze fragment1 = new TaskDiscreteMaze();
                 fragment1.setFragInterfaceListener(new TaskInterface() {
                     @Override
                     public void resetTimer_() {resetTimer();}
