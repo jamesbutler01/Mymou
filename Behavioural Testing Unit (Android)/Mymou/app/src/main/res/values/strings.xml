@@ -26,6 +26,11 @@
     <string name="default_eventcode_timeout_trial">2</string>
     <string name="default_eventcode_wrong_gocue">3</string>
 
+    <string name="default_gocue_colours">0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,</string>
+    <string name="default_objdis_corr_colours">0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,</string>
+    <string name="default_objdis_incorr_colours">0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,</string>
+
+    <string name="preftag_debug">debug</string>
     <string name="preftag_bluetooth">bluetooth</string>
     <string name="preftag_camera">camera</string>
     <string name="preftag_crop_photos">crop_photos</string>
@@ -81,10 +86,6 @@
     <string name="od_previous_error">od_previous_error</string>
     <string name="od_prev_cols_corr">od_prev_cols_corr</string>
     <string name="od_prev_cols_incorr">od_prev_cols_incorr</string>
-
-    <string name="default_gocue_colours">0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,</string>
-    <string name="default_objdis_corr_colours">0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,</string>
-    <string name="default_objdis_incorr_colours">0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,</string>
 
     <string-array name="error_messages">
         <item>Bluetooth couldn\'t connect to reward system (to run task without reward system, disable the reward system option in system settings)\n</item>

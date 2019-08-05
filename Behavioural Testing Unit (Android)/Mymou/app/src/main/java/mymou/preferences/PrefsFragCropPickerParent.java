@@ -22,22 +22,7 @@ import mymou.R;
 
 public class PrefsFragCropPickerParent extends FragmentActivity {
 
-//    public PrefsFragCropPickerParent() {
-//    }
-
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        return inflater.inflate(R.layout.activity_crop_picker, container, false);
-//    }
-
-//    @Override
-//    public void onViewCreated(final View view, Bundle savedInstanceState) {
-
-//        FragmentManager fragmentManager = getFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-          @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crop_picker);

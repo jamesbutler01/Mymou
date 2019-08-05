@@ -14,7 +14,7 @@ public class PreferencesManager {
 
     public String base_error_message = "Error: Invalid settings configured so task cannot run. Please adjust settings and restart the task:\n\n";
 
-    public static boolean bluetooth, camera, facerecog, restartoncrash, sound, autostart, autostop;
+    public static boolean debug, bluetooth, camera, facerecog, restartoncrash, sound, autostart, autostop;
     public static int sound_to_play;
     public static int num_reward_chans, default_rew_chan;
     public static int rewardduration, responseduration, timeoutduration;
@@ -36,6 +36,7 @@ public class PreferencesManager {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         r = context.getResources();
 
+        debug = sharedPrefs.getBoolean(r.getString(R.string.preftag_debug), r.getBoolean(R.bool.default_debug));
         bluetooth = sharedPrefs.getBoolean(r.getString(R.string.preftag_bluetooth), r.getBoolean(R.bool.default_bluetooth));
         camera = sharedPrefs.getBoolean(r.getString(R.string.preftag_camera), r.getBoolean(R.bool.default_camera));
         facerecog = sharedPrefs.getBoolean(r.getString(R.string.preftag_facerecog), r.getBoolean(R.bool.default_facerecog));

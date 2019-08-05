@@ -139,15 +139,17 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     }
 
     private void initialiseAutoRestartHandler() {
-//        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-//            @Override
-//            public void uncaughtException(Thread thread, Throwable throwable) {
-//                Log.d(TAG, "Task crashed");
-////                new CrashReport(throwable);
-////                rewardSystem.quitBt();
-////                restartApp();
-//            }
-//        });
+        if (!preferencesManager.debug) {
+            Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+                @Override
+                public void uncaughtException(Thread thread, Throwable throwable) {
+                    Log.d(TAG, "Task crashed");
+                new CrashReport(throwable);
+                rewardSystem.quitBt();
+                restartApp();
+                }
+            });
+        }
     }
 
     private void loadtask() {
@@ -703,6 +705,8 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 startTrial(monkId);
             } else {
                 // Photo not taken as camera wasn't ready so reset go cues to let them press again
+                Log.d(TAG, "Error: Camera not ready!");
+
                 UtilsTask.toggleCues(cues_Go, true);
             }
 

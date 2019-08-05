@@ -6,10 +6,13 @@
             app:title="System settings">
 
         <SwitchPreferenceCompat
+                app:key="@string/preftag_debug"
+                app:title="Enable debug mode (for developers)"
+                app:defaultValue="@bool/default_debug"/>
+        <SwitchPreferenceCompat
                 app:key="@string/preftag_bluetooth"
                 app:title="Enable bluetooth/reward system"
                 app:defaultValue="@bool/default_bluetooth"/>
-
         <SwitchPreferenceCompat
                 app:key="@string/preftag_camera"
                 app:title="Enable camera"

@@ -100,6 +100,7 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
         // Add onClickListener to exit button
         view.findViewById(R.id.butt_exitcroppicker).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Log.d(TAG, "Exit button pressed");
                 getFragmentManager().popBackStack();
             }
         });
