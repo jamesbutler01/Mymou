@@ -207,8 +207,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     public static void startTrial(int monkId) {
         logEvent("Trial started for monkey " + monkId);
 
-        if (!timerRunning) { trial_timer(); }  // Start task timer first (so will still timeout if task is disabled)
-
         if (!task_enabled) { return; }  // Abort if task currently disabled
 
         boolean valid_configuration = true;
@@ -273,6 +271,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         if (!valid_configuration) {
              tvErrors.setText(preferencesManager.base_error_message + preferencesManager.objectdiscrim_errormessage);
         } else {
+
+            if (!timerRunning) { trial_timer(); }  // Start task timer first (so will still timeout if task is disabled)
+
             commitFragment();
         }
 
@@ -748,7 +749,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         commitFragment();
         h0.removeCallbacksAndMessages(null);
 
-
         if (result == preferencesManager.ec_correct_trial) {
             correctTrial(rew_scalar);
         } else {
@@ -876,9 +876,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         h1.postDelayed(new Runnable() {
             @Override
             public void run() {
+                logEvent("Initiation stage");
                 activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.taskbackground);
                 UtilsTask.toggleCues(cues_Go, true);
-                logEvent("Initiation stage");
             }
         }, delay);
     }
