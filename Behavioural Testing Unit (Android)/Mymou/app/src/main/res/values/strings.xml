@@ -26,10 +26,17 @@
     <string name="default_eventcode_timeout_trial">2</string>
     <string name="default_eventcode_wrong_gocue">3</string>
 
+    <string name="preftag_bluetooth">bluetooth</string>
+    <string name="preftag_camera">camera</string>
+    <string name="preftag_crop_photos">crop_photos</string>
+    <string name="preftag_facerecog">facerecog</string>
+    <string name="preftag_restartoncrash">restartoncrash</string>
+    <string name="preftag_sound">sound</string>
+    <string name="preftag_autostart">autostart</string>
+    <string name="preftag_autostop">autostop</string>
+
     <string name="preftag_gocuecolors">colours_gocues</string>
     <string name="preftag_cuebordercolors">colours_cueborders</string>
-    <string name="preftag_objdisc_corr_cols">colours_obj_disc_corr_cues</string>
-    <string name="preftag_objdisc_incorr_cols">colours_obj_disc_incorr_cues</string>
     <string name="preftag_task_all">preftag_task_all</string>
     <string name="preftag_cue_settings">preftag_cue_settings</string>
     <string name="preftag_event_codes">preftag_event_codes</string>
@@ -39,12 +46,42 @@
     <string name="preftag_responseduration">preftag_responseduration</string>
     <string name="preftag_num_monkeys">preftag_num_monkeys</string>
 
+    <string name="preftag_eventcode_correct_trial">eventcode_correct_trial</string>
+    <string name="preftag_eventcode_error_trial">eventcode_error_trial</string>
+    <string name="preftag_eventcode_timeout_trial">eventcode_timeout_trial</string>
+    <string name="preftag_eventcode_wrong_gocue">eventcode_wrong_gocue</string>
+
+    <string name="preftag_taskbackgroundcolour">taskbackgroundcolour</string>
+    <string name="preftag_rewardbackgroundcolour">rewardbackgroundcolour</string>
+    <string name="preftag_timeoutbackgroundcolour">timeoutbackgroundcolour</string>
+
+    <string name="preftag_cue_size">cue_size</string>
+    <string name="preftag_cue_spacing">cue_spacing</string>
+    <string name="preftag_cue_border_size">cue_border_size</string>
+
+    <string name="preftag_autostart_hour">autostart_hour</string>
+    <string name="preftag_autostart_min">autostart_min</string>
+    <string name="preftag_autostop_hour">autostop_hour</string>
+    <string name="preftag_autostop_min">autostop_min</string>
 
     <string name="preftag_task_obj_disc_settings">preftag_task_obj_disc_settings</string>
     <string name="preftag_settings_to_load">preftag_settings_to_load</string>
     <string name="preftag_sound_to_play">preftag_sound_to_play</string>
     <string name="preftag_num_rew_chans">preftag_num_rew_chans</string>
     <string name="preftag_default_rew_chan">preftag_default_rew_chan</string>
+
+    <string name="preftag_od_corr_cols">colours_obj_disc_corr_cues</string>
+    <string name="preftag_od_incorr_cols">colours_obj_disc_incorr_cues</string>
+
+    <string name="preftag_od_num_corr_cues">od_num_corr_cues</string>
+    <string name="preftag_od_num_incorr_cues">od_num_incorr_cues</string>
+    <string name="preftag_od_num_steps">od_num_steps</string>
+    <string name="preftag_od_repeat_error">od_repeat_on_error</string>
+
+    <string name="od_previous_error">od_previous_error</string>
+    <string name="od_prev_cols_corr">od_prev_cols_corr</string>
+    <string name="od_prev_cols_incorr">od_prev_cols_incorr</string>
+
     <string name="default_gocue_colours">0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,</string>
     <string name="default_objdis_corr_colours">0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,</string>
     <string name="default_objdis_incorr_colours">0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,</string>

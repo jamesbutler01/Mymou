@@ -139,15 +139,15 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     }
 
     private void initialiseAutoRestartHandler() {
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread thread, Throwable throwable) {
-                Log.d(TAG, "Task crashed");
-//                new CrashReport(throwable);
-//                rewardSystem.quitBt();
-//                restartApp();
-            }
-        });
+//        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+//            @Override
+//            public void uncaughtException(Thread thread, Throwable throwable) {
+//                Log.d(TAG, "Task crashed");
+////                new CrashReport(throwable);
+////                rewardSystem.quitBt();
+////                restartApp();
+//            }
+//        });
     }
 
     private void loadtask() {
@@ -211,54 +211,70 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
         if (!task_enabled) { return; }  // Abort if task currently disabled
 
+        boolean valid_configuration = true;
+
         Bundle bundle = new Bundle();
         bundle.putInt("currMonk", monkId);
-        if (taskId == 0) {
-            TaskExample fragment = new TaskExample();
-            fragment.setFragInterfaceListener(new TaskInterface() {
-                @Override
-                public void resetTimer_() {resetTimer();}
+        switch(taskId) {
+            case 0:
+                 TaskExample fragment0 = new TaskExample();
+                fragment0.setFragInterfaceListener(new TaskInterface() {
+                    @Override
+                    public void resetTimer_() {resetTimer();}
 
-                @Override
-                public void trialEnded_(String outcome, double rew_scalar) {trialEnded(outcome, rew_scalar);}
+                    @Override
+                    public void trialEnded_(String outcome, double rew_scalar) {trialEnded(outcome, rew_scalar);}
 
-                @Override
-                public void logEvent_(String outcome) {logEvent(outcome);}
-            });
-            fragment.setArguments(bundle);
-            fragmentTransaction.add(R.id.task_container, fragment, TAG_FRAGMENT);
-        } else if (taskId == 1) {
-            TaskFromPaper fragment = new TaskFromPaper();
-            fragment.setFragInterfaceListener(new TaskInterface() {
-                @Override
-                public void resetTimer_() {resetTimer();}
+                    @Override
+                    public void logEvent_(String outcome) {logEvent(outcome);}
+                });
+                fragment0.setArguments(bundle);
+                fragmentTransaction.add(R.id.task_container, fragment0, TAG_FRAGMENT);
+                break;
+            case 1:
+                TaskFromPaper fragment1 = new TaskFromPaper();
+                fragment1.setFragInterfaceListener(new TaskInterface() {
+                    @Override
+                    public void resetTimer_() {resetTimer();}
 
-                @Override
-                public void trialEnded_(String outcome, double rew_scalar) {trialEnded(outcome, rew_scalar);}
+                    @Override
+                    public void trialEnded_(String outcome, double rew_scalar) {trialEnded(outcome, rew_scalar);}
 
-                @Override
-                public void logEvent_(String outcome) {logEvent(outcome);}
-            });
-            fragment.setArguments(bundle);
-            fragmentTransaction.add(R.id.task_container, fragment, TAG_FRAGMENT);
-        } else if (taskId == 2) {
-            TaskObjectDiscrim fragment = new TaskObjectDiscrim();
-            fragment.setFragInterfaceListener(new TaskInterface() {
-                @Override
-                public void resetTimer_() {resetTimer();}
+                    @Override
+                    public void logEvent_(String outcome) {logEvent(outcome);}
+                });
+                fragment1.setArguments(bundle);
+                fragmentTransaction.add(R.id.task_container, fragment1, TAG_FRAGMENT);
+                break;
+            case 2:
+                TaskObjectDiscrim fragment2 = new TaskObjectDiscrim();
+                fragment2.setFragInterfaceListener(new TaskInterface() {
+                    @Override
+                    public void resetTimer_() {resetTimer();}
 
-                @Override
-                public void trialEnded_(String outcome, double rew_scalar) {trialEnded(outcome, rew_scalar);}
+                    @Override
+                    public void trialEnded_(String outcome, double rew_scalar) {trialEnded(outcome, rew_scalar);}
 
-                @Override
-                public void logEvent_(String outcome) {logEvent(outcome);}
-            });
-            fragment.setArguments(bundle);
-            fragmentTransaction.add(R.id.task_container, fragment, TAG_FRAGMENT);
-        } else {
-            new Exception("No valid task specified");
+                    @Override
+                    public void logEvent_(String outcome) {logEvent(outcome);}
+                });
+                fragment2.setArguments(bundle);
+                fragmentTransaction.add(R.id.task_container, fragment2, TAG_FRAGMENT);
+
+                // Check settings correct
+                preferencesManager.ObjectDiscrimination();
+                valid_configuration = preferencesManager.objectdiscrim_valid_config;
+
+                break;
+            default:
+                new Exception("No valid task specified");
         }
-        commitFragment();
+
+        if (!valid_configuration) {
+             tvErrors.setText(preferencesManager.base_error_message + preferencesManager.objectdiscrim_errormessage);
+        } else {
+            commitFragment();
+        }
 
     }
 
@@ -477,7 +493,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     }
 
     public static void logEvent(String data) {
-        Log.d(TAG, "logEvent");
+        Log.d(TAG, "logEvent: "+data);
 
         // Show (human) user on screen what is happening during the task
         tvExplanation.setText(data);
@@ -725,13 +741,13 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     }
 
     private static void trialEnded(String result, double rew_scalar) {
-        Log.d(TAG, "trial ended");
         logEvent("Trial ended, result = " + result);
 
         // Kill task and task timer
         fragmentTransaction.remove(fragmentManager.findFragmentByTag(TAG_FRAGMENT));
         commitFragment();
         h0.removeCallbacksAndMessages(null);
+
 
         if (result == preferencesManager.ec_correct_trial) {
             correctTrial(rew_scalar);
@@ -775,6 +791,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
 
     private static void endOfTrial(String outcome, int newTrialDelay) {
+        logEvent("End of trial: Outcome: "+outcome);
         commitTrialData(outcome);
 
         PrepareForNewTrial(newTrialDelay);
@@ -853,13 +870,15 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     }
 
     private static void PrepareForNewTrial(int delay) {
+        logEvent("Preparing for new trial in "+delay+" ms");
+
         setBrightness(true);
         h1.postDelayed(new Runnable() {
             @Override
             public void run() {
                 activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.taskbackground);
                 UtilsTask.toggleCues(cues_Go, true);
-                tvExplanation.setText("Initiation Stage");
+                logEvent("Initiation stage");
             }
         }, delay);
     }

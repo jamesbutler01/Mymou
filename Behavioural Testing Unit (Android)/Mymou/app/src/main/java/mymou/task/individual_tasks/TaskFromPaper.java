@@ -37,7 +37,7 @@ public class TaskFromPaper extends Fragment {
     private String TAG = "TaskFromPaper";
 
     private int min_starting_distance = 3;  // Inclusive
-    private int max_starting_distance = 6; // Inclusive
+    private int max_starting_distance = 3; // Inclusive
     private static Context mContext;
     private int numDistractors = 3;
     private boolean prev_trial_correct;

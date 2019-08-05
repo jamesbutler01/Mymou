@@ -6,24 +6,24 @@
             app:title="System settings">
 
         <SwitchPreferenceCompat
-                app:key="bluetooth"
+                app:key="@string/preftag_bluetooth"
                 app:title="Enable bluetooth/reward system"
                 app:defaultValue="@bool/default_bluetooth"/>
 
         <SwitchPreferenceCompat
-                app:key="camera"
+                app:key="@string/preftag_camera"
                 app:title="Enable camera"
                 app:defaultValue="@bool/default_camera"/>
         <SwitchPreferenceCompat
-                app:key="facerecog"
+                app:key="@string/preftag_facerecog"
                 app:title="Enable facial recognition"
                 app:defaultValue="@bool/default_facerecog"/>
         <SwitchPreferenceCompat
-                app:key="restartoncrash"
+                app:key="@string/preftag_restartoncrash"
                 app:title="Automatically restart task on crash"
                 app:defaultValue="@bool/default_restartoncrash"/>
         <SwitchPreferenceCompat
-                app:key="sound"
+                app:key="@string/preftag_sound"
                 app:title="Enable sounds"
                 android:summary="Device will beep on successful trials to aid secondary reinforcement"
                 app:defaultValue="@bool/default_sound"/>
@@ -34,7 +34,7 @@
                 app:title="Choose sound for secondary reinforcer"
                 app:isPreferenceVisible="false"/>
         <SwitchPreferenceCompat
-                app:key="crop_photos"
+                app:key="@string/preftag_crop_photos"
                 app:title="Crop camera photos"
                 app:defaultValue="false"/>
         <Preference
@@ -79,7 +79,7 @@
                 android:max="@integer/max_rewardtimeoutduration"/>
 
         <ListPreference
-                app:key="rewardbackgroundcolour"
+                app:key="@string/preftag_rewardbackgroundcolour"
                 app:title="Reward background colour"
                 android:entries="@array/colournames"
                 android:entryValues="@array/colourvalues"

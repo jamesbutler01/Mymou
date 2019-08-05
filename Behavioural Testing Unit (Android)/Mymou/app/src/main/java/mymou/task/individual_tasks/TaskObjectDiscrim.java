@@ -21,7 +21,7 @@ import mymou.task.backend.UtilsTask;
 public class TaskObjectDiscrim extends Fragment {
 
     // Debug
-    public static String TAG = "MyMouTaskExample";
+    public static String TAG = "MyMouObjDiscrim";
 
     private static int current_monkey = -1;
     private static int num_steps = 0;
@@ -51,7 +51,7 @@ public class TaskObjectDiscrim extends Fragment {
     }
 
     private void positionAndDisplayCues() {
-        Log.d(TAG, "positionAndDisplayCues");
+        Log.d(TAG, "Positining cues around screen");
         UtilsTask.randomlyPositionCues(cues, new UtilsTask().getPossibleCueLocs(getActivity()));
         UtilsTask.toggleCues(cues, true);
     }
@@ -68,8 +68,10 @@ public class TaskObjectDiscrim extends Fragment {
         // Check to see if we should reload the previous trial's cues
         if (!prefManager.objectdiscrim_repeatOnError | !prefManager.objectdiscrim_previous_error) {
             Log.d(TAG, "Picking new cue colours");
-            random_cols_corr = MatrixMaths.randomNoRepeat(prefManager.objectdiscrim_num_corr_shown, prefManager.objectdiscrim_num_corr);
-            random_cols_incorr = MatrixMaths.randomNoRepeat(prefManager.objectdiscrim_num_incorr_shown, prefManager.objectdiscrim_num_incorr);
+            Log.d(TAG, "Picking new cue colours"+prefManager.objectdiscrim_num_corr_shown+" "+prefManager.objectdiscrim_num_corr_options);
+            Log.d(TAG, "Picking new cue colours"+prefManager.objectdiscrim_num_incorr_shown+" "+prefManager.objectdiscrim_num_incorr_options);
+            random_cols_corr = MatrixMaths.randomNoRepeat(prefManager.objectdiscrim_num_corr_shown, prefManager.objectdiscrim_num_corr_options);
+            random_cols_incorr = MatrixMaths.randomNoRepeat(prefManager.objectdiscrim_num_incorr_shown, prefManager.objectdiscrim_num_incorr_options);
         } else {
             Log.d(TAG, "Use cue colours from previous trial");
             random_cols_corr = prefManager.objectdiscrim_prev_cols_corr;
@@ -77,6 +79,7 @@ public class TaskObjectDiscrim extends Fragment {
         }
 
         // Add correct cues
+        Log.d(TAG, "Adding correct cues");
         for (int i_corr = 0; i_corr < prefManager.objectdiscrim_num_corr_shown; i_corr++) {
             cues[i_corr] = UtilsTask.addColorCue(i_corr, prefManager.objectdiscrim_corr_colours[random_cols_corr[i_corr]],
                    getContext() , buttonClickListener, getView().findViewById(R.id.parent_object_discrim));
@@ -84,6 +87,7 @@ public class TaskObjectDiscrim extends Fragment {
         }
 
         // Add distractor cues
+        Log.d(TAG, "Adding incorrect cues");
         for (int i_incorr = 0; i_incorr < prefManager.objectdiscrim_num_incorr_shown; i_incorr++) {
             cues[i_cues] = UtilsTask.addColorCue(i_cues, prefManager.objectdiscrim_incorr_colours[random_cols_incorr[i_incorr]],
                     getContext(), buttonClickListener, getView().findViewById(R.id.parent_object_discrim));
