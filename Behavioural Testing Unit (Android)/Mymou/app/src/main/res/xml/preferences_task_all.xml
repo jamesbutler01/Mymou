@@ -30,21 +30,21 @@
                 android:summary="Border thickness, border colour, cue size, cue spacing"/>
 
         <ListPreference
-                app:key="taskbackgroundcolour"
+                app:key="@string/preftag_taskbackgroundcolour"
                 app:title="Task background colour"
                 android:entries="@array/colournames"
                 android:entryValues="@array/colourvalues"
                 android:defaultValue="@integer/default_taskbackgroundcolour"/>
 
         <ListPreference
-                app:key="rewardbackgroundcolour"
+                app:key="@string/preftag_rewardbackgroundcolour"
                 app:title="Reward background colour"
                 android:entries="@array/colournames"
                 android:entryValues="@array/colourvalues"
                 android:defaultValue="@integer/default_rewardbackgroundcolour"/>
 
         <ListPreference
-                app:key="timeoutbackgroundcolour"
+                app:key="@string/preftag_timeoutbackgroundcolour"
                 app:title="Timeout background colour"
                 android:entries="@array/colournames"
                 android:entryValues="@array/colourvalues"

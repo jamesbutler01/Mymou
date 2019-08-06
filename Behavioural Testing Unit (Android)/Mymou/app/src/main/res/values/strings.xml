@@ -84,6 +84,7 @@
     <string name="preftag_od_num_steps">od_num_steps</string>
     <string name="preftag_od_repeat_error">od_repeat_on_error</string>
 
+    <string name="preftag_dm_map">preftag_dm_map_chosen</string>
     <string name="preftag_dm_min_start_distance">dm_min_start</string>
     <string name="preftag_dm_max_start_distance">dm_max_start</string>
     <string name="preftag_dm_repeat_error">dm_repeat_on_error</string>

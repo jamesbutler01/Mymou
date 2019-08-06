@@ -8,6 +8,7 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import android.view.Display;
@@ -36,47 +37,15 @@ public class TaskDiscreteMaze extends Fragment {
     private String TAG = "TaskDiscreteMaze";
 
     private PreferencesManager preferencesManager;
+    private TaskDiscreteMazeMapParams mapParams;
     private static Context mContext;
     private int numDistractors = 3;
     private boolean prev_trial_correct;
     private int prev_target, prev_start;
 
     TextView textView;
-    int[] imageList;
-    int[] imageListMapTwo = {
-            R.drawable.aabaa,
-            R.drawable.aabab,
-            R.drawable.aabac,
-            R.drawable.aabad,
-            R.drawable.aabae,
-            R.drawable.aabaf,
-            R.drawable.aabag,
-            R.drawable.aabah,
-            R.drawable.aabai,
-            R.drawable.aabaj,
-            R.drawable.aabak,
-            R.drawable.aabal,
-            R.drawable.aabam,
-            R.drawable.aaban,
-            R.drawable.aabao,
-            R.drawable.aabap,};
-
-    int[] imageListMapOne = {
-            R.drawable.aaaaa,
-            R.drawable.aaaab,
-            R.drawable.aaaac,
-            R.drawable.aaaad,
-            R.drawable.aaaae,
-            R.drawable.aaaaf,
-            R.drawable.aaaag,
-            R.drawable.aaaah,
-            R.drawable.aaaai,
-            R.drawable.aaaaj,
-    };
 
     int[][] transitionMatrix;
-    private int x_size, y_size, numNeighbours;
-    private boolean torus;
     private int yCenter, xCenter, distanceFromCenter;
     private static double rew_scalar = 1;
 
@@ -105,17 +74,12 @@ public class TaskDiscreteMaze extends Fragment {
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-
+        Log.d(TAG, "Task started..");
         // Load settings
         preferencesManager = new PreferencesManager(getContext());
         preferencesManager.DiscreteMaze();
 
-        // Decide on map
-        imageList = imageListMapOne;
-        x_size = 1;
-        y_size = 10;
-        torus = false;
-        numNeighbours = 2;
+        mapParams = new TaskDiscreteMazeMapParams(preferencesManager);
 
         assignObjects();
         loadTrialParams();
@@ -160,13 +124,13 @@ public class TaskDiscreteMaze extends Fragment {
         ibTarget = UtilsTask.addImageCue(-1, getContext(), null, layout, true);
         ibCurrLoc = UtilsTask.addImageCue(-1, getContext(), null, layout, true);
 
-        imageButtons = new ImageButton[numNeighbours];
-        for (int i = 0; i < numNeighbours; i++) {
+        imageButtons = new ImageButton[mapParams.numNeighbours];
+        for (int i = 0; i < mapParams.numNeighbours; i++) {
             imageButtons[i] = UtilsTask.addImageCue(i, getContext(), buttonClickListener, layout, true);
         }
-        neighbours = new int[numNeighbours];
-        transitionMatrix = MatrixMaths.generateTransitionMatrix(y_size, y_size, torus);
-        num_stimulus = imageList.length;
+        neighbours = new int[mapParams.numNeighbours];
+        transitionMatrix = MatrixMaths.generateTransitionMatrix(mapParams.y_size, mapParams.y_size, mapParams.torus);
+        num_stimulus = mapParams.imageList.length;
 
 
         textView = (TextView)getView().findViewById(R.id.textView2);
@@ -313,7 +277,7 @@ public class TaskDiscreteMaze extends Fragment {
         //Fade out buttons that weren't chosen
         textView.setText("Feedback");
 
-        for (int i = 0; i < numNeighbours; i++) {
+        for (int i = 0; i < mapParams.numNeighbours; i++) {
             if (i != chosenOne) {
                 imageButtons[i].animate().alpha(0).setDuration(animationDuration);
             }
@@ -355,7 +319,7 @@ public class TaskDiscreteMaze extends Fragment {
     private void fadeButtons(final int chosenOne) {
         //Fade out currLoc as newLoc moves into currLoc pos
         ibCurrLoc.animate().alpha(0).setDuration(animationDuration);
-        for (int i = 0; i < numNeighbours; i++) {
+        for (int i = 0; i < mapParams.numNeighbours; i++) {
             if (i != chosenOne) {
                 imageButtons[i].animate().alpha(0).setDuration(animationDuration);
             }
@@ -365,7 +329,7 @@ public class TaskDiscreteMaze extends Fragment {
         h2.postDelayed(new Runnable() {
             @Override
             public void run() {
-                ibCurrLoc.setImageResource(imageList[currentPos]);
+                ibCurrLoc.setImageResource(mapParams.imageList[currentPos]);
                 ibCurrLoc.animate().alpha(1).setDuration(1);
                 ibCurrLoc.setEnabled(true);
                 ibCurrLoc.setVisibility(View.VISIBLE);
@@ -384,7 +348,7 @@ public class TaskDiscreteMaze extends Fragment {
                 randomiseImageLocation();
                 toggleDelayCue(true);
                 setChoiceButtonsClickable(true);
-                for (int i = 0; i < numNeighbours; i++) {
+                for (int i = 0; i < mapParams.numNeighbours; i++) {
                     imageButtons[i].animate().alpha(1).setDuration(animationDuration);
                 }
             }
@@ -434,14 +398,14 @@ public class TaskDiscreteMaze extends Fragment {
                     neighbours[j] = i;
                     imageButtons[j].setEnabled(true);
                     imageButtons[j].setVisibility(View.VISIBLE);
-                    imageButtons[j].setImageResource(imageList[i]);
+                    imageButtons[j].setImageResource(mapParams.imageList[i]);
                     j++;
                 }
             }
         }
 
         //If on edge of maze set remaining neighbours to inactive
-        while(j < numNeighbours) {
+        while(j < mapParams.numNeighbours) {
             neighbours[j] = -1;
             imageButtons[j].setEnabled(false);
             imageButtons[j].setVisibility(View.INVISIBLE);
@@ -452,7 +416,7 @@ public class TaskDiscreteMaze extends Fragment {
 
 
     private void switchOffChoiceButtons() {
-        for(int i = 0; i < numNeighbours; i++) {
+        for(int i = 0; i < mapParams.numNeighbours; i++) {
             toggleButton(imageButtons[i], false);
         }
     }
@@ -479,7 +443,7 @@ public class TaskDiscreteMaze extends Fragment {
 
             currentPos = prev_start;
             currentDistanceFromTarget = distanceFromTarget(currentPos);
-            ibCurrLoc.setImageResource(imageList[currentPos]);
+            ibCurrLoc.setImageResource(mapParams.imageList[currentPos]);
         }
         start_dist = currentDistanceFromTarget;
         start_pos = currentPos;
@@ -490,11 +454,11 @@ public class TaskDiscreteMaze extends Fragment {
     private void randomiseCurrentPos() {
         currentPos = r.nextInt(num_stimulus);
         currentDistanceFromTarget = distanceFromTarget(currentPos);
-        ibCurrLoc.setImageResource(imageList[currentPos]);
+        ibCurrLoc.setImageResource(mapParams.imageList[currentPos]);
     }
 
     private void resetButtonPositionsAndBorders() {
-        for (int i = 0; i < numNeighbours; i++) {
+        for (int i = 0; i < mapParams.numNeighbours; i++) {
             imageButtons[i].animate().alpha(0).setDuration(1);
         }
         ibCurrLoc.setBackground(ContextCompat.getDrawable(mContext, R.drawable.outline));
@@ -509,7 +473,7 @@ public class TaskDiscreteMaze extends Fragment {
         } else {
             target_pos = prev_target;
         }
-        ibTarget.setImageResource(imageList[target_pos]);
+        ibTarget.setImageResource(mapParams.imageList[target_pos]);
     }
 
     private void setMaxProgress() {
@@ -526,7 +490,7 @@ public class TaskDiscreteMaze extends Fragment {
         int[] chosen = {0, 0, 0, 0, 0, 0, 0, 0,};
         int bound = 2;
         int choice = r.nextInt(bound);
-        for (int i = 0; i < numNeighbours; i++) {
+        for (int i = 0; i < mapParams.numNeighbours; i++) {
             while (chosen[choice] == 1) {
                 choice = r.nextInt(bound);
             }
@@ -540,7 +504,7 @@ public class TaskDiscreteMaze extends Fragment {
     }
 
     private void setChoiceButtonsClickable(boolean status) {
-        for(int i = 0; i < numNeighbours; i++) {
+        for(int i = 0; i < mapParams.numNeighbours; i++) {
             imageButtons[i].setClickable(status);
         }
     }

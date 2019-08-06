@@ -34,6 +34,7 @@
     <integer name="default_objdisc_num_incorr_shown">2</integer>
     <integer name="default_objdisc_num_steps">2</integer>
 
+    <integer name="default_dm_map">1</integer>
     <integer name="default_dm_min_start_distance">2</integer>
     <integer name="default_dm_max_start_distance">3</integer>
 

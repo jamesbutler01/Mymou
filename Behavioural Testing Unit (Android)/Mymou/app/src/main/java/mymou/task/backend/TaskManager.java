@@ -120,7 +120,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         initialiseLogHandler();
 
         //only lock if we aren't in testing mode
-        if (!MainMenu.testingMode) {
+        if (!preferencesManager.debug) {
             this.startLockTask();
         }
 
@@ -579,7 +579,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // Allow user to exit task if testing mode is enabled
-        if (MainMenu.testingMode) {
+        if (preferencesManager.debug) {
             super.onBackPressed();
         }
         return false;

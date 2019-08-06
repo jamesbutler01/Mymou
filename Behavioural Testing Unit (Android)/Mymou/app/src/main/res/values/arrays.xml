@@ -38,5 +38,14 @@
         <item>15</item>
     </string-array>
 
+    <string-array name="mapvalues">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="mapnames">
+        <item>2D Map #1 (4x4)</item>
+        <item>Linear Map #1 (1x10)</item>
+    </string-array>
 
 </resources>

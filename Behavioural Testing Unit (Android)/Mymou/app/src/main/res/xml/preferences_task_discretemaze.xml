@@ -5,17 +5,24 @@
     <PreferenceCategory
         app:key="task_settings"
         app:title="Task settings">
-            <SeekBarPreference
+
+        <ListPreference
+        app:key="@string/preftag_dm_map"
+        app:title="Select map"
+        android:entries="@array/mapnames"
+        android:entryValues="@array/mapvalues"
+        android:defaultValue="@integer/default_dm_map"/>
+
+
+        <SeekBarPreference
             app:key="@string/preftag_dm_min_start_distance"
             app:title="Minimum starting distance from target (inclusive)"
-            android:defaultValue="@integer/default_dm_min_start_distance"
-            android:summary="If you wish to select more, then select more cues colours in the above options"/>
+            android:defaultValue="@integer/default_dm_min_start_distance"/>
 
             <SeekBarPreference
             app:key="@string/preftag_dm_max_start_distance"
             app:title="Maximum starting distance from target (inclusive)"
-            android:defaultValue="@integer/default_dm_max_start_distance"
-            android:summary="If you wish to select more, then select more cues colours in the above options"/>
+            android:defaultValue="@integer/default_dm_max_start_distance"/>
 
             <SwitchPreferenceCompat
             app:key="@string/preftag_dm_repeat_error"

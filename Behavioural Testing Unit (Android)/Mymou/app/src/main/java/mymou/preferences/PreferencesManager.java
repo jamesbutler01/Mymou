@@ -152,14 +152,15 @@ public class PreferencesManager {
     }
 
     public boolean dm_repeatOnError;
-    public int dm_min_start_distance, dm_max_start_distance, dm_max_dist_in_map;
+    public int dm_min_start_distance, dm_max_start_distance, dm_max_dist_in_map, dm_map_selected, dm_num_maps;
 
     public void DiscreteMaze() {
         dm_repeatOnError = true;
+        dm_map_selected = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_dm_map), Integer.toString(r.getInteger(R.integer.default_dm_map))));
         dm_min_start_distance = sharedPrefs.getInt(r.getString(R.string.preftag_dm_min_start_distance), r.getInteger(R.integer.default_dm_min_start_distance));
         dm_max_start_distance = sharedPrefs.getInt(r.getString(R.string.preftag_dm_max_start_distance), r.getInteger(R.integer.default_dm_max_start_distance));
         dm_max_dist_in_map = 6;
-
+        dm_num_maps = 2;
     }
     
 }
