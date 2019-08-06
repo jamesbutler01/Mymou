@@ -18,12 +18,11 @@ import mymou.task.backend.UtilsTask;
 
 // A basic object discrimination task showcasing the main features of the Mymou system:
 
-public class TaskObjectDiscrim extends Fragment {
+public class TaskObjectDiscrim extends Task {
 
     // Debug
     public static String TAG = "MyMouObjDiscrim";
 
-    private static int current_monkey = -1;
     private static int num_steps = 0;
     private static int rew_scalar = 1;
     private static PreferencesManager prefManager;
@@ -67,9 +66,6 @@ public class TaskObjectDiscrim extends Fragment {
 
         // Check to see if we should reload the previous trial's cues
         if (!prefManager.objectdiscrim_repeatOnError | !prefManager.objectdiscrim_previous_error) {
-            Log.d(TAG, "Picking new cue colours");
-            Log.d(TAG, "Picking new cue colours"+prefManager.objectdiscrim_num_corr_shown+" "+prefManager.objectdiscrim_num_corr_options);
-            Log.d(TAG, "Picking new cue colours"+prefManager.objectdiscrim_num_incorr_shown+" "+prefManager.objectdiscrim_num_incorr_options);
             random_cols_corr = MatrixMaths.randomNoRepeat(prefManager.objectdiscrim_num_corr_shown, prefManager.objectdiscrim_num_corr_options);
             random_cols_incorr = MatrixMaths.randomNoRepeat(prefManager.objectdiscrim_num_incorr_shown, prefManager.objectdiscrim_num_incorr_options);
         } else {
@@ -135,9 +131,9 @@ public class TaskObjectDiscrim extends Fragment {
     private void saveTrialParams(boolean successfulTrial) {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
         SharedPreferences.Editor editor = settings.edit();
-        editor.putBoolean("two_previous_error", successfulTrial);
-        editor.putString("two_prev_cols_corr", UtilsSystem.convertIntArrayToString(random_cols_corr));
-        editor.putString("two_prev_cols_incorr", UtilsSystem.convertIntArrayToString(random_cols_incorr));
+        editor.putBoolean(getString(R.string.preftag_od_previous_error), successfulTrial);
+        editor.putString(getString(R.string.preftag_od_prev_cols_corr), UtilsSystem.convertIntArrayToString(random_cols_corr));
+        editor.putString(getString(R.string.preftag_od_prev_cols_incorr), UtilsSystem.convertIntArrayToString(random_cols_incorr));
         editor.commit();
     }
 

@@ -32,7 +32,7 @@ import java.util.Random;
 // The task used in Butler & Kennerley (2018)
 // Used to teach a 4x4 discrete world
 
-public class TaskDiscreteMaze extends Fragment {
+public class TaskDiscreteMaze extends Task {
 
     private String TAG = "TaskDiscreteMaze";
 
@@ -195,18 +195,18 @@ public class TaskDiscreteMaze extends Fragment {
     private void saveTrialParams(boolean successfulTrial) {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
         SharedPreferences.Editor editor = settings.edit();
-        editor.putBoolean("frompaper_previous_error", successfulTrial);
-        editor.putInt("frompaper_prev_target", target_pos);
-        editor.putInt("frompaper_prev_start", start_pos);
+        editor.putBoolean("dm_previous_error", successfulTrial);
+        editor.putInt("dm_prev_target", target_pos);
+        editor.putInt("dm_prev_start", start_pos);
         editor.commit();
     }
 
     // Load previous trial params
     private void loadTrialParams() {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-        prev_trial_correct = settings.getBoolean("frompaper_previous_error", true);
-        prev_target = settings.getInt("frompaper_prev_target", -1);
-        prev_start = settings.getInt("frompaper_prev_start", -1);
+        prev_trial_correct = settings.getBoolean("dm_previous_error", true);
+        prev_target = settings.getInt("dm_prev_target", -1);
+        prev_start = settings.getInt("dm_prev_start", -1);
     }
 
 

@@ -134,9 +134,9 @@ public class PreferencesManager {
         objectdiscrim_incorr_colours = Arrays.copyOf(objectdiscrim_incorr_colours, objectdiscrim_num_incorr_options);
 
         // Previous trial information
-        objectdiscrim_previous_error = sharedPrefs.getBoolean(r.getString(R.string.od_previous_error), r.getBoolean(R.bool.default_objdisc_previouserror));
-        objectdiscrim_prev_cols_corr = UtilsSystem.loadIntArray(r.getString(R.string.od_prev_cols_corr), sharedPrefs, mContext);
-        objectdiscrim_prev_cols_incorr = UtilsSystem.loadIntArray(r.getString(R.string.od_prev_cols_incorr), sharedPrefs, mContext);
+        objectdiscrim_previous_error = sharedPrefs.getBoolean(r.getString(R.string.preftag_od_previous_error), r.getBoolean(R.bool.default_objdisc_previouserror));
+        objectdiscrim_prev_cols_corr = UtilsSystem.loadIntArray(r.getString(R.string.preftag_od_prev_cols_corr), sharedPrefs, mContext);
+        objectdiscrim_prev_cols_incorr = UtilsSystem.loadIntArray(r.getString(R.string.preftag_od_prev_cols_incorr), sharedPrefs, mContext);
 
         // Check settings are valid
         objectdiscrim_errormessage = "You've selected ";

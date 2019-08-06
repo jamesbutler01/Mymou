@@ -84,14 +84,14 @@
     <string name="preftag_od_num_steps">od_num_steps</string>
     <string name="preftag_od_repeat_error">od_repeat_on_error</string>
 
+    <string name="preftag_od_previous_error">od_previous_error</string>
+    <string name="preftag_od_prev_cols_corr">od_prev_cols_corr</string>
+    <string name="preftag_od_prev_cols_incorr">od_prev_cols_incorr</string>
+
     <string name="preftag_dm_map">preftag_dm_map_chosen</string>
     <string name="preftag_dm_min_start_distance">dm_min_start</string>
     <string name="preftag_dm_max_start_distance">dm_max_start</string>
     <string name="preftag_dm_repeat_error">dm_repeat_on_error</string>
-
-    <string name="od_previous_error">od_previous_error</string>
-    <string name="od_prev_cols_corr">od_prev_cols_corr</string>
-    <string name="od_prev_cols_incorr">od_prev_cols_incorr</string>
 
     <string-array name="error_messages">
         <item>Bluetooth couldn\'t connect to reward system (to run task without reward system, disable the reward system option in system settings)\n</item>

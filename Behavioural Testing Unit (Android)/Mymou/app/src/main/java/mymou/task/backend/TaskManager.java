@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.TextView;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -20,6 +21,7 @@ import androidx.preference.PreferenceManager;
 import mymou.*;
 import mymou.Utils.*;
 import mymou.preferences.PreferencesManager;
+import mymou.task.individual_tasks.Task;
 import mymou.task.individual_tasks.TaskDiscreteMaze;
 import mymou.task.individual_tasks.TaskExample;
 import mymou.task.individual_tasks.TaskObjectDiscrim;
@@ -213,53 +215,18 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
         boolean valid_configuration = true;
 
+        Task task = null;
         Bundle bundle = new Bundle();
         bundle.putInt("currMonk", monkId);
         switch(taskId) {
             case 0:
-                 TaskExample fragment0 = new TaskExample();
-                fragment0.setFragInterfaceListener(new TaskInterface() {
-                    @Override
-                    public void resetTimer_() {resetTimer();}
-
-                    @Override
-                    public void trialEnded_(String outcome, double rew_scalar) {trialEnded(outcome, rew_scalar);}
-
-                    @Override
-                    public void logEvent_(String outcome) {logEvent(outcome);}
-                });
-                fragment0.setArguments(bundle);
-                fragmentTransaction.add(R.id.task_container, fragment0, TAG_FRAGMENT);
+                 task = new TaskExample();
                 break;
             case 1:
-                TaskDiscreteMaze fragment1 = new TaskDiscreteMaze();
-                fragment1.setFragInterfaceListener(new TaskInterface() {
-                    @Override
-                    public void resetTimer_() {resetTimer();}
-
-                    @Override
-                    public void trialEnded_(String outcome, double rew_scalar) {trialEnded(outcome, rew_scalar);}
-
-                    @Override
-                    public void logEvent_(String outcome) {logEvent(outcome);}
-                });
-                fragment1.setArguments(bundle);
-                fragmentTransaction.add(R.id.task_container, fragment1, TAG_FRAGMENT);
+                task = new TaskDiscreteMaze();
                 break;
             case 2:
-                TaskObjectDiscrim fragment2 = new TaskObjectDiscrim();
-                fragment2.setFragInterfaceListener(new TaskInterface() {
-                    @Override
-                    public void resetTimer_() {resetTimer();}
-
-                    @Override
-                    public void trialEnded_(String outcome, double rew_scalar) {trialEnded(outcome, rew_scalar);}
-
-                    @Override
-                    public void logEvent_(String outcome) {logEvent(outcome);}
-                });
-                fragment2.setArguments(bundle);
-                fragmentTransaction.add(R.id.task_container, fragment2, TAG_FRAGMENT);
+                task = new TaskObjectDiscrim();
 
                 // Check settings correct
                 preferencesManager.ObjectDiscrimination();
@@ -269,6 +236,20 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             default:
                 new Exception("No valid task specified");
         }
+
+        task.setFragInterfaceListener(new TaskInterface() {
+                @Override
+                public void resetTimer_() {resetTimer();}
+
+                @Override
+                public void trialEnded_(String outcome, double rew_scalar) {trialEnded(outcome, rew_scalar);}
+
+                @Override
+                public void logEvent_(String outcome) {logEvent(outcome);}
+            });
+            task.setArguments(bundle);
+            fragmentTransaction.add(R.id.task_container, task, TAG_FRAGMENT);
+
 
         if (!valid_configuration) {
              tvErrors.setText(preferencesManager.base_error_message + preferencesManager.objectdiscrim_errormessage);
@@ -281,18 +262,75 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     }
 
+//
+//    Bundle bundle = new Bundle();
+//        bundle.putInt("currMonk", monkId);
+//        switch(taskId) {
+//        case 0:
+//            TaskExample fragment0 = new TaskExample();
+//            fragment0.setFragInterfaceListener(new TaskInterface() {
+//                @Override
+//                public void resetTimer_() {resetTimer();}
+//
+//                @Override
+//                public void trialEnded_(String outcome, double rew_scalar) {trialEnded(outcome, rew_scalar);}
+//
+//                @Override
+//                public void logEvent_(String outcome) {logEvent(outcome);}
+//            });
+//            fragment0.setArguments(bundle);
+//            fragmentTransaction.add(R.id.task_container, fragment0, TAG_FRAGMENT);
+//            break;
+//        case 1:
+//            TaskDiscreteMaze fragment1 = new TaskDiscreteMaze();
+//            fragment1.setFragInterfaceListener(new TaskInterface() {
+//                @Override
+//                public void resetTimer_() {resetTimer();}
+//
+//                @Override
+//                public void trialEnded_(String outcome, double rew_scalar) {trialEnded(outcome, rew_scalar);}
+//
+//                @Override
+//                public void logEvent_(String outcome) {logEvent(outcome);}
+//            });
+//            fragment1.setArguments(bundle);
+//            fragmentTransaction.add(R.id.task_container, fragment1, TAG_FRAGMENT);
+//            break;
+//        case 2:
+//            TaskObjectDiscrim fragment2 = new TaskObjectDiscrim();
+//            fragment2.setFragInterfaceListener(new TaskInterface() {
+//                @Override
+//                public void resetTimer_() {resetTimer();}
+//
+//                @Override
+//                public void trialEnded_(String outcome, double rew_scalar) {trialEnded(outcome, rew_scalar);}
+//
+//                @Override
+//                public void logEvent_(String outcome) {logEvent(outcome);}
+//            });
+//            fragment2.setArguments(bundle);
+//            fragmentTransaction.add(R.id.task_container, fragment2, TAG_FRAGMENT);
+//
+//            // Check settings correct
+//            preferencesManager.ObjectDiscrimination();
+//            valid_configuration = preferencesManager.objectdiscrim_valid_config;
+//
+//            break;
+//        default:
+//            new Exception("No valid task specified");
+//    }
 
 //    // For some reason this wont work, so have to type it out each time above for each task
-//   private static TaskInterface taskInterface = new TaskInterface()  {
-//            @Override
-//            public void resetTimer_() {resetTimer();}
-//
-//            @Override
-//            public void trialEnded_(String outcome) {trialEnded(outcome);}
-//
-//            @Override
-//            public void logEvent_(String outcome) {logEvent(outcome);}
-//        };
+   private static TaskInterface taskInterface = new TaskInterface()  {
+            @Override
+            public void resetTimer_() {resetTimer();}
+
+            @Override
+            public void trialEnded_(String outcome, double rew_scalar) {trialEnded(outcome, rew_scalar);}
+
+            @Override
+            public void logEvent_(String outcome) {logEvent(outcome);}
+        };
 
     // Automatically restart static fragmentTransaction so it is always available to use
     private static void commitFragment() {
