@@ -14,12 +14,12 @@
         android:defaultValue="@integer/default_dm_map"/>
 
 
-        <SeekBarPreference
+        <mymou.preferences.SeekBarPreferenceCustom
             app:key="@string/preftag_dm_min_start_distance"
             app:title="Minimum starting distance from target (inclusive)"
             android:defaultValue="@integer/default_dm_min_start_distance"/>
 
-            <SeekBarPreference
+            <mymou.preferences.SeekBarPreferenceCustom
             app:key="@string/preftag_dm_max_start_distance"
             app:title="Maximum starting distance from target (inclusive)"
             android:defaultValue="@integer/default_dm_max_start_distance"/>

@@ -23,19 +23,19 @@
     <PreferenceCategory
         app:key="task_settings"
         app:title="Task settings">
-            <SeekBarPreference
+            <mymou.preferences.SeekBarPreferenceCustom
             app:key="@string/preftag_od_num_corr_cues"
             app:title="Number of correct cues on screen each trial"
             android:defaultValue="@integer/default_objdisc_num_corr_shown"
             android:summary="If you wish to select more, then select more cues colours in the above options"/>
 
-            <SeekBarPreference
+            <mymou.preferences.SeekBarPreferenceCustom
             app:key="@string/preftag_od_num_incorr_cues"
             app:title="Number of incorrect cues on screen each trial"
             android:defaultValue="@integer/default_objdisc_num_incorr_shown"
             android:summary="If you wish to select more, then select more cues colours in the above options"/>
 
-            <SeekBarPreference
+            <mymou.preferences.SeekBarPreferenceCustom
             app:key="@string/preftag_od_num_steps"
             app:title="Number of correct choices per trial"
             android:defaultValue="@integer/default_objdisc_num_steps"

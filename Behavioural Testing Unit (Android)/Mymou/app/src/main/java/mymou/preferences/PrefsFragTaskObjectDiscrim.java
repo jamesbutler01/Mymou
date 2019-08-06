@@ -19,15 +19,15 @@ public class PrefsFragTaskObjectDiscrim extends PreferenceFragmentCompat  {
         PreferencesManager preferencesManager = new PreferencesManager(getContext());
         preferencesManager.ObjectDiscrimination();
 
-        SeekBarPreference seekBar = (SeekBarPreference) findPreference(getString(R.string.preftag_od_num_corr_cues));
+        SeekBarPreferenceCustom seekBar = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_od_num_corr_cues));
         seekBar.setMin(1);
         seekBar.setMax(preferencesManager.objectdiscrim_num_incorr_options);
 
-        SeekBarPreference seekBar2 = (SeekBarPreference) findPreference(getString(R.string.preftag_od_num_incorr_cues));
+        SeekBarPreferenceCustom seekBar2 = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_od_num_incorr_cues));
         seekBar2.setMin(1);
         seekBar2.setMax(preferencesManager.objectdiscrim_num_corr_options);
 
-        SeekBarPreference seekBar3 = (SeekBarPreference) findPreference(getString(R.string.preftag_od_num_steps));
+        SeekBarPreferenceCustom seekBar3 = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_od_num_steps));
         seekBar3.setMin(1);
         seekBar3.setMax(10);
 

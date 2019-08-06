@@ -42,7 +42,7 @@ public class PrefsFragSystem extends PreferenceFragmentCompat implements SharedP
         Log.d(TAG, "oncreateview");
 
         // Number input dialog for reward duration preference
-        SeekBarPreference rewardDuration = (SeekBarPreference) findPreference(getString(R.string.preftag_rewardduration));
+        SeekBarPreferenceCustom rewardDuration = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_rewardduration));
         rewardDuration.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -75,7 +75,7 @@ public class PrefsFragSystem extends PreferenceFragmentCompat implements SharedP
             }
         });
 
-        SeekBarPreference sb_rewardchan= (SeekBarPreference) findPreference(getString(R.string.preftag_num_rew_chans));
+        SeekBarPreferenceCustom sb_rewardchan= (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_num_rew_chans));
         sb_rewardchan.setMin(1);
 
         // Set onchange listener

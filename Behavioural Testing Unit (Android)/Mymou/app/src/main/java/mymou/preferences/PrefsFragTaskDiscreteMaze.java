@@ -19,11 +19,11 @@ public class PrefsFragTaskDiscreteMaze extends PreferenceFragmentCompat  {
         PreferencesManager preferencesManager = new PreferencesManager(getContext());
         preferencesManager.DiscreteMaze();
 
-        SeekBarPreference seekBar1 = (SeekBarPreference) findPreference(getString(R.string.preftag_dm_min_start_distance));
+        SeekBarPreferenceCustom seekBar1 = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_dm_min_start_distance));
         seekBar1.setMin(1);
         seekBar1.setMax(preferencesManager.dm_max_dist_in_map);
 
-        SeekBarPreference seekBar2 = (SeekBarPreference) findPreference(getString(R.string.preftag_dm_max_start_distance));
+        SeekBarPreferenceCustom seekBar2 = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_dm_max_start_distance));
         seekBar2.setMin(1);
         seekBar2.setMax(preferencesManager.dm_max_dist_in_map);
 
