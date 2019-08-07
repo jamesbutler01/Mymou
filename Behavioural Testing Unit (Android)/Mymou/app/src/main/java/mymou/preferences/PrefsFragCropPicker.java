@@ -101,7 +101,7 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
         view.findViewById(R.id.butt_exitcroppicker).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.d(TAG, "Exit button pressed");
-                getFragmentManager().popBackStack();
+                getActivity().finish();
             }
         });
 
@@ -120,7 +120,7 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
 
     }
 
-    private static int SELECT_PICTURE = 30;
+    private static int SELECT_PICTURE = 111;
 
     void openImageChooser() {
         Intent intent = new Intent();

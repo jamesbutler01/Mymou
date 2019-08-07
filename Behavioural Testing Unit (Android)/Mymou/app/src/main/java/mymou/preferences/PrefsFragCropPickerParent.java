@@ -28,7 +28,6 @@ public class PrefsFragCropPickerParent extends FragmentActivity {
         setContentView(R.layout.activity_crop_picker);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
-
         // Load camera fragment
         Bundle bundle = new Bundle();
         bundle.putBoolean("crop_picker", true);

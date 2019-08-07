@@ -75,6 +75,7 @@ public class TaskDiscreteMaze extends Task {
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         Log.d(TAG, "Task started..");
+
         // Load settings
         preferencesManager = new PreferencesManager(getContext());
         preferencesManager.DiscreteMaze();
@@ -488,7 +489,7 @@ public class TaskDiscreteMaze extends Task {
 
     private void randomiseImageLocation() {
         int[] chosen = {0, 0, 0, 0, 0, 0, 0, 0,};
-        int bound = 2;
+        int bound = mapParams.numNeighbours;
         int choice = r.nextInt(bound);
         for (int i = 0; i < mapParams.numNeighbours; i++) {
             while (chosen[choice] == 1) {

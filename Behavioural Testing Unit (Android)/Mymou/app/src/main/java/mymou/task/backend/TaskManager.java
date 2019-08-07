@@ -884,20 +884,25 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     // Recursive function to track task time
     private static void trial_timer() {
+        Log.d(TAG, "trial_timer "+time);
+
         time += 1000;
 
         h0.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (time > preferencesManager.responseduration) {
+
                     time = 0;
                     timerRunning = false;
 
                     idleTimeout();
 
                 } else {
+
                     trial_timer();
                     timerRunning = true;
+
                 }
             }
         }, 1000);
