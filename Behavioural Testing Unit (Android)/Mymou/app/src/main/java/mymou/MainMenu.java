@@ -154,6 +154,7 @@ public class MainMenu extends Activity {
         findViewById(R.id.buttonStart).setOnClickListener(buttonClickListener);
         findViewById(R.id.buttonSettings).setOnClickListener(buttonClickListener);
         findViewById(R.id.buttonTaskSettings).setOnClickListener(buttonClickListener);
+        findViewById(R.id.buttonViewData).setOnClickListener(buttonClickListener);
 
         // Radio groups (reward system controller)
         reward_chan = preferencesManager.default_rew_chan;
@@ -238,6 +239,10 @@ public class MainMenu extends Activity {
                         intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_obj_disc_settings));
                     }
                         startActivity(intent2);
+                    break;
+                case R.id.buttonViewData:
+                    Intent intent3 = new Intent(context, PrefsActSystem.class);
+                    startActivity(intent3);
                     break;
             }
         }
