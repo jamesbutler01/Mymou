@@ -94,7 +94,9 @@
     <string name="preftag_dm_repeat_error">dm_repeat_on_error</string>
 
     <string-array name="error_messages">
-        <item>Bluetooth couldn\'t connect to reward system (to run task without reward system, disable the reward system option in system settings)\n</item>
+        <item>Bluetooth couldn\'t connect to reward system (to run task without reward system, disable the reward system
+            option in system settings)\n
+        </item>
         <item>Reward system disabled - no reward will be given\n</item>
     </string-array>
 

@@ -3,17 +3,23 @@ package mymou.Utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.helper.StaticLabelsFormatter;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 import mymou.R;
 
 import java.util.StringTokenizer;
 
 public class UtilsSystem {
-   // Debug
+    // Debug
     public static String TAG = "MymouUtilsSystem";
 
     public static void setOnClickListenerLoop(Button[] buttons, View.OnClickListener view) {
@@ -33,9 +39,9 @@ public class UtilsSystem {
     }
 
     public static int[] loadIntArray(String tag, SharedPreferences prefs, Context context) {
-        Log.d(TAG, tag+"  "+getDefaultArr(tag, context));
+        Log.d(TAG, tag + "  " + getDefaultArr(tag, context));
         String savedString = prefs.getString(tag, getDefaultArr(tag, context));
-        Log.d(TAG, "Loaded "+savedString+"from "+tag);
+        Log.d(TAG, "Loaded " + savedString + "from " + tag);
         StringTokenizer st = new StringTokenizer(savedString, ",");
         int n = st.countTokens();
         int[] savedList = new int[n];
@@ -63,13 +69,13 @@ public class UtilsSystem {
     // Calculate the position to put view in the centre of the screen
     public static Point getCropDefaultXandY(Activity activity, int camera_width) {
         int default_y = 200;
-            // Get size of screen for centring views
+        // Get size of screen for centring views
         Display display = activity.getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int screen_width = size.x;
         int default_x = ((screen_width - camera_width) / 2);
-        Point out = new Point (default_x, default_y);
+        Point out = new Point(default_x, default_y);
         return out;
     }
 
@@ -80,8 +86,32 @@ public class UtilsSystem {
         display.getSize(size);
         int screen_width = size.x;
         int margin = 100;
-        int scale = (screen_width - margin*2) / camera_width;
+        int scale = (screen_width - margin * 2) / camera_width;
         return scale;
+    }
+
+    public static void addGraph(GraphView graph, LineGraphSeries<DataPoint> series, String xlab, String ylab, int num_sessions) {
+        graph.addSeries(series);
+
+        GridLabelRenderer glr = graph.getGridLabelRenderer();
+        glr.setTextSize(30);
+        glr.setVerticalAxisTitle(ylab);
+        glr.setHorizontalAxisTitle(xlab);
+        glr.setHorizontalAxisTitleTextSize(35);
+        glr.setVerticalAxisTitleTextSize(35);
+        glr.setPadding(30);
+        series.setColor(Color.WHITE);
+        series.setThickness(5);
+        series.setDataPointsRadius(10);
+        series.setDrawDataPoints(true);
+
+        // X limits
+        double edge_buffer = 0.1;
+        graph.getViewport().setMaxX(num_sessions - 1 + edge_buffer);
+        graph.getViewport().setMinX(-edge_buffer);
+        graph.getViewport().setXAxisBoundsManual(true);
+        glr.setNumHorizontalLabels(num_sessions);
+
     }
 
 

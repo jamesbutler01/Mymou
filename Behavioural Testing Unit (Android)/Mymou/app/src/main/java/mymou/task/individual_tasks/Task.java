@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment;
 import mymou.preferences.PreferencesManager;
 import mymou.task.backend.TaskInterface;
 
-abstract class Task extends Fragment {
+public abstract class Task extends Fragment {
 
-    abstract void setFragInterfaceListener(TaskInterface callback);
+    public abstract void setFragInterfaceListener(TaskInterface callback);
 
     public void endOfTrial(boolean successfulTrial, double rew_scalar, TaskInterface callback) {
         String outcome;

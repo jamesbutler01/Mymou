@@ -13,6 +13,7 @@ import androidx.preference.PreferenceManager;
 import mymou.Utils.PermissionManager;
 import mymou.preferences.PreferencesManager;
 import mymou.preferences.PrefsFragCropPickerParent;
+import mymou.task.backend.DataViewer;
 import mymou.task.backend.RewardSystem;
 import mymou.task.backend.TaskManager;
 import mymou.task.backend.UtilsTask;
@@ -53,7 +54,8 @@ public class MainMenu extends Activity {
         initialiseRewardSystem();
 
         initialiseSpinner();
-
+                    Intent intent3 = new Intent(context, DataViewer.class);
+                    startActivity(intent3);
     }
 
     private void checkPermissions() {
@@ -241,7 +243,7 @@ public class MainMenu extends Activity {
                         startActivity(intent2);
                     break;
                 case R.id.buttonViewData:
-                    Intent intent3 = new Intent(context, PrefsActSystem.class);
+                    Intent intent3 = new Intent(context, DataViewer.class);
                     startActivity(intent3);
                     break;
             }
