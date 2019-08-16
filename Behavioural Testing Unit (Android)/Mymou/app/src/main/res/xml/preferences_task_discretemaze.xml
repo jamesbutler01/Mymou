@@ -1,33 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+                                      xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-        app:key="task_settings"
-        app:title="Task settings">
+            app:key="task_settings"
+            app:title="Task settings">
 
         <ListPreference
-        app:key="@string/preftag_dm_map"
-        app:title="Select map"
-        android:entries="@array/mapnames"
-        android:entryValues="@array/mapvalues"
-        android:defaultValue="@integer/default_dm_map"/>
+                app:key="@string/preftag_dm_map"
+                app:title="Select map"
+                android:entries="@array/mapnames"
+                android:entryValues="@array/mapvalues"
+                android:defaultValue="@integer/default_dm_map"/>
 
 
         <mymou.preferences.SeekBarPreferenceCustom
-            app:key="@string/preftag_dm_min_start_distance"
-            app:title="Minimum starting distance from target (inclusive)"
-            android:defaultValue="@integer/default_dm_min_start_distance"/>
+                app:key="@string/preftag_dm_min_start_distance"
+                app:title="Minimum starting distance from target (inclusive)"
+                android:defaultValue="@integer/default_dm_min_start_distance"/>
 
-            <mymou.preferences.SeekBarPreferenceCustom
-            app:key="@string/preftag_dm_max_start_distance"
-            app:title="Maximum starting distance from target (inclusive)"
-            android:defaultValue="@integer/default_dm_max_start_distance"/>
+        <mymou.preferences.SeekBarPreferenceCustom
+                app:key="@string/preftag_dm_max_start_distance"
+                app:title="Maximum starting distance from target (inclusive)"
+                android:defaultValue="@integer/default_dm_max_start_distance"/>
 
-            <SwitchPreferenceCompat
-            app:key="@string/preftag_dm_repeat_error"
-            app:title="Repeat trial on error"
-            android:summary="If selected, subjects will be given same trial until they get it correct"/>
+        <mymou.preferences.SeekBarPreferenceCustom
+                app:key="@string/preftag_dm_num_extra_steps"
+                app:title="Number of extra steps allowed before timeout"
+                android:defaultValue="@integer/default_dm_num_extra_steps"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                app:key="@string/preftag_dm_choice_delay"
+                app:title="Time (ms) they have to wait before they can make their choice"
+                android:defaultValue="@integer/default_dm_choice_delay"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                app:key="@string/preftag_dm_animation_duration"
+                app:title="Duration (ms) of any animations in the task"
+                android:defaultValue="@integer/default_dm_animation_duration"/>
+
+        <SwitchPreferenceCompat
+                app:key="@string/preftag_dm_repeat_error"
+                app:title="Repeat trial on error"
+                android:summary="If selected, subjects will be given same trial until they get it correct"/>
 
     </PreferenceCategory>
 

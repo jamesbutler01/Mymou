@@ -37,6 +37,9 @@
     <integer name="default_dm_map">1</integer>
     <integer name="default_dm_min_start_distance">2</integer>
     <integer name="default_dm_max_start_distance">3</integer>
+    <integer name="default_dm_num_extra_steps">0</integer>
+    <integer name="default_dm_choice_delay">400</integer>
+    <integer name="default_dm_animation_duration">450</integer>
 
 
 </resources>

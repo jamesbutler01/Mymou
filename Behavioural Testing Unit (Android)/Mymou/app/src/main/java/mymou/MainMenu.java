@@ -54,8 +54,8 @@ public class MainMenu extends Activity {
         initialiseRewardSystem();
 
         initialiseSpinner();
-                    Intent intent3 = new Intent(context, DataViewer.class);
-                    startActivity(intent3);
+//                    Intent intent3 = new Intent(context, DataViewer.class);
+//                    startActivity(intent3);
     }
 
     private void checkPermissions() {

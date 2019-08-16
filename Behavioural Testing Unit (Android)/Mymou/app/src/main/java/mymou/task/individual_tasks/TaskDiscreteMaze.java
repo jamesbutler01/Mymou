@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 import mymou.task.backend.MatrixMaths;
 import mymou.preferences.PreferencesManager;
@@ -43,12 +42,16 @@ public class TaskDiscreteMaze extends Task {
     private boolean prev_trial_correct;
     private int prev_target, prev_start;
 
-    TextView textView;
+    private int current_pos, start_pos, start_dist, target_pos, num_stimulus, currentDistanceFromTarget, num_steps = 0;
+    private boolean choicePeriod = false;
+    private int[] chosenXlocs = {-1, -1, -1, -1};
+    private int[] chosenYlocs = {-1, -1, -1, -1};
 
-    int[][] transitionMatrix;
-    private int yCenter, xCenter, distanceFromCenter;
-    private static double rew_scalar = 1;
+    private TextView textView;
 
+    private int[][] transitionMatrix;
+    private int yCenter, xCenter;
+    private static double rew_scalar;
     private int[] neighbours;
     private int[] xLocs = new int[8];
     private int[] yLocs = new int[8];
@@ -56,15 +59,17 @@ public class TaskDiscreteMaze extends Task {
     private ImageButton ibWait, ibTarget, ibCurrLoc;
     private ImageButton[] imageButtons;
     private ProgressBar pb1;
+    private int pb_scalar = 1000;
+    private int pb_length;
 
-    Handler h0 = new Handler();
-    Handler h1 = new Handler();
-    Handler h2 = new Handler();
-    Handler h3 = new Handler();
-    Handler h4 = new Handler();
-    Handler h5 = new Handler();
-    Handler h6 = new Handler();
-    Handler h7 = new Handler();
+    private Handler h0 = new Handler();
+    private Handler h1 = new Handler();
+    private Handler h2 = new Handler();
+    private Handler h3 = new Handler();
+    private Handler h4 = new Handler();
+    private Handler h5 = new Handler();
+    private Handler h6 = new Handler();
+    private Handler h7 = new Handler();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -89,10 +94,6 @@ public class TaskDiscreteMaze extends Task {
 
         chooseTargetLoc();
         setStartingPosition();
-        setStartingPosition();
-        setStartingPosition();
-        setStartingPosition();
-        setStartingPosition();
 
         setMaxProgress();
 
@@ -107,7 +108,7 @@ public class TaskDiscreteMaze extends Task {
         ibWait.setVisibility(View.INVISIBLE);
 
         // Log starting parameters
-        logStep(5);
+        logStep(Integer.valueOf(preferencesManager.ec_trial_started));
 
         // Finally make task visual
         ibTarget.setEnabled(true);
@@ -146,7 +147,7 @@ public class TaskDiscreteMaze extends Task {
         int screenWidth = size.x;
         xCenter = screenWidth / 2;
         xCenter -= imageWidths / 2;
-        distanceFromCenter = imageWidths + 30;
+        int distanceFromCenter = imageWidths + 30;
         // Y locations
         yCenter = 1200;
         yLocs[0] = yCenter;
@@ -176,21 +177,6 @@ public class TaskDiscreteMaze extends Task {
         ibTarget.setX(xCenter);
         ibWait.setX(screenWidth / 2 - 50 - distanceFromCenter);
     }
-
-    int currentPos = -1;
-    int previousPos = -1;
-    int choiceDelay = 400;
-    boolean choicePeriod = false;
-    int animationDuration = 450;
-    int[] chosenXlocs = {-1, -1, -1, -1};
-    int[] chosenYlocs = {-1, -1, -1, -1};
-    int target_pos;
-    int num_stimulus;
-    int pb_scalar = 1000;
-    int pb_length;
-    int currentDistanceFromTarget;
-    int num_steps = 0;
-    int start_pos, start_dist;
 
         // Save outcome of this trial and the cues used so that it can be repeated if it was unsuccessful
     private void saveTrialParams(boolean successfulTrial) {
@@ -232,22 +218,34 @@ public class TaskDiscreteMaze extends Task {
             updateCurrLoc(chosenOne);
             animateStep(chosenOne);
             fadeButtons(chosenOne);
-            currentDistanceFromTarget = distanceFromTarget(currentPos);
+            currentDistanceFromTarget = distanceFromTarget(current_pos);
             if(previousDistance > currentDistanceFromTarget) { // If right direction
-                updateProgressBar(animationDuration + 400);
-                if (currentPos == target_pos) {
+                updateProgressBar(preferencesManager.dm_animation_duration + 400);
+                if (current_pos == target_pos) {
                     //Reached target
+                    logStep(1);
+
                     arrivedAtTarget(chosenOne);
                 } else {
                     //Right direction
                     logStep(3);
-                    unfadeButtons(animationDuration*2 + 400 + 50);
+                    unfadeButtons(preferencesManager.dm_animation_duration*2 + 400 + 50);
                 }
             } else {
+
                 //Wrong direction
                 logStep(0);
-                updateProgressBar(animationDuration + 400);
-                arrivedAtWrongTarget();
+                updateProgressBar(preferencesManager.dm_animation_duration + 400);
+
+                if (num_steps > start_dist + preferencesManager.dm_num_extra_steps | preferencesManager.dm_num_extra_steps ==0) {
+
+                   arrivedAtWrongTarget();
+
+                } else {
+
+                   unfadeButtons(preferencesManager.dm_animation_duration * 2 + 400 + 50);
+
+                }
             }
         }
     }
@@ -255,7 +253,7 @@ public class TaskDiscreteMaze extends Task {
     private void logStep(int result) {
         String msg =
                 num_steps + "," + result + "," + currentDistanceFromTarget + "," +
-                        target_pos + "," + currentPos + "," + start_pos + "," + start_dist;
+                        target_pos + "," + current_pos + "," + start_pos + "," + start_dist + "," + rew_scalar;
          callback.logEvent_(msg);
     }
 
@@ -271,7 +269,7 @@ public class TaskDiscreteMaze extends Task {
                 ibTarget.setBackground(ContextCompat.getDrawable(mContext, R.drawable.outline_thick));
                 endOfTrial(false);
             }
-        }, (animationDuration));
+        }, (preferencesManager.dm_animation_duration));
     }
 
     private void arrivedAtTarget(int chosenOne) {
@@ -280,7 +278,7 @@ public class TaskDiscreteMaze extends Task {
 
         for (int i = 0; i < mapParams.numNeighbours; i++) {
             if (i != chosenOne) {
-                imageButtons[i].animate().alpha(0).setDuration(animationDuration);
+                imageButtons[i].animate().alpha(0).setDuration(preferencesManager.dm_animation_duration);
             }
         }
         //Highlight the correct two
@@ -293,7 +291,7 @@ public class TaskDiscreteMaze extends Task {
                 ibTarget.setBackground(ContextCompat.getDrawable(mContext, R.drawable.double_border));
                 endOfTrial(true);
             }
-        }, (animationDuration*2 + 400));
+        }, (preferencesManager.dm_animation_duration*2 + 400));
 
     }
 
@@ -304,7 +302,7 @@ public class TaskDiscreteMaze extends Task {
         path.moveTo(chosenXlocs[direction], chosenYlocs[direction]);
         path.lineTo(xCenter, yCenter);
         ObjectAnimator mover = ObjectAnimator.ofFloat(imageButtons[direction], "x", "y", path);
-        mover.setDuration(animationDuration);
+        mover.setDuration(preferencesManager.dm_animation_duration);
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.play(mover);
         animatorSet.start();
@@ -314,15 +312,15 @@ public class TaskDiscreteMaze extends Task {
                 ibCurrLoc.setBackground(ContextCompat.getDrawable(mContext, R.drawable.outline_thick));
                 ibTarget.setBackground(ContextCompat.getDrawable(mContext, R.drawable.outline_thick));
             }
-        }, animationDuration);
+        }, preferencesManager.dm_animation_duration);
     }
 
     private void fadeButtons(final int chosenOne) {
         //Fade out currLoc as newLoc moves into currLoc pos
-        ibCurrLoc.animate().alpha(0).setDuration(animationDuration);
+        ibCurrLoc.animate().alpha(0).setDuration(preferencesManager.dm_animation_duration);
         for (int i = 0; i < mapParams.numNeighbours; i++) {
             if (i != chosenOne) {
-                imageButtons[i].animate().alpha(0).setDuration(animationDuration);
+                imageButtons[i].animate().alpha(0).setDuration(preferencesManager.dm_animation_duration);
             }
         }
 
@@ -330,14 +328,14 @@ public class TaskDiscreteMaze extends Task {
         h2.postDelayed(new Runnable() {
             @Override
             public void run() {
-                ibCurrLoc.setImageResource(mapParams.imageList[currentPos]);
+                ibCurrLoc.setImageResource(mapParams.imageList[current_pos]);
                 ibCurrLoc.animate().alpha(1).setDuration(1);
                 ibCurrLoc.setEnabled(true);
                 ibCurrLoc.setVisibility(View.VISIBLE);
                 imageButtons[chosenOne].animate().alpha(0).setDuration(1);
                 setChoiceButtonsClickable(false);
             }
-        }, animationDuration);
+        }, preferencesManager.dm_animation_duration);
     }
 
     private void unfadeButtons(final int delay) {
@@ -350,7 +348,7 @@ public class TaskDiscreteMaze extends Task {
                 toggleDelayCue(true);
                 setChoiceButtonsClickable(true);
                 for (int i = 0; i < mapParams.numNeighbours; i++) {
-                    imageButtons[i].animate().alpha(1).setDuration(animationDuration);
+                    imageButtons[i].animate().alpha(1).setDuration(preferencesManager.dm_animation_duration);
                 }
             }
         }, delay);
@@ -361,7 +359,7 @@ public class TaskDiscreteMaze extends Task {
                 toggleDelayCue(false);
                 textView.setText("Choice");
             }
-        }, delay + animationDuration + choiceDelay);
+        }, delay + preferencesManager.dm_animation_duration + preferencesManager.dm_choice_delay);
     }
 
 
@@ -379,8 +377,7 @@ public class TaskDiscreteMaze extends Task {
 
 
     private void updateCurrLoc(final int chosenOne) {
-        previousPos = currentPos;
-        currentPos = neighbours[chosenOne];
+        current_pos = neighbours[chosenOne];
     }
 
     private void updateChoiceButtons() {
@@ -388,14 +385,14 @@ public class TaskDiscreteMaze extends Task {
         int distractorCount = 0;
         int j = 0;
         for (int i = 0; i < num_stimulus; i++) {
-            if (transitionMatrix[currentPos][i] == 1) {
+            if (transitionMatrix[current_pos][i] == 1) {
                 // Is it not in correct direction
-                if (transitionMatrix[i][target_pos] >= transitionMatrix[currentPos][target_pos]) {
+                if (transitionMatrix[i][target_pos] >= transitionMatrix[current_pos][target_pos]) {
                     distractorCount += 1;
                 }
 
                 // Only add if it's in correct direction or a distracter fewer than specified amount
-                if (transitionMatrix[i][target_pos] < transitionMatrix[currentPos][target_pos] | distractorCount < numDistractors+1) {
+                if (transitionMatrix[i][target_pos] < transitionMatrix[current_pos][target_pos] | distractorCount < numDistractors+1) {
                     neighbours[j] = i;
                     imageButtons[j].setEnabled(true);
                     imageButtons[j].setVisibility(View.VISIBLE);
@@ -436,26 +433,29 @@ public class TaskDiscreteMaze extends Task {
         if (prev_trial_correct) {
             // Randomly pick locations until we find one a correct distance away
             randomiseCurrentPos();
-            while (distanceFromTarget(currentPos) < preferencesManager.dm_min_start_distance | distanceFromTarget(currentPos) > preferencesManager.dm_max_start_distance) {
+            while (distanceFromTarget(current_pos) < preferencesManager.dm_min_start_distance | distanceFromTarget(current_pos) > preferencesManager.dm_max_start_distance) {
                 randomiseCurrentPos();
             }
 
         } else {
 
-            currentPos = prev_start;
-            currentDistanceFromTarget = distanceFromTarget(currentPos);
-            ibCurrLoc.setImageResource(mapParams.imageList[currentPos]);
+            current_pos = prev_start;
+            currentDistanceFromTarget = distanceFromTarget(current_pos);
+            ibCurrLoc.setImageResource(mapParams.imageList[current_pos]);
         }
+
         start_dist = currentDistanceFromTarget;
-        start_pos = currentPos;
-        rew_scalar = 1 + ((distanceFromTarget(currentPos) - preferencesManager.dm_min_start_distance) * 0.5);  // Scale reward by difficulty
+        start_pos = current_pos;
+        rew_scalar = 1 + ((distanceFromTarget(current_pos) - preferencesManager.dm_min_start_distance) * 0.5);  // Scale reward by difficulty
+
         updateChoiceButtons();
+
     }
 
     private void randomiseCurrentPos() {
-        currentPos = r.nextInt(num_stimulus);
-        currentDistanceFromTarget = distanceFromTarget(currentPos);
-        ibCurrLoc.setImageResource(mapParams.imageList[currentPos]);
+        current_pos = r.nextInt(num_stimulus);
+        currentDistanceFromTarget = distanceFromTarget(current_pos);
+        ibCurrLoc.setImageResource(mapParams.imageList[current_pos]);
     }
 
     private void resetButtonPositionsAndBorders() {
@@ -478,7 +478,7 @@ public class TaskDiscreteMaze extends Task {
     }
 
     private void setMaxProgress() {
-        pb_length = preferencesManager.dm_max_start_distance + 1;
+        pb_length = num_stimulus;
         pb1.setMax(pb_length * pb_scalar);
         pb1.setProgress(pb_scalar);
     }
@@ -516,7 +516,7 @@ public class TaskDiscreteMaze extends Task {
             @Override
             public void run() {
                 ProgressBarAnimation anim = new ProgressBarAnimation(pb1, pb1.getProgress(), (pb_length - currentDistanceFromTarget) * pb_scalar);
-                anim.setDuration(animationDuration);
+                anim.setDuration(preferencesManager.dm_animation_duration);
                 pb1.startAnimation(anim);
             }
         }, delay);

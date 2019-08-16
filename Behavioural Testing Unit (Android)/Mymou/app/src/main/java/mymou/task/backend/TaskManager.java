@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.TextView;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -209,7 +208,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
 
     public static void startTrial(int monkId) {
-        logEvent("Trial started for monkey " + monkId);
 
         if (!task_enabled) { return; }  // Abort if task currently disabled
 
@@ -261,76 +259,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         }
 
     }
-
-//
-//    Bundle bundle = new Bundle();
-//        bundle.putInt("currMonk", monkId);
-//        switch(taskId) {
-//        case 0:
-//            TaskExample fragment0 = new TaskExample();
-//            fragment0.setFragInterfaceListener(new TaskInterface() {
-//                @Override
-//                public void resetTimer_() {resetTimer();}
-//
-//                @Override
-//                public void trialEnded_(String outcome, double rew_scalar) {trialEnded(outcome, rew_scalar);}
-//
-//                @Override
-//                public void logEvent_(String outcome) {logEvent(outcome);}
-//            });
-//            fragment0.setArguments(bundle);
-//            fragmentTransaction.add(R.id.task_container, fragment0, TAG_FRAGMENT);
-//            break;
-//        case 1:
-//            TaskDiscreteMaze fragment1 = new TaskDiscreteMaze();
-//            fragment1.setFragInterfaceListener(new TaskInterface() {
-//                @Override
-//                public void resetTimer_() {resetTimer();}
-//
-//                @Override
-//                public void trialEnded_(String outcome, double rew_scalar) {trialEnded(outcome, rew_scalar);}
-//
-//                @Override
-//                public void logEvent_(String outcome) {logEvent(outcome);}
-//            });
-//            fragment1.setArguments(bundle);
-//            fragmentTransaction.add(R.id.task_container, fragment1, TAG_FRAGMENT);
-//            break;
-//        case 2:
-//            TaskObjectDiscrim fragment2 = new TaskObjectDiscrim();
-//            fragment2.setFragInterfaceListener(new TaskInterface() {
-//                @Override
-//                public void resetTimer_() {resetTimer();}
-//
-//                @Override
-//                public void trialEnded_(String outcome, double rew_scalar) {trialEnded(outcome, rew_scalar);}
-//
-//                @Override
-//                public void logEvent_(String outcome) {logEvent(outcome);}
-//            });
-//            fragment2.setArguments(bundle);
-//            fragmentTransaction.add(R.id.task_container, fragment2, TAG_FRAGMENT);
-//
-//            // Check settings correct
-//            preferencesManager.ObjectDiscrimination();
-//            valid_configuration = preferencesManager.objectdiscrim_valid_config;
-//
-//            break;
-//        default:
-//            new Exception("No valid task specified");
-//    }
-
-//    // For some reason this wont work, so have to type it out each time above for each task
-   private static TaskInterface taskInterface = new TaskInterface()  {
-            @Override
-            public void resetTimer_() {resetTimer();}
-
-            @Override
-            public void trialEnded_(String outcome, double rew_scalar) {trialEnded(outcome, rew_scalar);}
-
-            @Override
-            public void logEvent_(String outcome) {logEvent(outcome);}
-        };
 
     // Automatically restart static fragmentTransaction so it is always available to use
     private static void commitFragment() {
@@ -409,8 +337,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 String s = trialData.get(i);
                 // Prefix variables that were constant throughout trial (trial result, which monkey, etc)
                 s = taskId + "," + trialCounter + "," + faceRecogPrediction + "," + overallTrialOutcome + "," + s;
-                logHandler.post(new LogEvent(s));
-                Log.d(TAG, "commitTrialData: " + s);
+                logHandler.post(new WriteDataToFile(s));
             }
 
             // Place photo in correct monkey's folder
@@ -535,9 +462,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     public static void logEvent(String data) {
         Log.d(TAG, "logEvent: "+data);
-
-        // Show (human) user on screen what is happening during the task
-        tvExplanation.setText(data);
 
         // Store data for logging at end of trial
         String timestamp = folderManager.getTimestamp();
@@ -727,7 +651,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
                 // If photo successfully taken then do nothing as wait for faceRecog to return prediction
                 // setFaceRecogPrediction will ultimately call resultMonkeyPressedTheirCue
-                logEvent("FaceRecog started..");
+                Log.d(TAG, "Photo taken, waiting for faceRecog..");
 
             } else {
 
@@ -768,7 +692,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     // Wrong Go cue selected so give short timeout
     public static void MonkeyPressedWrongGoCue() {
-        logEvent("Monkey pressed wrong go cue..");
         commitTrialData(preferencesManager.ec_wrong_gocue_pressed);
         // Switch on red background
         activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.timeoutbackground);
@@ -784,8 +707,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     }
 
     private static void trialEnded(String result, double rew_scalar) {
-        logEvent("Trial ended, result = " + result);
-
         // Kill task and task timer
         fragmentTransaction.remove(fragmentManager.findFragmentByTag(TAG_FRAGMENT));
         commitFragment();
@@ -799,13 +720,11 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     }
 
     private static void incorrectTrial(String result) {
-        logEvent("Feedback: Error trial");
         activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.timeoutbackground);
         endOfTrial(result, preferencesManager.timeoutduration);
     }
 
     private static void correctTrial(double rew_scalar) {
-        logEvent("Correct trial: Reward choice");
         activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.rewardbackground);
 
         // If only one reward channel, skip reward selection stage
@@ -824,8 +743,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         double reward_duration_double = preferencesManager.rewardduration * rew_scalar;
         int reward_duration_int = (int) reward_duration_double;
 
-        logEvent("Delivering " + reward_duration_int + "ms reward on channel " + juiceChoice);
-
         rewardSystem.activateChannel(juiceChoice, reward_duration_int);
 
         endOfTrial(preferencesManager.ec_correct_trial, preferencesManager.rewardduration + 500);
@@ -833,7 +750,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
 
     private static void endOfTrial(String outcome, int newTrialDelay) {
-        logEvent("End of trial: Outcome: "+outcome);
         commitTrialData(outcome);
 
         PrepareForNewTrial(newTrialDelay);
@@ -909,7 +825,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     }
 
     private static void idleTimeout() {
-        logEvent("Error stage: Idle timeout");
         disableAllCues();
         activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.timeoutbackground);
 
@@ -917,13 +832,10 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     }
 
     private static void PrepareForNewTrial(int delay) {
-        logEvent("Preparing for new trial in "+delay+" ms");
-
         setBrightness(true);
         h1.postDelayed(new Runnable() {
             @Override
             public void run() {
-                logEvent("Initiation stage");
                 activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.taskbackground);
                 UtilsTask.toggleCues(cues_Go, true);
             }

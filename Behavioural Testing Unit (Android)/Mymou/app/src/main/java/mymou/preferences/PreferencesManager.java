@@ -22,7 +22,7 @@ public class PreferencesManager {
     public static int taskbackground, rewardbackground, timeoutbackground;
     public static int border_colour, border_size, cue_size, cue_spacing;
     public static int num_monkeys;
-    public static String ec_correct_trial, ec_incorrect_trial, ec_trial_timeout, ec_wrong_gocue_pressed;
+    public static String ec_correct_trial, ec_incorrect_trial, ec_trial_timeout, ec_wrong_gocue_pressed, ec_trial_started;
     public static int[] colours_gocues;
 
     private SharedPreferences sharedPrefs;
@@ -86,10 +86,11 @@ public class PreferencesManager {
             }
         }
 
-        ec_correct_trial = sharedPrefs.getString(r.getString(R.string.preftag_eventcode_correct_trial), r.getString(R.string.default_eventcode_correct_trial));
         ec_incorrect_trial = sharedPrefs.getString(r.getString(R.string.preftag_eventcode_error_trial), r.getString(R.string.default_eventcode_error_trial));
+        ec_correct_trial = sharedPrefs.getString(r.getString(R.string.preftag_eventcode_correct_trial), r.getString(R.string.default_eventcode_correct_trial));
         ec_trial_timeout = sharedPrefs.getString(r.getString(R.string.preftag_eventcode_timeout_trial), r.getString(R.string.default_eventcode_timeout_trial));
         ec_wrong_gocue_pressed = sharedPrefs.getString(r.getString(R.string.preftag_eventcode_wrong_gocue), r.getString(R.string.default_eventcode_wrong_gocue));
+        ec_trial_started = sharedPrefs.getString(r.getString(R.string.preftag_eventcode_start_trial), r.getString(R.string.default_eventcode_start_trial));
 
     }
 
@@ -152,13 +153,21 @@ public class PreferencesManager {
     }
 
     public boolean dm_repeatOnError;
-    public int dm_min_start_distance, dm_max_start_distance, dm_max_dist_in_map, dm_map_selected, dm_num_maps;
+    public int dm_min_start_distance, dm_max_start_distance, dm_max_dist_in_map, dm_map_selected, dm_num_maps, dm_num_extra_steps;
+    public int dm_choice_delay, dm_animation_duration;
 
     public void DiscreteMaze() {
         dm_repeatOnError = true;
         dm_map_selected = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_dm_map), Integer.toString(r.getInteger(R.integer.default_dm_map))));
         dm_min_start_distance = sharedPrefs.getInt(r.getString(R.string.preftag_dm_min_start_distance), r.getInteger(R.integer.default_dm_min_start_distance));
         dm_max_start_distance = sharedPrefs.getInt(r.getString(R.string.preftag_dm_max_start_distance), r.getInteger(R.integer.default_dm_max_start_distance));
+        dm_num_extra_steps = sharedPrefs.getInt(r.getString(R.string.preftag_dm_num_extra_steps), r.getInteger(R.integer.default_dm_num_extra_steps));
+        dm_choice_delay = sharedPrefs.getInt(r.getString(R.string.preftag_dm_choice_delay), r.getInteger(R.integer.default_dm_choice_delay));
+        dm_animation_duration = sharedPrefs.getInt(r.getString(R.string.preftag_dm_animation_duration), r.getInteger(R.integer.default_dm_animation_duration));
+
+        dm_choice_delay = 300;
+        dm_animation_duration = 300;
+
         dm_max_dist_in_map = 6;
         dm_num_maps = 2;
     }
