@@ -1,6 +1,6 @@
 # Mymou: A standalone touchscreen in-cage testing device
 
-All files needed to run the system can be found in this repository:
+##### All files needed to run the system can be found in this repository:
 
 ### 1) Reward Delivery Interface (Arduino)
 	A simple script that runs on an Arduino Uno board
