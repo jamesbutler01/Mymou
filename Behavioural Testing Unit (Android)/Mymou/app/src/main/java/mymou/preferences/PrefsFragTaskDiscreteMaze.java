@@ -50,6 +50,10 @@ public class PrefsFragTaskDiscreteMaze extends PreferenceFragmentCompat implemen
         int choice_delay = sharedPrefs.getInt(getString(R.string.preftag_dm_choice_delay_actual), getResources().getInteger(R.integer.default_dm_choice_delay));
         seekBar5.setValue(choice_delay);
 
+        SeekBarPreferenceCustom seekBar6 = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_dm_dist_to_target));
+        seekBar6.setMin(0);
+        seekBar6.setMax(3);
+
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
     }

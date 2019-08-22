@@ -30,6 +30,11 @@
                 android:defaultValue="@integer/default_dm_num_extra_steps"/>
 
         <mymou.preferences.SeekBarPreferenceCustom
+                app:key="@string/preftag_dm_dist_to_target"
+                app:title="Distance to target needed"
+                android:summary="Trial will end when they are this distance away from the target"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
                 app:key="@string/preftag_dm_choice_delay"
                 app:title="Time (ms) they have to wait before they can make their choice"
                 android:defaultValue="@integer/default_dm_choice_delay"/>
@@ -43,6 +48,12 @@
                 app:key="@string/preftag_dm_repeat_error"
                 app:title="Repeat trial on error"
                 android:summary="If selected, subjects will be given same trial until they get it correct"/>
+
+        <SwitchPreferenceCompat
+                app:key="@string/preftag_dm_errors_allowed"
+                app:title="Allow steps away from the target location"
+                android:summary="If disabled, task will timeout if subjects take even one step away from the target location (so perfect navigation needed)"/>
+
 
     </PreferenceCategory>
 

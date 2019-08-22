@@ -134,9 +134,10 @@ public class TaskDiscreteMaze extends Task {
         transitionMatrix = MatrixMaths.generateTransitionMatrix(mapParams.y_size, mapParams.y_size, mapParams.torus);
         num_stimulus = mapParams.imageList.length;
 
-
-        textView = (TextView)getView().findViewById(R.id.textView2);
-        textView.setVisibility(View.INVISIBLE);
+        textView = (TextView) getView().findViewById(R.id.textview_dm);
+        if (!preferencesManager.debug) {
+            textView.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void calculateButtonLocations() {
@@ -209,9 +210,11 @@ public class TaskDiscreteMaze extends Task {
     };
 
     private void moveForwards(final int chosenOne) {
+
         textView.setText("Feedback");
 
         if (choicePeriod) {
+
             choicePeriod = false;
             num_steps++;
             int previousDistance = currentDistanceFromTarget;
@@ -219,25 +222,30 @@ public class TaskDiscreteMaze extends Task {
             animateStep(chosenOne);
             fadeButtons(chosenOne);
             currentDistanceFromTarget = distanceFromTarget(current_pos);
-            if(previousDistance > currentDistanceFromTarget) { // If right direction
-                updateProgressBar(preferencesManager.dm_animation_duration + 400);
-                if (current_pos == target_pos) {
-                    //Reached target
-                    logStep(1);
+            updateProgressBar(preferencesManager.dm_animation_duration + 400);
 
+            if(previousDistance > currentDistanceFromTarget) { // If right direction
+
+                if (currentDistanceFromTarget == preferencesManager.dm_dist_to_target_needed) {
+
+                    // Reached target
+                    logStep(1);
                     arrivedAtTarget(chosenOne);
+
                 } else {
-                    //Right direction
+
+                    //Correct direction
                     logStep(3);
                     unfadeButtons(preferencesManager.dm_animation_duration*2 + 400 + 50);
+
                 }
+
             } else {
 
                 //Wrong direction
                 logStep(0);
-                updateProgressBar(preferencesManager.dm_animation_duration + 400);
 
-                if (num_steps > start_dist + preferencesManager.dm_num_extra_steps | preferencesManager.dm_num_extra_steps ==0) {
+                if (num_steps > start_dist + preferencesManager.dm_num_extra_steps | !preferencesManager.dm_errors_allowed) {
 
                    arrivedAtWrongTarget();
 
@@ -430,7 +438,9 @@ public class TaskDiscreteMaze extends Task {
     }
 
     private void setStartingPosition() {
-        if (prev_trial_correct) {
+
+        if (prev_trial_correct | !preferencesManager.dm_repeat_on_error) {
+
             // Randomly pick locations until we find one a correct distance away
             randomiseCurrentPos();
             while (distanceFromTarget(current_pos) < preferencesManager.dm_min_start_distance | distanceFromTarget(current_pos) > preferencesManager.dm_max_start_distance) {
@@ -442,6 +452,7 @@ public class TaskDiscreteMaze extends Task {
             current_pos = prev_start;
             currentDistanceFromTarget = distanceFromTarget(current_pos);
             ibCurrLoc.setImageResource(mapParams.imageList[current_pos]);
+
         }
 
         start_dist = currentDistanceFromTarget;
@@ -453,6 +464,7 @@ public class TaskDiscreteMaze extends Task {
     }
 
     private void randomiseCurrentPos() {
+        Log.d(TAG, "randomiseCurrentPos, min dist needed: "+preferencesManager.dm_min_start_distance+", max dist: "+preferencesManager.dm_max_start_distance);
         current_pos = r.nextInt(num_stimulus);
         currentDistanceFromTarget = distanceFromTarget(current_pos);
         ibCurrLoc.setImageResource(mapParams.imageList[current_pos]);
@@ -469,7 +481,7 @@ public class TaskDiscreteMaze extends Task {
     }
 
     private void chooseTargetLoc() {
-        if(prev_trial_correct) {
+        if(prev_trial_correct | !preferencesManager.dm_repeat_on_error) {
             target_pos = r.nextInt(num_stimulus);
         } else {
             target_pos = prev_target;
