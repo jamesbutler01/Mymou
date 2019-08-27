@@ -30,7 +30,7 @@ public class TaskTrainingOneFullScreen extends Task {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_task_training_one_full_screen, container, false);
+        return inflater.inflate(R.layout.activity_task_empty, container, false);
     }
 
     @Override
@@ -39,15 +39,7 @@ public class TaskTrainingOneFullScreen extends Task {
 
         assignObjects();
 
-        positionAndDisplayCues();
-
     }
-
-    private void positionAndDisplayCues() {
-        Log.d(TAG, "Positioning cues around screen");
-        UtilsTask.toggleCue(cue, true);
-    }
-
 
     private void assignObjects() {
         // Load preferences
@@ -56,12 +48,16 @@ public class TaskTrainingOneFullScreen extends Task {
 
         // Create one giant cue
         cue = UtilsTask.addColorCue(0, prefManager.t_one_screen_colour,
-                getContext(), buttonClickListener, getView().findViewById(R.id.parent_t_one));
+                getContext(), buttonClickListener, getView().findViewById(R.id.parent_task_empty));
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         cue.setWidth(size.x);
         cue.setHeight(size.y);
+
+        // Enable cue
+        UtilsTask.toggleCue(cue, true);
+
     }
 
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {

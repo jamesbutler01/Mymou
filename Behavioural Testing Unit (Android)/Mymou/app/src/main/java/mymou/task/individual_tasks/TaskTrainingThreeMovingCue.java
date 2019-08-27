@@ -4,24 +4,28 @@ import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.*;
+import android.view.Display;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import androidx.preference.PreferenceManager;
 import mymou.R;
 import mymou.preferences.PreferencesManager;
 import mymou.task.backend.TaskInterface;
 import mymou.task.backend.UtilsTask;
 
+import java.util.Random;
+
 // A basic object discrimination task showcasing the main features of the Mymou system:
 
-public class TaskTrainingTwoShrinkingCue extends Task {
+public class TaskTrainingThreeMovingCue extends Task {
 
     // Debug
-    public static String TAG = "TaskTrainingTwoShrinkingCue";
+    public static String TAG = "TaskTrainingThreeMovingCue";
 
-    private String preftag_successful_trial = "t_two_successful_trial";
-    private String preftag_num_consecutive_corr = "t_two_num_consecutive_corr";
+    private String preftag_successful_trial = "t_three_successful_trial";
+    private String preftag_num_consecutive_corr = "t_three_num_consecutive_corr";
     private static int rew_scalar = 1;
     private static int num_consecutive_corr;
     private static PreferencesManager prefManager;
@@ -42,13 +46,9 @@ public class TaskTrainingTwoShrinkingCue extends Task {
 
         loadTrialParams();
 
-    }
-
-    private void positionAndDisplayCues() {
-        Log.d(TAG, "Positioning cues around screen");
+        assignObjects();
 
     }
-
 
     private void assignObjects() {
         // Load preferences
@@ -72,15 +72,20 @@ public class TaskTrainingTwoShrinkingCue extends Task {
         } else {
             scalar = (10-num_consecutive_corr) / 10f;
         }
-        int new_x = (int) (prefManager.cue_size + (max_x * scalar));
-        int new_y = (int) (prefManager.cue_size + (max_y * scalar));
+        int x_length = (int) (prefManager.cue_size + (max_x * scalar));
+        int y_length = (int) (prefManager.cue_size + (max_y * scalar));
 
-        cue.setWidth(new_x);
-        cue.setHeight(new_y);
+        cue.setWidth(x_length);
+        cue.setHeight(y_length);
 
-        // Centre cue on screen
-        float x_loc = (screen_size.x/2) - (new_x/2);
-        float y_loc = (screen_size.y/2) - (new_y/2);
+        // Put cue in random location
+        Float x_range = (float) (screen_size.x - x_length);
+        Float y_range = (float) (screen_size.y - y_length);
+
+        Random r = new Random();
+        int x_loc = (int) (r.nextFloat() * x_range);
+        int y_loc = (int) (r.nextFloat() * y_range);
+
         cue.setX(x_loc);
         cue.setY(y_loc);
 

@@ -240,7 +240,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 task = new TaskTrainingTwoShrinkingCue();
                 break;
             case 2:
-                 task = new TaskExample();
+                 task = new TaskTrainingThreeMovingCue();
                 break;
             case 3:
                  task = new TaskExample();
@@ -771,7 +771,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
         rewardSystem.activateChannel(juiceChoice, reward_duration_int);
 
-        endOfTrial(preferencesManager.ec_correct_trial, preferencesManager.rewardduration + 500);
+        endOfTrial(preferencesManager.ec_correct_trial, preferencesManager.rewardduration + 5);
     }
 
 
@@ -880,7 +880,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
 
     private static void start_trial_without_go_cue(int num_attempts) {
-                h3.postDelayed(new Runnable() {
+        Log.d(TAG, "Attempting to start trial without go cue");
+
+        h3.postDelayed(new Runnable() {
             @Override
             public void run() {
                     // Timeout if camera bust

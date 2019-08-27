@@ -3,6 +3,6 @@
        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
        android:layout_height="match_parent"
        android:background="@android:color/transparent"
-        android:id="@+id/parent_t_one">
+        android:id="@+id/parent_task_empty">
 
 </androidx.constraintlayout.widget.ConstraintLayout>
