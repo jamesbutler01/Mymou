@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +31,7 @@ public class MainMenu extends Activity {
     private static int reward_chan;
 
     // The task to be loaded, set by the spinner
+    // TODO: Convert this to string UIDs, rather than numbers
     private static int taskSelected = 2;
 
     // Tasks cannot run unless permissions have been granted
@@ -54,8 +56,6 @@ public class MainMenu extends Activity {
         initialiseRewardSystem();
 
         initialiseSpinner();
-//                    Intent intent3 = new Intent(context, DataViewer.class);
-//                    startActivity(intent3);
     }
 
     private void checkPermissions() {
@@ -106,25 +106,22 @@ public class MainMenu extends Activity {
         // Find previously selected task and set spinner to this position
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         String key = "task_selected";
-        int prev_task_selected = settings.getInt(key, 0);
-        taskSelected = prev_task_selected;
+        taskSelected = settings.getInt(key, 0);
+
+        // Set up UI for currently selected task
         spinner.setSelection(taskSelected);
-        if (taskSelected < 1) {
-            UtilsTask.toggleCue(findViewById(R.id.buttonTaskSettings), false);
-        }
+        checkTaskHasSettings();
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
-            public void onItemSelected(AdapterView<?> adapter, View v,
-                                       int position, long id) {
+            public void onItemSelected(AdapterView<?> adapter, View v, int position, long id) {
+
                 // Update task selected
                 taskSelected = position;
-                if (taskSelected < 1) {
-                    UtilsTask.toggleCue(findViewById(R.id.buttonTaskSettings), false);
-                } else {
-                    UtilsTask.toggleCue(findViewById(R.id.buttonTaskSettings), true);
-                }
+
+                // Activate settings button if valid
+                checkTaskHasSettings();
 
                 // Store for future reference
                 SharedPreferences.Editor editor = settings.edit();
@@ -137,6 +134,12 @@ public class MainMenu extends Activity {
             }
         });
 
+    }
+
+    private void checkTaskHasSettings() {
+        TypedArray tasks_has_settings = getResources().obtainTypedArray(R.array.task_has_settings);
+        boolean has_settings = Boolean.valueOf(tasks_has_settings.getBoolean(taskSelected, false));
+        UtilsTask.toggleCue(findViewById(R.id.buttonTaskSettings), has_settings);
     }
 
     private void checkIfCrashed() {
@@ -235,12 +238,17 @@ public class MainMenu extends Activity {
                     break;
                 case R.id.buttonTaskSettings:
                     Intent intent2 = new Intent(context, PrefsActSystem.class);
-                    if (taskSelected == 1) {
+
+                    // Load task specific settings
+                    if (taskSelected == 4) {
                         intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_disc_maze_settings));
-                    } else if (taskSelected == 2) {
+                    } else if (taskSelected == 5) {
                         intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_obj_disc_settings));
+                    } else if (taskSelected == 0 | taskSelected == 1 | taskSelected == 2) {
+                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_t_one_settings));
                     }
-                        startActivity(intent2);
+
+                    startActivity(intent2);
                     break;
                 case R.id.buttonViewData:
                     Intent intent3 = new Intent(context, DataViewer.class);

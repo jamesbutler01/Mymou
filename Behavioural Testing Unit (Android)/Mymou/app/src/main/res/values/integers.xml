@@ -40,6 +40,10 @@
     <integer name="default_dm_num_extra_steps">0</integer>
     <integer name="default_dm_choice_delay">400</integer>
     <integer name="default_dm_animation_duration">450</integer>
+    <integer name="default_dm_dist_to_target">0</integer>
+
+    <integer name="default_t_one_num_presses">1</integer>
+    <integer name="default_t_one_screen_colour">0</integer>
 
 
 </resources>

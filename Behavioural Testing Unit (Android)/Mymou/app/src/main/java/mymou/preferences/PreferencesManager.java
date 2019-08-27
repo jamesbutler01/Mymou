@@ -14,7 +14,7 @@ public class PreferencesManager {
 
     public String base_error_message = "Error: Invalid settings configured so task cannot run. Please adjust settings and restart the task:\n\n";
 
-    public static boolean debug, bluetooth, camera, facerecog, restartoncrash, sound, autostart, autostop;
+    public static boolean debug, bluetooth, camera, facerecog, restartoncrash, sound, autostart, autostop, skip_go_cue=false;
     public static int sound_to_play;
     public static int num_reward_chans, default_rew_chan;
     public static int rewardduration, responseduration, timeoutduration;
@@ -143,33 +143,46 @@ public class PreferencesManager {
         objectdiscrim_errormessage = "You've selected ";
         objectdiscrim_valid_config = false;
         if (objectdiscrim_num_incorr_options < objectdiscrim_num_incorr_shown) {
-            objectdiscrim_errormessage += ""+num_incorr_options+" incorrect cue(s) to display each trial, but have only selected "+num_incorr_options+" different incorrect cue(s) in total";
+            objectdiscrim_errormessage += ""+objectdiscrim_num_incorr_shown+" incorrect cue(s) to display each trial, but have only selected "+objectdiscrim_num_incorr_options+" different incorrect cue(s) in total";
         } else if (objectdiscrim_num_corr_options < objectdiscrim_num_corr_shown) {
-            objectdiscrim_errormessage += ""+num_corr_options+" correct cue(s) to displayeach trial, but have only selected "+num_corr_options+" different correct cue(s) in total";
+            objectdiscrim_errormessage += ""+objectdiscrim_num_corr_shown+" correct cue(s) to display each trial, but have only selected "+objectdiscrim_num_corr_options+" different correct cue(s) in total";
         } else {
             objectdiscrim_valid_config = true;
         }
 
     }
 
-    public boolean dm_repeatOnError;
-    public int dm_min_start_distance, dm_max_start_distance, dm_max_dist_in_map, dm_map_selected, dm_num_maps, dm_num_extra_steps;
+    public boolean dm_repeat_on_error, dm_errors_allowed;
+    public int dm_min_start_distance, dm_max_start_distance, dm_max_dist_in_map, dm_map_selected, dm_num_maps, dm_num_extra_steps, dm_dist_to_target_needed;
     public int dm_choice_delay, dm_animation_duration;
 
     public void DiscreteMaze() {
-        dm_repeatOnError = true;
+
+        dm_errors_allowed = sharedPrefs.getBoolean(r.getString(R.string.preftag_dm_errors_allowed), r.getBoolean(R.bool.default_dm_errors_allowed));
+        dm_repeat_on_error =  sharedPrefs.getBoolean(r.getString(R.string.preftag_dm_repeat_error), r.getBoolean(R.bool.default_dm_repeat_error));
         dm_map_selected = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_dm_map), Integer.toString(r.getInteger(R.integer.default_dm_map))));
         dm_min_start_distance = sharedPrefs.getInt(r.getString(R.string.preftag_dm_min_start_distance), r.getInteger(R.integer.default_dm_min_start_distance));
         dm_max_start_distance = sharedPrefs.getInt(r.getString(R.string.preftag_dm_max_start_distance), r.getInteger(R.integer.default_dm_max_start_distance));
         dm_num_extra_steps = sharedPrefs.getInt(r.getString(R.string.preftag_dm_num_extra_steps), r.getInteger(R.integer.default_dm_num_extra_steps));
         dm_choice_delay = sharedPrefs.getInt(r.getString(R.string.preftag_dm_choice_delay), r.getInteger(R.integer.default_dm_choice_delay));
         dm_animation_duration = sharedPrefs.getInt(r.getString(R.string.preftag_dm_animation_duration), r.getInteger(R.integer.default_dm_animation_duration));
+        dm_dist_to_target_needed = sharedPrefs.getInt(r.getString(R.string.preftag_dm_dist_to_target), r.getInteger(R.integer.default_dm_dist_to_target));
 
         dm_choice_delay = 300;
         dm_animation_duration = 300;
 
-        dm_max_dist_in_map = 6;
+        dm_max_dist_in_map = 4;
         dm_num_maps = 2;
+
+    }
+
+    public int t_one_screen_colour, t_one_num_presses;
+
+    public void TrainingTasks() {
+        int screen_colour = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_t_one_screen_colour), Integer.toString(r.getInteger(R.integer.default_t_one_screen_colour))));
+        t_one_screen_colour = colors[screen_colour];
+        t_one_num_presses = sharedPrefs.getInt(r.getString(R.string.preftag_t_one_num_presses), r.getInteger(R.integer.default_t_one_num_presses));
+        skip_go_cue = sharedPrefs.getBoolean(r.getString(R.string.preftag_skip_go_cue), r.getBoolean(R.bool.default_t_one_skip_go_cue));
     }
     
 }
