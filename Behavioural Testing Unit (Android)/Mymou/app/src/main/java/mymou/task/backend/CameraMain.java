@@ -431,6 +431,12 @@ public class CameraMain extends Fragment
             // Couldn't take photo, return false
             return false;
 
+        } catch (NullPointerException e) {
+
+            e.printStackTrace();
+
+            // Couldn't take photo, return false
+            return false;
         }
 
     }

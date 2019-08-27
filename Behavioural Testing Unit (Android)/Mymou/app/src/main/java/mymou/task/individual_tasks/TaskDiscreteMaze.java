@@ -226,7 +226,7 @@ public class TaskDiscreteMaze extends Task {
 
             if(previousDistance > currentDistanceFromTarget) { // If right direction
 
-                if (currentDistanceFromTarget == preferencesManager.dm_dist_to_target_needed) {
+                if (currentDistanceFromTarget <= preferencesManager.dm_dist_to_target_needed) {
 
                     // Reached target
                     logStep(1);

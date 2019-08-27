@@ -13,8 +13,11 @@
     <string name="chanThreeOff">8</string>
 
     <string-array name="available_tasks">
+        <item>Training 1: Full screen cue</item>
+        <item>Training 2: Shrinking central cue</item>
+        <item>Training 3: Moving cue</item>
         <item>Example task</item>
-        <item>Task from Butler, Kennerley (2018)</item>
+        <item>Discrete Maze</item>
         <item>Object discrimination</item>
     </string-array>
 
@@ -40,6 +43,7 @@
     <string name="preftag_sound">sound</string>
     <string name="preftag_autostart">autostart</string>
     <string name="preftag_autostop">autostop</string>
+    <string name="preftag_skip_go_cue">skip_go_cue</string>
 
     <string name="preftag_gocuecolors">colours_gocues</string>
     <string name="preftag_cuebordercolors">colours_cueborders</string>
@@ -73,6 +77,7 @@
 
     <string name="preftag_task_obj_disc_settings">preftag_task_obj_disc_settings</string>
     <string name="preftag_task_disc_maze_settings">preftag_task_disc_maze_settings</string>
+    <string name="preftag_task_t_one_settings">preftag_task_t_one_settings</string>
     <string name="preftag_settings_to_load">preftag_settings_to_load</string>
     <string name="preftag_sound_to_play">preftag_sound_to_play</string>
     <string name="preftag_num_rew_chans">preftag_num_rew_chans</string>
@@ -101,6 +106,9 @@
     <string name="preftag_dm_dist_to_target">preftag_dm_dist_to_target</string>
     <string name="preftag_dm_errors_allowed">preftag_dm_errors_allowed</string>
     <string name="preftag_dm_animation_dur_actual">dm_anim_dur_actual</string>
+
+    <string name="preftag_t_one_screen_colour">t_one_screen_colour</string>
+    <string name="preftag_t_one_num_presses">t_one_num_presses</string>
 
     <string-array name="error_messages">
         <item>Bluetooth couldn\'t connect to reward system (to run task without reward system, disable the reward system
