@@ -20,7 +20,7 @@ public class TaskTrainingOneFullScreen extends Task {
     // Debug
     public static String TAG = "TaskTrainingOneFullScreen";
 
-    private static int num_steps = 0;
+    private static int num_steps;
     private static int rew_scalar = 1;
     private static PreferencesManager prefManager;
 
@@ -55,6 +55,9 @@ public class TaskTrainingOneFullScreen extends Task {
         cue.setWidth(size.x);
         cue.setHeight(size.y);
 
+        // Reset num steps
+        num_steps = 0;
+
         // Enable cue
         UtilsTask.toggleCue(cue, true);
 
@@ -75,6 +78,8 @@ public class TaskTrainingOneFullScreen extends Task {
             num_steps += 1;
 
             // Check how many correct presses they've got and how many they need per trial
+            Log.d(TAG, "Num steps: "+num_steps+"/"+prefManager.t_one_num_presses);
+
             if (num_steps >= prefManager.t_one_num_presses) {
                 endOfTrial(true, rew_scalar, callback);
             } else {

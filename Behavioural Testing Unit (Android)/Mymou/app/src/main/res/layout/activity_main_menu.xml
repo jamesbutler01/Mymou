@@ -276,7 +276,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
             <Button
-                    android:text="  View Performance  "
+                    android:text="  View Performance  (in development)"
                     android:textSize="30sp"
                     android:background="@drawable/menu_button"
                     android:textColor="@color/white"

@@ -41,12 +41,7 @@ public class TaskTrainingTwoShrinkingCue extends Task {
         Log.d(TAG, "Task started");
 
         loadTrialParams();
-
-    }
-
-    private void positionAndDisplayCues() {
-        Log.d(TAG, "Positioning cues around screen");
-
+        assignObjects();
     }
 
 

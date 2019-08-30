@@ -277,12 +277,11 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
              tvErrors.setText(preferencesManager.base_error_message + preferencesManager.objectdiscrim_errormessage);
 
         } else {
-            if (!timerRunning) { trial_timer();
-                        Log.d(TAG, "timer running check TRUE");
-}  else {// Start task timer first (so will still timeout if task is disabled)
-                Log.d(TAG, "timer running check FALSE");
-            }
+
+            if (!timerRunning) { trial_timer(); } // Start task timer first (so will still timeout if task is disabled)
+
             commitFragment();
+
         }
 
     }
