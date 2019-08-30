@@ -199,6 +199,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         logThread = new HandlerThread("LogBackground");
         logThread.start();
         logHandler = new Handler(logThread.getLooper());
+
+        // Put headings on top of CSV file
+        logHandler.post(new WriteDataToFile(preferencesManager.data_headers));
     }
 
     private void initialiseRewardSystem() {
@@ -280,6 +283,8 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
             if (!timerRunning) { trial_timer(); } // Start task timer first (so will still timeout if task is disabled)
 
+            logEvent(preferencesManager.ec_trial_started);
+
             commitFragment();
 
         }
@@ -350,11 +355,18 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     public static void commitTrialData(String overallTrialOutcome) {
         if (trialData != null) {
+
             // End of trial so increment trial counter
             if (dateHasChanged()) {
+
+                // Put headings on top of CSV file
+                logHandler.post(new WriteDataToFile(preferencesManager.data_headers));
+
                 trialCounter = 0;
             } else {
+
                 trialCounter++;
+
             }
 
             // Append all static variables to each line of trial data and write to file
@@ -718,7 +730,11 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     // Wrong Go cue selected so give short timeout
     public static void MonkeyPressedWrongGoCue() {
+
+        // Log the event
+        logEvent(preferencesManager.ec_wrong_gocue_pressed);
         commitTrialData(preferencesManager.ec_wrong_gocue_pressed);
+
         // Switch on red background
         activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.timeoutbackground);
 
@@ -780,6 +796,8 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     private static void endOfTrial(String outcome, int newTrialDelay) {
         Log.d(TAG, "End of trial, outcome: "+outcome);
+        logEvent(outcome);
+
         commitTrialData(outcome);
 
         PrepareForNewTrial(newTrialDelay);
