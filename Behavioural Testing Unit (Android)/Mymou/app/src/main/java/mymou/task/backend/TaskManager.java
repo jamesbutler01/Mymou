@@ -65,7 +65,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     private static Handler h1 = new Handler();  // Prepare for new trial
     private static Handler h2 = new Handler();  // Timeout go cues
     private static Handler h3 = new Handler();  // Daily timer
-    private static Handler h4 = new Handler();  // Auto start task
 
     // Predetermined locations where cues can appear on screen, calculated by UtilsTask.calculateCueLocations()
     private static Point[] possible_cue_locs;
@@ -274,11 +273,15 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
 
         if (!valid_configuration) {
+
              tvErrors.setText(preferencesManager.base_error_message + preferencesManager.objectdiscrim_errormessage);
+
         } else {
-
-            if (!timerRunning) { trial_timer(); }  // Start task timer first (so will still timeout if task is disabled)
-
+            if (!timerRunning) { trial_timer();
+                        Log.d(TAG, "timer running check TRUE");
+}  else {// Start task timer first (so will still timeout if task is disabled)
+                Log.d(TAG, "timer running check FALSE");
+            }
             commitFragment();
         }
 
@@ -736,6 +739,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         fragmentTransaction.remove(fragmentManager.findFragmentByTag(TAG_FRAGMENT));
         commitFragment();
         h0.removeCallbacksAndMessages(null);
+        timerRunning = false;
 
         if (result == preferencesManager.ec_correct_trial) {
             correctTrial(rew_scalar);
@@ -836,8 +840,8 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             public void run() {
                 if (time > preferencesManager.responseduration) {
 
-                    Log.d(TAG, "Trial timeout "+time);
-                    time = 0;
+                    Log.d(TAG, "timer Trial timeout "+time);
+                    resetTimer();
                     timerRunning = false;
 
                     idleTimeout();
@@ -861,7 +865,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     private static void PrepareForNewTrial(int delay) {
         setBrightness(true);
-
 
         h1.postDelayed(new Runnable() {
             @Override
@@ -901,10 +904,13 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     }
 
     private void cancelHandlers() {
+        Log.d(TAG, "Cancel all handlers (timer etc)");
         h0.removeCallbacksAndMessages(null);
         h1.removeCallbacksAndMessages(null);
         h2.removeCallbacksAndMessages(null);
         h3.removeCallbacksAndMessages(null);
+        timerRunning = false;
+
     }
 
 }
