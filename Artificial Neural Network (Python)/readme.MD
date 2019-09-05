@@ -1,4 +1,4 @@
-##Python code to train the facial recognition module
+## Python code to train the facial recognition module
 
 ### Preparing data (PrepareData.py)
 Data should be in the format [ (one hot array label) (image array generated with the Mymou system) ]
