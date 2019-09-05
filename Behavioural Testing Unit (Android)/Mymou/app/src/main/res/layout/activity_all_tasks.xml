@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:textSize="40sp"
-            android:textColor="@color/grey"/>
+            android:textColor="@color/black"/>
 
     <TextView
             android:id="@+id/tvError"

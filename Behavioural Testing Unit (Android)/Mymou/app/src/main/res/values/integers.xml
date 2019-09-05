@@ -45,5 +45,9 @@
     <integer name="default_t_one_num_presses">1</integer>
     <integer name="default_t_one_screen_colour">0</integer>
 
+    <integer name="default_pr_cue_colour">6</integer>
+    <integer name="default_pr_animation_duration">450</integer>
+
+
 
 </resources>

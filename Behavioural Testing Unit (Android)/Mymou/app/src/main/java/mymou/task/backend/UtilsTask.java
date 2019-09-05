@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
@@ -136,7 +137,15 @@ public class UtilsTask {
         }
     }
 
-    private static int[] calculateLocs(int screenLength, int totalImageSize) {
+    public static void randomlyPositionCue(View cue, Activity activity) {
+        Point[] locs = getPossibleCueLocs(activity);
+        Random r = new Random();
+        int choice = r.nextInt(locs.length);
+        cue.setX(locs[choice].x);
+        cue.setY(locs[choice].y);
+    }
+
+    public static int[] calculateLocs(int screenLength, int totalImageSize) {
         int num_locs = screenLength / totalImageSize; // floor division
 
         int[] locs = new int[num_locs];

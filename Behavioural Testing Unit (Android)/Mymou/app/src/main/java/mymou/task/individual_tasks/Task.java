@@ -21,4 +21,8 @@ public abstract class Task extends Fragment {
         callback.trialEnded_(outcome, rew_scalar);
     }
 
+    public void logEvent(String event, TaskInterface callback) {
+        callback.logEvent_(event);
+    }
+
 }

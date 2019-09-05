@@ -17,7 +17,7 @@ public class Session {
 //
 //    @ColumnInfo
 //    public Monkey monkey;
-
+//
 //    @ColumnInfo
 //    public Date date;
 //

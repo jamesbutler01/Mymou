@@ -129,7 +129,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             tvErrors.setText(getResources().getStringArray(R.array.error_messages)[getResources().getInteger(R.integer.i_bt_couldnt_connect)]);
         }
 
-        tvExplanation.setVisibility(View.INVISIBLE);
+        UtilsTask.toggleView(tvExplanation, preferencesManager.debug);
 
         PrepareForNewTrial(0);
     }
@@ -169,6 +169,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 break;
             case 5:
                 preferencesManager.DiscreteMaze();
+                break;
+            case 6:
+                preferencesManager.ProgressiveRatio();
                 break;
             default:
                 Log.d(TAG, "No task specified");
@@ -257,6 +260,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 valid_configuration = preferencesManager.objectdiscrim_valid_config;
 
                 break;
+            case 6:
+                task = new TaskProgressiveRatio();
+                break;
             default:
                 new Exception("No valid task specified");
         }
@@ -284,7 +290,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             if (!timerRunning) { trial_timer(); } // Start task timer first (so will still timeout if task is disabled)
 
             logEvent(preferencesManager.ec_trial_started);
-
+            updateTvExplanation("");
             commitFragment();
 
         }
@@ -788,6 +794,8 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         double reward_duration_double = preferencesManager.rewardduration * rew_scalar;
         int reward_duration_int = (int) reward_duration_double;
 
+        updateTvExplanation("Delivering reward of "+reward_duration_int+"ms on channel "+juiceChoice);
+
         rewardSystem.activateChannel(juiceChoice, reward_duration_int);
 
         endOfTrial(preferencesManager.ec_correct_trial, preferencesManager.rewardduration + 5);
@@ -795,12 +803,17 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
 
     private static void endOfTrial(String outcome, int newTrialDelay) {
-        Log.d(TAG, "End of trial, outcome: "+outcome);
         logEvent(outcome);
 
         commitTrialData(outcome);
 
         PrepareForNewTrial(newTrialDelay);
+    }
+
+    private static void updateTvExplanation(String message) {
+        if (preferencesManager.debug) {
+            tvExplanation.setText(message);
+        }
     }
 
 
@@ -874,6 +887,8 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     }
 
     private static void idleTimeout() {
+        updateTvExplanation("Idle timeout");
+
         disableAllCues();
         activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.timeoutbackground);
 
@@ -887,7 +902,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             @Override
             public void run() {
                 activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.taskbackground);
-
+                updateTvExplanation("Waiting for trial to be started");
                 // Auto start next trial if skipping go cue
                 if (preferencesManager.skip_go_cue) {
                     start_trial_without_go_cue(0);
