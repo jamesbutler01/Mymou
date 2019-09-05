@@ -1,6 +1,6 @@
-## Python code to train the facial recognition module
+# Python code for facial recognition module
 
-### Preparing data (PrepareData.py)
+## Preparing data (PrepareData.py)
 
 #### Data should be in the format: [ (one hot array label) (image array generated with the Mymou system) ]
 
@@ -18,7 +18,7 @@
 #### All this data is then stacked and saved as one big file which will run with the main artifical neural network script.
 
 
-### Training the neural network (main.py)
+## Training the neural network (main.py)
 
 #### Runs with the sample data generated with PrepareData.py
 
