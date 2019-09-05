@@ -3,7 +3,7 @@
  *
  * All tasks must inherit from this Fragment
  * Enables communiation with TaskManager parent
- * 
+ *
  */
 
 package mymou.task.individual_tasks;
