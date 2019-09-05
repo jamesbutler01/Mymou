@@ -1,3 +1,12 @@
+/**
+ * Training task one
+ *
+ * Pressing anywhere on screen will trigger device
+ * Must get specified amount of presses in a row to receive reward
+ *
+ * @param  num_steps the current number of presses made in this trial
+ *
+ */
 package mymou.task.individual_tasks;
 
 import android.graphics.Point;
@@ -12,8 +21,6 @@ import mymou.R;
 import mymou.preferences.PreferencesManager;
 import mymou.task.backend.TaskInterface;
 import mymou.task.backend.UtilsTask;
-
-// A basic object discrimination task showcasing the main features of the Mymou system:
 
 public class TaskTrainingOneFullScreen extends Task {
 

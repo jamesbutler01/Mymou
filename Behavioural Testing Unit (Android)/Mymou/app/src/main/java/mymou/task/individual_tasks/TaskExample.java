@@ -1,3 +1,9 @@
+/**
+ *
+ * A basic object discrimination task showcasing the main features of the Mymou system:
+ *
+ */
+
 package mymou.task.individual_tasks;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,8 +16,6 @@ import mymou.R;
 import mymou.Utils.UtilsSystem;
 import mymou.task.backend.TaskInterface;
 import mymou.task.backend.UtilsTask;
-
-// A basic object discrimination task showcasing the main features of the Mymou system:
 
 public class TaskExample extends Task implements View.OnClickListener {
 

@@ -1,3 +1,11 @@
+/**
+ * Parent Task Fragment
+ *
+ * All tasks must inherit from this Fragment
+ * Enables communiation with TaskManager parent
+ * 
+ */
+
 package mymou.task.individual_tasks;
 
 import android.util.Log;

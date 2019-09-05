@@ -1,3 +1,13 @@
+/**
+ * Object discrimination task
+ *
+ * Subjects shown specified number of CS+ and CS- cues
+ * Must get certain amount of correct CS+ presses in a row to receive reward
+ *
+ * The number of CS-, CS+, and number needed for reward can all be altered in preferences menu
+ *
+ */
+
 package mymou.task.individual_tasks;
 
 import android.content.SharedPreferences;

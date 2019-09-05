@@ -1,3 +1,13 @@
+/**
+ * Training task two: Shrinking Cue
+ *
+ * Valid touch area starts as the entire screen, and gets progressively smaller
+ * An idle timeout resets size of the cue to the entire screen
+ * Must get specified amount of presses in a row to receive reward
+ *
+ * @param  num_consecutive_corr the current number of consecutive presses
+ *
+ */
 package mymou.task.individual_tasks;
 
 import android.content.SharedPreferences;
@@ -13,7 +23,6 @@ import mymou.preferences.PreferencesManager;
 import mymou.task.backend.TaskInterface;
 import mymou.task.backend.UtilsTask;
 
-// A basic object discrimination task showcasing the main features of the Mymou system:
 
 public class TaskTrainingTwoShrinkingCue extends Task {
 

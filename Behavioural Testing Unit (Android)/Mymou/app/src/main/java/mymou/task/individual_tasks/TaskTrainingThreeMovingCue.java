@@ -1,3 +1,15 @@
+/**
+ * Training task three: Shrinking and Moving Cue
+ *
+ * Valid touch area starts as the entire screen, and gets progressively smaller
+ * The cue also moves randomly around the screen
+ * An idle timeout resets size of the cue to the entire screen
+ * Must get specified amount of presses in a row to receive reward
+ *
+ * @param  num_consecutive_corr the current number of consecutive presses
+ *
+ */
+
 package mymou.task.individual_tasks;
 
 import android.content.SharedPreferences;
@@ -16,8 +28,6 @@ import mymou.task.backend.TaskInterface;
 import mymou.task.backend.UtilsTask;
 
 import java.util.Random;
-
-// A basic object discrimination task showcasing the main features of the Mymou system:
 
 public class TaskTrainingThreeMovingCue extends Task {
 

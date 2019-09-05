@@ -1,6 +1,11 @@
+/**
+ * Mazes to be used with TaskDiscreteMaze
+ *
+ * Allows you to load the parameters of whichever map you'd like to use on the task
+ *
+ */
 package mymou.task.individual_tasks;
 
-import android.content.Context;
 import android.util.Log;
 import mymou.R;
 import mymou.preferences.PreferencesManager;

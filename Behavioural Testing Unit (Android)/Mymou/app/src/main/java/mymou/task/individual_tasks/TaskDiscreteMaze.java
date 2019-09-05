@@ -1,3 +1,23 @@
+/**
+ * Task: Discrete Maze
+ *
+ * The task used in Butler & Kennerley (2018)
+ * Target cue is shown at top of screen
+ * Progress bar at top of screen also shows distance from target cue
+ * Current location cue is shown in centre of screen
+ * Option cues are shown in lower portion of screen and highlighted with border
+ * Subjects must choose correct cues to navigate towards target cue
+ * Upon arrival at target cue will receive reward
+ *
+ * @param  current_pos their corrent location in the maze
+ * @param  start_pos their start location in the maze
+ * @param  start_dist their starting distance from the target
+ * @param  currentDistanceFromTarget their current distance from the target
+ * @param  target_pos the target location where reward is located
+ * @param  num_steps the current number of steps on this trial
+ * @param  transitionMatrix the graph layout
+ *
+ */
 package mymou.task.individual_tasks;
 
 import android.animation.AnimatorSet;
@@ -28,8 +48,6 @@ import mymou.task.backend.UtilsTask;
 
 import java.util.Random;
 
-// The task used in Butler & Kennerley (2018)
-// Used to teach a 4x4 discrete world
 
 public class TaskDiscreteMaze extends Task {
 
