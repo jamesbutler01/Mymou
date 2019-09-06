@@ -1,5 +1,6 @@
 package mymou.Utils
 
+import android.content.Context
 import android.util.Log
 
 import java.io.File
@@ -12,7 +13,7 @@ import java.io.StringWriter
 /**
  * Saves linked String into  CURRENT_DATE.txt
  */
-class CrashReport(private val message: Throwable) {
+class CrashReport(private val message: Throwable, context: Context) {
     private val TAG = "MymouCrashReport"
 
     init {
@@ -21,7 +22,7 @@ class CrashReport(private val message: Throwable) {
         val pw = PrintWriter(sw)
         message.printStackTrace(pw)
         val exceptionAsString = sw.toString() // stack trace as a string
-        val folderManager = FolderManager()
+        val folderManager = FolderManager(context)
         val folderName = folderManager.getSessionFolder()
         val fileName = "crashReport.txt"
         val time = folderManager.getTimestamp()

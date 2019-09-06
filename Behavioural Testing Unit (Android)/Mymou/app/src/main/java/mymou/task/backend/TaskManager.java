@@ -140,7 +140,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 @Override
                 public void uncaughtException(Thread thread, Throwable throwable) {
                     Log.d(TAG, "Task crashed");
-                new CrashReport(throwable);
+                new CrashReport(throwable, mContext);
                 rewardSystem.quitBt();
                 restartApp();
                 }
@@ -202,9 +202,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         logThread = new HandlerThread("LogBackground");
         logThread.start();
         logHandler = new Handler(logThread.getLooper());
-
-        // Put headings on top of CSV file
-        logHandler.post(new WriteDataToFile(preferencesManager.data_headers));
     }
 
     private void initialiseRewardSystem() {
@@ -365,10 +362,8 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             // End of trial so increment trial counter
             if (dateHasChanged()) {
 
-                // Put headings on top of CSV file
-                logHandler.post(new WriteDataToFile(preferencesManager.data_headers));
-
                 trialCounter = 0;
+
             } else {
 
                 trialCounter++;
@@ -381,7 +376,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 String s = trialData.get(i);
                 // Prefix variables that were constant throughout trial (trial result, which monkey, etc)
                 s = taskId + "," + trialCounter + "," + faceRecogPrediction + "," + overallTrialOutcome + "," + s;
-                logHandler.post(new WriteDataToFile(s));
+                logHandler.post(new WriteDataToFile(s, mContext));
             }
 
             // Place photo in correct monkey's folder
@@ -599,9 +594,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     private void loadAndApplySettings() {
         // Face recog
         if (preferencesManager.facerecog) {
-            folderManager = new FolderManager(preferencesManager.num_monkeys);
+            folderManager = new FolderManager(mContext, preferencesManager.num_monkeys);
         } else {
-            folderManager = new FolderManager();
+            folderManager = new FolderManager(mContext, 0);
         }
 
         // Colours

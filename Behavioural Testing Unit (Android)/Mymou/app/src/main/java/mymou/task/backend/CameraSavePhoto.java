@@ -28,13 +28,14 @@ class CameraSavePhoto implements Runnable {
     private String timestamp;
     private final String day;
     private Context mContext;
-    private FolderManager folderManager = new FolderManager();
+    private FolderManager folderManager;
 
     public CameraSavePhoto(Image image, String timestampU, Context context) {
         mImage = image;
         timestamp = timestampU;
-        day = folderManager.getBaseDate();
         mContext = context;
+        folderManager = new FolderManager(mContext, 0);
+        day = folderManager.getBaseDate();
         Log.d(TAG, " instantiated");
     }
 
