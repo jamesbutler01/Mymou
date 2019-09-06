@@ -35,6 +35,7 @@ import android.widget.Toast;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
@@ -95,8 +96,8 @@ public class CameraMain extends Fragment
                 mTextureView.setLayoutParams(new RelativeLayout.LayoutParams(camera_width, camera_height));
                 LayoutParams lp = (LayoutParams) mTextureView.getLayoutParams();
                 mTextureView.setLayoutParams(lp);
-                mTextureView.setY(default_position.y);
-                mTextureView.setX(default_position.x);
+                mTextureView.setY(default_position.x);
+                mTextureView.setX(default_position.y);
             }
         }
 
@@ -235,20 +236,21 @@ public class CameraMain extends Fragment
                     continue;
                 }
 
-                // Use the smallest available size.
-                Size smallest = Collections.min(
-                        Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
-                        new cameraCompareAreas());
+                 // Get list of available camera resolutions
+                List sizes = Arrays.asList(map.getOutputSizes(ImageFormat.JPEG));
+
+                // Find which resolution user selected
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+                String resolution_saved = settings.getString(getString(R.string.preftag_camera_resolution), ""+sizes.size());
+                Size resolution = (Size) sizes.get(Integer.valueOf(resolution_saved));
 
                 // Store this to be used by crop menu
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
                 SharedPreferences.Editor editor = settings.edit();
-                editor.putInt("camera_width", smallest.getWidth());
-                editor.putInt("camera_height", smallest.getHeight());
+                editor.putInt("camera_width", resolution.getHeight());
+                editor.putInt("camera_height", resolution.getWidth());
                 editor.commit();
-                Log.d(TAG, "width: " + smallest.getWidth() + ", height: " + smallest.getHeight());
 
-                mImageReader = ImageReader.newInstance(smallest.getWidth(), smallest.getHeight(),
+                mImageReader = ImageReader.newInstance(resolution.getWidth(), resolution.getHeight(),
                         ImageFormat.JPEG, /*maxImages*/2);
                 mImageReader.setOnImageAvailableListener(
                         mOnImageAvailableListener, mBackgroundHandler);
@@ -402,7 +404,8 @@ public class CameraMain extends Fragment
                     CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
 
             //To rotate photo set angle here
-            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, 270);
+//            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, 270);
+            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, 0);
 
             //Set black and white
             captureBuilder.set(CaptureRequest.CONTROL_EFFECT_MODE,

@@ -1,28 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                                      xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
             app:key="system_settings"
-            app:title="System settings">
+            app:title="Camera settings">
 
         <SwitchPreferenceCompat
+                app:defaultValue="@bool/default_camera"
                 app:key="@string/preftag_camera"
-                app:title="Enable camera"
-                app:defaultValue="@bool/default_camera"/>
+                app:title="Enable camera" />
         <SwitchPreferenceCompat
+                app:defaultValue="@bool/default_facerecog"
                 app:key="@string/preftag_facerecog"
-                app:title="Enable facial recognition"
-                app:defaultValue="@bool/default_facerecog"/>
+                app:title="Enable facial recognition" />
 
         <SwitchPreferenceCompat
+                app:defaultValue="false"
                 app:key="@string/preftag_crop_photos"
-                app:title="Crop camera photos"
-                app:defaultValue="false"/>
+                app:title="Crop camera photos" />
         <Preference
                 app:fragment="mymou.preferences.PrefsFragCropPickerParent"
                 app:key="croppicker_prefsfrag"
-                app:title="Configure crop boundaries of photos"/>
+                app:title="Configure crop boundaries of photos" />
+
+        <ListPreference
+                android:defaultValue="@integer/default_taskbackgroundcolour"
+                android:entries="@array/colournames"
+                android:entryValues="@array/colourvalues"
+                app:key="@string/preftag_camera_resolution"
+                app:title="Camera resolution"
+                app:summary="The resolution of selfies that are taken during the task"/>
 
     </PreferenceCategory>
 

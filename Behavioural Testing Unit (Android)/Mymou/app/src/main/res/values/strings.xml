@@ -39,6 +39,8 @@
     <string name="preftag_bluetooth">bluetooth</string>
     <string name="preftag_camera">camera</string>
     <string name="preftag_crop_photos">crop_photos</string>
+    <string name="preftag_camera_resolution">preftag_camera_resolution</string>
+    <string name="preftag_camera_res_actual">preftag_camera_resolution</string>
     <string name="preftag_facerecog">facerecog</string>
     <string name="preftag_restartoncrash">restartoncrash</string>
     <string name="preftag_sound">sound</string>

@@ -62,8 +62,8 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
 
         // Load settings
         settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-        camera_width = settings.getInt("camera_width", 176);
-        camera_height = settings.getInt("camera_height", 144);
+        camera_width = settings.getInt("camera_width", 320);
+        camera_height = settings.getInt("camera_height", 240);
         scale = UtilsSystem.getCropScale(getActivity(), camera_width);
 
         // Scale views
@@ -186,8 +186,8 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
         mTextureView.setLayoutParams(new RelativeLayout.LayoutParams(crop_width, crop_height));
         LayoutParams lp = (LayoutParams) mTextureView.getLayoutParams();
         mTextureView.setLayoutParams(lp);
-        mTextureView.setY(default_position.y + seekbars[i_top].getProgress());  // Shift to the right by left crop amount
-        mTextureView.setX(default_position.x + seekbars[i_left].getProgress());
+        mTextureView.setX(default_position.y + seekbars[i_left].getProgress());  // Shift to the right by left crop amount
+        mTextureView.setY(default_position.x + seekbars[i_top].getProgress());
     }
 
     // Write settings to shared preferences

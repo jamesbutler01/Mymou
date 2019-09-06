@@ -912,11 +912,13 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     private static void start_trial_without_go_cue(int num_attempts) {
         Log.d(TAG, "Attempting to start trial without go cue");
 
+        final int num_attempts_final = num_attempts + 1;
+
         h3.postDelayed(new Runnable() {
             @Override
             public void run() {
                     // Timeout if camera bust
-                    if (num_attempts > 10000) {
+                    if (num_attempts_final > 10000) {
                         new Exception("PhotoTakenException");
                     }
 
@@ -924,7 +926,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                     if (photo_taken) {
                         startTrial(-1);
                     } else {
-                        start_trial_without_go_cue(num_attempts);
+                        start_trial_without_go_cue(num_attempts_final);
                     }
             }
         }, 500);
