@@ -63,7 +63,11 @@
                 app:key="@string/preftag_event_codes"
                 android:summary="Common event codes that are stored in log data for various task events"/>
 
-
+      <SwitchPreferenceCompat
+                app:key="@string/preftag_sound"
+                app:title="Enable sounds"
+                android:summary="Device will beep on successful trials to aid secondary reinforcement"
+                app:defaultValue="@bool/default_sound"/>
 
     </PreferenceCategory>
 

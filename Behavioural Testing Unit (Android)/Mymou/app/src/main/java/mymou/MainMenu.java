@@ -236,7 +236,7 @@ public class MainMenu extends Activity {
                     break;
                 case R.id.buttonSettings:
                     Intent intent = new Intent(context, PrefsActSystem.class);
-                    intent.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_system_settings));
+                    intent.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_menu_prefs));
                     startActivity(intent);
                     break;
                 case R.id.buttonTaskSettings:

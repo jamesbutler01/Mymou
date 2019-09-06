@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+              <Preference
+                app:fragment="mymou.preferences.PrefsFragCommon"
+                app:key="@string/preftag_system_settings"
+                app:title="System settings"/>
+
+           <Preference
+                app:fragment="mymou.preferences.PrefsFragTaskAll"
+                app:key="@string/preftag_task_all"
+                app:title="Task settings"
+                   app:summary="Configure settings that are common across all tasks"/>
+
+           <Preference
+                app:fragment="mymou.preferences.PrefsFragReward"
+                app:key="@string/preftag_reward_prefs"
+                app:title="Reward settings"
+                   app:summary="Configure settings for reward delivery"/>
+
+           <Preference
+                app:fragment="mymou.preferences.PrefsFragCamera"
+                app:key="@string/preftag_camera_prefs"
+                app:title="Camera settings"
+                   app:summary="Configure camera settings"/>
+
+
+        <Preference
+                app:fragment="mymou.preferences.PrefsFragAutoStartStop"
+                app:key="prefsfrag_autostartstop"
+                app:title="Automatic startup and shutdown"
+                app:summary="Configure settings for automatically starting or stopping the device each day"/>
+
+
+</androidx.preference.PreferenceScreen>

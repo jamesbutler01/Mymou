@@ -49,9 +49,12 @@
     <string name="preftag_gocuecolors">colours_gocues</string>
     <string name="preftag_cuebordercolors">colours_cueborders</string>
     <string name="preftag_task_all">preftag_task_all</string>
+    <string name="preftag_camera_prefs">preftag_camera_prefs</string>
+    <string name="preftag_reward_prefs">preftag_reward_prefs</string>
     <string name="preftag_cue_settings">preftag_cue_settings</string>
     <string name="preftag_event_codes">preftag_event_codes</string>
     <string name="preftag_system_settings">preftag_system_settings</string>
+    <string name="preftag_menu_prefs">preftag_menu_prefs</string>
     <string name="preftag_rewardduration">preftag_rewardduration</string>
     <string name="preftag_timeoutduration">preftag_timeoutduration</string>
     <string name="preftag_responseduration">preftag_responseduration</string>

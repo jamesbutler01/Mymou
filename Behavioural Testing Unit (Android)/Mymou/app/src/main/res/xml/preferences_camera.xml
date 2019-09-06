@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+            app:key="system_settings"
+            app:title="System settings">
+
+        <SwitchPreferenceCompat
+                app:key="@string/preftag_camera"
+                app:title="Enable camera"
+                app:defaultValue="@bool/default_camera"/>
+        <SwitchPreferenceCompat
+                app:key="@string/preftag_facerecog"
+                app:title="Enable facial recognition"
+                app:defaultValue="@bool/default_facerecog"/>
+
+        <SwitchPreferenceCompat
+                app:key="@string/preftag_crop_photos"
+                app:title="Crop camera photos"
+                app:defaultValue="false"/>
+        <Preference
+                app:fragment="mymou.preferences.PrefsFragCropPickerParent"
+                app:key="croppicker_prefsfrag"
+                app:title="Configure crop boundaries of photos"/>
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

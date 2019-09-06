@@ -27,8 +27,8 @@ public class PrefsActSystem extends AppCompatActivity implements
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment preferenceFragment = null;
-        if (settings_to_load.equals(getString(R.string.preftag_system_settings))) {
-            preferenceFragment = new PrefsFragSystem();
+        if (settings_to_load.equals(getString(R.string.preftag_menu_prefs))) {
+            preferenceFragment = new PrefsFragMenu();
         } else if (settings_to_load.equals(getString(R.string.preftag_task_obj_disc_settings))) {
             preferenceFragment = new PrefsFragTaskObjectDiscrim();
         } else if (settings_to_load.equals(getString(R.string.preftag_task_disc_maze_settings))) {
