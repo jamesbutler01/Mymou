@@ -83,8 +83,8 @@ class FolderManager(private val context: Context, private val num_monkeys: Int =
 
         // Add headers to text file
         val headers = PreferencesManager(context).data_headers
-        Log.d(TAG, "making headers.."+headers);
-        WriteDataToFile(headers, context)
+        Log.d(TAG, "making headers.."+headers)
+        WriteDataToFile(headers, context).run()
     }
 
     private fun generateSessionFolder(): String {

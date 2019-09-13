@@ -80,14 +80,20 @@ public class UtilsSystem {
     }
 
     // Calculate how big to scale the camera view so that it fits neatly in the screen
-    public static int getCropScale(Activity activity, int camera_width) {
+    public static int getCropScale(Activity activity, int camera_width, int camera_height) {
         Display display = activity.getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int screen_width = size.x;
         int margin = 100;
-        int scale = (screen_width - margin * 2) / camera_width;
-        return scale;
+        int x_scale = (screen_width - margin * 2) / camera_width;
+
+        int screen_height = size.y / 2;
+        int y_scale = screen_height / camera_height;
+
+        int lowestscale = x_scale < y_scale ? x_scale : y_scale;
+
+        return lowestscale;
     }
 
     public static void addGraph(GraphView graph, LineGraphSeries<DataPoint> series, String xlab, String ylab, int num_sessions) {

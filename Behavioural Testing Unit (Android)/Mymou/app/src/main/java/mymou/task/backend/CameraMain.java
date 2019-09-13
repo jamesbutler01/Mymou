@@ -87,7 +87,7 @@ public class CameraMain extends Fragment
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
                 int camera_width = settings.getInt("camera_width", 176);
                 int camera_height = settings.getInt("camera_height", 144);
-                int scale = UtilsSystem.getCropScale(getActivity(), camera_width);
+                int scale = UtilsSystem.getCropScale(getActivity(), camera_width, camera_height);
                 camera_width *= scale;
                 camera_height *= scale;
                 Log.d(TAG, "width: " + camera_width + " height:" + camera_height);
@@ -241,7 +241,8 @@ public class CameraMain extends Fragment
 
                 // Find which resolution user selected
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-                String resolution_saved = settings.getString(getString(R.string.preftag_camera_resolution), ""+sizes.size());
+                int default_size = sizes.size() - 1;
+                String resolution_saved = settings.getString(getString(R.string.preftag_camera_resolution), ""+default_size);
                 Size resolution = (Size) sizes.get(Integer.valueOf(resolution_saved));
 
                 // Store this to be used by crop menu

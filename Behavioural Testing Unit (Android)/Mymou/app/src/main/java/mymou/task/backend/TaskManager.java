@@ -272,7 +272,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 public void trialEnded_(String outcome, double rew_scalar) {trialEnded(outcome, rew_scalar);}
 
                 @Override
-                public void logEvent_(String outcome) {logEvent(outcome);}
+                public void logEvent_(String outcome) {logEvent(outcome, true);}
             });
             task.setArguments(bundle);
             fragmentTransaction.add(R.id.task_container, task, TAG_FRAGMENT);
@@ -286,7 +286,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
             if (!timerRunning) { trial_timer(); } // Start task timer first (so will still timeout if task is disabled)
 
-            logEvent(preferencesManager.ec_trial_started);
+            logEvent(preferencesManager.ec_trial_started, false);
             updateTvExplanation("");
             commitFragment();
 
@@ -499,12 +499,18 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         }
     }
 
-    public static void logEvent(String data) {
+    public static void logEvent(String data, boolean from_task) {
         Log.d(TAG, "logEvent: "+data);
+        
+        // Seperate task logs and manager logs into different columns
+        String column = "";
+        if (!from_task) {
+            column = ",";
+        }
 
         // Store data for logging at end of trial
         String timestamp = folderManager.getTimestamp();
-        String msg = photoTimestamp + "," + timestamp + "," + data;
+        String msg = photoTimestamp + "," + timestamp + "," + column + data;
         trialData.add(msg);
     }
 
@@ -733,7 +739,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     public static void MonkeyPressedWrongGoCue() {
 
         // Log the event
-        logEvent(preferencesManager.ec_wrong_gocue_pressed);
+        logEvent(preferencesManager.ec_wrong_gocue_pressed, false);
         commitTrialData(preferencesManager.ec_wrong_gocue_pressed);
 
         // Switch on red background
@@ -798,7 +804,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
 
     private static void endOfTrial(String outcome, int newTrialDelay) {
-        logEvent(outcome);
+        logEvent(outcome, false);
 
         commitTrialData(outcome);
 

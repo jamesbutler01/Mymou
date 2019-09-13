@@ -76,6 +76,14 @@ public class PrefsFragCamera extends PreferenceFragmentCompat {
                 lp.setEntries(resolutions);
                 lp.setEntryValues(ints);
 
+                // And set value of list to saved one
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+                int default_size = sizes.size() - 1;
+                String resolution_saved = settings.getString(getString(R.string.preftag_camera_resolution), ""+default_size);
+                Log.d(TAG, "Setting resolution value to "+resolution_saved);
+                int resolution_index = Integer.valueOf(resolution_saved);
+                lp.setValueIndex(resolution_index);
+
             }
         } catch (CameraAccessException e) {
             e.printStackTrace();

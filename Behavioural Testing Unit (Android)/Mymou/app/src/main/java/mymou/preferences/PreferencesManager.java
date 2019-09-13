@@ -13,7 +13,7 @@ public class PreferencesManager {
     private String TAG = "MyMouPreferencesManager";
 
     public String base_error_message = "Error: Invalid settings configured so task cannot run. Please adjust settings and restart the task:\n\n";
-    public String data_headers = "taskId, trialCounter, faceRecogPrediction, overallTrialOutcome, photoTimestamp, eventTimestamp, task specific event codes";
+    public String data_headers = "taskId, trialCounter, faceRecogPrediction, overallTrialOutcome, photoTimestamp, eventTimestamp, task manager code, task specific event codes";
 
     public static boolean debug, bluetooth, camera, facerecog, restartoncrash, sound, autostart, autostop, skip_go_cue=false;
     public static int sound_to_play;
