@@ -85,13 +85,20 @@ public class RewardSystem {
             return;
         }
 
-        if (pairedDevices.size() > 1) {
-            Log.d(TAG,"Too many bluetooth devices paired");
+        // Find device with correct name
+        BluetoothDevice device = null;
+        boolean found = false;
+        for (BluetoothDevice devices : pairedDevices) {
+            String deviceName = devices.getName();
+            if (deviceName == "Mymou") {
+                device = devices;
+                found = true;
+            }
+        }
+        if (!found) {
+            Log.d(TAG,"Couldn't find bluetooth device named Mymou");
             return;
         }
-
-        // Take first device, as no other devices should be paired with tablet
-        BluetoothDevice device = pairedDevices.iterator().next();
 
         try {
             btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
