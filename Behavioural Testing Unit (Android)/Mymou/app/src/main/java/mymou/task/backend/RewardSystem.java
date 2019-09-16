@@ -21,6 +21,7 @@ import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -43,8 +44,6 @@ public class RewardSystem {
     private static OutputStream outStream = null;
     // Replace with your devices UUID and address
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-    private static String address_cfm = "00:14:03:05:59:68";
-    private static String address = "20:16:06:08:64:22";
 
     public RewardSystem(Context context_in, Activity activity) {
 
@@ -76,8 +75,24 @@ public class RewardSystem {
 
     private static void establishConnection() {
         Log.d(TAG,"Connecting to bluetooth..");
-        // Set up a pointer to the remote node using it's address.
-        BluetoothDevice device = btAdapter.getRemoteDevice(address);
+
+        // Get list of paired bluetooth devices
+        Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
+
+        // Check only one device connected
+        if (pairedDevices.size() == 0) {
+            Log.d(TAG,"No bluetooth devices paired");
+            return;
+        }
+
+        if (pairedDevices.size() > 1) {
+            Log.d(TAG,"Too many bluetooth devices paired");
+            return;
+        }
+
+        // Take first device, as no other devices should be paired with tablet
+        BluetoothDevice device = pairedDevices.iterator().next();
+
         try {
             btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
         } catch (IOException e) {
