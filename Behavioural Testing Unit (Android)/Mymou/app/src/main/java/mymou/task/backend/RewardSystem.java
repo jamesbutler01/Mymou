@@ -72,6 +72,10 @@ public class RewardSystem {
         }
     }
 
+    private static void log(String msg) {
+        Log.d(TAG, msg);
+        Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+    }
 
     private static void establishConnection() {
         Log.d(TAG,"Connecting to bluetooth..");
@@ -79,26 +83,20 @@ public class RewardSystem {
         // Get list of paired bluetooth devices
         Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
 
-        // Check only one device connected
+        // Check device is paired with tablet
         if (pairedDevices.size() == 0) {
-            Log.d(TAG,"No bluetooth devices paired");
+            log("No bluetooth devices paired");
+            return;
+        }
+
+        // Check only one device paired
+        if (pairedDevices.size() > 1) {
+            log("Too many bluetooth devices paired to device, please unpair other Bluetooth devices");
             return;
         }
 
         // Find device with correct name
-        BluetoothDevice device = null;
-        boolean found = false;
-        for (BluetoothDevice devices : pairedDevices) {
-            String deviceName = devices.getName();
-            if (deviceName == "Mymou") {
-                device = devices;
-                found = true;
-            }
-        }
-        if (!found) {
-            Log.d(TAG,"Couldn't find bluetooth device named Mymou");
-            return;
-        }
+        BluetoothDevice device = pairedDevices.iterator().next();
 
         try {
             btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);

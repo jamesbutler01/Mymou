@@ -47,6 +47,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     private static boolean faceRecogRunning = false;
     private static int trialCounter = 0;
     public static RewardSystem rewardSystem;
+    private static int latestRewardChannel;
 
     private static PreferencesManager preferencesManager;
     private static FolderManager folderManager;
@@ -273,6 +274,10 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
                 @Override
                 public void logEvent_(String outcome) {logEvent(outcome, true);}
+
+                @Override
+                public void giveRewardFromTask_(int amount) {giveRewardFromTask(amount);}
+
             });
             task.setArguments(bundle);
             fragmentTransaction.add(R.id.task_container, task, TAG_FRAGMENT);
@@ -293,6 +298,8 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         }
 
     }
+
+
 
     // Automatically restart static fragmentTransaction so it is always available to use
     private static void commitFragment() {
@@ -622,6 +629,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         trialData = new ArrayList<String>();
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
+        latestRewardChannel = preferencesManager.default_rew_chan;
 
         // Layout views
         for (int i = 0; i < cues_Go.length; i++) {
@@ -790,7 +798,13 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         }
     }
 
+    private static void giveRewardFromTask(int reward_duration) {
+        rewardSystem.activateChannel(latestRewardChannel, reward_duration);
+    }
+
+
     private static void deliverReward(int juiceChoice, double rew_scalar) {
+        latestRewardChannel = juiceChoice;
 
         double reward_duration_double = preferencesManager.rewardduration * rew_scalar;
         int reward_duration_int = (int) reward_duration_double;

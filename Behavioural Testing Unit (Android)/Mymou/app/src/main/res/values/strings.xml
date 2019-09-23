@@ -110,6 +110,8 @@
     <string name="preftag_dm_choice_delay_actual">dm_choice_delay_actual</string>
     <string name="preftag_dm_animation_duration">dm_animation_duration</string>
     <string name="preftag_dm_dist_to_target">preftag_dm_dist_to_target</string>
+    <string name="preftag_dm_booster_amount">preftag_dm_booster_amount</string>
+    <string name="preftag_dm_booster_amount_actual">preftag_dm_booster_amount_actual</string>
     <string name="preftag_dm_errors_allowed">preftag_dm_errors_allowed</string>
     <string name="preftag_dm_animation_dur_actual">dm_anim_dur_actual</string>
 
