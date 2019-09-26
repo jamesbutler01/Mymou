@@ -39,6 +39,8 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.preference.PreferenceManager;
+
+import mymou.Utils.FolderManager;
 import mymou.task.backend.MatrixMaths;
 import mymou.preferences.PreferencesManager;
 import mymou.Utils.ProgressBarAnimation;
@@ -504,11 +506,27 @@ public class TaskDiscreteMaze extends Task {
     }
 
     private void chooseTargetLoc() {
-        if(prev_trial_correct | !preferencesManager.dm_repeat_on_error) {
-            target_pos = r.nextInt(num_stimulus);
+        if (preferencesManager.dm_static_reward) {
+            // If first trial of the day then pick new target
+            String todaysDate = new FolderManager(mContext, 0).getBaseDate();
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
+            String lastRecordedDate = sharedPref.getString("dm_lastdate", "null");
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("dm_lastdate", todaysDate);
+            editor.commit();
+            if (todaysDate.equals(lastRecordedDate)) {
+                target_pos = prev_target;
+            } else {
+                target_pos = r.nextInt(num_stimulus);
+            }
         } else {
-            target_pos = prev_target;
+            if (prev_trial_correct | !preferencesManager.dm_repeat_on_error) {
+                target_pos = r.nextInt(num_stimulus);
+            } else {
+                target_pos = prev_target;
+            }
         }
+
         ibTarget.setImageResource(mapParams.imageList[target_pos]);
     }
 

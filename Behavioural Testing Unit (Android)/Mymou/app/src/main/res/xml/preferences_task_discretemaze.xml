@@ -54,6 +54,11 @@
                 app:key="@string/preftag_dm_errors_allowed"
                 app:title="Allow steps away from the target location" />
 
+        <SwitchPreferenceCompat
+                android:summary="Does the target location move around the map? If disabled, target location will change each trial"
+                app:key="@string/preftag_dm_static_reward"
+                app:title="Static target location" />
+
         <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_dm_booster_amount"
                 app:key="@string/preftag_dm_booster_amount"

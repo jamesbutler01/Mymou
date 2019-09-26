@@ -5,4 +5,5 @@ public interface TaskInterface {
     void trialEnded_(String outcome, double rew_scalar);
     void logEvent_(String event);
     void giveRewardFromTask_(int amount);
+    void takePhotoFromTask_();
 }

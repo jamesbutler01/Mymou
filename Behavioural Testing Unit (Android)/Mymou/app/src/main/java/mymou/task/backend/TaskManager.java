@@ -246,19 +246,22 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                  task = new TaskTrainingThreeMovingCue();
                 break;
             case 3:
-                 task = new TaskExample();
+                 task = new TaskTrainingFourSmallMovingCue();
                 break;
             case 4:
-                task = new TaskDiscreteMaze();
+                 task = new TaskExample();
                 break;
             case 5:
+                task = new TaskDiscreteMaze();
+                break;
+            case 6:
                 task = new TaskObjectDiscrim();
 
                 // Check settings correct
                 valid_configuration = preferencesManager.objectdiscrim_valid_config;
 
                 break;
-            case 6:
+            case 7:
                 task = new TaskProgressiveRatio();
                 break;
             default:
@@ -277,6 +280,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
                 @Override
                 public void giveRewardFromTask_(int amount) {giveRewardFromTask(amount);}
+
+                @Override
+                public void takePhotoFromTask_() {takePhoto();}
 
             });
             task.setArguments(bundle);
@@ -798,6 +804,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     }
 
     private static void giveRewardFromTask(int reward_duration) {
+        new SoundManager(preferencesManager).playTone();
         rewardSystem.activateChannel(latestRewardChannel, reward_duration);
     }
 
