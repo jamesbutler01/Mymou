@@ -44,6 +44,17 @@ public class MainMenu extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+        findViewById(R.id.button0).setOnClickListener(buttonClickListener);
+        findViewById(R.id.button1).setOnClickListener(buttonClickListener);
+        findViewById(R.id.button2).setOnClickListener(buttonClickListener);
+        findViewById(R.id.button3).setOnClickListener(buttonClickListener);
+        findViewById(R.id.button4).setOnClickListener(buttonClickListener);
+        findViewById(R.id.button5).setOnClickListener(buttonClickListener);
+        findViewById(R.id.button6).setOnClickListener(buttonClickListener);
+        findViewById(R.id.button7).setOnClickListener(buttonClickListener);
+        findViewById(R.id.button8).setOnClickListener(buttonClickListener);
+        findViewById(R.id.button9).setOnClickListener(buttonClickListener);
+
         // Retrieve settings
         preferencesManager = new PreferencesManager(this);
 
@@ -258,6 +269,42 @@ public class MainMenu extends Activity {
                 case R.id.buttonViewData:
                     Intent intent3 = new Intent(context, DataViewer.class);
                     startActivity(intent3);
+                    break;
+                case R.id.button0:
+                    rewardSystem.sendData("0");
+                                        break;
+
+                case R.id.button1:
+                    rewardSystem.sendData("1");
+                                        break;
+
+                case R.id.button2:
+                    rewardSystem.sendData("2");
+                    break;
+
+                case R.id.button3:
+                    rewardSystem.sendData("3");
+
+                    break;
+                case R.id.button4:
+                    rewardSystem.sendData("4");
+
+                    break;
+                case R.id.button5:
+                    rewardSystem.sendData("5");
+
+                    break;
+                case R.id.button6:
+                    rewardSystem.sendData("6");
+                    break;
+                case R.id.button7:
+                    rewardSystem.sendData("7");
+                    break;
+                case R.id.button8:
+                    rewardSystem.sendData("8");
+                    break;
+                case R.id.button9:
+                    rewardSystem.sendData("9");
                     break;
             }
         }

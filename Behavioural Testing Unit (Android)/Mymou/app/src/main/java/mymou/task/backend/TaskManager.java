@@ -789,7 +789,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
         // If only one reward channel, skip reward selection stage
         if (preferencesManager.num_reward_chans == 1) {
-            new SoundManager(preferencesManager).playTone();
             deliverReward(preferencesManager.default_rew_chan, rew_scalar);
         } else {
             // Otherwise reveal reward cues
@@ -804,6 +803,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
 
     private static void deliverReward(int juiceChoice, double rew_scalar) {
+        // Play tone
+        new SoundManager(preferencesManager).playTone();
+
         latestRewardChannel = juiceChoice;
 
         double reward_duration_double = preferencesManager.rewardduration * rew_scalar;

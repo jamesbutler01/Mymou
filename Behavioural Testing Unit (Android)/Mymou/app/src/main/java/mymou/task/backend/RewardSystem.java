@@ -209,7 +209,7 @@ public class RewardSystem {
         }.start();
     }
 
-    private static void sendData(String message) {
+    public static void sendData(String message) {
         if(bluetoothConnection) {
             byte[] msgBuffer = message.getBytes();
             try {
