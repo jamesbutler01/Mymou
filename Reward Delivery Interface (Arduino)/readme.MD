@@ -22,4 +22,4 @@ Command | Arduino Digital Pin | Action
 7 | 5   | High
 8 | 5   | Low
 
-* Also have main_ismatec which controls the 4-channel Ismatec Reglo peristaltic pump via RS232 cable
+* Also have main_ismatec which controls a 4-channel Ismatec Reglo peristaltic pump via RS232 cable, rather than 4 individual reward systems
