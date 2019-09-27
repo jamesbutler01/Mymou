@@ -52,6 +52,8 @@ public class RewardSystem {
 
         initialiseRewardChannelStrings();
 
+        this.listener = null; // set null listener
+
         if (new PreferencesManager(context).bluetooth && new PermissionManager(context_in, activity).checkPermissions()) {
             loopUntilConnected();
         }
@@ -112,7 +114,7 @@ public class RewardSystem {
         try {
             btSocket.connect();
             Log.d(TAG, "Connected to Bluetooth");
-            bluetoothConnection = true;
+            bluetoothConnectedBool(true);
             registerBluetoothReceivers();
         } catch (IOException e) {
             Log.d(TAG,"Error: Failed to establish connection");
@@ -271,19 +273,13 @@ public class RewardSystem {
             String action = intent.getAction();
             switch (action){
                 case BluetoothDevice.ACTION_ACL_CONNECTED:
-                    //Bluetooth connected
+                    //Bluetooth connected, no action needed
                     Log.d(TAG,"Bluetooth reconnected");
-                    TaskManager.enableApp(true);
                     break;
                 case BluetoothDevice.ACTION_ACL_DISCONNECTED:
                     //Bluetooth disconnected
                     Log.d(TAG,"Lost bluetooth connection..");
-                    bluetoothConnection = false;
-                    try {
-                        TaskManager.enableApp(false);
-                    } catch (NullPointerException e) {
-                        // No task running
-                    }
+                    bluetoothConnectedBool(false);
                     loopUntilConnected();
                     break;
             }
@@ -319,5 +315,29 @@ public class RewardSystem {
         chanThreeOn = context.getString(R.string.chanThreeOn);
         chanThreeOff = context.getString(R.string.chanThreeOff);
     }
+
+    private static void bluetoothConnectedBool(boolean status) {
+        bluetoothConnection = status;
+        try {
+            listener.onChangeListener();
+        } catch (NullPointerException e) {
+            Log.d(TAG, "No listener registered");
+        }
+    }
+
+    public interface MyCustomObjectListener {
+        // These methods are the different events and need to pass relevant arguments with the event
+        public void onChangeListener();
+    }
+
+    // Step 2- This variable represents the listener passed in by the owning object
+    // The listener must implement the events interface and passes messages up to the parent.
+    private static MyCustomObjectListener listener;
+
+    // Assign the listener implementing events interface that will receive the events (passed in by the owner)
+    public void setCustomObjectListener(MyCustomObjectListener listener) {
+        this.listener = listener;
+    }
+
 
 }

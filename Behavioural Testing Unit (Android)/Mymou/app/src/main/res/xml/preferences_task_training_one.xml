@@ -25,4 +25,23 @@
 
     </PreferenceCategory>
 
+     <PreferenceCategory
+            app:key="small_moving_cue"
+            app:title="Training 4: Small Moving Cue">
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                app:key="@string/preftag_t_random_reward_start"
+                app:title="Minimum time (s) for random reward to be given"
+                android:defaultValue="@integer/default_random_reward_start"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                app:key="@string/preftag_t_random_reward_stop"
+                app:title="Maximum time (s) for random reward to be given"
+                android:defaultValue="@integer/default_random_reward_stop"/>
+
+
+
+     </PreferenceCategory>
+
+
 </androidx.preference.PreferenceScreen>

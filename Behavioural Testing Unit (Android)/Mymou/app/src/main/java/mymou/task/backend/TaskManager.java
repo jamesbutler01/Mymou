@@ -84,6 +84,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     // Boolean to signal if task should be active or not (e.g. overnight it is set to true)
     public static boolean task_enabled = true;
 
+    // Boolean to signal whether a trial is currently active on screen
+    private static boolean trial_running = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,7 +135,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
         UtilsTask.toggleView(tvExplanation, preferencesManager.debug);
 
-        PrepareForNewTrial(0);
+        if (!preferencesManager.bluetooth) {
+            PrepareForNewTrial(0);
+        }
     }
 
     private void initialiseAutoRestartHandler() {
@@ -165,14 +170,17 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 preferencesManager.TrainingTasks();
                 break;
             case 3:
+                preferencesManager.TrainingTasks();
                 break;
             case 4:
-                preferencesManager.ObjectDiscrimination();
                 break;
             case 5:
                 preferencesManager.DiscreteMaze();
                 break;
             case 6:
+                preferencesManager.ObjectDiscrimination();
+                break;
+            case 7:
                 preferencesManager.ProgressiveRatio();
                 break;
             default:
@@ -223,6 +231,16 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                     initialiseRewardSystem();
                 }
             }, 5000);
+        } else {
+
+            // Register listener to disable tablet if bluetooth gets DC'ed
+            rewardSystem.setCustomObjectListener(new RewardSystem.MyCustomObjectListener() {
+                @Override
+                public void onChangeListener() {
+                    enableApp(rewardSystem.bluetoothConnection);
+                }
+            });
+
         }
     }
 
@@ -300,12 +318,12 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
             logEvent(preferencesManager.ec_trial_started, false);
             updateTvExplanation("");
+            trial_running = true;
             commitFragment();
 
         }
 
     }
-
 
 
     // Automatically restart static fragmentTransaction so it is always available to use
@@ -449,7 +467,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     }
 
     // Recursive function to track time and switch app off when it hits a certain time
-    // TODO: Add to settings menu on and off times
     public static void dailyTimer(boolean shutdown) {
         Log.d(TAG, "dailyTimer called");
         final Calendar c = Calendar.getInstance();
@@ -493,6 +510,11 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             foregroundBlack.bringToFront();
             activity.findViewById(R.id.tvError).bringToFront();
             UtilsTask.toggleView(foregroundBlack, !bool);  // This is inverted as foreground object disables app
+            if (bool) {
+                PrepareForNewTrial(0);
+            } else {
+                killTask();
+            }
             return true;
         } else {
             Log.d(TAG, "foregroundBlack object not instantiated");
@@ -772,16 +794,22 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     private static void trialEnded(String result, double rew_scalar) {
 
-        // Kill task and task timer
-        fragmentTransaction.remove(fragmentManager.findFragmentByTag(TAG_FRAGMENT));
-        commitFragment();
-        h0.removeCallbacksAndMessages(null);
-        timerRunning = false;
+        killTask();
 
         if (result == preferencesManager.ec_correct_trial) {
             correctTrial(rew_scalar);
         } else {
             incorrectTrial(result);
+        }
+    }
+
+    private static void killTask() {
+        if (trial_running) {
+            fragmentTransaction.remove(fragmentManager.findFragmentByTag(TAG_FRAGMENT));
+            commitFragment();
+            h0.removeCallbacksAndMessages(null);
+            timerRunning = false;
+            trial_running = false;
         }
     }
 

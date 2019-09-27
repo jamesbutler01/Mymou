@@ -184,10 +184,13 @@ public class PreferencesManager {
     public void TrainingTasks() {
         int screen_colour = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_t_one_screen_colour), Integer.toString(r.getInteger(R.integer.default_t_one_screen_colour))));
         t_one_screen_colour = colors[screen_colour];
-        t_random_reward_start_time = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_t_random_reward_start), Integer.toString(r.getInteger(R.integer.default_random_reward_start))));
-        t_random_reward_stop_time = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_t_random_reward_stop), Integer.toString(r.getInteger(R.integer.default_random_reward_stop))));
+        t_random_reward_start_time = sharedPrefs.getInt(r.getString(R.string.preftag_t_random_reward_start), r.getInteger(R.integer.default_random_reward_start));
+        t_random_reward_stop_time = sharedPrefs.getInt(r.getString(R.string.preftag_t_random_reward_stop), r.getInteger(R.integer.default_random_reward_stop));
         t_one_num_presses = sharedPrefs.getInt(r.getString(R.string.preftag_t_one_num_presses), r.getInteger(R.integer.default_t_one_num_presses));
         skip_go_cue = sharedPrefs.getBoolean(r.getString(R.string.preftag_skip_go_cue), r.getBoolean(R.bool.default_t_one_skip_go_cue));
+
+        responseduration += t_random_reward_stop_time;
+
     }
 
     public int pr_cue_colour, pr_animation_duration;

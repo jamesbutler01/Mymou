@@ -68,6 +68,7 @@ public class TaskTrainingFourSmallMovingCue extends Task {
     private void randomRewardTimer(int time) {
         Log.d(TAG, "trial_timer "+time);
 
+        // If reset then pick next reward time
         if (time == 0) {
             random_reward_time = r.nextInt(prefManager.t_random_reward_stop_time - prefManager.t_random_reward_start_time);
             random_reward_time += prefManager.t_random_reward_start_time;
@@ -81,6 +82,7 @@ public class TaskTrainingFourSmallMovingCue extends Task {
             public void run() {
                 if (time_final > random_reward_time) {
 
+                    Log.d(TAG, "Giving random reward");
                     buttonClickListener.onClick(getView());
 
                 } else {
@@ -149,7 +151,7 @@ public class TaskTrainingFourSmallMovingCue extends Task {
             positionCue();
 
             // Re-enable cue after specified delay
-            new Handler().postDelayed(new Runnable() {
+            h0.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     UtilsTask.toggleCue(cue, true);
@@ -160,8 +162,6 @@ public class TaskTrainingFourSmallMovingCue extends Task {
         }
     };
 
-
-
     // Implement interface and listener to enable communication up to TaskManager
     TaskInterface callback;
     public void setFragInterfaceListener(TaskInterface callback) {
@@ -171,6 +171,7 @@ public class TaskTrainingFourSmallMovingCue extends Task {
     @Override
     public void onPause() {
         super.onPause();
+        super.onDestroy();
         h0.removeCallbacksAndMessages(null);
     }
 
