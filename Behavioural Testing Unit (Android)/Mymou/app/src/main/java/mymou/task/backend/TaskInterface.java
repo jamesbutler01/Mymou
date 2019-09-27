@@ -6,4 +6,5 @@ public interface TaskInterface {
     void logEvent_(String event);
     void giveRewardFromTask_(int amount);
     void takePhotoFromTask_();
+    void  commitTrialDataFromTask_(String overallTrialOutcome);
 }

@@ -1,12 +1,9 @@
 /**
- * Training task three: Shrinking and Moving Cue
+ * Training task four: Small moving cue
  *
- * Valid touch area starts as the entire screen, and gets progressively smaller
- * The cue also moves randomly around the screen
- * An idle timeout resets size of the cue to the entire screen
- * Must get specified amount of presses in a row to receive reward
- *
- * @param  num_consecutive_corr the current number of consecutive presses
+ * Cue  moves randomly around the screen
+ * Instead of idle timeout, it randomly gives reward and then moves the cue
+ * Different to all other tasks in that it never ends a trial, and so must handle data logging itself rather than using TaskManager
  *
  */
 
@@ -146,6 +143,12 @@ public class TaskTrainingFourSmallMovingCue extends Task {
 
             // Reward subject
             callback.giveRewardFromTask_(prefManager.rewardduration);
+
+            // Log press
+            callback.logEvent_(prefManager.ec_correct_trial);
+
+            // We have to commit the event as well as the trial never actually ends 
+            callback.commitTrialDataFromTask_(prefManager.ec_correct_trial);
 
             // Move cue
             positionCue();

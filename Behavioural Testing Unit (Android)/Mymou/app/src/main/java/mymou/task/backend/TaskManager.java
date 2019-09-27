@@ -303,6 +303,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 @Override
                 public void takePhotoFromTask_() {takePhoto();}
 
+                @Override
+                public void commitTrialDataFromTask_(String overallTrialOutcome) {commitTrialData(overallTrialOutcome);}
+
             });
             task.setArguments(bundle);
             fragmentTransaction.add(R.id.task_container, task, TAG_FRAGMENT);
@@ -902,6 +905,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     private static void resetTimer() {
         Log.d(TAG, "resetTimer");
+        setBrightness(true);
         time = 0;
     }
 
