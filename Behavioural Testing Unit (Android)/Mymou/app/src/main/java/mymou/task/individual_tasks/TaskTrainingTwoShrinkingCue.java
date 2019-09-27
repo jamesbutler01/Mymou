@@ -127,6 +127,9 @@ public class TaskTrainingTwoShrinkingCue extends Task {
             // Reset timer for idle timeout on each press
             callback.resetTimer_();
 
+           // Take photo of button press
+            callback.takePhotoFromTask_();
+
             // Log that it was a correct trial
             num_consecutive_corr += 1;
             log_trial_outcome(true);

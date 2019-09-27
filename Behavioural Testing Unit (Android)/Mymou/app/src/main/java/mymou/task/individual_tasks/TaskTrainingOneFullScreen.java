@@ -84,6 +84,9 @@ public class TaskTrainingOneFullScreen extends Task {
             // Increment number of steps
             num_steps += 1;
 
+            // Take photo of button press
+            callback.takePhotoFromTask_();
+
             // Check how many correct presses they've got and how many they need per trial
             Log.d(TAG, "Num steps: "+num_steps+"/"+prefManager.t_one_num_presses);
 
