@@ -118,6 +118,8 @@
     <string name="preftag_dm_animation_dur_actual">dm_anim_dur_actual</string>
 
     <string name="preftag_t_one_screen_colour">t_one_screen_colour</string>
+    <string name="preftag_t_random_reward_start">t_random_reward_start</string>
+    <string name="preftag_t_random_reward_stop">t_random_reward_stop</string>
     <string name="preftag_t_one_num_presses">t_one_num_presses</string>
 
     <string name="preftag_pr_cue_colour">pr_cue_colour</string>

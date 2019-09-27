@@ -137,6 +137,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     private void initialiseAutoRestartHandler() {
         if (!preferencesManager.debug) {
+            Log.d(TAG, "initialiseAutoRestartHandler");
             Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
                 @Override
                 public void uncaughtException(Thread thread, Throwable throwable) {

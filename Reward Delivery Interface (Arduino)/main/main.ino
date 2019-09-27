@@ -1,5 +1,20 @@
-// Receives bluetooth input to control digital out 
-// channels 2 - 5
+/*
+ * Arduino Uno code to control 4 independent reward systems via Bluetooth
+ * 
+ * Receives commands from Bluetooth, then activates the various digital OUT pins of Arduino accordingly:
+ * 
+ * Bluetooth inputs:
+ * "0" - Switch off all channels
+ * "1" - Switch on channel 2
+ * "2" - Switch off channel 2
+ * "3" - Switch on channel 3
+ * "4" - Switch off channel 3
+ * "5" - Switch on channel 4
+ * "6" - Switch off channel 4
+ * "7" - Switch on channel 5
+ * "8" - Switch off channel 5
+ * 
+ */
 
 // Initialise variables
 int ledPin = 13;
@@ -8,6 +23,19 @@ int channelThree = 3;
 int channelFour = 4;
 int channelFive = 5;
 int bufferInt = -1;
+
+
+int pumpcommand(int pump_channel, int on_or_off) {
+
+    if(on_or_off==0) {
+      digitalWrite(pump_channel, LOW);
+      digitalWrite(ledPin, LOW);
+    } 
+    else if(on_or_off==1) {
+      digitalWrite(pump_channel, HIGH);
+      digitalWrite(ledPin, HIGH);
+    } 
+}
 
 void setup() {
 
@@ -19,11 +47,10 @@ void setup() {
   pinMode(ledPin, OUTPUT);
   
   // Set all channels to off
-  digitalWrite(channelTwo, LOW);
-  digitalWrite(channelThree, LOW);
-  digitalWrite(channelFour, LOW);
-  digitalWrite(channelFive, LOW);
-  digitalWrite(ledPin, LOW);
+  pumpcommand(channelTwo, 0);
+  pumpcommand(channelThree, 0);
+  pumpcommand(channelFour, 0);
+  pumpcommand(channelFive, 0);
   
   // Configure bluetooth connection rate
   Serial.begin(9600); 
@@ -37,38 +64,25 @@ void loop() {
 
     bufferInt = Serial.read();
 
-    if (bufferInt == '0') {
-      digitalWrite(channelTwo, LOW);
-      digitalWrite(channelThree, LOW);
-      digitalWrite(channelFour, LOW);
-      digitalWrite(channelFive, LOW);
-      digitalWrite(ledPin, LOW);
-    } else if (bufferInt == '1') {
-      digitalWrite(channelTwo, HIGH);
-      digitalWrite(ledPin, HIGH);
-    } else if (bufferInt == '2') {
-      digitalWrite(channelTwo, LOW);
-      digitalWrite(ledPin, LOW);
-    } else if (bufferInt == '3') {
-      digitalWrite(channelThree, HIGH);
-      digitalWrite(ledPin, HIGH);
-    } else if (bufferInt == '4') {
-      digitalWrite(channelThree, LOW);
-      digitalWrite(ledPin, LOW);
-    } else if (bufferInt == '5') {
-      digitalWrite(channelFour, HIGH);
-      digitalWrite(ledPin, HIGH);
-    } else if (bufferInt == '6') {
-      digitalWrite(channelFour, LOW);
-      digitalWrite(ledPin, LOW);
-    } else if (bufferInt == '7') {
-      digitalWrite(channelFive, HIGH);
-      digitalWrite(ledPin, HIGH);
-    } else if (bufferInt == '8') {
-      digitalWrite(channelFive, LOW);
-      digitalWrite(ledPin, LOW);
-    }
+    switch (bufferInt) {
 
+      case 0: {
+              pumpcommand(channelTwo, 0);
+              pumpcommand(channelThree, 0);
+              pumpcommand(channelFour, 0);
+              pumpcommand(channelFive, 0);
+              break;
+             }
+      case 1: pumpcommand(channelTwo, 1); break;
+      case 2: pumpcommand(channelTwo,0); break;
+      case 3: pumpcommand(channelThree,1); break;
+      case 4: pumpcommand(channelThree,0); break;
+      case 5: pumpcommand(channelFour,1); break;
+      case 6: pumpcommand(channelFour,0); break;
+      case 7: pumpcommand(channelFive,1); break;
+      case 8: pumpcommand(channelFive,0); break;
+    }
+  
   }
 
 } 

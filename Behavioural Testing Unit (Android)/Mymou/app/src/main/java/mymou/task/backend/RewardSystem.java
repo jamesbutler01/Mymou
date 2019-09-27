@@ -35,6 +35,7 @@ public class RewardSystem {
     public static boolean bluetoothConnection = false;
     private static Handler connectionLoopHandler;
     private static boolean bluetoothEnabled = false;
+    private static boolean active = false;
     private static String allChanOff, chanZeroOn, chanZeroOff, chanOneOn, chanOneOff, chanTwoOn,
             chanTwoOff, chanThreeOn, chanThreeOff;
     private static Context context;
@@ -199,14 +200,24 @@ public class RewardSystem {
     }
 
     public static void activateChannel(final int Ch, int amount) {
-        Log.d(TAG,"Giving reward "+amount+" ms on channel "+Ch);
 
-        startChannel(Ch);
+        // Don't allow multiple calls to the reward system
+        if (!active) {
+            Log.d(TAG,"Giving reward "+amount+" ms on channel "+Ch);
+            active = true;
 
-        new CountDownTimer(amount, 100) {
-            public void onTick(long ms) {}
-            public void onFinish() { stopChannel(Ch); }
-        }.start();
+            startChannel(Ch);
+
+            new CountDownTimer(amount, 100) {
+                public void onTick(long ms) {
+                }
+
+                public void onFinish() {
+                    stopChannel(Ch);
+                    active=false;
+                }
+            }.start();
+        }
     }
 
     public static void sendData(String message) {

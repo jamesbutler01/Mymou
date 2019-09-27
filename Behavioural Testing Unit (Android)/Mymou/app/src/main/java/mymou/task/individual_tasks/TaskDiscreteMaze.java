@@ -258,7 +258,9 @@ public class TaskDiscreteMaze extends Task {
                     logStep(3);
 
                     // Give small reward
-                    callback.giveRewardFromTask_(preferencesManager.dm_booster_amount);
+                    if (preferencesManager.dm_booster_amount > 0) {
+                        callback.giveRewardFromTask_(preferencesManager.dm_booster_amount);
+                    }
 
                     // Update UI
                     unfadeButtons(preferencesManager.dm_animation_duration*2 + 400 + 50);

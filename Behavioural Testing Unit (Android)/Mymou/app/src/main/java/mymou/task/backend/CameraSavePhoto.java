@@ -105,14 +105,6 @@ class CameraSavePhoto implements Runnable {
         duration = (endTime - startTime);
         Log.d(TAG, "Cropped photo saved in "+duration);
 
-        //Save photo as jpeg
-//        timestamp += "_2";
-//        startTime = System.currentTimeMillis();
-//        savePhoto(bitmap);
-//        endTime = System.currentTimeMillis();
-//        duration = (endTime - startTime);
-//        Log.d(TAG, "Original photo saved in "+duration);
-
         Log.d(TAG, "CameraSavePhoto finished successfully");
 
     }

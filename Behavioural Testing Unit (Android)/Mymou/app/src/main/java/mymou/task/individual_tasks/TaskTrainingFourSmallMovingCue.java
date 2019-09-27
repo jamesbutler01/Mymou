@@ -15,6 +15,7 @@ package mymou.task.individual_tasks;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -36,13 +37,15 @@ public class TaskTrainingFourSmallMovingCue extends Task {
     // Debug
     public static String TAG = "TaskTrainingFourSmallMovingCue";
 
-    private static int rew_scalar = 1;
     private static PreferencesManager prefManager;
 
     // Task objects
     private static Button cue;
-    Float x_range, y_range;
-    Random r;
+    private Float x_range, y_range;
+    private Random r;
+    private int random_reward_time;
+    private static Handler h0 = new Handler();  // Task trial_timer
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,6 +61,35 @@ public class TaskTrainingFourSmallMovingCue extends Task {
 
         positionCue();
 
+        randomRewardTimer(0);
+
+    }
+
+    private void randomRewardTimer(int time) {
+        Log.d(TAG, "trial_timer "+time);
+
+        if (time == 0) {
+            random_reward_time = r.nextInt(prefManager.t_random_reward_stop_time - prefManager.t_random_reward_start_time);
+            random_reward_time += prefManager.t_random_reward_start_time;
+        }
+
+        time += 1;
+        final int time_final = time;
+
+        h0.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (time_final > random_reward_time) {
+
+                    buttonClickListener.onClick(getView());
+
+                } else {
+
+                    randomRewardTimer(time_final);
+
+                }
+            }
+        }, 1000);
     }
 
     private void assignObjects() {
@@ -100,6 +132,10 @@ public class TaskTrainingFourSmallMovingCue extends Task {
             // Always disable cues first
             UtilsTask.toggleCue(cue, false);
 
+            // Cancel random reward timer
+            h0.removeCallbacksAndMessages(null);
+
+
             // Reset timer for idle timeout on each press
             callback.resetTimer_();
 
@@ -112,13 +148,30 @@ public class TaskTrainingFourSmallMovingCue extends Task {
             // Move cue
             positionCue();
 
+            // Re-enable cue after specified delay
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    UtilsTask.toggleCue(cue, true);
+                    randomRewardTimer(0);
+                }
+            }, 2000);
+
         }
     };
+
+
 
     // Implement interface and listener to enable communication up to TaskManager
     TaskInterface callback;
     public void setFragInterfaceListener(TaskInterface callback) {
         this.callback = callback;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        h0.removeCallbacksAndMessages(null);
     }
 
 

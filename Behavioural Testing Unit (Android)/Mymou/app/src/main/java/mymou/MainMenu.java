@@ -304,8 +304,9 @@ public class MainMenu extends Activity {
                     rewardSystem.sendData("8");
                     break;
                 case R.id.button9:
-                    rewardSystem.sendData("9");
+                    rewardSystem.activateChannel(0, 1500);
                     break;
+
             }
         }
     };

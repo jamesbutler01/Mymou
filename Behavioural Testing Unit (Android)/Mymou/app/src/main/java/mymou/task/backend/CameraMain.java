@@ -16,6 +16,7 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -183,11 +184,15 @@ public class CameraMain extends Fragment
         @Override
         public void onImageAvailable(ImageReader reader) {
             Image image = reader.acquireNextImage();
+            Log.d(TAG, "Saving photo..");
 
             // On camera thread as don't want to be able to take photo while saving previous photo
             CameraSavePhoto cameraSavePhoto = new CameraSavePhoto(image, timestamp, getContext());
             cameraSavePhoto.run();
+
+            // Unlock camera so next photo can be taken
             takingPhoto = false;
+            Log.d(TAG, "Photo saved..");
         }
 
     };
@@ -382,7 +387,7 @@ public class CameraMain extends Fragment
 
     // Say cheese
     public static boolean captureStillPicture(String ts) {
-        Log.d(TAG, "captureStillPicture(" + ts + ") called");
+        Log.d(TAG, "Capture request started at" + ts);
         // If the camera is still in process of taking previous picture it will not take another one
         // If it took multiple photos the timestamp for saving/indexing the photos would be wrong
         // Tasks need to handle this behaviour
@@ -426,6 +431,7 @@ public class CameraMain extends Fragment
             mCaptureSession.capture(captureBuilder.build(), CaptureCallback, null);
 
             // Photo taken successfully so return true
+            Log.d(TAG, "Capture request started successfully..");
             return true;
 
         } catch (CameraAccessException e) {
