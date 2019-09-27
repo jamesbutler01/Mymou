@@ -727,31 +727,24 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         // Take selfie
         boolean photoTaken = checkMonkey(monkId);
 
-        if (preferencesManager.facerecog) {
+        if (!photoTaken) {
 
-            if (photoTaken) {
+            // Photo not taken as camera/faceRecog wasn't ready so reset go cues to let them press again
+            Log.d(TAG, "Error: Camera not ready!");
+            UtilsTask.toggleCues(cues_Go, true);
 
+        } else if (photoTaken) {
+
+            if (preferencesManager.facerecog) {
                 // If photo successfully taken then do nothing as wait for faceRecog to return prediction
                 // setFaceRecogPrediction will ultimately call resultMonkeyPressedTheirCue
                 Log.d(TAG, "Photo taken, waiting for faceRecog..");
 
             } else {
 
-                // Photo not taken as camera/faceRecog wasn't ready so reset go cues to let them press again
-                UtilsTask.toggleCues(cues_Go, true);
-
-            }
-
-        } else {
-
-            if (photoTaken) {
                 // If photo successfully taken then start the trial
                 startTrial(monkId);
-            } else {
-                // Photo not taken as camera wasn't ready so reset go cues to let them press again
-                Log.d(TAG, "Error: Camera not ready!");
 
-                UtilsTask.toggleCues(cues_Go, true);
             }
 
         }
@@ -958,7 +951,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 updateTvExplanation("Waiting for trial to be started");
                 // Auto start next trial if skipping go cue
                 if (preferencesManager.skip_go_cue) {
-                    start_trial_without_go_cue(0);
+                    startTrial(-1);
                 } else {
                     UtilsTask.toggleCues(cues_Go, true);
                 }
@@ -966,29 +959,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         }, delay);
     }
 
-
-    private static void start_trial_without_go_cue(int num_attempts) {
-        Log.d(TAG, "Attempting to start trial without go cue");
-
-        final int num_attempts_final = num_attempts + 1;
-
-        h3.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                    // Timeout if camera bust
-                    if (num_attempts_final > 10000) {
-                        new Exception("PhotoTakenException");
-                    }
-
-                    boolean photo_taken = takePhoto();
-                    if (photo_taken) {
-                        startTrial(-1);
-                    } else {
-                        start_trial_without_go_cue(num_attempts_final);
-                    }
-            }
-        }, 500);
-    }
 
     private void cancelHandlers() {
         Log.d(TAG, "Cancel all handlers (timer etc)");
