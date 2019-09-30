@@ -24,10 +24,17 @@
                 app:key="@string/preftag_dm_max_start_distance"
                 app:title="Maximum starting distance from target (inclusive)" />
 
+
+        <SwitchPreferenceCompat
+                android:summary="If selected, subjects will be given an error timeout if they make the specified number of extra steps without reaching the target location"
+                app:key="@string/preftag_dm_extra_step_timout"
+                app:title="Timeout after certain number of extra steps" />
+
         <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_dm_num_extra_steps"
                 app:key="@string/preftag_dm_num_extra_steps"
-                app:title="Number of extra steps allowed before timeout" />
+                app:title="Number of extra steps allowed before timeout"
+                android:summary="Only applicable if 'Timeout after certain number of extra steps' is enabled"/>
 
         <mymou.preferences.SeekBarPreferenceCustom
                 android:summary="Trial will end when they are this distance away from the target"
@@ -48,11 +55,6 @@
                 android:summary="If selected, subjects will be given same trial until they get it correct"
                 app:key="@string/preftag_dm_repeat_error"
                 app:title="Repeat trial on error" />
-
-        <SwitchPreferenceCompat
-                android:summary="If disabled, task will timeout if subjects take even one step away from the target location (so perfect navigation needed)"
-                app:key="@string/preftag_dm_errors_allowed"
-                app:title="Allow steps away from the target location" />
 
         <SwitchPreferenceCompat
                 android:summary="Does the target location move around the map? If disabled, target location will change each trial"

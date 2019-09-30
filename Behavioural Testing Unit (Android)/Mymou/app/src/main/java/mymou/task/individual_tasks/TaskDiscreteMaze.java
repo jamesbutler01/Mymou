@@ -272,7 +272,7 @@ public class TaskDiscreteMaze extends Task {
                 //Wrong direction
                 logStep(0);
 
-                if (num_steps > start_dist + preferencesManager.dm_num_extra_steps | !preferencesManager.dm_errors_allowed) {
+                if (num_steps > start_dist + preferencesManager.dm_num_extra_steps & preferencesManager.dm_extra_step_timeout) {
 
                    arrivedAtWrongTarget();
 

@@ -105,6 +105,7 @@
     <string name="preftag_dm_map">preftag_dm_map_chosen</string>
     <string name="preftag_dm_min_start_distance">dm_min_start</string>
     <string name="preftag_dm_max_start_distance">dm_max_start</string>
+    <string name="preftag_dm_extra_step_timout">dm_extra_step_timout</string>
     <string name="preftag_dm_num_extra_steps">dm_num_extra_steps</string>
     <string name="preftag_dm_repeat_error">dm_repeat_on_error</string>
     <string name="preftag_dm_static_reward">preftag_dm_static_reward</string>
