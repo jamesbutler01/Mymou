@@ -143,13 +143,18 @@ public class TaskDiscreteMaze extends Task {
         pb1 = (ProgressBar) getView().findViewById(R.id.boosterBar);
 
         ConstraintLayout layout = getView().findViewById(R.id.parent_task_from_paper);
-        ibTarget = UtilsTask.addImageCue(-1, getContext(), null, layout, true);
-        ibCurrLoc = UtilsTask.addImageCue(-1, getContext(), null, layout, true);
 
+        // Add non-clickable cues
+        ibTarget = UtilsTask.addImageCue(-1, getContext(), layout);
+        ibCurrLoc = UtilsTask.addImageCue(-1, getContext(), layout);
+
+        // Add clickable cues
         imageButtons = new ImageButton[mapParams.numNeighbours];
         for (int i = 0; i < mapParams.numNeighbours; i++) {
-            imageButtons[i] = UtilsTask.addImageCue(i, getContext(), buttonClickListener, layout, true);
+            imageButtons[i] = UtilsTask.addImageCue(i, getContext(), layout, buttonClickListener);
         }
+
+        // Get map parameters
         neighbours = new int[mapParams.numNeighbours];
         transitionMatrix = MatrixMaths.generateTransitionMatrix(mapParams.y_size, mapParams.y_size, mapParams.torus);
         num_stimulus = mapParams.imageList.length;

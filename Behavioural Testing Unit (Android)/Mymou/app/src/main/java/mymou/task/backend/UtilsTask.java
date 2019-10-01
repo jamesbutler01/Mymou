@@ -71,7 +71,7 @@ public class UtilsTask {
     }
 
     // Add an image to the task
-    public static ImageButton addImageCue(int id,Context context, View.OnClickListener onClickListener, ConstraintLayout layout, boolean add_listener) {
+    public static ImageButton addImageCue(int id, Context context, ConstraintLayout layout) {
         PreferencesManager preferencesManager = new PreferencesManager(context);
         ImageButton button = new ImageButton(context);
         button.setLayoutParams(new LinearLayout.LayoutParams(preferencesManager.cue_size, preferencesManager.cue_size));
@@ -79,9 +79,20 @@ public class UtilsTask {
         button.setScaleType(ImageView.ScaleType.FIT_XY);
         int border = preferencesManager.border_size;
         button.setPadding(border, border,border,border);
-        if (add_listener) {
-            button.setOnClickListener(onClickListener);
-        }
+        layout.addView(button);
+        return button;
+    }
+
+    // Add a _clickable_ image to the task
+    public static ImageButton addImageCue(int id, Context context, ConstraintLayout layout, View.OnClickListener onClickListener) {
+        PreferencesManager preferencesManager = new PreferencesManager(context);
+        ImageButton button = new ImageButton(context);
+        button.setLayoutParams(new LinearLayout.LayoutParams(preferencesManager.cue_size, preferencesManager.cue_size));
+        button.setId(id);
+        button.setScaleType(ImageView.ScaleType.FIT_XY);
+        int border = preferencesManager.border_size;
+        button.setPadding(border, border,border,border);
+        button.setOnClickListener(onClickListener);
         layout.addView(button);
         return button;
     }
