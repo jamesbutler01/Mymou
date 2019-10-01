@@ -152,7 +152,7 @@ public class MainMenu extends Activity {
     private void checkTaskHasSettings() {
         TypedArray tasks_has_settings = getResources().obtainTypedArray(R.array.task_has_settings);
         boolean has_settings = Boolean.valueOf(tasks_has_settings.getBoolean(taskSelected, false));
-        UtilsTask.toggleCue(findViewById(R.id.buttonTaskSettings), has_settings);
+        UtilsTask.toggleCue((Button) findViewById(R.id.buttonTaskSettings), has_settings);
     }
 
     private void checkIfCrashed() {
@@ -260,7 +260,7 @@ public class MainMenu extends Activity {
                         intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_disc_maze_settings));
                     } else if (taskSelected == 6) {
                         intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_obj_disc_settings));
-                    } else if (taskSelected == 0 | taskSelected == 1 | taskSelected == 2 | taskSelected == 3) {
+                    } else if (taskSelected < 5) {
                         intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_t_one_settings));
                     } else if (taskSelected == 7) {
                         intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_pr_settings));

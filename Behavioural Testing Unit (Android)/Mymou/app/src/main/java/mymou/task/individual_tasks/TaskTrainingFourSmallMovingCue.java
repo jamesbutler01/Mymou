@@ -104,8 +104,6 @@ public class TaskTrainingFourSmallMovingCue extends Task {
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point screen_size = new Point();
         display.getSize(screen_size);
-
-        // Put cue in random location
         x_range = (float) (screen_size.x - prefManager.cue_size);
         y_range = (float) (screen_size.y - prefManager.cue_size);
 

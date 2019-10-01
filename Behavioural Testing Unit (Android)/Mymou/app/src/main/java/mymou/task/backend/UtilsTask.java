@@ -112,8 +112,21 @@ public class UtilsTask {
         }
     }
 
+    // Iterates through a list of cues enabling/disabling all in list
+    public static void toggleCues(ImageButton[] buttons, boolean status) {
+        for (int i = 0; i < buttons.length; i++) {
+            UtilsTask.toggleCue(buttons[i], status);
+        }
+    }
+
     // Fully enable/disable individual cue
     public static void toggleCue(Button button, boolean status) {
+        toggleView(button, status);
+        button.setClickable(status);
+    }
+
+    // Fully enable/disable individual cue
+    public static void toggleCue(ImageButton button, boolean status) {
         toggleView(button, status);
         button.setClickable(status);
     }
@@ -169,7 +182,17 @@ public class UtilsTask {
         }
 
         return locs;
+    }
 
+    // Place a cue in the centre of the screen
+    public static void centreCue(View cue, Activity activity) {
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        Point screen_size = new Point();
+        display.getSize(screen_size);
+        float x_loc = (screen_size.x/2) - (cue.getWidth()/2);
+        float y_loc = (screen_size.y/2) - (cue.getHeight()/2);
+        cue.setX(x_loc);
+        cue.setY(y_loc);
     }
 
 }

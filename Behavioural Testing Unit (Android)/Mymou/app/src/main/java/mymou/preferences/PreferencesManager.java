@@ -3,6 +3,8 @@ package mymou.preferences;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+
+import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 import mymou.R;
 import mymou.Utils.UtilsSystem;
@@ -23,7 +25,7 @@ public class PreferencesManager {
     public static int taskbackground, rewardbackground, timeoutbackground;
     public static int border_colour, border_size, cue_size, cue_spacing;
     public static int num_monkeys;
-    public static String ec_correct_trial, ec_incorrect_trial, ec_trial_timeout, ec_wrong_gocue_pressed, ec_trial_started;
+    public static String ec_correct_trial, ec_incorrect_trial, ec_trial_timeout, ec_wrong_gocue_pressed, ec_trial_started, ec_trial_prepared;
     public static int[] colours_gocues;
 
     private SharedPreferences sharedPrefs;
@@ -92,6 +94,7 @@ public class PreferencesManager {
         ec_trial_timeout = sharedPrefs.getString(r.getString(R.string.preftag_eventcode_timeout_trial), r.getString(R.string.default_eventcode_timeout_trial));
         ec_wrong_gocue_pressed = sharedPrefs.getString(r.getString(R.string.preftag_eventcode_wrong_gocue), r.getString(R.string.default_eventcode_wrong_gocue));
         ec_trial_started = sharedPrefs.getString(r.getString(R.string.preftag_eventcode_start_trial), r.getString(R.string.default_eventcode_start_trial));
+        ec_trial_prepared = sharedPrefs.getString(r.getString(R.string.preftag_eventcode_trial_prepared), r.getString(R.string.default_eventcode_trial_prepared));
 
     }
 
@@ -190,6 +193,24 @@ public class PreferencesManager {
         skip_go_cue = sharedPrefs.getBoolean(r.getString(R.string.preftag_skip_go_cue), r.getBoolean(R.bool.default_t_one_skip_go_cue));
 
         responseduration += t_random_reward_stop_time;
+
+    }
+
+    public int ts_transition_prob, ts_go_cue_reward_amount, ts_intertrial_interval;
+    public int ts_low_reward_amount, ts_high_reward_amount;
+    public int ts_low_rew_change, ts_high_rew_change;
+    public int ts_c2_1_col, ts_c2_2_col;
+
+    public void TrainingFiveTwoStep() {
+        ts_transition_prob = 70;
+        ts_go_cue_reward_amount = 1500;
+        ts_low_reward_amount = 2000;
+        ts_high_reward_amount = 4000;
+        ts_intertrial_interval = 1000;
+        ts_low_rew_change = 5;
+        ts_high_rew_change = 9;
+        ts_c2_1_col  = ContextCompat.getColor(mContext, R.color.silver);
+        ts_c2_2_col  = ContextCompat.getColor(mContext, R.color.yellow);
 
     }
 

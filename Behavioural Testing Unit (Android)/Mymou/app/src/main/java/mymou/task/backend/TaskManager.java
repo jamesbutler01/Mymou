@@ -268,19 +268,22 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                  task = new TaskTrainingFourSmallMovingCue();
                 break;
             case 4:
-                 task = new TaskExample();
+                 task = new TaskTrainingFiveTwoStep();
                 break;
             case 5:
-                task = new TaskDiscreteMaze();
+                 task = new TaskExample();
                 break;
             case 6:
+                task = new TaskDiscreteMaze();
+                break;
+            case 7:
                 task = new TaskObjectDiscrim();
 
                 // Check settings correct
                 valid_configuration = preferencesManager.objectdiscrim_valid_config;
 
                 break;
-            case 7:
+            case 8:
                 task = new TaskProgressiveRatio();
                 break;
             default:

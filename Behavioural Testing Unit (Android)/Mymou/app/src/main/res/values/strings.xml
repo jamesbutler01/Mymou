@@ -17,6 +17,7 @@
         <item>Training 2: Shrinking central cue</item>
         <item>Training 3: Shrinking moving cue</item>
         <item>Training 4: Small Moving cue</item>
+        <item>Training 5: Two step</item>
         <item>Example task</item>
         <item>Discrete Maze</item>
         <item>Object discrimination</item>
@@ -31,6 +32,7 @@
     <string name="default_eventcode_timeout_trial">2</string>
     <string name="default_eventcode_wrong_gocue">3</string>
     <string name="default_eventcode_start_trial">5</string>
+    <string name="default_eventcode_trial_prepared">6</string>
 
     <string name="default_gocue_colours">0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,</string>
     <string name="default_objdis_corr_colours">0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,</string>
@@ -67,6 +69,7 @@
     <string name="preftag_eventcode_timeout_trial">eventcode_timeout_trial</string>
     <string name="preftag_eventcode_wrong_gocue">eventcode_wrong_gocue</string>
     <string name="preftag_eventcode_start_trial">eventcode_start_trial</string>
+    <string name="preftag_eventcode_trial_prepared">eventcode_trial_prepared</string>
 
     <string name="preftag_taskbackgroundcolour">taskbackgroundcolour</string>
     <string name="preftag_rewardbackgroundcolour">rewardbackgroundcolour</string>
