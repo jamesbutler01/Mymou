@@ -173,14 +173,17 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 preferencesManager.TrainingTasks();
                 break;
             case 4:
+                preferencesManager.TrainingTasks();
                 break;
             case 5:
-                preferencesManager.DiscreteMaze();
                 break;
             case 6:
-                preferencesManager.ObjectDiscrimination();
+                preferencesManager.DiscreteMaze();
                 break;
             case 7:
+                preferencesManager.ObjectDiscrimination();
+                break;
+            case 8:
                 preferencesManager.ProgressiveRatio();
                 break;
             default:
@@ -914,7 +917,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     // Recursive function to track task time
     private static void trial_timer() {
-        Log.d(TAG, "trial_timer "+time);
+        Log.d(TAG, "trial_timer "+time+" (limit ="+preferencesManager.responseduration+")");
 
         time += 1000;
 

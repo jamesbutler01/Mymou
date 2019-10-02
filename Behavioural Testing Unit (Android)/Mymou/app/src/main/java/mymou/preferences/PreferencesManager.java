@@ -192,20 +192,23 @@ public class PreferencesManager {
         t_one_num_presses = sharedPrefs.getInt(r.getString(R.string.preftag_t_one_num_presses), r.getInteger(R.integer.default_t_one_num_presses));
         skip_go_cue = sharedPrefs.getBoolean(r.getString(R.string.preftag_skip_go_cue), r.getBoolean(R.bool.default_t_one_skip_go_cue));
 
-        responseduration += t_random_reward_stop_time;
+        // TODO: Get this working
+        int t_random_reward_stop_time_ms = t_random_reward_stop_time * 1000;
+        responseduration += t_random_reward_stop_time_ms;
 
     }
 
-    public int ts_transition_prob, ts_go_cue_reward_amount, ts_intertrial_interval;
-    public int ts_low_reward_amount, ts_high_reward_amount;
+    public int ts_transition_prob, ts_go_cue_reward_amount, ts_trial_reward_amount, ts_intertrial_interval;
+    public int ts_low_reward_percent, ts_high_reward_percent;
     public int ts_low_rew_change, ts_high_rew_change;
     public int ts_c2_1_col, ts_c2_2_col;
 
     public void TrainingFiveTwoStep() {
-        ts_transition_prob = 70;
-        ts_go_cue_reward_amount = 1500;
-        ts_low_reward_amount = 2000;
-        ts_high_reward_amount = 4000;
+        ts_transition_prob = 80;
+        ts_go_cue_reward_amount = 750;
+        ts_trial_reward_amount = 2500;
+        ts_low_reward_percent = 20; // Percent of times rewarded
+        ts_high_reward_percent = 80;  // Percent of times rewarded
         ts_intertrial_interval = 1000;
         ts_low_rew_change = 5;
         ts_high_rew_change = 9;

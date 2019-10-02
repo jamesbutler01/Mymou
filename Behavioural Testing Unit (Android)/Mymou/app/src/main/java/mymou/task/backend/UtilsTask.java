@@ -189,8 +189,8 @@ public class UtilsTask {
         Display display = activity.getWindowManager().getDefaultDisplay();
         Point screen_size = new Point();
         display.getSize(screen_size);
-        float x_loc = (screen_size.x/2) - (cue.getWidth()/2);
-        float y_loc = (screen_size.y/2) - (cue.getHeight()/2);
+        float x_loc = ( ( screen_size.x - cue.getWidth() ) / 2 );
+        float y_loc = ( (screen_size.y/2) - (cue.getHeight()*2)  );
         cue.setX(x_loc);
         cue.setY(y_loc);
     }
