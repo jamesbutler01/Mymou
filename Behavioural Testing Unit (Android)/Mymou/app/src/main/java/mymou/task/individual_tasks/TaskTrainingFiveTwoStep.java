@@ -126,7 +126,7 @@ public class TaskTrainingFiveTwoStep extends Task {
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            callback.logEvent_("17," + view.getId() + ",,, cue clicked");
+            callback.logEvent_("17," + view.getId() + ",,,, cue clicked");
 
             // Always disable cues first
             disableCues();
@@ -154,7 +154,7 @@ public class TaskTrainingFiveTwoStep extends Task {
                     callback.giveRewardFromTask_(prefManager.ts_go_cue_reward_amount);
 
                     // Log press
-                    callback.logEvent_(prefManager.ec_trial_started + ",,,, trial started");
+                    callback.logEvent_(prefManager.ec_trial_started + ",,,,, trial started");
 
                     // Enable choice 1 after reward finished
                     h1.postDelayed(new Runnable() {
@@ -196,7 +196,7 @@ public class TaskTrainingFiveTwoStep extends Task {
             public void run() {
 
                 callback.resetTimer_();
-                callback.logEvent_("18," + prefManager.ec_trial_prepared + ",,, trial prepared");
+                callback.logEvent_("18," + prefManager.ec_trial_prepared + ",,,, trial prepared");
 
                 disableCues();
 
@@ -226,13 +226,13 @@ public class TaskTrainingFiveTwoStep extends Task {
 
             // Pick next reward update
             next_rew_change = trial_counter + prefManager.ts_rew_change_interval;
-            callback.logEvent_("10," + c2_1_rew_percent + "," + c2_2_rew_percent + "," + (next_rew_change - trial_counter) + ", rewards changed");
+            callback.logEvent_("10," + c2_1_rew_percent + "," + c2_2_rew_percent + "," + (next_rew_change - trial_counter) + ",, rewards changed");
         }
     }
 
     private void endOfTrial(String outcome, int delay) {
         h0.removeCallbacksAndMessages(null);
-        callback.logEvent_("11," + outcome + ",,, end of trial");
+        callback.logEvent_("11," + outcome + ",,,, end of trial");
 
         // We have to commit the event as well as the trial never actually ends
         callback.commitTrialDataFromTask_(outcome);
@@ -241,7 +241,7 @@ public class TaskTrainingFiveTwoStep extends Task {
     }
 
     private void toggleC1() {
-        callback.logEvent_("12,,,, c1 toggled on,");
+        callback.logEvent_("12,,,,, c1 toggled on,");
 
         UtilsTask.toggleCue(choice_cues[id_c1_1], true);
         UtilsTask.toggleCue(choice_cues[id_c1_2], true);
@@ -261,9 +261,9 @@ public class TaskTrainingFiveTwoStep extends Task {
                 c1_pressed = id_c1_1;
             }
 
-            callback.logEvent_("13," + c1_pressed + "," + roll + ",, rare transition");
+            callback.logEvent_("13," + c1_pressed + "," + roll + ",,, rare transition");
         } else {
-            callback.logEvent_("13," + c1_pressed + "," + roll + ",, common transition");
+            callback.logEvent_("13," + c1_pressed + "," + roll + ",,, common transition");
         }
 
         if (c1_pressed == id_c1_1) {
@@ -284,7 +284,7 @@ public class TaskTrainingFiveTwoStep extends Task {
                 } else {
                     UtilsTask.toggleCue(choice_cues[id_c2_2], true);
                 }
-                callback.logEvent_("14," + c1_pressed_final + ",,,c2 toggled on");
+                callback.logEvent_("14," + c1_pressed_final + ",,,,c2 toggled on");
             }
         }, prefManager.ts_go_cue_reward_amount);
 
@@ -294,18 +294,18 @@ public class TaskTrainingFiveTwoStep extends Task {
 
         int percent_needed = c2_pressed == id_c2_1 ? c2_1_rew_percent : c2_2_rew_percent;
         int roll = r.nextInt(100);
-        callback.logEvent_("15," + c2_pressed + "," + percent_needed + "," + roll + ", outcome");
+        callback.logEvent_("15," + c2_pressed + "," + percent_needed + "," + roll + ",, outcome");
 
         if (roll < percent_needed) {
 
-            callback.logEvent_("19, 1, ,, pump activated");
+            callback.logEvent_("19, 1, ,,, pump activated");
             callback.giveRewardFromTask_(prefManager.ts_trial_reward_amount);
             background.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.blue));
             endOfTrial(prefManager.ec_correct_trial, prefManager.ts_trial_reward_amount);
 
         } else {
 
-            callback.logEvent_("19, 0, ,, no pump");
+            callback.logEvent_("19, 0, ,,, no pump");
             background.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.fuchsia));
             endOfTrial(prefManager.ec_incorrect_trial, prefManager.ts_trial_reward_amount);
 
@@ -326,6 +326,8 @@ public class TaskTrainingFiveTwoStep extends Task {
         go_cue.setX(x_loc);
         go_cue.setY(y_loc);
 
+        callback.logEvent_("16,"+x_loc+","+y_loc+",,,go cue x and y position");
+
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point screen_size = new Point();
         display.getSize(screen_size);
@@ -334,11 +336,13 @@ public class TaskTrainingFiveTwoStep extends Task {
         // Hardcoded as for some reason using Point's didn't work
         if (r.nextBoolean()) {
             if (r.nextBoolean()) {
+                callback.logEvent_("20,175,1200,725,300, choice 1 positions");
                 choice_cues[id_c1_1].setX(175);
                 choice_cues[id_c1_1].setY(1200);
                 choice_cues[id_c1_2].setX(725);
                 choice_cues[id_c1_2].setY(300);
             } else {
+                callback.logEvent_("20,725,300,175,1200, choice 1 positions");
                 choice_cues[id_c1_1].setX(725);
                 choice_cues[id_c1_1].setY(300);
                 choice_cues[id_c1_2].setX(175);
@@ -346,11 +350,13 @@ public class TaskTrainingFiveTwoStep extends Task {
             }
         } else {
             if (r.nextBoolean()) {
+                callback.logEvent_("20,725,1200,175,300, choice 1 positions");
                 choice_cues[id_c1_1].setX(725);
                 choice_cues[id_c1_1].setY(1200);
                 choice_cues[id_c1_2].setX(175);
                 choice_cues[id_c1_2].setY(300);
             } else {
+                callback.logEvent_("20,175,300,725,1200, choice 1 positions");
                 choice_cues[id_c1_1].setX(175);
                 choice_cues[id_c1_1].setY(300);
                 choice_cues[id_c1_2].setX(725);
@@ -366,14 +372,14 @@ public class TaskTrainingFiveTwoStep extends Task {
         int random_reward_time = r.nextInt(prefManager.t_random_reward_stop_time - prefManager.t_random_reward_start_time);
         random_reward_time += prefManager.t_random_reward_start_time;
         Log.d(TAG, "Setting timer for " + random_reward_time);
-        callback.logEvent_("33," + random_reward_time + ",,, idle timer set");
+        callback.logEvent_("33," + random_reward_time + ",,,, idle timer set");
 
         h0.removeCallbacksAndMessages(null);
         h0.postDelayed(new Runnable() {
             @Override
             public void run() {
 
-                callback.logEvent_("25,,,, random reward");
+                callback.logEvent_("25,,,,, random reward");
                 callback.setBrightnessFromTask_(true);
                 disableCues();
                 callback.takePhotoFromTask_();
