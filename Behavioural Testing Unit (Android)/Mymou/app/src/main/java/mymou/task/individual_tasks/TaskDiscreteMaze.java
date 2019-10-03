@@ -23,6 +23,7 @@ package mymou.task.individual_tasks;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Path;
 import android.graphics.Point;
@@ -520,12 +521,33 @@ public class TaskDiscreteMaze extends Task {
             String lastRecordedDate = sharedPref.getString("dm_lastdate", "null");
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString("dm_lastdate", todaysDate);
-            editor.commit();
             if (todaysDate.equals(lastRecordedDate)) {
                 target_pos = prev_target;
+
+                // But switch it if had 100 trials
+                int num_trials = getActivity().getIntent().getIntExtra("numTrials", -1);
+                if (num_trials > 100) {
+                    boolean switched_yet = sharedPref.getBoolean("dm_halfwayswitch", false);
+                    if (!switched_yet) {
+                        // Find different target
+                        while (prev_target == target_pos) {
+                            target_pos = r.nextInt(num_stimulus);
+                        }
+
+                        // Store that we've done this so it doesn't happen again
+                        editor.putBoolean("dm_halfwayswitch", true);
+
+                    }
+                }
+
+
             } else {
                 target_pos = r.nextInt(num_stimulus);
+                editor.putBoolean("dm_halfwayswitch", false);
             }
+
+            editor.commit();
+
         } else {
             if (prev_trial_correct | !preferencesManager.dm_repeat_on_error) {
                 target_pos = r.nextInt(num_stimulus);

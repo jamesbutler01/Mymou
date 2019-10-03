@@ -7,4 +7,5 @@ public interface TaskInterface {
     void giveRewardFromTask_(int amount);
     void takePhotoFromTask_();
     void  commitTrialDataFromTask_(String overallTrialOutcome);
+    void setBrightnessFromTask_(boolean bool);
 }

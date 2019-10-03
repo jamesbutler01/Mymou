@@ -200,7 +200,7 @@ public class PreferencesManager {
 
     public int ts_transition_prob, ts_go_cue_reward_amount, ts_trial_reward_amount, ts_intertrial_interval;
     public int ts_low_reward_percent, ts_high_reward_percent;
-    public int ts_low_rew_change, ts_high_rew_change;
+    public int ts_rew_change_interval;
     public int ts_c2_1_col, ts_c2_2_col;
 
     public void TrainingFiveTwoStep() {
@@ -210,8 +210,7 @@ public class PreferencesManager {
         ts_low_reward_percent = 20; // Percent of times rewarded
         ts_high_reward_percent = 80;  // Percent of times rewarded
         ts_intertrial_interval = 1000;
-        ts_low_rew_change = 5;
-        ts_high_rew_change = 9;
+        ts_rew_change_interval = 40;
         ts_c2_1_col  = ContextCompat.getColor(mContext, R.color.silver);
         ts_c2_2_col  = ContextCompat.getColor(mContext, R.color.yellow);
 

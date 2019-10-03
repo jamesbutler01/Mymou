@@ -40,7 +40,8 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
 
     private static int taskId;  // Unique string prefixed to all log entries
-    public static String TAG_FRAGMENT = "taskfrag";
+    public static String TAG_FRAGMENT_TASK = "taskfrag";
+    public static String TAG_FRAGMENT_CAMERA = "camerafrag";
 
     public static int faceRecogPrediction = -1;
     private static int monkeyButtonPressed = -1;
@@ -60,6 +61,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     private static FragmentTransaction fragmentTransaction;
     private static Context mContext;
     private static Activity activity;
+    private static CameraMain cM;
 
     // Aync handlers used to posting delayed task events
     private static Handler h0 = new Handler();  // Task trial_timer
@@ -141,18 +143,16 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     }
 
     private void initialiseAutoRestartHandler() {
-        if (!preferencesManager.debug) {
             Log.d(TAG, "initialiseAutoRestartHandler");
             Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
                 @Override
                 public void uncaughtException(Thread thread, Throwable throwable) {
                     Log.d(TAG, "Task crashed");
-                new CrashReport(throwable, mContext);
-                rewardSystem.quitBt();
-                restartApp();
+                    new CrashReport(throwable, mContext);
+                    rewardSystem.quitBt();
+                    restartApp();
                 }
             });
-        }
     }
 
     private void loadtask() {
@@ -257,6 +257,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         Task task = null;
         Bundle bundle = new Bundle();
         bundle.putInt("currMonk", monkId);
+        bundle.putInt("numTrials", trialCounter);
         switch(taskId) {
             case 0:
                 task = new TaskTrainingOneFullScreen();
@@ -310,11 +311,14 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 public void takePhotoFromTask_() {takePhoto();}
 
                 @Override
+                public void setBrightnessFromTask_(boolean bool) {setBrightness(bool);}
+
+                @Override
                 public void commitTrialDataFromTask_(String overallTrialOutcome) {commitTrialData(overallTrialOutcome);}
 
             });
             task.setArguments(bundle);
-            fragmentTransaction.add(R.id.task_container, task, TAG_FRAGMENT);
+            fragmentTransaction.add(R.id.task_container, task, TAG_FRAGMENT_TASK);
 
 
         if (!valid_configuration) {
@@ -337,18 +341,23 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     // Automatically restart static fragmentTransaction so it is always available to use
     private static void commitFragment() {
-        fragmentTransaction.commit();
-        fragmentTransaction = fragmentManager.beginTransaction();
+        try {
+            fragmentTransaction.commit();
+            fragmentTransaction = fragmentManager.beginTransaction();
+        } catch (IllegalStateException e) {
+            new CrashReport(e, mContext);
+        }
     }
 
-    private void loadCamera() {
+    private static void loadCamera() {
         if (!preferencesManager.camera) { return; }
-
         Log.d(TAG, "Loading camera fragment");
-        CameraMain cM = new CameraMain();
+        cM = new CameraMain();
         fragmentTransaction.add(R.id.task_container, cM);
         commitFragment();
     }
+
+
 
 
     private void restartApp() {
@@ -580,6 +589,14 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     public static boolean takePhoto() {
         if (preferencesManager.camera) {
+            if (cM.camera_error) {
+                // Kill camera fragment and restart it
+                fragmentTransaction.remove(fragmentManager.findFragmentByTag(TAG_FRAGMENT_TASK));
+                fragmentTransaction.remove(fragmentManager.findFragmentByTag(TAG_FRAGMENT_CAMERA));
+                commitFragment();
+                loadCamera();
+                startTrial(-1);
+            }
             Log.d(TAG, "takePhoto() called");
             photoTimestamp = folderManager.getTimestamp();
             boolean photoTaken = CameraMain.captureStillPicture(photoTimestamp);
@@ -807,7 +824,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     private static void killTask() {
         if (trial_running) {
-            fragmentTransaction.remove(fragmentManager.findFragmentByTag(TAG_FRAGMENT));
+            fragmentTransaction.remove(fragmentManager.findFragmentByTag(TAG_FRAGMENT_TASK));
             commitFragment();
             h0.removeCallbacksAndMessages(null);
             timerRunning = false;

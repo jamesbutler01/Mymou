@@ -49,6 +49,7 @@ public class CameraMain extends Fragment
         implements FragmentCompat.OnRequestPermissionsResultCallback {
 
     public static String TAG = "MyMouCameraMain";
+
     //  Camera variables
     private static String mCameraId;
     private static TextureView mTextureView;
@@ -65,6 +66,9 @@ public class CameraMain extends Fragment
     private Handler mBackgroundHandler;
     private static String timestamp;
     private static boolean takingPhoto = false;
+
+    // Error handling
+    public static boolean camera_error = false;
 
     public static CameraMain newInstance() {
         return new CameraMain();
@@ -166,14 +170,11 @@ public class CameraMain extends Fragment
 
         @Override
         public void onError(@NonNull CameraDevice cameraDevice, int error) {
-            Log.d(TAG, "onError() called");
+            Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!! onError() called: "+error);
             mCameraOpenCloseLock.release();
             cameraDevice.close();
             mCameraDevice = null;
-            Activity activity = getActivity();
-            if (null != activity) {
-                activity.finish();
-            }
+            camera_error = true;
         }
 
     };
