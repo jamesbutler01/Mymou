@@ -382,7 +382,9 @@ public class TaskTrainingFiveTwoStep extends Task {
                 callback.logEvent_("25,,,,, random reward");
                 callback.setBrightnessFromTask_(true);
                 disableCues();
-                callback.takePhotoFromTask_();
+                if (r.nextInt(20) < 1) {
+                    callback.takePhotoFromTask_();
+                }
                 callback.giveRewardFromTask_(prefManager.ts_go_cue_reward_amount * 2);
                 endOfTrial(prefManager.ec_trial_timeout, prefManager.ts_go_cue_reward_amount);
 
