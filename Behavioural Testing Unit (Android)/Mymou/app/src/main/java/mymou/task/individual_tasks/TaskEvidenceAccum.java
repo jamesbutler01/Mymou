@@ -42,7 +42,7 @@ public class TaskEvidenceAccum extends Task {
     private static int pb_scalar = 100;
     private static int total1, total2;
     private static PreferencesManager prefManager;
-    private static ProgressBar[] progressBars;
+    private static ProgressBar[] progressBars = new ProgressBar[2];
     private static int[] amounts1, amounts2;
     private static Handler h0 = new Handler();  // Show object
     private static Handler h1 = new Handler();  // Hide object
@@ -112,11 +112,11 @@ public class TaskEvidenceAccum extends Task {
 
         getView().findViewById(R.id.ea_butt_1).setVisibility(View.INVISIBLE);
         getView().findViewById(R.id.ea_butt_2).setVisibility(View.INVISIBLE);
+        getView().findViewById(R.id.ea_bar_1).setVisibility(View.INVISIBLE);
+        getView().findViewById(R.id.ea_bar_2).setVisibility(View.INVISIBLE);
 
-        progressBars = new ProgressBar[2];
         progressBars[0] = getView().findViewById(R.id.ea_bar_1);
         progressBars[1] = getView().findViewById(R.id.ea_bar_2);
-
 
         total1 = 0;
         total2 = 0;
