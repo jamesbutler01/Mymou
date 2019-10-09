@@ -521,8 +521,8 @@ public class TaskDiscreteMaze extends Task {
             String lastRecordedDate = sharedPref.getString("dm_lastdate", "null");
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString("dm_lastdate", todaysDate);
+            target_pos = prev_target;
             if (todaysDate.equals(lastRecordedDate)) {
-                target_pos = prev_target;
 
                 // But switch it if had 100 trials
                 int num_trials = getActivity().getIntent().getIntExtra("numTrials", -1);
@@ -539,10 +539,13 @@ public class TaskDiscreteMaze extends Task {
 
                     }
                 }
-
+                Log.d(TAG, "same day");
 
             } else {
-                target_pos = r.nextInt(num_stimulus);
+                Log.d(TAG, "new day");
+                while (prev_target == target_pos) {
+                    target_pos = r.nextInt(num_stimulus);
+                }
                 editor.putBoolean("dm_halfwayswitch", false);
             }
 
