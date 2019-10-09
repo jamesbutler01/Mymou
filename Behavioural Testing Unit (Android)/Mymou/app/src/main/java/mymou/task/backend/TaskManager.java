@@ -2,6 +2,7 @@ package mymou.task.backend;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.ExpandableListActivity;
 import android.app.PendingIntent;
 import android.content.*;
 import android.graphics.Point;
@@ -186,6 +187,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             case 8:
                 preferencesManager.ProgressiveRatio();
                 break;
+            case 9:
+                preferencesManager.EvidenceAccum();
+                break;
             default:
                 Log.d(TAG, "No task specified");
                 new Exception("No task specified");
@@ -289,6 +293,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 break;
             case 8:
                 task = new TaskProgressiveRatio();
+                break;
+            case 9:
+                task = new TaskEvidenceAccum();
                 break;
             default:
                 new Exception("No valid task specified");
@@ -963,7 +970,11 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         updateTvExplanation("Idle timeout");
 
         disableAllCues();
-        activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.timeoutbackground);
+        try {
+            activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.timeoutbackground);
+        } catch (NullPointerException e) {
+            Log.d(TAG, "Couldn't find background");
+        }
 
         trialEnded(preferencesManager.ec_trial_timeout, 0);
     }

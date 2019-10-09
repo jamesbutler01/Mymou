@@ -29,6 +29,18 @@ public abstract class Task extends Fragment {
         callback.trialEnded_(outcome, rew_scalar);
     }
 
+     public void endOfTrial(boolean successfulTrial, TaskInterface callback) {
+        String outcome;
+        PreferencesManager preferencesManager = new PreferencesManager(getContext());
+        if (successfulTrial) {
+            outcome = preferencesManager.ec_correct_trial;
+        } else {
+            outcome = preferencesManager.ec_incorrect_trial;
+        }
+        // Send outcome up to parent
+        callback.trialEnded_(outcome, 1);
+    }
+
     public void logEvent(String event, TaskInterface callback) {
         callback.logEvent_(event);
     }

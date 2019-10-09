@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+            app:key="task_settings"
+            app:title="Task settings">
+
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_ea_num_steps"
+                app:key="@string/preftag_ea_num_steps"
+                app:title="Number of evidence"
+                />
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_ea_distance"
+                app:key="@string/preftag_ea_num_steps"
+                app:title="Distance between the options"
+                app:summary="Bigger"
+                />
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_ea_step_duration_on"
+                app:key="@string/preftag_ea_step_duration_on"
+                app:title="On duration" />
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_ea_step_duration_off"
+                app:key="@string/preftag_ea_step_duration_off"
+                app:title="Off duration" />
+
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

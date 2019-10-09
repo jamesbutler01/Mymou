@@ -52,6 +52,12 @@
     <integer name="default_pr_cue_colour">6</integer>
     <integer name="default_pr_animation_duration">450</integer>
 
+    <integer name="default_ea_num_steps">8</integer>
+    <integer name="default_ea_step_duration_on">600</integer>
+    <integer name="default_ea_step_duration_off">200</integer>
+    <integer name="default_ea_distance">3</integer>
+    <integer name="default_ea_variance">1</integer>
+
 
 
 </resources>

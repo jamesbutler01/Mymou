@@ -230,5 +230,15 @@ public class PreferencesManager {
         skip_go_cue = sharedPrefs.getBoolean(r.getString(R.string.preftag_skip_go_cue), r.getBoolean(R.bool.default_pr_skip_go_cue));
 
     }
+
+    public int ea_num_steps, ea_step_duration_on, ea_step_duration_off, ea_distance, ea_variance;
+
+    public void EvidenceAccum() {
+        ea_num_steps = sharedPrefs.getInt(r.getString(R.string.preftag_ea_num_steps), r.getInteger(R.integer.default_ea_num_steps));
+        ea_step_duration_off = sharedPrefs.getInt(r.getString(R.string.preftag_ea_step_duration_off), r.getInteger(R.integer.default_ea_step_duration_off));
+        ea_step_duration_on = sharedPrefs.getInt(r.getString(R.string.preftag_ea_step_duration_on), r.getInteger(R.integer.default_ea_step_duration_on));
+        ea_distance = sharedPrefs.getInt(r.getString(R.string.preftag_ea_distance), r.getInteger(R.integer.default_ea_distance));
+        ea_variance = sharedPrefs.getInt(r.getString(R.string.preftag_ea_variance), r.getInteger(R.integer.default_ea_variance));
+    }
     
 }
