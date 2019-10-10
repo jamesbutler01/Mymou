@@ -15,6 +15,7 @@ import android.widget.*;
 import androidx.preference.PreferenceManager;
 
 import mymou.Utils.PermissionManager;
+import mymou.Utils.UtilsSystem;
 import mymou.preferences.PreferencesManager;
 import mymou.preferences.PrefsFragCropPickerParent;
 import mymou.task.backend.DataViewer;
@@ -59,6 +60,9 @@ public class MainMenu extends Activity {
         initialiseRewardSystem();
 
         initialiseSpinner();
+
+        UtilsSystem.setBrightness(true, this);
+
     }
 
     private void checkPermissions() {

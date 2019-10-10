@@ -1,10 +1,12 @@
 package mymou.Utils;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -21,6 +23,21 @@ import java.util.StringTokenizer;
 public class UtilsSystem {
     // Debug
     public static String TAG = "MymouUtilsSystem";
+
+
+    public static void setBrightness(boolean bool, Context context) {
+        if (Settings.System.canWrite(context)) {
+            int brightness;
+            if (bool) {
+                brightness = 255;
+            } else {
+                brightness = 0;
+            }
+            ContentResolver cResolver = context.getContentResolver();
+            Settings.System.putInt(cResolver, Settings.System.SCREEN_BRIGHTNESS, brightness);
+        }
+    }
+
 
     public static void setOnClickListenerLoop(Button[] buttons, View.OnClickListener view) {
         for (Button button : buttons) {
