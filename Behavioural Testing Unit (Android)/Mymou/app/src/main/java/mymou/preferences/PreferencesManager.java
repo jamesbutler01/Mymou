@@ -227,8 +227,6 @@ public class PreferencesManager {
 
         pr_animation_duration = sharedPrefs.getInt(r.getString(R.string.preftag_pr_animation_duration), r.getInteger(R.integer.default_pr_animation_duration));
 
-        skip_go_cue = sharedPrefs.getBoolean(r.getString(R.string.preftag_skip_go_cue), r.getBoolean(R.bool.default_pr_skip_go_cue));
-
     }
 
     public int ea_num_steps, ea_step_duration_on, ea_step_duration_off, ea_distance, ea_variance;

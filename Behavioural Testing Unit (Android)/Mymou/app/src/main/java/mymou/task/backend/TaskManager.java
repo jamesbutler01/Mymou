@@ -897,6 +897,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     }
 
     private static void updateTvExplanation(String message) {
+        Log.d(TAG, message);
         if (preferencesManager.debug) {
             tvExplanation.setText(message);
         }

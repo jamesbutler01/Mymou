@@ -21,7 +21,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.preference.PreferenceManager;
 
@@ -48,7 +47,6 @@ public class TaskProgressiveRatio extends Task {
     private ProgressBar pb1;
     private int pb_scalar = 1000;
     private static Button cue;
-    private TextView tv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,8 +59,11 @@ public class TaskProgressiveRatio extends Task {
         Log.d(TAG, "Task started");
 
         loadTrialParams();
+
         assignObjects();
+
         logTaskEvent(prefManager.ec_trial_started);
+
     }
 
     private void logTaskEvent(String event) {
@@ -71,8 +72,7 @@ public class TaskProgressiveRatio extends Task {
     }
 
     private void assignObjects() {
-        tv = (TextView) getView().findViewById(R.id.textview_pr);
-        UtilsTask.toggleView(tv, prefManager.debug);
+        Log.d(TAG, "Assigning objects");
 
         // Progress bar
         if (prefManager.pr_progress_bar) {
@@ -100,8 +100,8 @@ public class TaskProgressiveRatio extends Task {
         int imageWidths = prefManager.cue_size;
         int border = prefManager.cue_spacing;  // Spacing between different task objects
         int totalImageSize = imageWidths + border;
-        int[] xlocs = UtilsTask.calculateLocs(size.x, totalImageSize);
-        int[] ylocs = UtilsTask.calculateLocs(size.y-300, totalImageSize);
+        int[] xlocs = UtilsTask.calculateLocs(1000, totalImageSize);
+        int[] ylocs = UtilsTask.calculateLocs(1000, totalImageSize);
 
         Random r = new Random();
         cue.setX(xlocs[r.nextInt(xlocs.length)]);
@@ -174,7 +174,6 @@ public class TaskProgressiveRatio extends Task {
 
             // Log outcome
             logTaskEvent("-1");
-            if (prefManager.debug) { tv.setText(""+num_presses+"/"+num_presses_needed+" presses"); }
 
             if (num_presses >= num_presses_needed) {
 

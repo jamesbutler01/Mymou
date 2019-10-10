@@ -23,11 +23,6 @@
                 app:title="Duration (ms) of progress bar animation"
                 android:defaultValue="@integer/default_pr_animation_duration"/>
 
-                <SwitchPreferenceCompat
-                app:key="@string/preftag_skip_go_cue"
-                app:title="Skip subjects having to press the Go cue (recommended)"
-                app:defaultValue="@bool/default_t_one_skip_go_cue"/>
-
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>
