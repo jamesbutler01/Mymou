@@ -1,6 +1,7 @@
 package mymou;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,7 +11,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+
 import androidx.preference.PreferenceManager;
+
 import mymou.Utils.PermissionManager;
 import mymou.preferences.PreferencesManager;
 import mymou.preferences.PrefsFragCropPickerParent;
@@ -100,7 +103,7 @@ public class MainMenu extends Activity {
             tv1.setText("Disabled");
         } else if (rewardSystem.bluetoothConnection) {
             tv1.setText("Connected");
-        } else  if (!rewardSystem.bluetoothConnection) {
+        } else if (!rewardSystem.bluetoothConnection) {
             tv1.setText("Disconnected");
         }
     }
@@ -163,7 +166,7 @@ public class MainMenu extends Activity {
                 Log.d(TAG, "checkIfCrashed() restarted task");
                 startTask();
             }
-         }
+        }
     }
 
 
@@ -173,6 +176,7 @@ public class MainMenu extends Activity {
         findViewById(R.id.buttonSettings).setOnClickListener(buttonClickListener);
         findViewById(R.id.buttonTaskSettings).setOnClickListener(buttonClickListener);
         findViewById(R.id.buttonViewData).setOnClickListener(buttonClickListener);
+        findViewById(R.id.info_button).setOnClickListener(buttonClickListener);
 
         // Disabled as in development
         findViewById(R.id.buttonViewData).setEnabled(false);
@@ -196,6 +200,10 @@ public class MainMenu extends Activity {
         group.setOnCheckedChangeListener(checkedChangeListener);
         RadioGroup group2 = findViewById(R.id.rg_rewonoff);
         group2.setOnCheckedChangeListener(checkedChangeListener);
+
+        // Reset text on start button in case they are returning from task
+        Button startButton = findViewById(R.id.buttonStart);
+        startButton.setText("START TASK");
 
     }
 
@@ -275,6 +283,14 @@ public class MainMenu extends Activity {
                 case R.id.buttonViewData:
                     Intent intent3 = new Intent(context, DataViewer.class);
                     startActivity(intent3);
+                case R.id.info_button:
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
+                    String[] descriptions = getResources().getStringArray(R.array.task_descriptions);
+                    String[] names = getResources().getStringArray(R.array.available_tasks);
+                    builder.setMessage(descriptions[taskSelected])
+                            .setTitle(names[taskSelected]);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                     break;
             }
         }

@@ -26,6 +26,20 @@
         <item>Spatial response</item>
     </string-array>
 
+    <string-array name="task_descriptions">
+        <item>Displays a cue that takes up the entire screen. Subjects can then press anywhere on the screen to trigger reward.</item>
+        <item>Displays a cue that initially takes up the entire screen. On each press the cue gets smaller and smaller to encourage accurate screen presses. The size of the cue resets to the full screen size if no touches are received for a short period. </item>
+        <item>Displays a cue that initially takes up the entire screen. On each press the cue shrinks in size and moves around the screen. The size of the cue resets to the full screen size if no touches are received for a short period. </item>
+        <item>Displays 1 normal sized cue that randomly moves around the screen on each press. </item>
+        <item>Implementation of the reduced two step task described in Akam et al. (2017).</item>
+        <item>This task showcases the full features of the Mymou system, including facial recognition, and multiple reward channels. </item>
+        <item>Associative learning of large networks of stimuli, as seen in Butler and Kennerley (2018). Subjects are shown a target stimuli at the top of the screen. Their current location and neighbouring stimuli are displayed in the lower part of the screen. Subjects then have to learn to navigate to the different locations in the maze.</item>
+        <item>Subjects are shown multiple CS- and CS+ stimuli which they must learn to differentiate. </item>
+        <item>One stimuli is displayed on the screen. After each press, the subjects must then have to press twice as many times to gain reward. After a certain period the number of presses needed for reward resets to 1. </item>
+        <item>Two bars are displayed with varying length for a certain number of frames. Subjects must then choose which bar had the greatest total length over all the frames. </item>
+        <item>Different spatial locations are shown sequentially. Subjects must then repeat the sequence in order for reward. </item>
+    </string-array>
+
     <string name="default_startuptime">0700</string>
     <string name="default_shutdowntime">1900</string>
 
