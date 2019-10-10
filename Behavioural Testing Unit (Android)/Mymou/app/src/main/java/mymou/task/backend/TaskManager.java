@@ -190,6 +190,8 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             case 9:
                 preferencesManager.EvidenceAccum();
                 break;
+            case 10:
+                break;
             default:
                 Log.d(TAG, "No task specified");
                 new Exception("No task specified");
@@ -296,6 +298,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 break;
             case 9:
                 task = new TaskEvidenceAccum();
+                break;
+            case 10:
+                task = new TaskSpatialResponse();
                 break;
             default:
                 new Exception("No valid task specified");
@@ -855,6 +860,8 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             // Otherwise reveal reward cues
             UtilsTask.randomlyPositionCues(cues_Reward, possible_cue_locs);
             UtilsTask.toggleCues(cues_Reward, true);
+            updateTvExplanation("Correct trial! Choose your reward");
+
         }
     }
 

@@ -266,6 +266,8 @@ public class MainMenu extends Activity {
                         intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_pr_settings));
                     } else if (taskSelected == 9) {
                         intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_ea_settings));
+                    } else if (taskSelected == 10) {
+                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_sr_settings));
                     }
 
                     startActivity(intent2);

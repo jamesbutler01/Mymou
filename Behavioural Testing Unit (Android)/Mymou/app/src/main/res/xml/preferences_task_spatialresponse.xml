@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+            app:key="task_settings"
+            app:title="Settings for Spatial Response task">
+
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_sr_num_stimuli"
+                app:key="@string/preftag_sr_num_stimuli"
+                app:title="Number of stimuli to present"
+                android:max="8"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_sr_duration_on"
+                app:key="@string/preftag_sr_duration_on"
+                app:title="Duration (ms) to show the cue" />
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_sr_duration_off"
+                app:key="@string/preftag_sr_duration_off"
+                app:title="Wait time (ms) until choice" />
+
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

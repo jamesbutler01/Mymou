@@ -105,7 +105,6 @@ public class TaskEvidenceAccum extends Task {
         }
     }
 
-
     private void assignObjects() {
         prefManager = new PreferencesManager(getContext());
         prefManager.EvidenceAccum();

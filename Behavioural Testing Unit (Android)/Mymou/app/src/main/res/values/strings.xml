@@ -23,6 +23,7 @@
         <item>Object discrimination</item>
         <item>Progressive Ratio</item>
         <item>Evidence Accumulation</item>
+        <item>Spatial response</item>
     </string-array>
 
     <string name="default_startuptime">0700</string>
@@ -90,6 +91,7 @@
     <string name="preftag_task_t_one_settings">preftag_task_t_one_settings</string>
     <string name="preftag_task_pr_settings">preftag_task_pr_settings</string>
     <string name="preftag_task_ea_settings">preftag_task_ea_settings</string>
+    <string name="preftag_task_sr_settings">preftag_task_sr_settings</string>
     <string name="preftag_settings_to_load">preftag_settings_to_load</string>
     <string name="preftag_sound_to_play">preftag_sound_to_play</string>
     <string name="preftag_num_rew_chans">preftag_num_rew_chans</string>
@@ -138,6 +140,10 @@
     <string name="preftag_ea_step_duration_on">ea_step_duration_on</string>
     <string name="preftag_ea_distance">preftag_ea_distance</string>
     <string name="preftag_ea_variance">preftag_ea_variance</string>
+
+    <string name="preftag_sr_duration_off">sr_duration_off</string>
+    <string name="preftag_sr_duration_on">sr_duration_on</string>
+    <string name="preftag_sr_num_stimuli">sr_num_stimuli</string>
 
     <string-array name="error_messages">
         <item>Bluetooth couldn\'t connect to reward system (to run task without reward system, disable the reward system

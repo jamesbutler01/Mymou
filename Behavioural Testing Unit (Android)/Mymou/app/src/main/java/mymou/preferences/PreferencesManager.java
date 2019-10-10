@@ -240,5 +240,13 @@ public class PreferencesManager {
         ea_distance = sharedPrefs.getInt(r.getString(R.string.preftag_ea_distance), r.getInteger(R.integer.default_ea_distance));
         ea_variance = sharedPrefs.getInt(r.getString(R.string.preftag_ea_variance), r.getInteger(R.integer.default_ea_variance));
     }
-    
+
+    public int sr_duration_on, sr_duration_off, sr_num_stim;
+
+    public void SpatialResponse() {
+        sr_duration_off = sharedPrefs.getInt(r.getString(R.string.preftag_sr_duration_off), r.getInteger(R.integer.default_sr_duration_off));
+        sr_duration_on = sharedPrefs.getInt(r.getString(R.string.preftag_sr_duration_on), r.getInteger(R.integer.default_sr_duration_on));
+        sr_num_stim = sharedPrefs.getInt(r.getString(R.string.preftag_sr_num_stimuli), r.getInteger(R.integer.default_sr_num_stimuli));
+    }
+
 }

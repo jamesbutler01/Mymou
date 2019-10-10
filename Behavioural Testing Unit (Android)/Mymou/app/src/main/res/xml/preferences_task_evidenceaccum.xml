@@ -4,7 +4,7 @@
 
     <PreferenceCategory
             app:key="task_settings"
-            app:title="Task settings">
+            app:title="Settings for Evidence Accumulation task">
 
 
         <mymou.preferences.SeekBarPreferenceCustom

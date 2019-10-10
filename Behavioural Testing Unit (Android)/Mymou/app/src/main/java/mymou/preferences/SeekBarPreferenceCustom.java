@@ -115,7 +115,7 @@ public class SeekBarPreferenceCustom extends Preference {
          * mMax = a.getInt(...) and setMin(...).
          */
         mMin = a.getInt(R.styleable.SeekBarPreference_min, 0);
-        setMax(a.getInt(R.styleable.SeekBarPreference_android_max, 1000));
+        setMax(a.getInt(R.styleable.SeekBarPreference_android_max, 10000));
         setSeekBarIncrement(a.getInt(R.styleable.SeekBarPreference_seekBarIncrement, 0));
         mAdjustable = a.getBoolean(R.styleable.SeekBarPreference_adjustable, true);
         mShowSeekBarValue = a.getBoolean(R.styleable.SeekBarPreference_showSeekBarValue, true);
