@@ -1,10 +1,14 @@
 /**
- * Object discrimination task
- * <p>
- * Subjects shown specified number of CS+ and CS- cues
- * Must get certain amount of correct CS+ presses in a row to receive reward
- * <p>
- * The number of CS-, CS+, and number needed for reward can all be altered in preferences menu
+ *
+ * Spatial response task
+ *
+ * Subjects are shown movie where certain cues are highlighted sequentially
+ * Must then repeat the sequence that they saw in correct order to receive reward
+ *
+ * The length of each sequence, and timing properties of the movie, can be altered in the options menu
+ *
+ * TODO: Implement logging of task variables
+ *
  */
 
 package mymou.task.individual_tasks;
@@ -28,8 +32,6 @@ import mymou.preferences.PreferencesManager;
 import mymou.task.backend.TaskInterface;
 import mymou.task.backend.UtilsTask;
 
-// An evidence accumulation task where the height of bars must be integrated to receive reward
-// TODO: Implement logging of task variables
 
 public class TaskSpatialResponse extends Task {
 

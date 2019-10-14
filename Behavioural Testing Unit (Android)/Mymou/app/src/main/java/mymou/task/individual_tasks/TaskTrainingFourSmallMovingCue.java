@@ -9,7 +9,6 @@
 
 package mymou.task.individual_tasks;
 
-import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,8 +18,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
-import androidx.preference.PreferenceManager;
 
 import java.util.Random;
 

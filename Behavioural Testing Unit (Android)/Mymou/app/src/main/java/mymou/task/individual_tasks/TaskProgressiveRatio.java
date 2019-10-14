@@ -1,6 +1,6 @@
 /**
  * Progressive Ratio task
- * <p>
+ *
  * After each successful press, you need 2^(successful presses) for reward
  * On idle timeout will then reset number of successful presses needed to 1
  *

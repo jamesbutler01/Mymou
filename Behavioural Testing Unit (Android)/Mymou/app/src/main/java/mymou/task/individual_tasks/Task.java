@@ -8,7 +8,6 @@
 
 package mymou.task.individual_tasks;
 
-import android.util.Log;
 import androidx.fragment.app.Fragment;
 import mymou.preferences.PreferencesManager;
 import mymou.task.backend.TaskInterface;

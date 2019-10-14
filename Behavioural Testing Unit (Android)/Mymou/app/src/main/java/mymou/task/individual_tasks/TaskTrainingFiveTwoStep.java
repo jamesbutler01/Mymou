@@ -1,9 +1,8 @@
 /**
- * Training task four: Small moving go_cue
- * <p>
- * Cue  moves randomly around the screen
- * Instead of idle timeout, it randomly gives reward and then moves the go_cue
- * Different to all other tasks in that it never ends a trial, and so must handle data logging itself rather than using TaskManager
+ * Training task five: Two step task
+ *
+ * Implementation of Thomas Akam's reduced two-step task
+ *
  */
 
 package mymou.task.individual_tasks;
@@ -35,7 +34,7 @@ import mymou.task.backend.UtilsTask;
 public class TaskTrainingFiveTwoStep extends Task {
 
     // Debug
-    public static String TAG = "TaskTrainingFourSmallMovingCue";
+    public static String TAG = "TaskTrainingFiveTwoStep";
 
     private static PreferencesManager prefManager;
 

@@ -16,6 +16,11 @@
  * @param target_pos the target location where reward is located
  * @param num_steps the current number of steps on this trial
  * @param transitionMatrix the graph layout
+ *
+ * Stimuli are taken from Brady, T. F., Konkle, T., Alvarez, G. A. and Oliva, A. (2008). Visual
+ *  long-term memory has a massive storage capacity for object details. Proceedings of the National
+ *  Academy of Sciences, USA, 105 (38), 14325-14329.
+ *
  */
 package mymou.task.individual_tasks;
 

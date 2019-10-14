@@ -1,38 +1,33 @@
 /**
- * Object discrimination task
- * <p>
- * Subjects shown specified number of CS+ and CS- cues
- * Must get certain amount of correct CS+ presses in a row to receive reward
- * <p>
- * The number of CS-, CS+, and number needed for reward can all be altered in preferences menu
+ *
+ * Evidence accumulation task
+ *
+ * Two bars are displayed for a certain number of instances
+ * On each instance the height of the two bars differs
+ * Must choose bar that had the greatest total height to receive reward
+ *
+ * The amount of evidence shown, and the distance (difficulty) between options can be altered in the options menu
+ *
+ * TODO: Implement logging of task variables
+ *
  */
 
 package mymou.task.individual_tasks;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
-import androidx.preference.PreferenceManager;
 
 import java.util.Random;
 
 import mymou.R;
-import mymou.Utils.UtilsSystem;
 import mymou.preferences.PreferencesManager;
-import mymou.task.backend.MatrixMaths;
 import mymou.task.backend.TaskInterface;
-import mymou.task.backend.UtilsTask;
-
-// An evidence accumulation task where the height of bars must be integrated to receive reward
-// TODO: Implement logging of task variables
 
 public class TaskEvidenceAccum extends Task {
 

@@ -1,104 +1,174 @@
 /**
- * Object discrimination task
  *
- * Subjects shown specified number of CS+ and CS- cues
- * Must get certain amount of correct CS+ presses in a row to receive reward
+ * Task Object Discrimination (stimulus)
  *
- * The number of CS-, CS+, and number needed for reward can all be altered in preferences menu
+ * Subjects shown up to 3 stimuli, and then must choose them from up to 3 distractors
  *
+ *  Stimuli are taken from Brady, T. F., Konkle, T., Alvarez, G. A. and Oliva, A. (2008). Visual
+ *  long-term memory has a massive storage capacity for object details. Proceedings of the National
+ *  Academy of Sciences, USA, 105 (38), 14325-14329.
+ *
+ * TODO: Implement logging of task variables
  */
 
 package mymou.task.individual_tasks;
 
-import android.content.SharedPreferences;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import androidx.fragment.app.Fragment;
-import androidx.preference.PreferenceManager;
-import mymou.task.backend.MatrixMaths;
-import mymou.preferences.PreferencesManager;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+
+import java.util.Random;
+
 import mymou.R;
-import mymou.Utils.UtilsSystem;
+import mymou.preferences.PreferencesManager;
 import mymou.task.backend.TaskInterface;
 import mymou.task.backend.UtilsTask;
 
-// A basic object discrimination task showcasing the main features of the Mymou system:
 
 public class TaskObjectDiscrim extends Task {
 
     // Debug
-    public static String TAG = "MyMouObjDiscrim";
+    public static String TAG = "MyMouEvidenceAccum";
 
-    private static int num_steps = 0;
-    private static int rew_scalar = 1;
+    private static Button[] cues = new Button[8];
+    private static int[] chosen_cues;
+    private static int choice_counter;
+    private static boolean[] chosen_cues_b;
+    GradientDrawable drawable_red, drawable_grey;
     private static PreferencesManager prefManager;
+    private static Handler h0 = new Handler();  // Show object
+    private static Handler h1 = new Handler();  // Hide object
 
-    // Task objects
-    private static Button[] cues;  // List of all trial objects for an individual monkey
-    private static int[] random_cols_corr, random_cols_incorr;  // Cues selected for certain trial
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_task_object_discrim, container, false);
+        return inflater.inflate(R.layout.activity_task_empty, container, false);
     }
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        Log.d(TAG, "TaskObjectDiscrim started");
-
-        num_steps = 0;
+        Log.d(TAG, "Task started");
 
         assignObjects();
 
-        positionAndDisplayCues();
-
+        startMovie(prefManager.sr_num_stim);
     }
 
-    private void positionAndDisplayCues() {
-        Log.d(TAG, "Positining cues around screen");
-        UtilsTask.randomlyPositionCues(cues, new UtilsTask().getPossibleCueLocs(getActivity()));
-        UtilsTask.toggleCues(cues, true);
+
+    private void startMovie(int num_steps) {
+        Log.d(TAG, "Playing movie, frame: "+num_steps+"/"+prefManager.sr_num_stim);
+        if (num_steps > 0) {
+            h0.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    UtilsTask.toggleCues(cues, true);
+                    cues[chosen_cues[num_steps - 1]].setBackgroundDrawable(drawable_red);
+
+                }
+            }, prefManager.sr_duration_off);
+
+            h1.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    cues[chosen_cues[num_steps - 1]].setBackgroundDrawable(drawable_grey);
+
+                    UtilsTask.toggleCues(cues, false);
+
+                    startMovie(num_steps - 1);
+
+                }
+            }, prefManager.sr_duration_on + prefManager.sr_duration_off);
+
+        } else {
+
+            // Choice phase
+            for (int i = 0; i < cues.length; i++) {
+
+                UtilsTask.toggleCue(cues[i], true);
+
+                // Make clickable
+                cues[i].setOnClickListener(buttonClickListener);
+
+                // Change colour to not reveal answer!
+                GradientDrawable drawable = new GradientDrawable();
+                drawable.setShape(GradientDrawable.RECTANGLE);
+                drawable.setColor(ContextCompat.getColor(getContext(), R.color.white));
+                drawable.setStroke(5, ContextCompat.getColor(getContext(), R.color.black));
+                cues[i].setBackgroundDrawable(drawable);
+            }
+        }
+
     }
 
 
     private void assignObjects() {
         prefManager = new PreferencesManager(getContext());
-        prefManager.ObjectDiscrimination();
+        prefManager.SpatialResponse();
 
-        int total_num_cues = prefManager.objectdiscrim_num_corr_shown + prefManager.objectdiscrim_num_incorr_shown;
-        int i_cues = 0;
-        cues = new Button[total_num_cues];
+        choice_counter = 0;
 
-        // Check to see if we should reload the previous trial's cues
-        if (!prefManager.objectdiscrim_repeatOnError | !prefManager.objectdiscrim_previous_error) {
-            random_cols_corr = MatrixMaths.randomNoRepeat(prefManager.objectdiscrim_num_corr_shown, prefManager.objectdiscrim_num_corr_options);
-            random_cols_incorr = MatrixMaths.randomNoRepeat(prefManager.objectdiscrim_num_incorr_shown, prefManager.objectdiscrim_num_incorr_options);
-        } else {
-            Log.d(TAG, "Use cue colours from previous trial");
-            random_cols_corr = prefManager.objectdiscrim_prev_cols_corr;
-            random_cols_incorr = prefManager.objectdiscrim_prev_cols_incorr;
+        // Choose cues (without replacement)
+        chosen_cues = new int[prefManager.sr_num_stim];
+        chosen_cues_b = new boolean[]{false, false, false, false, false, false, false, false};
+        Random r = new Random();
+        for (int i = 0; i < prefManager.sr_num_stim; i++) {
+            int chosen_cue = r.nextInt(cues.length);
+            while (chosen_cues_b[chosen_cue]) {
+                chosen_cue = r.nextInt(cues.length);
+            }
+            chosen_cues[i] = chosen_cue;
+            chosen_cues_b[chosen_cues[i]] = true;
         }
 
-        // Add correct cues
-        Log.d(TAG, "Adding correct cues");
-        for (int i_corr = 0; i_corr < prefManager.objectdiscrim_num_corr_shown; i_corr++) {
-            cues[i_corr] = UtilsTask.addColorCue(i_corr, prefManager.objectdiscrim_corr_colours[random_cols_corr[i_corr]],
-                   getContext() , buttonClickListener, getView().findViewById(R.id.parent_object_discrim));
-            i_cues += 1;
+        // Cue colours
+        drawable_grey = new GradientDrawable();
+        drawable_grey.setShape(GradientDrawable.RECTANGLE);
+        drawable_grey.setColor(ContextCompat.getColor(getContext(), R.color.grey));
+        drawable_red = new GradientDrawable();
+        drawable_red.setShape(GradientDrawable.RECTANGLE);
+        drawable_red.setColor(ContextCompat.getColor(getContext(), R.color.red));
+
+        ConstraintLayout layout = getView().findViewById(R.id.parent_task_empty);
+
+        for (int i = 0; i < cues.length; i++) {
+            cues[i] = new Button(getContext());
+            cues[i].setWidth(75);
+            cues[i].setHeight(75);
+            cues[i].setBackgroundDrawable(drawable_grey);
+            cues[i].setId(i);
+            cues[i].setOnClickListener(buttonClickListener);
+            layout.addView(cues[i]);
         }
 
-        // Add distractor cues
-        Log.d(TAG, "Adding incorrect cues");
-        for (int i_incorr = 0; i_incorr < prefManager.objectdiscrim_num_incorr_shown; i_incorr++) {
-            cues[i_cues] = UtilsTask.addColorCue(i_cues, prefManager.objectdiscrim_incorr_colours[random_cols_incorr[i_incorr]],
-                    getContext(), buttonClickListener, getView().findViewById(R.id.parent_object_discrim));
-            i_cues += 1;
-        }
+        // Position cues clockwise from 12:00
+        cues[0].setX(575);
+        cues[1].setX(775);
+        cues[2].setX(975);
+        cues[3].setX(775);
+        cues[4].setX(575);
+        cues[5].setX(375);
+        cues[6].setX(175);
+        cues[7].setX(375);
+
+        cues[0].setY(400);
+        cues[1].setY(650);
+        cues[2].setY(900);
+        cues[3].setY(1150);
+        cues[4].setY(1400);
+        cues[5].setY(1150);
+        cues[6].setY(900);
+        cues[7].setY(650);
+
+        UtilsTask.toggleCues(cues, false);
 
     }
 
@@ -112,55 +182,27 @@ public class TaskObjectDiscrim extends Task {
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Log.d(TAG, "onClick");
+            Log.d(TAG, "onClick "+view.getId()+" "+chosen_cues[0]+" "+chosen_cues[1]+" "+chosen_cues[2]);
 
-            // Always disable all cues after a press as monkeys love to bash repeatedly
-            UtilsTask.toggleCues(cues, false);
+            boolean correct_chosen = Integer.valueOf(view.getId()) == chosen_cues[(prefManager.sr_num_stim - choice_counter) - 1];
 
-            // Reset timer for idle timeout on each press
-            callback.resetTimer_();
+            choice_counter += 1;
 
-            // Now decide what to do based on what menu_button pressed
-            // The id of correct cues come first so this is how we determine if it's a correct cue or not
-            boolean successfulTrial = false;
-            if (Integer.valueOf(view.getId()) < prefManager.objectdiscrim_num_corr_shown) {
-                successfulTrial = true;
-                num_steps += 1;
-            }
-
-            // Check how many correct presses they've got and how many they need per trial
-            if (!successfulTrial | num_steps == prefManager.objectdiscrim_num_steps) {
-                endOfTrial(successfulTrial);
+            if (choice_counter == prefManager.sr_num_stim | !correct_chosen) {
+                endOfTrial(correct_chosen, callback);
             } else {
-                positionAndDisplayCues();
+                UtilsTask.toggleCue(cues[Integer.valueOf(view.getId())], false);
             }
+
         }
     };
 
-    // Save outcome of this trial and the cues used so that it can be repeated if it was unsuccessful
-    private void saveTrialParams(boolean successfulTrial) {
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putBoolean(getString(R.string.preftag_od_previous_error), successfulTrial);
-        editor.putString(getString(R.string.preftag_od_prev_cols_corr), UtilsSystem.convertIntArrayToString(random_cols_corr));
-        editor.putString(getString(R.string.preftag_od_prev_cols_incorr), UtilsSystem.convertIntArrayToString(random_cols_incorr));
-        editor.commit();
-    }
-
-    private void endOfTrial(boolean successfulTrial) {
-        Log.d(TAG, "endOfTrial");
-
-        saveTrialParams(successfulTrial);
-
-        String outcome;
-        if (successfulTrial) {
-            outcome = prefManager.ec_correct_trial;
-        } else {
-            outcome = prefManager.ec_incorrect_trial;
-        }
-        // Send outcome up to parent
-        callback.trialEnded_(outcome, rew_scalar);
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        super.onDestroy();
+        h0.removeCallbacksAndMessages(null);
+        h1.removeCallbacksAndMessages(null);
     }
 
 }

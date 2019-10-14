@@ -2,14 +2,12 @@ package mymou.task.backend;
 
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.ExpandableListActivity;
 import android.app.PendingIntent;
 import android.content.*;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
@@ -296,7 +294,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 task = new TaskDiscreteMaze();
                 break;
             case 7:
-                task = new TaskObjectDiscrim();
+                task = new TaskObjectDiscrimCol();
 
                 // Check settings correct
                 valid_configuration = preferencesManager.objectdiscrim_valid_config;

@@ -1,6 +1,9 @@
 /**
  *
- * A basic object discrimination task showcasing the main features of the Mymou system:
+ * Task Example
+ *
+ * A basic object discrimination task showcasing the main features of the Mymou system
+ * This includes using facial recognition to load different settings for different subjects
  *
  */
 
