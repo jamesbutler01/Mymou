@@ -20,6 +20,7 @@ public class TaskDiscreteMazeMapParams {
     public int y_size;
     public boolean torus;
     public int numNeighbours;
+    public int maxDistance;
 
     public TaskDiscreteMazeMapParams(PreferencesManager preferencesManager) {
         Log.d(TAG, "Loading map ");
@@ -32,6 +33,7 @@ public class TaskDiscreteMazeMapParams {
         Load_y_dimension();
         Load_torus();
         Load_numNeighbours();
+        Load_maxDistance();
     }
 
     public void LoadImageList() {
@@ -90,6 +92,11 @@ public class TaskDiscreteMazeMapParams {
     public void Load_numNeighbours() {
         int[] numNeighbourss = {4, 2};
         numNeighbours = numNeighbourss[map_chosen];
+    }
+
+    public void Load_maxDistance() {
+        int[] maxDistances = {4, 10};
+        maxDistance = maxDistances[map_chosen];
     }
 
 }

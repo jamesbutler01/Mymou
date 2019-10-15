@@ -182,7 +182,7 @@ public class MainMenu extends Activity {
         findViewById(R.id.info_button).setOnClickListener(buttonClickListener);
 
         // Disabled as in development
-        findViewById(R.id.buttonViewData).setEnabled(false);
+//        findViewById(R.id.buttonViewData).setEnabled(false);
 
         // Radio groups (reward system controller)
         reward_chan = preferencesManager.default_rew_chan;
@@ -288,6 +288,7 @@ public class MainMenu extends Activity {
                 case R.id.buttonViewData:
                     Intent intent3 = new Intent(context, DataViewer.class);
                     startActivity(intent3);
+                    break;
                 case R.id.info_button:
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
                     String[] descriptions = getResources().getStringArray(R.array.task_descriptions);

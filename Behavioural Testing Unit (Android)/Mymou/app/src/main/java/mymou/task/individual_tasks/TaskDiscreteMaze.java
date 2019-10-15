@@ -49,6 +49,7 @@ import android.widget.TextView;
 import androidx.preference.PreferenceManager;
 
 import mymou.Utils.FolderManager;
+import mymou.Utils.UtilsSystem;
 import mymou.task.backend.MatrixMaths;
 import mymou.preferences.PreferencesManager;
 import mymou.Utils.ProgressBarAnimation;
@@ -568,9 +569,9 @@ public class TaskDiscreteMaze extends Task {
     }
 
     private void setMaxProgress() {
-        pb_length = num_stimulus;
+        pb_length = mapParams.maxDistance;
         pb1.setMax(pb_length * pb_scalar);
-        pb1.setProgress(pb_scalar);
+        pb1.setProgress((pb_length - currentDistanceFromTarget) * pb_scalar);
     }
 
     private int distanceFromTarget(int currentPos) {
@@ -578,19 +579,19 @@ public class TaskDiscreteMaze extends Task {
     }
 
     private void randomiseImageLocation() {
-        int[] chosen = {0, 0, 0, 0, 0, 0, 0, 0,};
-        int bound = mapParams.numNeighbours;
-        int choice = r.nextInt(bound);
+        // Array to track which positions have already been used
+        boolean[] chosen = UtilsSystem.getBooleanFalseArray(mapParams.numNeighbours);
+
         for (int i = 0; i < mapParams.numNeighbours; i++) {
-            while (chosen[choice] == 1) {
-                choice = r.nextInt(bound);
-            }
-            // choice = i;
+            // Pick position
+            int choice = UtilsTask.chooseValueNoReplacement(chosen);
+            chosen[choice] = true;
+
+            // Update UI
             imageButtons[i].setX(xLocs[choice]);
             imageButtons[i].setY(yLocs[choice]);
             chosenXlocs[i] = xLocs[choice];
             chosenYlocs[i] = yLocs[choice];
-            chosen[choice] = 1;
         }
     }
 
@@ -605,6 +606,7 @@ public class TaskDiscreteMaze extends Task {
         h6.postDelayed(new Runnable() {
             @Override
             public void run() {
+                Log.d(TAG, "Updating progress bar from "+pb1.getProgress()+" to "+(pb_length - currentDistanceFromTarget) * pb_scalar+" (curr dist = "+currentDistanceFromTarget);
                 ProgressBarAnimation anim = new ProgressBarAnimation(pb1, pb1.getProgress(), (pb_length - currentDistanceFromTarget) * pb_scalar);
                 anim.setDuration(preferencesManager.dm_animation_duration);
                 pb1.startAnimation(anim);
