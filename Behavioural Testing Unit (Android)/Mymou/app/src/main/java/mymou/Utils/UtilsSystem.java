@@ -11,11 +11,13 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
+
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+
 import mymou.R;
 
 import java.util.StringTokenizer;
@@ -135,6 +137,14 @@ public class UtilsSystem {
         graph.getViewport().setXAxisBoundsManual(true);
         glr.setNumHorizontalLabels(num_sessions);
 
+    }
+
+    public static boolean[] getBooleanFalseArray(int n) {
+        boolean[] out = new boolean[n];
+        for (int i = 0; i < n; i++) {
+            out[i] = false;
+        }
+        return out;
     }
 
 

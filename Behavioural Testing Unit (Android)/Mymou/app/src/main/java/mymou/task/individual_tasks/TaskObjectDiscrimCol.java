@@ -1,8 +1,10 @@
 /**
- * Object discrimination task
+ * Object discrimination (color) task
  *
  * Subjects shown specified number of CS+ and CS- cues
  * Must get certain amount of correct CS+ presses in a row to receive reward
+ *
+ * In this implmentation only monocoloured stimuli are used
  *
  * The number of CS-, CS+, and number needed for reward can all be altered in preferences menu
  *
@@ -17,7 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import androidx.fragment.app.Fragment;
+
 import androidx.preference.PreferenceManager;
 import mymou.task.backend.MatrixMaths;
 import mymou.preferences.PreferencesManager;
@@ -66,7 +68,7 @@ public class TaskObjectDiscrimCol extends Task {
 
     private void assignObjects() {
         prefManager = new PreferencesManager(getContext());
-        prefManager.ObjectDiscrimination();
+        prefManager.ObjectDiscriminationCol();
 
         int total_num_cues = prefManager.objectdiscrim_num_corr_shown + prefManager.objectdiscrim_num_incorr_shown;
         int i_cues = 0;

@@ -46,6 +46,10 @@ public class PrefsFragCommon extends PreferenceFragmentCompat {
 
             setPreferencesFromResource(R.xml.preferences_task_spatialresponse, rootKey);
 
+        } else if (prefTag.equals(getString(R.string.preftag_task_od_settings))) {
+
+            setPreferencesFromResource(R.xml.preferences_task_objectdiscrim, rootKey);
+
         } else {
 
             new Exception("Invalid pref tag");

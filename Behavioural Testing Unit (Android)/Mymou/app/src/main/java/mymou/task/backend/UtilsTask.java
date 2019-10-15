@@ -11,14 +11,16 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
 import androidx.constraintlayout.widget.ConstraintLayout;
+
 import mymou.preferences.PreferencesManager;
 
 import java.util.Random;
 import java.util.stream.IntStream;
 
 public class UtilsTask {
-   // Debug
+    // Debug
     public static String TAG = "MymouUtils";
 
     // Make a list of the possible locations on the screen where cues can be placed
@@ -29,7 +31,7 @@ public class UtilsTask {
         int totalImageSize = imageWidths + border;
 
         // Find centre of screen in pixels
-        Display display =  activity.getWindowManager().getDefaultDisplay();
+        Display display = activity.getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int screenWidth = size.x;
@@ -78,7 +80,7 @@ public class UtilsTask {
         button.setId(id);
         button.setScaleType(ImageView.ScaleType.FIT_XY);
         int border = preferencesManager.border_size;
-        button.setPadding(border, border,border,border);
+        button.setPadding(border, border, border, border);
         layout.addView(button);
         return button;
     }
@@ -91,7 +93,7 @@ public class UtilsTask {
         button.setId(id);
         button.setScaleType(ImageView.ScaleType.FIT_XY);
         int border = preferencesManager.border_size;
-        button.setPadding(border, border,border,border);
+        button.setPadding(border, border, border, border);
         button.setOnClickListener(onClickListener);
         layout.addView(button);
         return button;
@@ -189,10 +191,19 @@ public class UtilsTask {
         Display display = activity.getWindowManager().getDefaultDisplay();
         Point screen_size = new Point();
         display.getSize(screen_size);
-        float x_loc = ( ( screen_size.x - cue.getWidth() ) / 2 );
-        float y_loc = ( (screen_size.y/2) - (cue.getHeight()*2)  );
+        float x_loc = ((screen_size.x - cue.getWidth()) / 2);
+        float y_loc = ((screen_size.y / 2) - (cue.getHeight() * 2));
         cue.setX(x_loc);
         cue.setY(y_loc);
     }
 
+    // Rolls until it finds an unchosen position in the provided boolean array
+    public static int chooseValueNoReplacement(boolean[] chosen_vals) {
+        Random r = new Random();
+        int chosen_i = r.nextInt(chosen_vals.length);
+        while (chosen_vals[chosen_i]) {
+            chosen_i = r.nextInt(chosen_vals.length);
+        }
+        return chosen_i;
+    }
 }

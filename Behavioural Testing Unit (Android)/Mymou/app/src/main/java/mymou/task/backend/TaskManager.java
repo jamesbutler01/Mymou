@@ -187,15 +187,19 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 preferencesManager.DiscreteMaze();
                 break;
             case 7:
-                preferencesManager.ObjectDiscrimination();
+                preferencesManager.ObjectDiscriminationCol();
                 break;
             case 8:
-                preferencesManager.ProgressiveRatio();
+                preferencesManager.ObjectDiscrim();
                 break;
             case 9:
-                preferencesManager.EvidenceAccum();
+                preferencesManager.ProgressiveRatio();
                 break;
             case 10:
+                preferencesManager.EvidenceAccum();
+                break;
+            case 11:
+                 preferencesManager.SpatialResponse();
                 break;
             default:
                 Log.d(TAG, "No task specified");
@@ -301,12 +305,15 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
                 break;
             case 8:
-                task = new TaskProgressiveRatio();
+                task = new TaskObjectDiscrim();
                 break;
             case 9:
-                task = new TaskEvidenceAccum();
+                task = new TaskProgressiveRatio();
                 break;
             case 10:
+                task = new TaskEvidenceAccum();
+                break;
+            case 11:
                 task = new TaskSpatialResponse();
                 break;
             default:

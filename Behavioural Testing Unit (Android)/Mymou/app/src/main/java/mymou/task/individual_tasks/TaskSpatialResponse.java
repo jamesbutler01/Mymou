@@ -28,6 +28,7 @@ import androidx.core.content.ContextCompat;
 import java.util.Random;
 
 import mymou.R;
+import mymou.Utils.UtilsSystem;
 import mymou.preferences.PreferencesManager;
 import mymou.task.backend.TaskInterface;
 import mymou.task.backend.UtilsTask;
@@ -118,14 +119,10 @@ public class TaskSpatialResponse extends Task {
 
         // Choose cues (without replacement)
         chosen_cues = new int[prefManager.sr_num_stim];
-        chosen_cues_b = new boolean[]{false, false, false, false, false, false, false, false};
-        Random r = new Random();
+        chosen_cues_b = UtilsSystem.getBooleanFalseArray(prefManager.sr_num_stim);
+
         for (int i = 0; i < prefManager.sr_num_stim; i++) {
-            int chosen_cue = r.nextInt(cues.length);
-            while (chosen_cues_b[chosen_cue]) {
-                chosen_cue = r.nextInt(cues.length);
-            }
-            chosen_cues[i] = chosen_cue;
+            chosen_cues[i] = UtilsTask.chooseValueNoReplacement(chosen_cues_b);
             chosen_cues_b[chosen_cues[i]] = true;
         }
 
@@ -182,7 +179,7 @@ public class TaskSpatialResponse extends Task {
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Log.d(TAG, "onClick "+view.getId()+" "+chosen_cues[0]+" "+chosen_cues[1]+" "+chosen_cues[2]);
+            Log.d(TAG, "onClick "+view.getId());
 
             boolean correct_chosen = Integer.valueOf(view.getId()) == chosen_cues[(prefManager.sr_num_stim - choice_counter) - 1];
 

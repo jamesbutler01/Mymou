@@ -104,7 +104,7 @@ public class PreferencesManager {
     public boolean objectdiscrim_repeatOnError, objectdiscrim_previous_error, objectdiscrim_valid_config;
     public String objectdiscrim_errormessage;
 
-    public void ObjectDiscrimination() {
+    public void ObjectDiscriminationCol() {
         objectdiscrim_num_corr_shown = sharedPrefs.getInt(r.getString(R.string.preftag_od_num_corr_cues), r.getInteger(R.integer.default_objdisc_num_corr_shown));
         objectdiscrim_num_incorr_shown = sharedPrefs.getInt(r.getString(R.string.preftag_od_num_incorr_cues), r.getInteger(R.integer.default_objdisc_num_incorr_shown));
         objectdiscrim_num_steps = sharedPrefs.getInt(r.getString(R.string.preftag_od_num_steps), r.getInteger(R.integer.default_objdisc_num_steps));
@@ -245,6 +245,16 @@ public class PreferencesManager {
         sr_duration_off = sharedPrefs.getInt(r.getString(R.string.preftag_sr_duration_off), r.getInteger(R.integer.default_sr_duration_off));
         sr_duration_on = sharedPrefs.getInt(r.getString(R.string.preftag_sr_duration_on), r.getInteger(R.integer.default_sr_duration_on));
         sr_num_stim = sharedPrefs.getInt(r.getString(R.string.preftag_sr_num_stimuli), r.getInteger(R.integer.default_sr_num_stimuli));
+    } 
+    
+    public int od_duration_on, od_duration_off, od_num_stim, od_num_distractors, od_start_delay;
+
+    public void ObjectDiscrim() {
+        od_start_delay = 500;
+        od_duration_off = sharedPrefs.getInt(r.getString(R.string.preftag_od_duration_off), r.getInteger(R.integer.default_od_duration_off));
+        od_duration_on = sharedPrefs.getInt(r.getString(R.string.preftag_od_duration_on), r.getInteger(R.integer.default_od_duration_on));
+        od_num_distractors = sharedPrefs.getInt(r.getString(R.string.preftag_od_num_distractors), r.getInteger(R.integer.default_od_num_distractors));
+        od_num_stim = 1;
     }
 
 }

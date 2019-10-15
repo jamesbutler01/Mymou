@@ -20,7 +20,8 @@
         <item>Training 5: Two step</item>
         <item>Example task</item>
         <item>Discrete Maze</item>
-        <item>Object discrimination</item>
+        <item>Object discrimination (colours)</item>
+        <item>Object discrimination (images)</item>
         <item>Progressive Ratio</item>
         <item>Evidence Accumulation</item>
         <item>Spatial response</item>
@@ -34,7 +35,8 @@
         <item>Implementation of the reduced two step task described in Akam et al. (2017).</item>
         <item>This task showcases the full features of the Mymou system, including facial recognition, and multiple reward channels. </item>
         <item>Associative learning of large networks of stimuli, as seen in Butler and Kennerley (2018). Subjects are shown a target stimuli at the top of the screen. Their current location and neighbouring stimuli are displayed in the lower part of the screen. Subjects then have to learn to navigate to the different locations in the maze.</item>
-        <item>Subjects are shown multiple CS- and CS+ stimuli which they must learn to differentiate. </item>
+        <item>Subjects are shown multiple CS- and CS+ stimuli which they must learn to differentiate. Stimuli are limited to single colours </item>
+        <item>Subjects are shown multiple CS- and CS+ stimuli which they must learn to differentiate. Stimuli are photos of images taken from the database kindly provided in Brady et al. (2008) PNAS </item>
         <item>One stimuli is displayed on the screen. After each press, the subjects must then have to press twice as many times to gain reward. After a certain period the number of presses needed for reward resets to 1. </item>
         <item>Two bars are displayed with varying length for a certain number of frames. Subjects must then choose which bar had the greatest total length over all the frames. </item>
         <item>Different spatial locations are shown sequentially. Subjects must then repeat the sequence in order for reward. </item>
@@ -100,12 +102,13 @@
     <string name="preftag_autostop_hour">autostop_hour</string>
     <string name="preftag_autostop_min">autostop_min</string>
 
-    <string name="preftag_task_obj_disc_settings">preftag_task_obj_disc_settings</string>
+    <string name="preftag_task_odc_settings">preftag_task_odc_settings</string>
     <string name="preftag_task_disc_maze_settings">preftag_task_disc_maze_settings</string>
     <string name="preftag_task_t_one_settings">preftag_task_t_one_settings</string>
     <string name="preftag_task_pr_settings">preftag_task_pr_settings</string>
     <string name="preftag_task_ea_settings">preftag_task_ea_settings</string>
     <string name="preftag_task_sr_settings">preftag_task_sr_settings</string>
+    <string name="preftag_task_od_settings">preftag_task_od_settings</string>
     <string name="preftag_settings_to_load">preftag_settings_to_load</string>
     <string name="preftag_sound_to_play">preftag_sound_to_play</string>
     <string name="preftag_num_rew_chans">preftag_num_rew_chans</string>
@@ -158,6 +161,10 @@
     <string name="preftag_sr_duration_off">sr_duration_off</string>
     <string name="preftag_sr_duration_on">sr_duration_on</string>
     <string name="preftag_sr_num_stimuli">sr_num_stimuli</string>
+    
+    <string name="preftag_od_duration_off">od_duration_off</string>
+    <string name="preftag_od_duration_on">od_duration_on</string>
+    <string name="preftag_od_num_distractors">od_num_distractors</string>
 
     <string-array name="error_messages">
         <item>Bluetooth couldn\'t connect to reward system (to run task without reward system, disable the reward system

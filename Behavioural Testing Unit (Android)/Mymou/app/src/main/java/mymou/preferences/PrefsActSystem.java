@@ -33,7 +33,7 @@ public class PrefsActSystem extends AppCompatActivity implements
         Fragment preferenceFragment = null;
         if (settings_to_load.equals(getString(R.string.preftag_menu_prefs))) {
             preferenceFragment = new PrefsFragMenu();
-        } else if (settings_to_load.equals(getString(R.string.preftag_task_obj_disc_settings))) {
+        } else if (settings_to_load.equals(getString(R.string.preftag_task_odc_settings))) {
             preferenceFragment = new PrefsFragTaskObjectDiscrim();
         } else if (settings_to_load.equals(getString(R.string.preftag_task_disc_maze_settings))) {
             preferenceFragment = new PrefsFragTaskDiscreteMaze();
@@ -44,6 +44,12 @@ public class PrefsActSystem extends AppCompatActivity implements
         } else if (settings_to_load.equals(getString(R.string.preftag_task_ea_settings))) {
             preferenceFragment = new PrefsFragTaskEvidenceAccum();
         } else if (settings_to_load.equals(getString(R.string.preftag_task_sr_settings))) {
+            preferenceFragment = new PrefsFragCommon();
+            Bundle bundle = new Bundle();
+            bundle.putString(getString(R.string.preftag_settings_to_load), settings_to_load);
+            preferenceFragment.setArguments(bundle);
+
+        } else if (settings_to_load.equals(getString(R.string.preftag_task_od_settings))) {
             preferenceFragment = new PrefsFragCommon();
             Bundle bundle = new Bundle();
             bundle.putString(getString(R.string.preftag_settings_to_load), settings_to_load);

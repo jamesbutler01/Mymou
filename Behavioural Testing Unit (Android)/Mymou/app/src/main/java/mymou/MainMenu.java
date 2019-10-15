@@ -17,7 +17,6 @@ import androidx.preference.PreferenceManager;
 import mymou.Utils.PermissionManager;
 import mymou.Utils.UtilsSystem;
 import mymou.preferences.PreferencesManager;
-import mymou.preferences.PrefsFragCropPickerParent;
 import mymou.task.backend.DataViewer;
 import mymou.task.backend.RewardSystem;
 import mymou.task.backend.TaskManager;
@@ -268,17 +267,19 @@ public class MainMenu extends Activity {
                     Intent intent2 = new Intent(context, PrefsActSystem.class);
 
                     // Load task specific settings
-                    if (taskSelected == 6) {
+                    if (taskSelected < 5) {
+                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_t_one_settings));
+                    } else if (taskSelected == 6) {
                         intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_disc_maze_settings));
                     } else if (taskSelected == 7) {
-                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_obj_disc_settings));
-                    } else if (taskSelected < 5) {
-                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_t_one_settings));
+                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_odc_settings));
                     } else if (taskSelected == 8) {
-                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_pr_settings));
+                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_od_settings));
                     } else if (taskSelected == 9) {
-                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_ea_settings));
+                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_pr_settings));
                     } else if (taskSelected == 10) {
+                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_ea_settings));
+                    } else if (taskSelected == 11) {
                         intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_sr_settings));
                     }
 

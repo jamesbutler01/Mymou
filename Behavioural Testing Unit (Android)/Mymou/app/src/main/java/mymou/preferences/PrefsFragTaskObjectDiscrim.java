@@ -3,7 +3,7 @@ package mymou.preferences;
 
 import android.os.Bundle;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.SeekBarPreference;
+
 import mymou.R;
 
 public class PrefsFragTaskObjectDiscrim extends PreferenceFragmentCompat  {
@@ -13,11 +13,11 @@ public class PrefsFragTaskObjectDiscrim extends PreferenceFragmentCompat  {
 
     @Override
     public void onCreatePreferences(Bundle bundle, String rootKey) {
-        setPreferencesFromResource(R.xml.preferences_task_objectdiscrim, rootKey);
+        setPreferencesFromResource(R.xml.preferences_task_objectdiscrimcol, rootKey);
 
         // Adjust seekbars to the maximum number of cues selected
         PreferencesManager preferencesManager = new PreferencesManager(getContext());
-        preferencesManager.ObjectDiscrimination();
+        preferencesManager.ObjectDiscriminationCol();
 
         SeekBarPreferenceCustom seekBar = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_od_num_corr_cues));
         seekBar.setMin(1);

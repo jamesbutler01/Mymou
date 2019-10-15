@@ -61,6 +61,10 @@
     <integer name="default_sr_num_stimuli">3</integer>
     <integer name="default_sr_duration_on">500</integer>
     <integer name="default_sr_duration_off">1500</integer>
+    
+    <integer name="default_od_num_distractors">3</integer>
+    <integer name="default_od_duration_on">750</integer>
+    <integer name="default_od_duration_off">1500</integer>
 
 
 </resources>
