@@ -123,11 +123,11 @@ public class TaskDiscreteMaze extends Task {
 
         chooseTargetLoc();
         setStartingPosition();
+        saveTrialParams(false);
 
         setMaxProgress();
 
         resetButtonPositionsAndBorders();
-        pb1.setProgress((pb_length - currentDistanceFromTarget) * pb_scalar);
         randomiseImageLocation();
 
         switchOffChoiceButtons();
@@ -143,6 +143,7 @@ public class TaskDiscreteMaze extends Task {
         ibTarget.setEnabled(true);
         ibTarget.setVisibility(View.VISIBLE);
         unfadeButtons(0);
+
 
     }
 
