@@ -54,6 +54,7 @@
                 app:key="@string/preftag_num_monkeys"
                 app:title="Number of monkeys"
                 android:max="@integer/max_num_monkeys"
+                android:min="@integer/min_num_monkeys"
                 android:summary="Number of monkeys in total that will use the device"
                 android:defaultValue="@integer/default_num_monkeys"/>
 

@@ -19,13 +19,6 @@
             android:icon="@drawable/ic_launcher"
             android:label="Mymou"
             android:theme="@android:style/Theme.Black.NoTitleBar">
-        <activity android:name=".task.backend.DataViewer">
-        </activity>
-        <!-- android:theme="@style/MainAppTheme"> -->
-        <activity
-                android:name=".preferences.PrefsActSystem"
-                android:theme="@style/MainAppTheme">
-        </activity>
         <activity
                 android:name=".MainMenu"
                 android:launchMode="singleTop"
@@ -36,10 +29,20 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".task.backend.DataViewer">
+        </activity>
+
+        <activity
+                android:name=".preferences.PrefsActSystem"
+                android:theme="@style/MainAppTheme">
+        </activity>
+
         <activity
                 android:name=".task.backend.TaskManager"
                 android:screenOrientation="portrait"/>
         <activity android:name=".preferences.PrefsFragCropPickerParent"/>
+
     </application>
 
 </manifest>

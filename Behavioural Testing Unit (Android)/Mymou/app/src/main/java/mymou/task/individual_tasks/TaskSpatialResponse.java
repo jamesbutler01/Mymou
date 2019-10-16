@@ -1,14 +1,12 @@
 /**
- *
  * Spatial response task
- *
+ * <p>
  * Subjects are shown movie where certain cues are highlighted sequentially
  * Must then repeat the sequence that they saw in correct order to receive reward
- *
+ * <p>
  * The length of each sequence, and timing properties of the movie, can be altered in the options menu
- *
+ * <p>
  * TODO: Implement logging of task variables
- *
  */
 
 package mymou.task.individual_tasks;
@@ -39,14 +37,16 @@ public class TaskSpatialResponse extends Task {
     // Debug
     public static String TAG = "MyMouEvidenceAccum";
 
-    private static Button[] cues = new Button[8];
+    private static int num_positions = 8;
     private static int[] chosen_cues;
     private static int choice_counter;
     private static boolean[] chosen_cues_b;
+    private static Button[] cues = new Button[num_positions];
     GradientDrawable drawable_red, drawable_grey;
     private static PreferencesManager prefManager;
     private static Handler h0 = new Handler();  // Show object
     private static Handler h1 = new Handler();  // Hide object
+    private static Handler h2 = new Handler();  // Choice phase
 
 
     @Override
@@ -66,7 +66,7 @@ public class TaskSpatialResponse extends Task {
 
 
     private void startMovie(int num_steps) {
-        Log.d(TAG, "Playing movie, frame: "+num_steps+"/"+prefManager.sr_num_stim);
+        Log.d(TAG, "Playing movie, frame: " + num_steps + "/" + prefManager.sr_num_stim);
         if (num_steps > 0) {
             h0.postDelayed(new Runnable() {
                 @Override
@@ -92,20 +92,25 @@ public class TaskSpatialResponse extends Task {
         } else {
 
             // Choice phase
-            for (int i = 0; i < cues.length; i++) {
+            h2.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < cues.length; i++) {
 
-                UtilsTask.toggleCue(cues[i], true);
+                        UtilsTask.toggleCue(cues[i], true);
 
-                // Make clickable
-                cues[i].setOnClickListener(buttonClickListener);
+                        // Make clickable
+                        cues[i].setOnClickListener(buttonClickListener);
 
-                // Change colour to not reveal answer!
-                GradientDrawable drawable = new GradientDrawable();
-                drawable.setShape(GradientDrawable.RECTANGLE);
-                drawable.setColor(ContextCompat.getColor(getContext(), R.color.white));
-                drawable.setStroke(5, ContextCompat.getColor(getContext(), R.color.black));
-                cues[i].setBackgroundDrawable(drawable);
-            }
+                        // Change colour to not reveal answer!
+                        GradientDrawable drawable = new GradientDrawable();
+                        drawable.setShape(GradientDrawable.RECTANGLE);
+                        drawable.setColor(ContextCompat.getColor(getContext(), R.color.white));
+                        drawable.setStroke(5, ContextCompat.getColor(getContext(), R.color.black));
+                        cues[i].setBackgroundDrawable(drawable);
+                    }
+                }
+            }, prefManager.sr_duration_off);
         }
 
     }
@@ -119,7 +124,7 @@ public class TaskSpatialResponse extends Task {
 
         // Choose cues (without replacement)
         chosen_cues = new int[prefManager.sr_num_stim];
-        chosen_cues_b = UtilsSystem.getBooleanFalseArray(prefManager.sr_num_stim);
+        chosen_cues_b = UtilsSystem.getBooleanFalseArray(num_positions);
 
         for (int i = 0; i < prefManager.sr_num_stim; i++) {
             chosen_cues[i] = UtilsTask.chooseValueNoReplacement(chosen_cues_b);
@@ -179,7 +184,7 @@ public class TaskSpatialResponse extends Task {
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Log.d(TAG, "onClick "+view.getId());
+            Log.d(TAG, "onClick " + view.getId());
 
             boolean correct_chosen = Integer.valueOf(view.getId()) == chosen_cues[(prefManager.sr_num_stim - choice_counter) - 1];
 
@@ -200,6 +205,7 @@ public class TaskSpatialResponse extends Task {
         super.onDestroy();
         h0.removeCallbacksAndMessages(null);
         h1.removeCallbacksAndMessages(null);
+        h2.removeCallbacksAndMessages(null);
     }
 
 }

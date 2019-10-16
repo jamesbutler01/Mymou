@@ -254,6 +254,7 @@ public class MainMenu extends Activity {
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            Log.d(TAG, "onClick: "+view.getId());
             switch (view.getId()) {
                 case R.id.buttonStart:
                     startTask();
@@ -301,6 +302,13 @@ public class MainMenu extends Activity {
             }
         }
     };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        super.onCreate(null);
+        initialiseLayoutParameters();
+    }
 
     @Override
     public void onDestroy() {

@@ -357,9 +357,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             }
 
         });
+
         task.setArguments(bundle);
         fragmentTransaction.add(R.id.task_container, task, TAG_FRAGMENT_TASK);
-
 
         if (!valid_configuration) {
 
@@ -678,9 +678,10 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // Allow user to exit task if testing mode is enabled
         if (preferencesManager.debug) {
-            super.onBackPressed();
+            return super.onKeyDown(keyCode, event);
+        } else {
+            return false;
         }
-        return false;
     }
 
     @Override

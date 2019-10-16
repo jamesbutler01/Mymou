@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="default_num_monkeys">2</integer>
+    <integer name="default_num_monkeys">1</integer>
     <integer name="max_num_monkeys">8</integer>
+    <integer name="min_num_monkeys">1</integer>
 
     <integer name="num_error_messages">10</integer>
     <integer name="i_bt_couldnt_connect">0</integer>
@@ -54,7 +55,7 @@
 
     <integer name="default_ea_num_steps">8</integer>
     <integer name="default_ea_step_duration_on">600</integer>
-    <integer name="default_ea_step_duration_off">200</integer>
+    <integer name="default_ea_step_duration_off">500</integer>
     <integer name="default_ea_distance">3</integer>
     <integer name="default_ea_variance">1</integer>
 
