@@ -199,7 +199,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 preferencesManager.EvidenceAccum();
                 break;
             case 11:
-                 preferencesManager.SpatialResponse();
+                preferencesManager.SpatialResponse();
                 break;
             default:
                 Log.d(TAG, "No task specified");
@@ -451,14 +451,10 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     public static void commitTrialData(String overallTrialOutcome) {
         if (trialData != null) {
 
-            // End of trial so increment trial counter
+            // Reset trial counter if we passed midnight
             if (dateHasChanged()) {
 
                 trialCounter = 0;
-
-            } else {
-
-                trialCounter++;
 
             }
 
@@ -512,6 +508,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
         // And now clear the list ready for the next trial
         trialData = new ArrayList<String>();
+
+        // Increment trial counter
+        trialCounter++;
 
     }
 

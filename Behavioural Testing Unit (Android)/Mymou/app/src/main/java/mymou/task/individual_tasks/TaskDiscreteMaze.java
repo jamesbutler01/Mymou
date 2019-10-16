@@ -16,11 +16,10 @@
  * @param target_pos the target location where reward is located
  * @param num_steps the current number of steps on this trial
  * @param transitionMatrix the graph layout
- *
+ * <p>
  * Stimuli are taken from Brady, T. F., Konkle, T., Alvarez, G. A. and Oliva, A. (2008). Visual
- *  long-term memory has a massive storage capacity for object details. Proceedings of the National
- *  Academy of Sciences, USA, 105 (38), 14325-14329.
- *
+ * long-term memory has a massive storage capacity for object details. Proceedings of the National
+ * Academy of Sciences, USA, 105 (38), 14325-14329.
  */
 package mymou.task.individual_tasks;
 
@@ -529,16 +528,15 @@ public class TaskDiscreteMaze extends Task {
             String lastRecordedDate = sharedPref.getString("dm_lastdate", "null");
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString("dm_lastdate", todaysDate);
+            int num_trials = getArguments().getInt("numTrials", -1);
             target_pos = prev_target;
-            if (todaysDate.equals(lastRecordedDate)) {
+            if (todaysDate.equals(lastRecordedDate) & num_trials > 0) {
                 Log.d(TAG, "same day");
 
                 // But switch it if had 100 trials
-                int num_trials = getArguments().getInt("numTrials", -1);
                 boolean switched_yet = sharedPref.getBoolean("dm_halfwayswitch", false);
-                Log.d(TAG, "" + num_trials + " " + switched_yet);
-
                 if (num_trials > 100 & !switched_yet) {
+
                     // Find different target
                     while (prev_target == target_pos) {
                         target_pos = r.nextInt(num_stimulus);
@@ -607,7 +605,7 @@ public class TaskDiscreteMaze extends Task {
         h6.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Log.d(TAG, "Updating progress bar from "+pb1.getProgress()+" to "+(pb_length - currentDistanceFromTarget) * pb_scalar+" (curr dist = "+currentDistanceFromTarget);
+                Log.d(TAG, "Updating progress bar from " + pb1.getProgress() + " to " + (pb_length - currentDistanceFromTarget) * pb_scalar + " (curr dist = " + currentDistanceFromTarget);
                 ProgressBarAnimation anim = new ProgressBarAnimation(pb1, pb1.getProgress(), (pb_length - currentDistanceFromTarget) * pb_scalar);
                 anim.setDuration(preferencesManager.dm_animation_duration);
                 pb1.startAnimation(anim);
