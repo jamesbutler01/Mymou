@@ -62,6 +62,14 @@
                 app:title="Static target location" />
 
         <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_dm_target_switch_freq"
+                app:key="@string/preftag_dm_target_switch_freq"
+                app:title="Target switch frequency (if static reward enabled)"
+                app:summary="The number of trials that will occur in between each time the target location is moved around the map"
+                android:max="1000"
+                android:min="1"                />
+
+        <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_dm_booster_amount"
                 app:key="@string/preftag_dm_booster_amount"
                 app:title="Duration (ms) of small reward given when they move towards the target location" />

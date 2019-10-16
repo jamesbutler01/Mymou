@@ -522,46 +522,27 @@ public class TaskDiscreteMaze extends Task {
 
     private void chooseTargetLoc() {
         if (preferencesManager.dm_static_reward) {
-            // If first trial of the day then pick new target
-            String todaysDate = new FolderManager(mContext, 0).getBaseDate();
-            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
-            String lastRecordedDate = sharedPref.getString("dm_lastdate", "null");
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString("dm_lastdate", todaysDate);
+
             int num_trials = getArguments().getInt("numTrials", -1);
             target_pos = prev_target;
-            if (todaysDate.equals(lastRecordedDate) & num_trials > 0) {
-                Log.d(TAG, "same day");
 
-                // But switch it if had 100 trials
-                boolean switched_yet = sharedPref.getBoolean("dm_halfwayswitch", false);
-                if (num_trials > 100 & !switched_yet) {
+            // Update target every x trials
+            if (num_trials % preferencesManager.dm_target_switch_freq == 0) {
 
-                    // Find different target
-                    while (prev_target == target_pos) {
-                        target_pos = r.nextInt(num_stimulus);
-                    }
-
-                    // Store that we've done this so it doesn't happen again
-                    editor.putBoolean("dm_halfwayswitch", true);
-                }
-
-            } else {
-                Log.d(TAG, "new day");
                 while (prev_target == target_pos) {
                     target_pos = r.nextInt(num_stimulus);
                 }
-                editor.putBoolean("dm_halfwayswitch", false);
+
             }
 
-            editor.commit();
-
         } else {
+
             if (prev_trial_correct | !preferencesManager.dm_repeat_on_error) {
                 target_pos = r.nextInt(num_stimulus);
             } else {
                 target_pos = prev_target;
             }
+
         }
 
         ibTarget.setImageResource(mapParams.imageList[target_pos]);

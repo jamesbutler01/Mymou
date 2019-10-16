@@ -158,7 +158,7 @@ public class PreferencesManager {
 
     public boolean dm_repeat_on_error, dm_static_reward, dm_extra_step_timeout;
     public int dm_min_start_distance, dm_max_start_distance, dm_max_dist_in_map, dm_map_selected, dm_num_maps, dm_num_extra_steps, dm_dist_to_target_needed;
-    public int dm_choice_delay, dm_animation_duration, dm_booster_amount;
+    public int dm_choice_delay, dm_animation_duration, dm_booster_amount, dm_target_switch_freq;
 
     public void DiscreteMaze() {
 
@@ -172,6 +172,7 @@ public class PreferencesManager {
         dm_choice_delay = sharedPrefs.getInt(r.getString(R.string.preftag_dm_choice_delay), r.getInteger(R.integer.default_dm_choice_delay));
         dm_animation_duration = sharedPrefs.getInt(r.getString(R.string.preftag_dm_animation_duration), r.getInteger(R.integer.default_dm_animation_duration));
         dm_dist_to_target_needed = sharedPrefs.getInt(r.getString(R.string.preftag_dm_dist_to_target), r.getInteger(R.integer.default_dm_dist_to_target));
+        dm_target_switch_freq = sharedPrefs.getInt(r.getString(R.string.preftag_dm_target_switch_freq), r.getInteger(R.integer.default_dm_target_switch_freq));
         dm_booster_amount = sharedPrefs.getInt(r.getString(R.string.preftag_dm_booster_amount), r.getInteger(R.integer.default_dm_booster_amount));
 
         dm_choice_delay = 300;
