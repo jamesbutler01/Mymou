@@ -26,7 +26,6 @@ package mymou.task.individual_tasks;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Path;
 import android.graphics.Point;
