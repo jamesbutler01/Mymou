@@ -1,3 +1,12 @@
+/**
+ * Camera Main
+ *
+ * Main camera function which runs in background behind tasks
+ * Instantiated by task manager
+ * Will then take photos when requested
+ * Will run photos through face recognition and then return result to TaskManager
+ *
+ */
 package mymou.task.backend;
 
 import android.app.Activity;

@@ -1,3 +1,10 @@
+/**
+ * Data viewer
+ *
+ * Loads previous performance on tasks and displays in graph format
+ * TODO: In development, not currently functioning
+ *
+ */
 package mymou.task.backend;
 
 import android.app.Activity;

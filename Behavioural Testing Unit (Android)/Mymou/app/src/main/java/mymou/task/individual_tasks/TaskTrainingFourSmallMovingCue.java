@@ -1,7 +1,7 @@
 /**
  * Training task four: Small moving cue
  *
- * Cue  moves randomly around the screen
+ * Cue moves randomly around the screen
  * Instead of idle timeout, it randomly gives reward and then moves the cue
  * Different to all other tasks in that it never ends a trial, and so must handle data logging itself rather than using TaskManager
  *
