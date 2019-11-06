@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="default_num_monkeys">2</integer>
+    <integer name="default_num_monkeys">1</integer>
     <integer name="max_num_monkeys">8</integer>
+    <integer name="min_num_monkeys">1</integer>
+
+    <integer name="num_error_messages">10</integer>
+    <integer name="i_bt_couldnt_connect">0</integer>
+    <integer name="i_bt_disabled">1</integer>
 
     <integer name="default_autostart_hour">7</integer>
     <integer name="default_autostop_hour">19</integer>
@@ -30,9 +35,38 @@
     <integer name="default_objdisc_num_incorr_shown">2</integer>
     <integer name="default_objdisc_num_steps">2</integer>
 
-    <integer name="num_error_messages">10</integer>
-    <integer name="i_bt_couldnt_connect">0</integer>
-    <integer name="i_bt_disabled">1</integer>
+    <integer name="default_dm_map">1</integer>
+    <integer name="default_dm_min_start_distance">2</integer>
+    <integer name="default_dm_max_start_distance">3</integer>
+    <integer name="default_dm_num_extra_steps">0</integer>
+    <integer name="default_dm_choice_delay">400</integer>
+    <integer name="default_dm_animation_duration">450</integer>
+    <integer name="default_dm_dist_to_target">0</integer>
+    <integer name="default_dm_target_switch_freq">100</integer>
+    <integer name="default_dm_booster_amount">500</integer>
+
+    <integer name="default_t_one_num_presses">1</integer>
+    <integer name="default_t_one_screen_colour">6</integer>
+
+    <integer name="default_random_reward_start">20</integer>
+    <integer name="default_random_reward_stop">40</integer>
+
+    <integer name="default_pr_cue_colour">6</integer>
+    <integer name="default_pr_animation_duration">450</integer>
+
+    <integer name="default_ea_num_steps">8</integer>
+    <integer name="default_ea_step_duration_on">600</integer>
+    <integer name="default_ea_step_duration_off">500</integer>
+    <integer name="default_ea_distance">3</integer>
+    <integer name="default_ea_variance">1</integer>
+
+    <integer name="default_sr_num_stimuli">3</integer>
+    <integer name="default_sr_duration_on">500</integer>
+    <integer name="default_sr_duration_off">1500</integer>
+    
+    <integer name="default_od_num_distractors">3</integer>
+    <integer name="default_od_duration_on">750</integer>
+    <integer name="default_od_duration_off">1500</integer>
 
 
 </resources>

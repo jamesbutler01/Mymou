@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="fill_parent"
+                                                   android:layout_height="fill_parent"
+                                                   android:id="@+id/cl_dv_main">
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@drawable/menu_background_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:id="@+id/cl_dv_background"
+            app:layout_constraintTop_toTopOf="@id/cl_dv_main">
+     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@drawable/menu_background_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false"
+            android:layout_marginTop="30dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:id="@+id/cl_body_part"
+            app:layout_constraintTop_toBottomOf="@id/tv_dataviewer_title">
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:text="Participation"
+                  android:id="@+id/tv_data_title_part"
+                  android:textSize="30dp"
+                  android:textColor="@color/textColor"
+                  android:paddingLeft="40dp"
+                  app:layout_constraintTop_toTopOf="parent"/>
+
+        <com.jjoe64.graphview.GraphView
+                android:layout_width="match_parent"
+                android:layout_height="250dip"
+                android:id="@+id/graph_part"
+                app:layout_constraintTop_toBottomOf="@id/tv_data_title_part"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+        />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@drawable/menu_background_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false"
+            android:layout_marginTop="30dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:id="@+id/cl_body_perf"
+            app:layout_constraintTop_toBottomOf="@id/cl_body_part">
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:text="Performance"
+                  android:id="@+id/tv_data_title_perf"
+                  android:textSize="30dp"
+                  android:textColor="@color/textColor"
+                  android:paddingLeft="40dp"
+                  app:layout_constraintTop_toTopOf="parent"/>
+
+        <com.jjoe64.graphview.GraphView
+                android:layout_width="match_parent"
+                android:layout_height="250dip"
+                android:id="@+id/graph_perf"
+                app:layout_constraintTop_toBottomOf="@id/tv_data_title_perf"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+        />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@drawable/menu_background_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false"
+            android:layout_marginTop="30dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:id="@+id/cl_body_rew"
+            app:layout_constraintTop_toBottomOf="@id/cl_body_perf">
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:text="Reward given (ms)"
+                  android:id="@+id/tv_data_title_rew"
+                                android:textSize="30dp"
+                  android:textColor="@color/textColor"
+                  android:paddingLeft="40dp"
+                  app:layout_constraintTop_toTopOf="parent"/>
+
+        <com.jjoe64.graphview.GraphView
+                android:layout_width="match_parent"
+                android:layout_height="250dip"
+                android:id="@+id/graph_rew"
+                app:layout_constraintTop_toBottomOf="@id/tv_data_title_rew"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+        />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
+              android:text="Data Viewer"
+              android:id="@+id/tv_dataviewer_title"
+              android:textSize="50dp"
+              android:textColor="@color/textColor"
+              android:background="@drawable/menu_background_title"
+              android:paddingLeft="20dp"
+              android:paddingRight="20dp"
+              android:paddingTop="30dp"
+              app:layout_constraintTop_toTopOf="parent"
+    />
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_alignParentBottom="true"
+            android:layout_marginHorizontal="10dp"
+            android:orientation="horizontal"
+            android:id="@+id/ll_dv_butts">
+    <Button
+            android:text="Select sessions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/butt_dv_select_sess"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="30dp"
+            android:layout_weight="0.5"
+            android:layout_marginBottom="10dp"/>
+
+    <Button
+            android:text="Select task"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/butt_dv_select_task"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="0.5"
+            android:textSize="30dp"
+            android:layout_marginBottom="10dp"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+

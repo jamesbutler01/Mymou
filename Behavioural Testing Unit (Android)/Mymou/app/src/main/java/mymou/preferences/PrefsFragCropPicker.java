@@ -62,9 +62,9 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
 
         // Load settings
         settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-        camera_width = settings.getInt("camera_width", 176);
-        camera_height = settings.getInt("camera_height", 144);
-        scale = UtilsSystem.getCropScale(getActivity(), camera_width);
+        camera_width = settings.getInt("camera_width", 320);
+        camera_height = settings.getInt("camera_height", 240);
+        scale = UtilsSystem.getCropScale(getActivity(), camera_width, camera_height);
 
         // Scale views
         camera_width *= scale;
@@ -100,7 +100,8 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
         // Add onClickListener to exit button
         view.findViewById(R.id.butt_exitcroppicker).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                getFragmentManager().popBackStack();
+                Log.d(TAG, "Exit button pressed");
+                getActivity().finish();
             }
         });
 
@@ -119,7 +120,7 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
 
     }
 
-    private static int SELECT_PICTURE = 30;
+    private static int SELECT_PICTURE = 111;
 
     void openImageChooser() {
         Intent intent = new Intent();
@@ -185,8 +186,8 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
         mTextureView.setLayoutParams(new RelativeLayout.LayoutParams(crop_width, crop_height));
         LayoutParams lp = (LayoutParams) mTextureView.getLayoutParams();
         mTextureView.setLayoutParams(lp);
-        mTextureView.setY(default_position.y + seekbars[i_top].getProgress());  // Shift to the right by left crop amount
-        mTextureView.setX(default_position.x + seekbars[i_left].getProgress());
+        mTextureView.setX(default_position.y + seekbars[i_left].getProgress());  // Shift to the right by left crop amount
+        mTextureView.setY(default_position.x + seekbars[i_top].getProgress());
     }
 
     // Write settings to shared preferences

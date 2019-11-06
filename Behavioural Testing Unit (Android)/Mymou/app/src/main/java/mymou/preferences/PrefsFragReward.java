@@ -2,46 +2,43 @@ package mymou.preferences;
 
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
-import androidx.preference.SeekBarPreference;
+
 import mymou.R;
 
-public class PrefsFragSystem extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class PrefsFragReward extends PreferenceFragmentCompat {
 
-    private String TAG = "MymouPrefsFragSystem";
+    private String TAG = "MymouPrefsFragReward";
 
-    public PrefsFragSystem() {
+    public PrefsFragReward() {
     }
 
     @Override
     public void onCreatePreferences(Bundle bundle, String rootKey) {
-        setPreferencesFromResource(R.xml.preferences_system, rootKey);
+        setPreferencesFromResource(R.xml.preferences_reward, rootKey);
         Log.d(TAG, "onCreatePreferences");
-
-        checkConditionalPrefs();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "oncreateview");
 
-        SeekBarPreference rewardDuration = (SeekBarPreference) findPreference(getString(R.string.preftag_rewardduration));
+        // Number input dialog for reward duration preference
+        SeekBarPreferenceCustom rewardDuration = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_rewardduration));
         rewardDuration.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -74,38 +71,10 @@ public class PrefsFragSystem extends PreferenceFragmentCompat implements SharedP
             }
         });
 
-        SeekBarPreference sb_rewardchan= (SeekBarPreference) findPreference(getString(R.string.preftag_num_rew_chans));
+        SeekBarPreferenceCustom sb_rewardchan= (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_num_rew_chans));
         sb_rewardchan.setMin(1);
-
-        // Set onchange listener
-        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void checkConditionalPrefs() {
-        // Get sharedpreferences
-        SharedPreferences sharedPrefs =
-                PreferenceManager.getDefaultSharedPreferences(getContext());
-
-        // Only show crop photos setting if crop photos enabled
-        findPreference("croppicker_prefsfrag").setVisible(sharedPrefs.getBoolean("crop_photos", false));
-        findPreference("soundpicker_prefsfrag").setVisible(sharedPrefs.getBoolean("sound", false));
-    }
-
-    @Override
-    public void onDestroyView() {
-        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d("asdf", "onActivityResult_prefsfragsystem");
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        checkConditionalPrefs();
-    }
 }

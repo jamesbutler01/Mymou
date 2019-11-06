@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+ android:background="@android:color/transparent"
+        android:id="@+id/parent_task_from_paper">
+
+
+        <ImageButton
+            android:id="@+id/imageButtonWaitCue"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:background="@android:color/transparent"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:translationX="300dp"
+            android:translationY="300dp"
+            android:src="@drawable/waitcue" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:id="@+id/boosterBar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:max="1000"
+                android:progress="200"
+                android:progressDrawable="@drawable/progress_bar_horizontal"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="1100dp"
+                android:layout_marginLeft="100dp"
+                android:layout_marginRight="100dp"/>
+
+
+
+        </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textview_dm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="40sp"
+        android:text="Initiating task.."
+        android:textColor="@color/black"
+        android:layout_marginTop="25dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

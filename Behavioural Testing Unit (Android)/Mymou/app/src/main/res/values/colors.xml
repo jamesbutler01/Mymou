@@ -11,7 +11,7 @@
     <color name="grey">#696969</color>
     <color name="blue">#0f52ba</color>
     <color name="yellow">#FFFF00</color>
-    <color name="fuchsia">#FF00FF</color>
+        <color name="fuchsia">#FF00FF</color>
     <color name="red">#FF0000</color>
     <color name="silver">#C0C0C0</color>
     <color name="olive">#808000</color>

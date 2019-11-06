@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.media.Image;
 import android.util.Log;
 import androidx.preference.PreferenceManager;
@@ -28,13 +29,14 @@ class CameraSavePhoto implements Runnable {
     private String timestamp;
     private final String day;
     private Context mContext;
-    private FolderManager folderManager = new FolderManager();
+    private FolderManager folderManager;
 
     public CameraSavePhoto(Image image, String timestampU, Context context) {
         mImage = image;
         timestamp = timestampU;
-        day = folderManager.getBaseDate();
         mContext = context;
+        folderManager = new FolderManager(mContext, 0);
+        day = folderManager.getBaseDate();
         Log.d(TAG, " instantiated");
     }
 
@@ -65,6 +67,9 @@ class CameraSavePhoto implements Runnable {
             int endX = bitmap.getWidth() - cropLeft - cropRight;
             int endY = bitmap.getHeight() - cropTop - cropBottom;
 
+            Log.d(TAG, "Cropping photo: Width="+bitmap.getWidth()+", left="+cropLeft+", right="+cropRight);
+            Log.d(TAG, "Cropping photo: Height="+bitmap.getHeight()+", top="+cropTop+", bottom="+cropBottom);
+
             bitmapCropped = Bitmap.createBitmap(bitmap, startX, startY, endX, endY);
 
         } else {
@@ -84,14 +89,24 @@ class CameraSavePhoto implements Runnable {
 
         // Run image through faceRecog
         TaskManager.setFaceRecogPrediction(intArray);
+        Log.d(TAG, "Face recog finished");
 
         //Save pixel values
+        long startTime = System.currentTimeMillis();
         saveIntArray(intArray);
+        long endTime = System.currentTimeMillis();
+        long duration = (endTime - startTime);
+        Log.d(TAG, "Integer array saved in "+duration);
 
         //Save photo as jpeg
+        startTime = System.currentTimeMillis();
         savePhoto(bitmapCropped);
-        timestamp+=2;
-        savePhoto(bitmap);
+        endTime = System.currentTimeMillis();
+        duration = (endTime - startTime);
+        Log.d(TAG, "Cropped photo saved in "+duration);
+
+        Log.d(TAG, "CameraSavePhoto finished successfully");
+
     }
 
     // TODO: Merge savephoto and saveintarray to reduce repeated code
@@ -142,5 +157,13 @@ class CameraSavePhoto implements Runnable {
         }
         Log.d(TAG, "Int array saved"+fileName);
     }
+
+    public static Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
+                matrix, true);
+    }
+
 }
 

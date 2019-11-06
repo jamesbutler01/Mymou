@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+            app:key="task_settings"
+            app:title="Task settings">
+
+       <ListPreference
+           app:key="@string/preftag_t_one_screen_colour"
+           app:title="Colour of screen"
+           android:entries="@array/colournames"
+           android:entryValues="@array/colourvalues"
+           android:defaultValue="@integer/default_t_one_screen_colour"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                app:key="@string/preftag_t_one_num_presses"
+                app:title="Number of presses needed for reward"
+                android:defaultValue="@integer/default_t_one_num_presses"/>
+
+        <SwitchPreferenceCompat
+                app:key="@string/preftag_skip_go_cue"
+                app:title="Skip subjects having to press the Go cue (recommended)"
+                app:defaultValue="@bool/default_t_one_skip_go_cue"/>
+
+    </PreferenceCategory>
+
+     <PreferenceCategory
+            app:key="small_moving_cue"
+            app:title="Training 4: Small Moving Cue">
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                app:key="@string/preftag_t_random_reward_start"
+                app:title="Minimum time (s) for random reward to be given"
+                android:defaultValue="@integer/default_random_reward_start"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                app:key="@string/preftag_t_random_reward_stop"
+                app:title="Maximum time (s) for random reward to be given"
+                android:defaultValue="@integer/default_random_reward_stop"/>
+
+
+
+     </PreferenceCategory>
+
+
+</androidx.preference.PreferenceScreen>

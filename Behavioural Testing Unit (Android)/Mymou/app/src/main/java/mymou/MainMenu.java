@@ -1,18 +1,23 @@
 package mymou;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+
 import androidx.preference.PreferenceManager;
+
 import mymou.Utils.PermissionManager;
+import mymou.Utils.UtilsSystem;
 import mymou.preferences.PreferencesManager;
-import mymou.preferences.PrefsFragCropPickerParent;
+import mymou.task.backend.DataViewer;
 import mymou.task.backend.RewardSystem;
 import mymou.task.backend.TaskManager;
 import mymou.task.backend.UtilsTask;
@@ -22,9 +27,6 @@ public class MainMenu extends Activity {
 
     private static String TAG = "MyMouMainMenu";
 
-    // If true this automatically starts the task upon application startup (Speeds up debugging/testing)
-    public static final boolean testingMode = false;
-
     private static PreferencesManager preferencesManager;
     private static RewardSystem rewardSystem;
 
@@ -32,6 +34,7 @@ public class MainMenu extends Activity {
     private static int reward_chan;
 
     // The task to be loaded, set by the spinner
+    // TODO: Convert this to string UIDs, rather than numbers
     private static int taskSelected = 2;
 
     // Tasks cannot run unless permissions have been granted
@@ -57,16 +60,8 @@ public class MainMenu extends Activity {
 
         initialiseSpinner();
 
-        if (testingMode && permissions_granted) {
-            startTask();
-        }
+        UtilsSystem.setBrightness(true, this);
 
-
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d("asdf", "onActivityResult_act_mainmenu");
     }
 
     private void checkPermissions() {
@@ -95,11 +90,24 @@ public class MainMenu extends Activity {
 
     private void initialiseRewardSystem() {
         rewardSystem = new RewardSystem(this, this);
+        updateRewardText();
+        rewardSystem.setCustomObjectListener(new RewardSystem.MyCustomObjectListener() {
+            @Override
+            public void onChangeListener() {
+                updateRewardText();
+            }
+        });
+
+    }
+
+    private void updateRewardText() {
         TextView tv1 = findViewById(R.id.tvBluetooth);
-        if (rewardSystem.bluetoothConnection) {
-            tv1.setText("Connected");
-        } else if (!preferencesManager.bluetooth) {
+        if (!preferencesManager.bluetooth) {
             tv1.setText("Disabled");
+        } else if (rewardSystem.bluetoothConnection) {
+            tv1.setText("Connected");
+        } else if (!rewardSystem.bluetoothConnection) {
+            tv1.setText("Disconnected");
         }
     }
 
@@ -117,25 +125,22 @@ public class MainMenu extends Activity {
         // Find previously selected task and set spinner to this position
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         String key = "task_selected";
-        int prev_task_selected = settings.getInt(key, 0);
-        taskSelected = prev_task_selected;
+        taskSelected = settings.getInt(key, 0);
+
+        // Set up UI for currently selected task
         spinner.setSelection(taskSelected);
-        if (taskSelected < 2) {
-            UtilsTask.toggleCue(findViewById(R.id.buttonTaskSettings), false);
-        }
+        checkTaskHasSettings();
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
-            public void onItemSelected(AdapterView<?> adapter, View v,
-                                       int position, long id) {
+            public void onItemSelected(AdapterView<?> adapter, View v, int position, long id) {
+
                 // Update task selected
                 taskSelected = position;
-                if (taskSelected < 2) {
-                    UtilsTask.toggleCue(findViewById(R.id.buttonTaskSettings), false);
-                } else {
-                    UtilsTask.toggleCue(findViewById(R.id.buttonTaskSettings), true);
-                }
+
+                // Activate settings button if valid
+                checkTaskHasSettings();
 
                 // Store for future reference
                 SharedPreferences.Editor editor = settings.edit();
@@ -150,6 +155,12 @@ public class MainMenu extends Activity {
 
     }
 
+    private void checkTaskHasSettings() {
+        TypedArray tasks_has_settings = getResources().obtainTypedArray(R.array.task_has_settings);
+        boolean has_settings = Boolean.valueOf(tasks_has_settings.getBoolean(taskSelected, false));
+        UtilsTask.toggleCue((Button) findViewById(R.id.buttonTaskSettings), has_settings);
+    }
+
     private void checkIfCrashed() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -158,7 +169,7 @@ public class MainMenu extends Activity {
                 Log.d(TAG, "checkIfCrashed() restarted task");
                 startTask();
             }
-         }
+        }
     }
 
 
@@ -167,6 +178,11 @@ public class MainMenu extends Activity {
         findViewById(R.id.buttonStart).setOnClickListener(buttonClickListener);
         findViewById(R.id.buttonSettings).setOnClickListener(buttonClickListener);
         findViewById(R.id.buttonTaskSettings).setOnClickListener(buttonClickListener);
+        findViewById(R.id.buttonViewData).setOnClickListener(buttonClickListener);
+        findViewById(R.id.info_button).setOnClickListener(buttonClickListener);
+
+        // Disabled as in development
+        findViewById(R.id.buttonViewData).setEnabled(false);
 
         // Radio groups (reward system controller)
         reward_chan = preferencesManager.default_rew_chan;
@@ -187,6 +203,10 @@ public class MainMenu extends Activity {
         group.setOnCheckedChangeListener(checkedChangeListener);
         RadioGroup group2 = findViewById(R.id.rg_rewonoff);
         group2.setOnCheckedChangeListener(checkedChangeListener);
+
+        // Reset text on start button in case they are returning from task
+        Button startButton = findViewById(R.id.buttonStart);
+        startButton.setText("START TASK");
 
     }
 
@@ -234,25 +254,61 @@ public class MainMenu extends Activity {
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            Log.d(TAG, "onClick: "+view.getId());
             switch (view.getId()) {
                 case R.id.buttonStart:
                     startTask();
                     break;
                 case R.id.buttonSettings:
                     Intent intent = new Intent(context, PrefsActSystem.class);
-                    intent.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_system_settings));
+                    intent.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_menu_prefs));
                     startActivity(intent);
                     break;
                 case R.id.buttonTaskSettings:
-                    if (taskSelected == 2) {
-                        Intent intent2 = new Intent(context, PrefsActSystem.class);
-                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_obj_disc_settings));
-                        startActivity(intent2);
+                    Intent intent2 = new Intent(context, PrefsActSystem.class);
+
+                    // Load task specific settings
+                    if (taskSelected < 5) {
+                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_t_one_settings));
+                    } else if (taskSelected == 6) {
+                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_disc_maze_settings));
+                    } else if (taskSelected == 7) {
+                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_odc_settings));
+                    } else if (taskSelected == 8) {
+                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_od_settings));
+                    } else if (taskSelected == 9) {
+                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_pr_settings));
+                    } else if (taskSelected == 10) {
+                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_ea_settings));
+                    } else if (taskSelected == 11) {
+                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_sr_settings));
                     }
+
+                    startActivity(intent2);
+                    break;
+                case R.id.buttonViewData:
+                    Intent intent3 = new Intent(context, DataViewer.class);
+                    startActivity(intent3);
+                    break;
+                case R.id.info_button:
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
+                    String[] descriptions = getResources().getStringArray(R.array.task_descriptions);
+                    String[] names = getResources().getStringArray(R.array.available_tasks);
+                    builder.setMessage(descriptions[taskSelected])
+                            .setTitle(names[taskSelected]);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                     break;
             }
         }
     };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        super.onCreate(null);
+        initialiseLayoutParameters();
+    }
 
     @Override
     public void onDestroy() {

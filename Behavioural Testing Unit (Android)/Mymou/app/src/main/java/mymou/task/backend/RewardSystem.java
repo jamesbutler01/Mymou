@@ -11,6 +11,8 @@ import android.content.IntentFilter;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 import mymou.Utils.PermissionManager;
 import mymou.preferences.PreferencesManager;
@@ -19,6 +21,7 @@ import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -32,6 +35,7 @@ public class RewardSystem {
     public static boolean bluetoothConnection = false;
     private static Handler connectionLoopHandler;
     private static boolean bluetoothEnabled = false;
+    private static boolean active = false;
     private static String allChanOff, chanZeroOn, chanZeroOff, chanOneOn, chanOneOff, chanTwoOn,
             chanTwoOff, chanThreeOn, chanThreeOff;
     private static Context context;
@@ -41,13 +45,14 @@ public class RewardSystem {
     private static OutputStream outStream = null;
     // Replace with your devices UUID and address
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-    private static String address = "20:16:06:08:64:22";
 
     public RewardSystem(Context context_in, Activity activity) {
 
         context = context_in;
 
         initialiseRewardChannelStrings();
+
+        this.listener = null; // set null listener
 
         if (new PreferencesManager(context).bluetooth && new PermissionManager(context_in, activity).checkPermissions()) {
             loopUntilConnected();
@@ -70,11 +75,32 @@ public class RewardSystem {
         }
     }
 
+    private static void log(String msg) {
+        Log.d(TAG, msg);
+        Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+    }
 
     private static void establishConnection() {
         Log.d(TAG,"Connecting to bluetooth..");
-        // Set up a pointer to the remote node using it's address.
-        BluetoothDevice device = btAdapter.getRemoteDevice(address);
+
+        // Get list of paired bluetooth devices
+        Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
+
+        // Check device is paired with tablet
+        if (pairedDevices.size() == 0) {
+            log("No bluetooth devices paired");
+            return;
+        }
+
+        // Check only one device paired
+        if (pairedDevices.size() > 1) {
+            log("Too many bluetooth devices paired to device, please unpair other Bluetooth devices");
+            return;
+        }
+
+        // Find device with correct name
+        BluetoothDevice device = pairedDevices.iterator().next();
+
         try {
             btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
         } catch (IOException e) {
@@ -88,7 +114,7 @@ public class RewardSystem {
         try {
             btSocket.connect();
             Log.d(TAG, "Connected to Bluetooth");
-            bluetoothConnection = true;
+            bluetoothConnectedBool(true);
             registerBluetoothReceivers();
         } catch (IOException e) {
             Log.d(TAG,"Error: Failed to establish connection");
@@ -176,16 +202,27 @@ public class RewardSystem {
     }
 
     public static void activateChannel(final int Ch, int amount) {
-        Log.d(TAG,"Giving reward "+amount+" ms on channel "+Ch);
-        startChannel(Ch);
 
-        new CountDownTimer(amount, 100) {
-            public void onTick(long ms) {}
-            public void onFinish() { stopChannel(Ch); }
-        }.start();
+        // Don't allow multiple calls to the reward system
+        if (!active) {
+            Log.d(TAG,"Giving reward "+amount+" ms on channel "+Ch);
+            active = true;
+
+            startChannel(Ch);
+
+            new CountDownTimer(amount, 100) {
+                public void onTick(long ms) {
+                }
+
+                public void onFinish() {
+                    stopChannel(Ch);
+                    active=false;
+                }
+            }.start();
+        }
     }
 
-    private static void sendData(String message) {
+    public static void sendData(String message) {
         if(bluetoothConnection) {
             byte[] msgBuffer = message.getBytes();
             try {
@@ -236,15 +273,13 @@ public class RewardSystem {
             String action = intent.getAction();
             switch (action){
                 case BluetoothDevice.ACTION_ACL_CONNECTED:
-                    //Bluetooth connected
+                    //Bluetooth connected, no action needed
                     Log.d(TAG,"Bluetooth reconnected");
-                    TaskManager.enableApp(true);
                     break;
                 case BluetoothDevice.ACTION_ACL_DISCONNECTED:
                     //Bluetooth disconnected
                     Log.d(TAG,"Lost bluetooth connection..");
-                    bluetoothConnection = false;
-                    TaskManager.enableApp(false);
+                    bluetoothConnectedBool(false);
                     loopUntilConnected();
                     break;
             }
@@ -280,5 +315,29 @@ public class RewardSystem {
         chanThreeOn = context.getString(R.string.chanThreeOn);
         chanThreeOff = context.getString(R.string.chanThreeOff);
     }
+
+    private static void bluetoothConnectedBool(boolean status) {
+        bluetoothConnection = status;
+        try {
+            listener.onChangeListener();
+        } catch (NullPointerException e) {
+            Log.d(TAG, "No listener registered");
+        }
+    }
+
+    public interface MyCustomObjectListener {
+        // These methods are the different events and need to pass relevant arguments with the event
+        public void onChangeListener();
+    }
+
+    // Step 2- This variable represents the listener passed in by the owning object
+    // The listener must implement the events interface and passes messages up to the parent.
+    private static MyCustomObjectListener listener;
+
+    // Assign the listener implementing events interface that will receive the events (passed in by the owner)
+    public void setCustomObjectListener(MyCustomObjectListener listener) {
+        this.listener = listener;
+    }
+
 
 }

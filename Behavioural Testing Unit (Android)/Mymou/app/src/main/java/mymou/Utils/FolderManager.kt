@@ -1,7 +1,10 @@
 package mymou.Utils
 
+import android.content.Context
 import android.os.Environment
 import android.util.Log
+import mymou.preferences.PreferencesManager
+import mymou.task.backend.WriteDataToFile
 
 import java.io.File
 import java.text.SimpleDateFormat
@@ -12,7 +15,7 @@ import java.util.Locale
  * Checks if session folder already exists, and creates it if not
  */
 
-class FolderManager(private val num_monkeys: Int = 0) {
+class FolderManager(private val context: Context, private val num_monkeys: Int = 0) {
 
     private val TAG = "FolderManager"
     private val suffixes = arrayListOf("Images","IntArrays")
@@ -77,6 +80,11 @@ class FolderManager(private val num_monkeys: Int = 0) {
          for (i in 1..num_monkeys) {
             makeFolder(path, "monkey"+i)
          }
+
+        // Add headers to text file
+        val headers = PreferencesManager(context).data_headers
+        Log.d(TAG, "making headers.."+headers)
+        WriteDataToFile(headers, context).run()
     }
 
     private fun generateSessionFolder(): String {

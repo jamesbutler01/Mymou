@@ -13,9 +13,33 @@
     <string name="chanThreeOff">8</string>
 
     <string-array name="available_tasks">
+        <item>Training 1: Full screen cue</item>
+        <item>Training 2: Shrinking central cue</item>
+        <item>Training 3: Shrinking moving cue</item>
+        <item>Training 4: Small Moving cue</item>
+        <item>Training 5: Two step</item>
         <item>Example task</item>
-        <item>Task from Butler, Kennerley (2018)</item>
-        <item>Object discrimination</item>
+        <item>Discrete Maze</item>
+        <item>Object discrimination (colours)</item>
+        <item>Object discrimination (images)</item>
+        <item>Progressive Ratio</item>
+        <item>Evidence Accumulation</item>
+        <item>Spatial response</item>
+    </string-array>
+
+    <string-array name="task_descriptions">
+        <item>Displays a cue that takes up the entire screen. Subjects can then press anywhere on the screen to trigger reward.</item>
+        <item>Displays a cue that initially takes up the entire screen. On each press the cue gets smaller and smaller to encourage accurate screen presses. The size of the cue resets to the full screen size if no touches are received for a short period. </item>
+        <item>Displays a cue that initially takes up the entire screen. On each press the cue shrinks in size and moves around the screen. The size of the cue resets to the full screen size if no touches are received for a short period. </item>
+        <item>Displays 1 normal sized cue that randomly moves around the screen on each press. </item>
+        <item>Implementation of the reduced two step task described in Akam et al. (2017).</item>
+        <item>This task showcases the full features of the Mymou system, including facial recognition, and multiple reward channels. </item>
+        <item>Associative learning of large networks of stimuli, as seen in Butler and Kennerley (2018). Subjects are shown a target stimuli at the top of the screen. Their current location and neighbouring stimuli are displayed in the lower part of the screen. Subjects then have to learn to navigate to the different locations in the maze.</item>
+        <item>Subjects are shown multiple CS- and CS+ stimuli which they must learn to differentiate. Stimuli are limited to single colours </item>
+        <item>Subjects are shown multiple CS- and CS+ stimuli which they must learn to differentiate. Stimuli are photos of images taken from the database kindly provided in Brady et al. (2008) PNAS </item>
+        <item>One stimuli is displayed on the screen. After each press, the subjects must then have to press twice as many times to gain reward. After a certain period the number of presses needed for reward resets to 1. </item>
+        <item>Two bars are displayed with varying length for a certain number of frames. Subjects must then choose which bar had the greatest total length over all the frames. </item>
+        <item>Different spatial locations are shown sequentially. Subjects must then repeat the sequence in order for reward. </item>
     </string-array>
 
     <string name="default_startuptime">0700</string>
@@ -25,32 +49,128 @@
     <string name="default_eventcode_error_trial">0</string>
     <string name="default_eventcode_timeout_trial">2</string>
     <string name="default_eventcode_wrong_gocue">3</string>
+    <string name="default_eventcode_start_trial">5</string>
+    <string name="default_eventcode_trial_prepared">6</string>
+
+    <string name="default_gocue_colours">0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,</string>
+    <string name="default_objdis_corr_colours">0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,</string>
+    <string name="default_objdis_incorr_colours">0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,</string>
+
+    <string name="preftag_debug">debug</string>
+    <string name="preftag_bluetooth">bluetooth</string>
+    <string name="preftag_camera">camera</string>
+    <string name="preftag_crop_photos">crop_photos</string>
+    <string name="preftag_camera_resolution">preftag_camera_resolution</string>
+    <string name="preftag_facerecog">facerecog</string>
+    <string name="preftag_restartoncrash">restartoncrash</string>
+    <string name="preftag_sound">sound</string>
+    <string name="preftag_autostart">autostart</string>
+    <string name="preftag_autostop">autostop</string>
+    <string name="preftag_skip_go_cue">skip_go_cue</string>
 
     <string name="preftag_gocuecolors">colours_gocues</string>
     <string name="preftag_cuebordercolors">colours_cueborders</string>
-    <string name="preftag_objdisc_corr_cols">colours_obj_disc_corr_cues</string>
-    <string name="preftag_objdisc_incorr_cols">colours_obj_disc_incorr_cues</string>
     <string name="preftag_task_all">preftag_task_all</string>
+    <string name="preftag_camera_prefs">preftag_camera_prefs</string>
+    <string name="preftag_reward_prefs">preftag_reward_prefs</string>
     <string name="preftag_cue_settings">preftag_cue_settings</string>
     <string name="preftag_event_codes">preftag_event_codes</string>
     <string name="preftag_system_settings">preftag_system_settings</string>
+    <string name="preftag_menu_prefs">preftag_menu_prefs</string>
     <string name="preftag_rewardduration">preftag_rewardduration</string>
     <string name="preftag_timeoutduration">preftag_timeoutduration</string>
     <string name="preftag_responseduration">preftag_responseduration</string>
     <string name="preftag_num_monkeys">preftag_num_monkeys</string>
 
+    <string name="preftag_eventcode_correct_trial">eventcode_correct_trial</string>
+    <string name="preftag_eventcode_error_trial">eventcode_error_trial</string>
+    <string name="preftag_eventcode_timeout_trial">eventcode_timeout_trial</string>
+    <string name="preftag_eventcode_wrong_gocue">eventcode_wrong_gocue</string>
+    <string name="preftag_eventcode_start_trial">eventcode_start_trial</string>
+    <string name="preftag_eventcode_trial_prepared">eventcode_trial_prepared</string>
 
-    <string name="preftag_task_obj_disc_settings">preftag_task_obj_disc_settings</string>
+    <string name="preftag_taskbackgroundcolour">taskbackgroundcolour</string>
+    <string name="preftag_rewardbackgroundcolour">rewardbackgroundcolour</string>
+    <string name="preftag_timeoutbackgroundcolour">timeoutbackgroundcolour</string>
+
+    <string name="preftag_cue_size">cue_size</string>
+    <string name="preftag_cue_spacing">cue_spacing</string>
+    <string name="preftag_cue_border_size">cue_border_size</string>
+
+    <string name="preftag_autostart_hour">autostart_hour</string>
+    <string name="preftag_autostart_min">autostart_min</string>
+    <string name="preftag_autostop_hour">autostop_hour</string>
+    <string name="preftag_autostop_min">autostop_min</string>
+
+    <string name="preftag_task_odc_settings">preftag_task_odc_settings</string>
+    <string name="preftag_task_disc_maze_settings">preftag_task_disc_maze_settings</string>
+    <string name="preftag_task_t_one_settings">preftag_task_t_one_settings</string>
+    <string name="preftag_task_pr_settings">preftag_task_pr_settings</string>
+    <string name="preftag_task_ea_settings">preftag_task_ea_settings</string>
+    <string name="preftag_task_sr_settings">preftag_task_sr_settings</string>
+    <string name="preftag_task_od_settings">preftag_task_od_settings</string>
     <string name="preftag_settings_to_load">preftag_settings_to_load</string>
     <string name="preftag_sound_to_play">preftag_sound_to_play</string>
     <string name="preftag_num_rew_chans">preftag_num_rew_chans</string>
     <string name="preftag_default_rew_chan">preftag_default_rew_chan</string>
-    <string name="default_gocue_colours">0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,</string>
-    <string name="default_objdis_corr_colours">0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,</string>
-    <string name="default_objdis_incorr_colours">0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,</string>
+
+    <string name="preftag_od_corr_cols">colours_obj_disc_corr_cues</string>
+    <string name="preftag_od_incorr_cols">colours_obj_disc_incorr_cues</string>
+
+    <string name="preftag_od_num_corr_cues">od_num_corr_cues</string>
+    <string name="preftag_od_num_incorr_cues">od_num_incorr_cues</string>
+    <string name="preftag_od_num_steps">od_num_steps</string>
+    <string name="preftag_od_repeat_error">od_repeat_on_error</string>
+
+    <string name="preftag_od_previous_error">od_previous_error</string>
+    <string name="preftag_od_prev_cols_corr">od_prev_cols_corr</string>
+    <string name="preftag_od_prev_cols_incorr">od_prev_cols_incorr</string>
+
+    <string name="preftag_dm_map">preftag_dm_map_chosen</string>
+    <string name="preftag_dm_min_start_distance">dm_min_start</string>
+    <string name="preftag_dm_max_start_distance">dm_max_start</string>
+    <string name="preftag_dm_extra_step_timout">dm_extra_step_timout</string>
+    <string name="preftag_dm_num_extra_steps">dm_num_extra_steps</string>
+    <string name="preftag_dm_repeat_error">dm_repeat_on_error</string>
+    <string name="preftag_dm_static_reward">preftag_dm_static_reward</string>
+    <string name="preftag_dm_choice_delay">dm_choice_delay</string>
+    <string name="preftag_dm_choice_delay_actual">dm_choice_delay_actual</string>
+    <string name="preftag_dm_animation_duration">dm_animation_duration</string>
+    <string name="preftag_dm_dist_to_target">preftag_dm_dist_to_target</string>
+    <string name="preftag_dm_target_switch_freq">dm_target_switch_freq</string>
+    <string name="preftag_dm_booster_amount">preftag_dm_booster_amount</string>
+    <string name="preftag_dm_booster_amount_actual">preftag_dm_booster_amount_actual</string>
+    <string name="preftag_dm_errors_allowed">preftag_dm_errors_allowed</string>
+    <string name="preftag_dm_animation_dur_actual">dm_anim_dur_actual</string>
+
+    <string name="preftag_t_one_screen_colour">t_one_screen_colour</string>
+    <string name="preftag_t_random_reward_start">t_random_reward_start</string>
+    <string name="preftag_t_random_reward_stop">t_random_reward_stop</string>
+    <string name="preftag_t_one_num_presses">t_one_num_presses</string>
+
+    <string name="preftag_pr_cue_colour">pr_cue_colour</string>
+    <string name="preftag_pr_progress_bar">preftag_pr_progress_bar</string>
+    <string name="preftag_pr_animation_duration">pr_animation_duration</string>
+    <string name="preftag_pr_animation_dur_actual">pr_anim_dur_actual</string>
+
+    <string name="preftag_ea_num_steps">preftag_ea_num_steps</string>
+    <string name="preftag_ea_step_duration_off">ea_step_duration_off</string>
+    <string name="preftag_ea_step_duration_on">ea_step_duration_on</string>
+    <string name="preftag_ea_distance">preftag_ea_distance</string>
+    <string name="preftag_ea_variance">preftag_ea_variance</string>
+
+    <string name="preftag_sr_duration_off">sr_duration_off</string>
+    <string name="preftag_sr_duration_on">sr_duration_on</string>
+    <string name="preftag_sr_num_stimuli">sr_num_stimuli</string>
+    
+    <string name="preftag_od_duration_off">od_duration_off</string>
+    <string name="preftag_od_duration_on">od_duration_on</string>
+    <string name="preftag_od_num_distractors">od_num_distractors</string>
 
     <string-array name="error_messages">
-        <item>Bluetooth couldn\'t connect to reward system (to run task without reward system, disable the reward system option in system settings)\n</item>
+        <item>Bluetooth couldn\'t connect to reward system (to run task without reward system, disable the reward system
+            option in system settings)\n
+        </item>
         <item>Reward system disabled - no reward will be given\n</item>
     </string-array>
 

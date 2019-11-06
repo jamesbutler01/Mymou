@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+            app:key="task_settings"
+            app:title="Task settings">
+
+       <ListPreference
+           app:key="@string/preftag_pr_cue_colour"
+           app:title="Colour of cue"
+           android:entries="@array/colournames"
+           android:entryValues="@array/colourvalues"
+           android:defaultValue="@integer/default_pr_cue_colour"/>
+
+        <SwitchPreferenceCompat
+                app:key="@string/preftag_pr_progress_bar"
+                app:title="Show progress bar"
+                app:defaultValue="@bool/default_pr_progress_bar"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                app:key="@string/preftag_pr_animation_duration"
+                app:title="Duration (ms) of progress bar animation"
+                android:defaultValue="@integer/default_pr_animation_duration"/>
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

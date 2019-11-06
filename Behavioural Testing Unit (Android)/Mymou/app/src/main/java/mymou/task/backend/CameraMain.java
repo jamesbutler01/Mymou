@@ -16,6 +16,7 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -35,6 +36,7 @@ import android.widget.Toast;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
@@ -47,6 +49,7 @@ public class CameraMain extends Fragment
         implements FragmentCompat.OnRequestPermissionsResultCallback {
 
     public static String TAG = "MyMouCameraMain";
+
     //  Camera variables
     private static String mCameraId;
     private static TextureView mTextureView;
@@ -63,6 +66,9 @@ public class CameraMain extends Fragment
     private Handler mBackgroundHandler;
     private static String timestamp;
     private static boolean takingPhoto = false;
+
+    // Error handling
+    public static boolean camera_error = false;
 
     public static CameraMain newInstance() {
         return new CameraMain();
@@ -86,7 +92,7 @@ public class CameraMain extends Fragment
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
                 int camera_width = settings.getInt("camera_width", 176);
                 int camera_height = settings.getInt("camera_height", 144);
-                int scale = UtilsSystem.getCropScale(getActivity(), camera_width);
+                int scale = UtilsSystem.getCropScale(getActivity(), camera_width, camera_height);
                 camera_width *= scale;
                 camera_height *= scale;
                 Log.d(TAG, "width: " + camera_width + " height:" + camera_height);
@@ -95,8 +101,8 @@ public class CameraMain extends Fragment
                 mTextureView.setLayoutParams(new RelativeLayout.LayoutParams(camera_width, camera_height));
                 LayoutParams lp = (LayoutParams) mTextureView.getLayoutParams();
                 mTextureView.setLayoutParams(lp);
-                mTextureView.setY(default_position.y);
-                mTextureView.setX(default_position.x);
+                mTextureView.setY(default_position.x);
+                mTextureView.setX(default_position.y);
             }
         }
 
@@ -164,14 +170,11 @@ public class CameraMain extends Fragment
 
         @Override
         public void onError(@NonNull CameraDevice cameraDevice, int error) {
-            Log.d(TAG, "onError() called");
+            Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!! onError() called: "+error);
             mCameraOpenCloseLock.release();
             cameraDevice.close();
             mCameraDevice = null;
-            Activity activity = getActivity();
-            if (null != activity) {
-                activity.finish();
-            }
+            camera_error = true;
         }
 
     };
@@ -182,11 +185,15 @@ public class CameraMain extends Fragment
         @Override
         public void onImageAvailable(ImageReader reader) {
             Image image = reader.acquireNextImage();
+            Log.d(TAG, "Saving photo..");
 
             // On camera thread as don't want to be able to take photo while saving previous photo
             CameraSavePhoto cameraSavePhoto = new CameraSavePhoto(image, timestamp, getContext());
             cameraSavePhoto.run();
+
+            // Unlock camera so next photo can be taken
             takingPhoto = false;
+            Log.d(TAG, "Photo saved..");
         }
 
     };
@@ -235,20 +242,22 @@ public class CameraMain extends Fragment
                     continue;
                 }
 
-                // Use the smallest available size.
-                Size smallest = Collections.min(
-                        Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
-                        new cameraCompareAreas());
+                 // Get list of available camera resolutions
+                List sizes = Arrays.asList(map.getOutputSizes(ImageFormat.JPEG));
+
+                // Find which resolution user selected
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+                int default_size = sizes.size() - 1;
+                String resolution_saved = settings.getString(getString(R.string.preftag_camera_resolution), ""+default_size);
+                Size resolution = (Size) sizes.get(Integer.valueOf(resolution_saved));
 
                 // Store this to be used by crop menu
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
                 SharedPreferences.Editor editor = settings.edit();
-                editor.putInt("camera_width", smallest.getWidth());
-                editor.putInt("camera_height", smallest.getHeight());
+                editor.putInt("camera_width", resolution.getHeight());
+                editor.putInt("camera_height", resolution.getWidth());
                 editor.commit();
-                Log.d(TAG, "width: " + smallest.getWidth() + ", height: " + smallest.getHeight());
 
-                mImageReader = ImageReader.newInstance(smallest.getWidth(), smallest.getHeight(),
+                mImageReader = ImageReader.newInstance(resolution.getWidth(), resolution.getHeight(),
                         ImageFormat.JPEG, /*maxImages*/2);
                 mImageReader.setOnImageAvailableListener(
                         mOnImageAvailableListener, mBackgroundHandler);
@@ -379,7 +388,7 @@ public class CameraMain extends Fragment
 
     // Say cheese
     public static boolean captureStillPicture(String ts) {
-        Log.d(TAG, "captureStillPicture(" + ts + ") called");
+        Log.d(TAG, "Capture request started at" + ts);
         // If the camera is still in process of taking previous picture it will not take another one
         // If it took multiple photos the timestamp for saving/indexing the photos would be wrong
         // Tasks need to handle this behaviour
@@ -402,7 +411,8 @@ public class CameraMain extends Fragment
                     CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
 
             //To rotate photo set angle here
-            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, 270);
+//            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, 270);
+            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, 0);
 
             //Set black and white
             captureBuilder.set(CaptureRequest.CONTROL_EFFECT_MODE,
@@ -422,6 +432,7 @@ public class CameraMain extends Fragment
             mCaptureSession.capture(captureBuilder.build(), CaptureCallback, null);
 
             // Photo taken successfully so return true
+            Log.d(TAG, "Capture request started successfully..");
             return true;
 
         } catch (CameraAccessException e) {
@@ -431,6 +442,12 @@ public class CameraMain extends Fragment
             // Couldn't take photo, return false
             return false;
 
+        } catch (NullPointerException e) {
+
+            e.printStackTrace();
+
+            // Couldn't take photo, return false
+            return false;
         }
 
     }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+ android:background="@android:color/transparent"
+        android:id="@+id/parent_prog_ratio">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:id="@+id/boosterBar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:max="1000"
+                android:progress="200"
+                android:progressDrawable="@drawable/progress_bar_horizontal"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="1100dp"
+                android:layout_marginLeft="100dp"
+                android:layout_marginRight="100dp"/>
+
+
+
+        </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

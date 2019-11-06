@@ -3,7 +3,7 @@ package mymou.preferences;
 
 import android.os.Bundle;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.SeekBarPreference;
+
 import mymou.R;
 
 public class PrefsFragTaskObjectDiscrim extends PreferenceFragmentCompat  {
@@ -13,21 +13,21 @@ public class PrefsFragTaskObjectDiscrim extends PreferenceFragmentCompat  {
 
     @Override
     public void onCreatePreferences(Bundle bundle, String rootKey) {
-        setPreferencesFromResource(R.xml.preferences_task_objectdiscrim, rootKey);
+        setPreferencesFromResource(R.xml.preferences_task_objectdiscrimcol, rootKey);
 
         // Adjust seekbars to the maximum number of cues selected
         PreferencesManager preferencesManager = new PreferencesManager(getContext());
-        preferencesManager.ObjectDiscrimination();
+        preferencesManager.ObjectDiscriminationCol();
 
-        SeekBarPreference seekBar = (SeekBarPreference) findPreference("two_num_corr_cues");
+        SeekBarPreferenceCustom seekBar = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_od_num_corr_cues));
         seekBar.setMin(1);
-        seekBar.setMax(preferencesManager.objectdiscrim_num_incorr);
+        seekBar.setMax(preferencesManager.objectdiscrim_num_incorr_options);
 
-        SeekBarPreference seekBar2 = (SeekBarPreference) findPreference("two_num_incorr_cues");
+        SeekBarPreferenceCustom seekBar2 = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_od_num_incorr_cues));
         seekBar2.setMin(1);
-        seekBar2.setMax(preferencesManager.objectdiscrim_num_corr);
+        seekBar2.setMax(preferencesManager.objectdiscrim_num_corr_options);
 
-        SeekBarPreference seekBar3 = (SeekBarPreference) findPreference("two_num_steps");
+        SeekBarPreferenceCustom seekBar3 = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_od_num_steps));
         seekBar3.setMin(1);
         seekBar3.setMax(10);
 

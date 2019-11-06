@@ -1,3 +1,12 @@
+/**
+ *
+ * Task Example
+ *
+ * A basic object discrimination task showcasing the main features of the Mymou system
+ * This includes using facial recognition to load different settings for different subjects
+ *
+ */
+
 package mymou.task.individual_tasks;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,15 +20,15 @@ import mymou.Utils.UtilsSystem;
 import mymou.task.backend.TaskInterface;
 import mymou.task.backend.UtilsTask;
 
-// A basic object discrimination task showcasing the main features of the Mymou system:
-
-public class TaskExample extends Fragment implements View.OnClickListener {
+public class TaskExample extends Task implements View.OnClickListener {
 
     // Debug
     public static String TAG = "TaskExample";
 
      // Identifier for which monkey is currently playing the task
     private static int current_monkey;
+
+    private static int rew_scalar = 1;
 
     // Task objects
     private static int num_cues = 2;
@@ -34,7 +43,6 @@ public class TaskExample extends Fragment implements View.OnClickListener {
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-
         // Instantiate task objects
         assignObjects();
 
@@ -82,19 +90,8 @@ public class TaskExample extends Fragment implements View.OnClickListener {
                 successfulTrial = true;
                 break;
         }
-        endOfTrial(successfulTrial);
-    }
 
-    private void endOfTrial(boolean successfulTrial) {
-        String outcome;
-        PreferencesManager preferencesManager = new PreferencesManager(getContext());
-        if (successfulTrial) {
-            outcome = preferencesManager.ec_correct_trial;
-        } else {
-            outcome = preferencesManager.ec_incorrect_trial;
-        }
-        // Send outcome up to parent
-        callback.trialEnded_(outcome);
+        endOfTrial(successfulTrial, rew_scalar, callback);
     }
 
         // Implement interface and listener to enable communication up to TaskManager

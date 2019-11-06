@@ -34,11 +34,10 @@ public class PrefsFragTaskAll extends PreferenceFragmentCompat {
         setPreferencesFromResource(R.xml.preferences_task_all, rootKey);
 
         // Set ontouchlisteners for the seekbars to allow users to manually input values
-        SeekBarPreference[] seekBarPreferences = new SeekBarPreference[3];
-        seekBarPreferences[0] = (SeekBarPreference) findPreference(getString(R.string.preftag_rewardduration));
-        seekBarPreferences[1] = (SeekBarPreference) findPreference(getString(R.string.preftag_timeoutduration));
-        seekBarPreferences[2] = (SeekBarPreference) findPreference(getString(R.string.preftag_responseduration));
-
+        SeekBarPreferenceCustom[] seekBarPreferences = new SeekBarPreferenceCustom[3];
+        seekBarPreferences[0] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_rewardduration));
+        seekBarPreferences[1] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_timeoutduration));
+        seekBarPreferences[2] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_responseduration));
         for (int i = 0; i < seekBarPreferences.length; i++) {
             final int i_final = i;
             seekBarPreferences[i].setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

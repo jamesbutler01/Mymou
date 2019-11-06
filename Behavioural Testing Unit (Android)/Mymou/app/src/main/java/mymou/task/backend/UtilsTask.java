@@ -4,17 +4,23 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
 import androidx.constraintlayout.widget.ConstraintLayout;
+
 import mymou.preferences.PreferencesManager;
 
 import java.util.Random;
 import java.util.stream.IntStream;
 
 public class UtilsTask {
-   // Debug
+    // Debug
     public static String TAG = "MymouUtils";
 
     // Make a list of the possible locations on the screen where cues can be placed
@@ -25,7 +31,7 @@ public class UtilsTask {
         int totalImageSize = imageWidths + border;
 
         // Find centre of screen in pixels
-        Display display =  activity.getWindowManager().getDefaultDisplay();
+        Display display = activity.getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int screenWidth = size.x;
@@ -49,9 +55,8 @@ public class UtilsTask {
 
     }
 
-    public static Button addCue(int id, int color, Context context, View.OnClickListener onClickListener, ConstraintLayout layout) {
-//    public static Button addCue(int id, int color, Context context, ConstraintLayout layout) {
-//        View.OnClickListener onClickListener = (View.OnClickListener) context;
+    // Add a mono-colour cue to the task
+    public static Button addColorCue(int id, int color, Context context, View.OnClickListener onClickListener, ConstraintLayout layout) {
         PreferencesManager preferencesManager = new PreferencesManager(context);
         Button button = new Button(context);
         button.setWidth(preferencesManager.cue_size);
@@ -62,6 +67,33 @@ public class UtilsTask {
         drawable.setColor(color);
         button.setBackgroundDrawable(drawable);
         button.setId(id);
+        button.setOnClickListener(onClickListener);
+        layout.addView(button);
+        return button;
+    }
+
+    // Add an image to the task
+    public static ImageButton addImageCue(int id, Context context, ConstraintLayout layout) {
+        PreferencesManager preferencesManager = new PreferencesManager(context);
+        ImageButton button = new ImageButton(context);
+        button.setLayoutParams(new LinearLayout.LayoutParams(preferencesManager.cue_size, preferencesManager.cue_size));
+        button.setId(id);
+        button.setScaleType(ImageView.ScaleType.FIT_XY);
+        int border = preferencesManager.border_size;
+        button.setPadding(border, border, border, border);
+        layout.addView(button);
+        return button;
+    }
+
+    // Add a _clickable_ image to the task
+    public static ImageButton addImageCue(int id, Context context, ConstraintLayout layout, View.OnClickListener onClickListener) {
+        PreferencesManager preferencesManager = new PreferencesManager(context);
+        ImageButton button = new ImageButton(context);
+        button.setLayoutParams(new LinearLayout.LayoutParams(preferencesManager.cue_size, preferencesManager.cue_size));
+        button.setId(id);
+        button.setScaleType(ImageView.ScaleType.FIT_XY);
+        int border = preferencesManager.border_size;
+        button.setPadding(border, border, border, border);
         button.setOnClickListener(onClickListener);
         layout.addView(button);
         return button;
@@ -82,8 +114,21 @@ public class UtilsTask {
         }
     }
 
+    // Iterates through a list of cues enabling/disabling all in list
+    public static void toggleCues(ImageButton[] buttons, boolean status) {
+        for (int i = 0; i < buttons.length; i++) {
+            UtilsTask.toggleCue(buttons[i], status);
+        }
+    }
+
     // Fully enable/disable individual cue
     public static void toggleCue(Button button, boolean status) {
+        toggleView(button, status);
+        button.setClickable(status);
+    }
+
+    // Fully enable/disable individual cue
+    public static void toggleCue(ImageButton button, boolean status) {
         toggleView(button, status);
         button.setClickable(status);
     }
@@ -118,7 +163,15 @@ public class UtilsTask {
         }
     }
 
-    private static int[] calculateLocs(int screenLength, int totalImageSize) {
+    public static void randomlyPositionCue(View cue, Activity activity) {
+        Point[] locs = getPossibleCueLocs(activity);
+        Random r = new Random();
+        int choice = r.nextInt(locs.length);
+        cue.setX(locs[choice].x);
+        cue.setY(locs[choice].y);
+    }
+
+    public static int[] calculateLocs(int screenLength, int totalImageSize) {
         int num_locs = screenLength / totalImageSize; // floor division
 
         int[] locs = new int[num_locs];
@@ -131,7 +184,26 @@ public class UtilsTask {
         }
 
         return locs;
-
     }
 
+    // Place a cue in the centre of the screen
+    public static void centreCue(View cue, Activity activity) {
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        Point screen_size = new Point();
+        display.getSize(screen_size);
+        float x_loc = ((screen_size.x - cue.getWidth()) / 2);
+        float y_loc = ((screen_size.y / 2) - (cue.getHeight() * 2));
+        cue.setX(x_loc);
+        cue.setY(y_loc);
+    }
+
+    // Rolls until it finds an unchosen position in the provided boolean array
+    public static int chooseValueNoReplacement(boolean[] chosen_vals) {
+        Random r = new Random();
+        int chosen_i = r.nextInt(chosen_vals.length);
+        while (chosen_vals[chosen_i]) {
+            chosen_i = r.nextInt(chosen_vals.length);
+        }
+        return chosen_i;
+    }
 }
