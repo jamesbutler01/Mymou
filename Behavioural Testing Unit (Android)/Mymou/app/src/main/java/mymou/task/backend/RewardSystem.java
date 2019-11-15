@@ -36,13 +36,13 @@ public class RewardSystem {
     private static Handler connectionLoopHandler;
     private static boolean bluetoothEnabled = false;
     private static boolean active = false;
-    private static String allChanOff, chanZeroOn, chanZeroOff, chanOneOn, chanOneOff, chanTwoOn,
-            chanTwoOff, chanThreeOn, chanThreeOff;
+    private static PreferencesManager preferencesManager;
     private static Context context;
     private static final int REQUEST_ENABLE_BT = 1;
     private static BluetoothAdapter btAdapter = null;
     private static BluetoothSocket btSocket = null;
     private static OutputStream outStream = null;
+
     // Replace with your devices UUID and address
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
@@ -154,51 +154,19 @@ public class RewardSystem {
     }
 
     private static void stopAllChannels() {
-        sendData(allChanOff);
-    }
-
-    private static String getStopString(int Ch) {
-        String offString="";
-        if(Ch == 0) {
-            offString = chanZeroOff;
-        } else if (Ch == 1) {
-            offString = chanOneOff;
-        } else if (Ch == 2) {
-            offString = chanTwoOff;
-        } else if (Ch == 3) {
-            offString = chanThreeOff;
-        } else {
-            Log.d(TAG, "Error: No valid Ch specified");
+        for (int i=0; i<preferencesManager.num_reward_chans; i++) {
+            stopChannel(i);
         }
-        return offString;
-    }
-
-    private static String getStartString(int Ch) {
-        String onString="";
-        if(Ch == 0) {
-            onString = chanZeroOn;
-        } else if (Ch == 1) {
-            onString = chanOneOn;
-        } else if (Ch == 2) {
-            onString = chanTwoOn;
-        } else if (Ch == 3) {
-            onString = chanThreeOn;
-        } else {
-            Log.d(TAG, "Error: Invalid ch specified");
-        }
-        return onString;
     }
 
     public static void stopChannel(int Ch) {
         Log.d(TAG, "Stopping channel "+Ch);
-        String stopString = getStopString(Ch);
-        sendData(stopString);
+        sendData(preferencesManager.strobes_off[Ch]);
     }
 
     public static void startChannel(int Ch) {
         Log.d(TAG, "Starting channel "+Ch);
-        String startString = getStartString(Ch);
-        sendData(startString);
+        sendData(preferencesManager.strobes_on[Ch]);
     }
 
     public static void activateChannel(final int Ch, int amount) {
@@ -305,15 +273,8 @@ public class RewardSystem {
     }
 
     private static void initialiseRewardChannelStrings() {
-        allChanOff = context.getString(R.string.allChanOff);
-        chanZeroOn = context.getString(R.string.chanZeroOn);
-        chanZeroOff = context.getString(R.string.chanZeroOff);
-        chanOneOn = context.getString(R.string.chanOneOn);
-        chanOneOff = context.getString(R.string.chanOneOff);
-        chanTwoOn = context.getString(R.string.chanTwoOn);
-        chanTwoOff = context.getString(R.string.chanTwoOff);
-        chanThreeOn = context.getString(R.string.chanThreeOn);
-        chanThreeOff = context.getString(R.string.chanThreeOff);
+        preferencesManager = new PreferencesManager(context);
+        preferencesManager.RewardStrobeChannels();
     }
 
     private static void bluetoothConnectedBool(boolean status) {

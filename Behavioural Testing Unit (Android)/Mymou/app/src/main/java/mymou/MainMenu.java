@@ -306,7 +306,7 @@ public class MainMenu extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        super.onCreate(null);
+        preferencesManager = new PreferencesManager(this);
         initialiseLayoutParameters();
     }
 

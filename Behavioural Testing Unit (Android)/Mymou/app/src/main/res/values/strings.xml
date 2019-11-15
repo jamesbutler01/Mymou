@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Mymou</string>
     <string name="request_permission">This sample needs camera permission.</string>
-
+    
+    <string name="max_reward_channels">4</string>
     <string name="allChanOff">0</string>
     <string name="chanZeroOn">1</string>
     <string name="chanZeroOff">2</string>
@@ -98,6 +99,15 @@
     <string name="preftag_strobe_four_on">preftag_strobe_four_on</string>
     <string name="preftag_strobe_four_off">preftag_strobe_four_off</string>
 
+    <string name="default_strobe_one_on">1</string>
+    <string name="default_strobe_one_off">2</string>
+    <string name="default_strobe_two_on">3</string>
+    <string name="default_strobe_two_off">4</string>
+    <string name="default_strobe_three_on">5</string>
+    <string name="default_strobe_three_off">6</string>
+    <string name="default_strobe_four_on">7</string>
+    <string name="default_strobe_four_off">8</string>
+    
     <string name="preftag_taskbackgroundcolour">taskbackgroundcolour</string>
     <string name="preftag_rewardbackgroundcolour">rewardbackgroundcolour</string>
     <string name="preftag_timeoutbackgroundcolour">timeoutbackgroundcolour</string>

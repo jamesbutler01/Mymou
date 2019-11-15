@@ -98,6 +98,24 @@ public class PreferencesManager {
 
     }
 
+    public String[] strobes_on, strobes_off;
+    public int max_reward_channels;
+
+    public void RewardStrobeChannels() {
+        max_reward_channels = Integer.valueOf(mContext.getString(R.string.max_reward_channels));
+
+        strobes_on = new String[max_reward_channels];
+        strobes_off = new String[max_reward_channels];
+        strobes_on[0] = sharedPrefs.getString(r.getString(R.string.preftag_strobe_one_on), r.getString(R.string.default_strobe_one_on));
+        strobes_off[0] = sharedPrefs.getString(r.getString(R.string.preftag_strobe_one_off), r.getString(R.string.default_strobe_one_off));
+        strobes_on[1] = sharedPrefs.getString(r.getString(R.string.preftag_strobe_two_on), r.getString(R.string.default_strobe_two_on));
+        strobes_off[1] = sharedPrefs.getString(r.getString(R.string.preftag_strobe_two_off), r.getString(R.string.default_strobe_two_off));
+        strobes_on[2] = sharedPrefs.getString(r.getString(R.string.preftag_strobe_three_on), r.getString(R.string.default_strobe_three_on));
+        strobes_off[2] = sharedPrefs.getString(r.getString(R.string.preftag_strobe_three_off), r.getString(R.string.default_strobe_three_off));
+        strobes_on[3] = sharedPrefs.getString(r.getString(R.string.preftag_strobe_four_on), r.getString(R.string.default_strobe_four_on));
+        strobes_off[3] = sharedPrefs.getString(r.getString(R.string.preftag_strobe_four_off), r.getString(R.string.default_strobe_four_off));
+    }
+
     public int objectdiscrim_num_corr_options, objectdiscrim_num_incorr_options, objectdiscrim_num_corr_shown, objectdiscrim_num_incorr_shown, objectdiscrim_num_steps;
     public int[] objectdiscrim_corr_colours, objectdiscrim_incorr_colours;
     public int[] objectdiscrim_prev_cols_corr, objectdiscrim_prev_cols_incorr;
