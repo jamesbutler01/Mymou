@@ -50,6 +50,10 @@ public class PrefsFragCommon extends PreferenceFragmentCompat {
 
             setPreferencesFromResource(R.xml.preferences_task_objectdiscrim, rootKey);
 
+    } else if (prefTag.equals(getString(R.string.preftag_bluetooth_strobes))) {
+
+            setPreferencesFromResource(R.xml.preferences_bluetooth_strobes, rootKey);
+
         } else {
 
             new Exception("Invalid pref tag");

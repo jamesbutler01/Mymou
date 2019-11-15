@@ -37,6 +37,11 @@
                 android:entryValues="@array/colourvalues"
                 android:defaultValue="@integer/default_rewardbackgroundcolour"/>
 
+        <Preference
+                app:fragment="mymou.preferences.PrefsFragCommon"
+                app:key="@string/preftag_bluetooth_strobes"
+                app:title="Choose strobe codes to send to arduino to switch on/off the reward delivery system"/>
+
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

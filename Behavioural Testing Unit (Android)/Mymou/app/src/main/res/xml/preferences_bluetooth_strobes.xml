@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+            app:key="strobe_code_settings"
+            app:title="Choose strobe codes to send to arduino to switch on/off the reward delivery system">
+
+        <ListPreference
+                app:key="@string/preftag_strobe_one_on"
+                app:title="Channel one ON"
+                android:entries="@array/strobevalues"
+                android:entryValues="@array/strobevalues"
+                android:defaultValue="1"/>
+
+        <ListPreference
+                app:key="@string/preftag_strobe_one_off"
+                app:title="Channel one OFF"
+                android:entries="@array/strobevalues"
+                android:entryValues="@array/strobevalues"
+                android:defaultValue="2"/>
+
+        <ListPreference
+                app:key="@string/preftag_strobe_two_on"
+                app:title="Channel two ON"
+                android:entries="@array/strobevalues"
+                android:entryValues="@array/strobevalues"
+                android:defaultValue="3"/>
+        <ListPreference
+                app:key="@string/preftag_strobe_two_off"
+                app:title="Channel two OFF"
+                android:entries="@array/strobevalues"
+                android:entryValues="@array/strobevalues"
+                android:defaultValue="4"/>
+        <ListPreference
+                app:key="@string/preftag_strobe_three_on"
+                app:title="Channel three ON"
+                android:entries="@array/strobevalues"
+                android:entryValues="@array/strobevalues"
+                android:defaultValue="5"/>
+        <ListPreference
+                app:key="@string/preftag_strobe_three_off"
+                app:title="Channel three OFF"
+                android:entries="@array/strobevalues"
+                android:entryValues="@array/strobevalues"
+                android:defaultValue="6"/>
+        <ListPreference
+                app:key="@string/preftag_strobe_four_on"
+                app:title="Channel four ON"
+                android:entries="@array/strobevalues"
+                android:entryValues="@array/strobevalues"
+                android:defaultValue="7"/>
+        <ListPreference
+                app:key="@string/preftag_strobe_four_off"
+                app:title="Channel four OFF"
+                android:entries="@array/strobevalues"
+                android:entryValues="@array/strobevalues"
+                android:defaultValue="8"/>
+
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>
