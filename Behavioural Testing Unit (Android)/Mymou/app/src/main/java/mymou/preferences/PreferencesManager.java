@@ -19,7 +19,7 @@ public class PreferencesManager {
 
     public static boolean debug, bluetooth, camera, facerecog, restartoncrash, sound, autostart, autostop, skip_go_cue=false;
     public static int sound_to_play;
-    public static int num_reward_chans, default_rew_chan;
+    public static int num_reward_chans, default_rew_chan, max_reward_channels;
     public static int rewardduration, responseduration, timeoutduration;
     public static int autostart_hour, autostop_hour, autostart_min, autostop_min;
     public static int taskbackground, rewardbackground, timeoutbackground;
@@ -49,8 +49,12 @@ public class PreferencesManager {
 
         sound_to_play = sharedPrefs.getInt(r.getString(R.string.preftag_sound_to_play), 0);
 
+        max_reward_channels = Integer.valueOf(mContext.getString(R.string.max_reward_channels));
         num_reward_chans = sharedPrefs.getInt(r.getString(R.string.preftag_num_rew_chans), r.getInteger(R.integer.default_num_rew_chans));
         default_rew_chan = sharedPrefs.getInt(r.getString(R.string.preftag_default_rew_chan), r.getInteger(R.integer.default_rew_chan));
+        if (default_rew_chan > num_reward_chans) {
+            default_rew_chan = 0;
+        }
         rewardduration = sharedPrefs.getInt(r.getString(R.string.preftag_rewardduration), r.getInteger(R.integer.default_rewardduration));
         responseduration = sharedPrefs.getInt(r.getString(R.string.preftag_responseduration), r.getInteger(R.integer.default_responseduration));
         responseduration *= 1000;
@@ -99,10 +103,8 @@ public class PreferencesManager {
     }
 
     public String[] strobes_on, strobes_off;
-    public int max_reward_channels;
 
     public void RewardStrobeChannels() {
-        max_reward_channels = Integer.valueOf(mContext.getString(R.string.max_reward_channels));
 
         strobes_on = new String[max_reward_channels];
         strobes_off = new String[max_reward_channels];

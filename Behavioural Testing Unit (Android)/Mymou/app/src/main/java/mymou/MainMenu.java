@@ -186,19 +186,18 @@ public class MainMenu extends Activity {
 
         // Radio groups (reward system controller)
         reward_chan = preferencesManager.default_rew_chan;
-        if (reward_chan == 0) {
-            RadioButton radioButton = findViewById(R.id.rb_chan0);
-            radioButton.setChecked(true);
-        } else if (reward_chan == 1) {
-            RadioButton radioButton = findViewById(R.id.rb_chan1);
-            radioButton.setChecked(true);
-        } else if (reward_chan == 2) {
-            RadioButton radioButton = findViewById(R.id.rb_chan2);
-            radioButton.setChecked(true);
-        } else if (reward_chan == 3) {
-            RadioButton radioButton = findViewById(R.id.rb_chan3);
-            radioButton.setChecked(true);
+        RadioButton[] radioButtons = new RadioButton[preferencesManager.max_reward_channels];
+        radioButtons[0] = findViewById(R.id.rb_chan0);
+        radioButtons[1] = findViewById(R.id.rb_chan1);
+        radioButtons[2] = findViewById(R.id.rb_chan2);
+        radioButtons[3] = findViewById(R.id.rb_chan3);
+        radioButtons[reward_chan].setChecked(true);
+
+        for (int i=0; i<preferencesManager.max_reward_channels; i++) {
+            boolean active = i >= preferencesManager.num_reward_chans ? false : true;
+            UtilsTask.toggleView(radioButtons[i], active);
         }
+
         RadioGroup group = findViewById(R.id.rg_rewchanpicker);
         group.setOnCheckedChangeListener(checkedChangeListener);
         RadioGroup group2 = findViewById(R.id.rg_rewonoff);
@@ -306,6 +305,7 @@ public class MainMenu extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d(TAG, "onResume() called");
         preferencesManager = new PreferencesManager(this);
         initialiseLayoutParameters();
     }
