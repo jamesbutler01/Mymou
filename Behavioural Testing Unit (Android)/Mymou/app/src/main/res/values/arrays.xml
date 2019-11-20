@@ -54,11 +54,15 @@
     <string-array name="mapvalues">
         <item>0</item>
         <item>1</item>
+        <item>2</item>
+        <item>3</item>
     </string-array>
 
     <string-array name="mapnames">
-        <item>2D Map #1 (4x4)</item>
         <item>Linear Map #1 (1x10)</item>
+        <item>2D Map #1 (4x4)</item>
+        <item>2D Map #2 (5x5)</item>
+        <item>2D Map #3 (5x5)</item>
     </string-array>
 
     <string-array name="task_has_settings">
