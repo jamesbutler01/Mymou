@@ -299,7 +299,7 @@ public class TaskDiscreteMaze extends Task {
 
     private void logStep(int result) {
         String msg =
-                num_steps + "," + result + "," + currentDistanceFromTarget + "," +
+                preferencesManager.dm_map_selected +","+ num_steps + "," + result + "," + currentDistanceFromTarget + "," +
                         target_pos + "," + current_pos + "," + start_pos + "," + start_dist + "," + rew_scalar;
         callback.logEvent_(msg);
     }
