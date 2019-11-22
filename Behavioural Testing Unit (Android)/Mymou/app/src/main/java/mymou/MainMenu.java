@@ -17,6 +17,7 @@ import androidx.preference.PreferenceManager;
 import mymou.Utils.PermissionManager;
 import mymou.Utils.UtilsSystem;
 import mymou.preferences.PreferencesManager;
+import mymou.preferences.PrefsActCamPicker;
 import mymou.task.backend.DataViewer;
 import mymou.task.backend.RewardSystem;
 import mymou.task.backend.TaskManager;
@@ -61,6 +62,9 @@ public class MainMenu extends Activity {
         initialiseSpinner();
 
         UtilsSystem.setBrightness(true, this);
+
+                Intent intent = new Intent(this, PrefsActCamPicker.class);
+        startActivity(intent);
 
     }
 

@@ -25,8 +25,9 @@ public class PreferencesManager {
     public static int taskbackground, rewardbackground, timeoutbackground;
     public static int border_colour, border_size, cue_size, cue_spacing;
     public static int num_monkeys;
-    public static String ec_correct_trial, ec_incorrect_trial, ec_trial_timeout, ec_wrong_gocue_pressed, ec_trial_started, ec_trial_prepared;
+    public static int camera_to_use;
     public static int[] colours_gocues;
+    public static String ec_correct_trial, ec_incorrect_trial, ec_trial_timeout, ec_wrong_gocue_pressed, ec_trial_started, ec_trial_prepared;
 
     private SharedPreferences sharedPrefs;
     private int[] colors;
@@ -47,6 +48,7 @@ public class PreferencesManager {
         autostart = sharedPrefs.getBoolean(r.getString(R.string.preftag_autostart), r.getBoolean(R.bool.default_autostart));
         autostop = sharedPrefs.getBoolean(r.getString(R.string.preftag_autostop), r.getBoolean(R.bool.default_autostop));
 
+        camera_to_use = sharedPrefs.getInt(r.getString(R.string.preftag_camera_to_use), r.getInteger(R.integer.default_camera_to_use));
         sound_to_play = sharedPrefs.getInt(r.getString(R.string.preftag_sound_to_play), 0);
 
         max_reward_channels = Integer.valueOf(mContext.getString(R.string.max_reward_channels));

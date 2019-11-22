@@ -133,6 +133,7 @@
     <string name="preftag_bluetooth_strobes">preftag_bluetooth_strobes</string>
     <string name="preftag_settings_to_load">preftag_settings_to_load</string>
     <string name="preftag_sound_to_play">preftag_sound_to_play</string>
+    <string name="preftag_camera_to_use">preftag_camera_to_use</string>
     <string name="preftag_num_rew_chans">preftag_num_rew_chans</string>
     <string name="preftag_default_rew_chan">preftag_default_rew_chan</string>
 

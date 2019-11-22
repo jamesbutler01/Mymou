@@ -53,6 +53,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import androidx.preference.PreferenceManager;
 import mymou.R;
 import mymou.Utils.UtilsSystem;
+import mymou.preferences.PreferencesManager;
 
 public class CameraMain extends Fragment
         implements FragmentCompat.OnRequestPermissionsResultCallback {
@@ -231,28 +232,18 @@ public class CameraMain extends Fragment
         getActivity().finish();
     }
 
-        private void setUpCameraOutputsTwo() {
+        private void setUpCameraOutputs() {
         Activity activity = getActivity();
         CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
-        int cameraSelected = 1;
+        PreferencesManager preferencesManager = new PreferencesManager(getContext());
         try {
-//            for (String cameraId : manager.getCameraIdList()) {
                 String[] all_camera_ids = manager.getCameraIdList();
-                String cameraId = all_camera_ids[cameraSelected];
+                String cameraId = all_camera_ids[preferencesManager.camera_to_use];
                 CameraCharacteristics characteristics
                         = manager.getCameraCharacteristics(cameraId);
 
-                // Find selfie camera
-//                Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
-//                if (facing != null && facing == CameraCharacteristics.LENS_FACING_BACK) {
-//                    continue;
-//                }
-
                 StreamConfigurationMap map = characteristics.get(
                         CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-//                if (map == null) {
-//                    continue;
-//                }
 
                  // Get list of available camera resolutions
                 List sizes = Arrays.asList(map.getOutputSizes(ImageFormat.JPEG));
@@ -277,57 +268,6 @@ public class CameraMain extends Fragment
                 mPreviewSize = choices[0];
                 mCameraId = cameraId;
                 return;
-//            }
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    private void setUpCameraOutputs() {
-        Activity activity = getActivity();
-        CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
-        try {
-            for (String cameraId : manager.getCameraIdList()) {
-                CameraCharacteristics characteristics
-                        = manager.getCameraCharacteristics(cameraId);
-
-                // Find selfie camera
-                Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
-                if (facing != null && facing == CameraCharacteristics.LENS_FACING_BACK) {
-                    continue;
-                }
-
-                StreamConfigurationMap map = characteristics.get(
-                        CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-                if (map == null) {
-                    continue;
-                }
-
-                 // Get list of available camera resolutions
-                List sizes = Arrays.asList(map.getOutputSizes(ImageFormat.JPEG));
-
-                // Find which resolution user selected
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-                int default_size = sizes.size() - 1;
-                String resolution_saved = settings.getString(getString(R.string.preftag_camera_resolution), ""+default_size);
-                Size resolution = (Size) sizes.get(Integer.valueOf(resolution_saved));
-
-                // Store this to be used by crop menu
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putInt("camera_width", resolution.getHeight());
-                editor.putInt("camera_height", resolution.getWidth());
-                editor.commit();
-
-                mImageReader = ImageReader.newInstance(resolution.getWidth(), resolution.getHeight(),
-                        ImageFormat.JPEG, /*maxImages*/2);
-                mImageReader.setOnImageAvailableListener(
-                        mOnImageAvailableListener, mBackgroundHandler);
-                Size[] choices = map.getOutputSizes(SurfaceTexture.class);
-                mPreviewSize = choices[0];
-                mCameraId = cameraId;
-                return;
-            }
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
@@ -524,5 +464,59 @@ public class CameraMain extends Fragment
         }
 
     }
+
+        /***
+     *
+     * Old code that automatically selects the selfie camera
+     *
+     */
+//    private void setUpCameraOutputs() {
+//        Activity activity = getActivity();
+//        CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
+//        try {
+//            for (String cameraId : manager.getCameraIdList()) {
+//                CameraCharacteristics characteristics
+//                        = manager.getCameraCharacteristics(cameraId);
+//
+//                // Find selfie camera
+//                Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
+//                if (facing != null && facing == CameraCharacteristics.LENS_FACING_BACK) {
+//                    continue;
+//                }
+//
+//                StreamConfigurationMap map = characteristics.get(
+//                        CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+//                if (map == null) {
+//                    continue;
+//                }
+//
+//                 // Get list of available camera resolutions
+//                List sizes = Arrays.asList(map.getOutputSizes(ImageFormat.JPEG));
+//
+//                // Find which resolution user selected
+//                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+//                int default_size = sizes.size() - 1;
+//                String resolution_saved = settings.getString(getString(R.string.preftag_camera_resolution), ""+default_size);
+//                Size resolution = (Size) sizes.get(Integer.valueOf(resolution_saved));
+//
+//                // Store this to be used by crop menu
+//                SharedPreferences.Editor editor = settings.edit();
+//                editor.putInt("camera_width", resolution.getHeight());
+//                editor.putInt("camera_height", resolution.getWidth());
+//                editor.commit();
+//
+//                mImageReader = ImageReader.newInstance(resolution.getWidth(), resolution.getHeight(),
+//                        ImageFormat.JPEG, /*maxImages*/2);
+//                mImageReader.setOnImageAvailableListener(
+//                        mOnImageAvailableListener, mBackgroundHandler);
+//                Size[] choices = map.getOutputSizes(SurfaceTexture.class);
+//                mPreviewSize = choices[0];
+//                mCameraId = cameraId;
+//                return;
+//            }
+//        } catch (CameraAccessException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }
