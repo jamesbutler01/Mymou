@@ -10,6 +10,12 @@
                 app:defaultValue="@bool/default_camera"
                 app:key="@string/preftag_camera"
                 app:title="Enable camera" />
+
+        <Preference
+                app:fragment="mymou.preferences.PrefsActCamPicker"
+                app:key="@string/preftag_cam_picker"
+                app:title="Choose camera to use for photos" />
+
         <SwitchPreferenceCompat
                 app:defaultValue="@bool/default_facerecog"
                 app:key="@string/preftag_facerecog"
@@ -20,8 +26,8 @@
                 app:key="@string/preftag_crop_photos"
                 app:title="Crop camera photos" />
         <Preference
-                app:fragment="mymou.preferences.PrefsFragCropPickerParent"
-                app:key="croppicker_prefsfrag"
+                app:fragment="mymou.preferences.PrefsActCropPicker"
+                app:key="@string/preftag_crop_picker"
                 app:title="Configure crop boundaries of photos" />
 
         <ListPreference

@@ -122,6 +122,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             Thread t = new Thread(new Runnable() {
                 public void run() {
                     faceRecog = new FaceRecog();
+                    if (!faceRecog.instantiated_successfully) {
+                        tvErrors.setText(faceRecog.error_message);
+                    }
                 }
             });
             t.start();
@@ -420,7 +423,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     public static void setFaceRecogPrediction(int[] intArray) {
 
-        if (faceRecog != null) {
+        if (faceRecog != null && faceRecog.instantiated_successfully) {
 
             faceRecogPrediction = faceRecog.idImage(intArray);
 

@@ -67,11 +67,15 @@ public class PrefsActSystem extends AppCompatActivity implements
     @Override
     public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference pref) {
         Log.d(TAG, pref.getKey());
-        if (pref.getKey().equals("croppicker_prefsfrag")) {
-            Intent intent = new Intent(this, PrefsFragCropPickerParent.class);
+        if (pref.getKey().equals(getString(R.string.preftag_crop_picker))) {
+            Intent intent = new Intent(this, PrefsActCropPicker.class);
             startActivity(intent);
             return true;
-
+        }
+        if (pref.getKey().equals(getString(R.string.preftag_cam_picker))) {
+            Intent intent = new Intent(this, PrefsActCamPicker.class);
+            startActivity(intent);
+            return true;
         }
         // Instantiate the new Fragment
         Bundle args = pref.getExtras();

@@ -1,16 +1,9 @@
 package mymou.preferences;
 
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import mymou.task.backend.CameraMain;
 import mymou.R;
@@ -20,12 +13,16 @@ import mymou.R;
  * This parent fragment simply loads up these two fragments
  */
 
-public class PrefsFragCropPickerParent extends FragmentActivity {
+public class PrefsActCropPicker extends FragmentActivity {
+
+    public static String TAG = "PrefsActCropPicker";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crop_picker);
+        Log.d(TAG, "Loading activity");
+
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         // Load camera fragment
