@@ -85,7 +85,7 @@ public class TaskEvidenceAccum extends Task {
         // First check its not the final step, which would the choice phase
         if (num_steps > 0) {
 
-            // Show bars
+            // Set timer to switch on bars of appropriate heights after a certain duration
             h0.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -106,7 +106,7 @@ public class TaskEvidenceAccum extends Task {
                 }
             }, prefManager.ea_step_duration_off);
 
-            // Hide bars
+            // At the same time, set a second timer to switch off the bars after a certain duration
             h1.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -118,11 +118,12 @@ public class TaskEvidenceAccum extends Task {
                     startMovie(num_steps - 1);
 
                 }
+
             }, prefManager.ea_step_duration_on + prefManager.ea_step_duration_off);
 
         } else {
 
-            // Choice phase, simply switch on the choice buttons
+            // Choice phase, simply switch on the choice buttons and activate the buttonClickListener
             getView().findViewById(R.id.ea_butt_1).setVisibility(View.VISIBLE);
             getView().findViewById(R.id.ea_butt_2).setVisibility(View.VISIBLE);
             getView().findViewById(R.id.ea_butt_1).setOnClickListener(buttonClickListener);
@@ -234,13 +235,15 @@ public class TaskEvidenceAccum extends Task {
             }
 
             // Tell parent (TrialManager.java) the outcome of the trial, which will then respond accordingly
-            // (e.g. give reward if correct, set up for next trial etc)
+            // (e.g. give reward if correct, set up for next trial, save photo etc)
             endOfTrial(correct_chosen, callback);
 
         }
     };
 
     /**
+     * onPause called whenever a task is paused, interrupted, or cancelled
+     *
      * If task aborted for some reason (e.g. they did not respond quick enough), then cancel the handlers to stop the movie playing
      * This prevents task objects being loaded AFTER a trial has finished
      */
