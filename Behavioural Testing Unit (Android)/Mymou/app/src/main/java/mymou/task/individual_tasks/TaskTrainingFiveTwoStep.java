@@ -1,13 +1,3 @@
-/**
- * Training task five: Two step task
- *
- * Implementation of Thomas Akam's reduced two-step task
- *
- * Stimuli are taken from Brady, T. F., Konkle, T., Alvarez, G. A. and Oliva, A. (2008). Visual
- *  long-term memory has a massive storage capacity for object details. Proceedings of the National
- *  Academy of Sciences, USA, 105 (38), 14325-14329.
- */
-
 package mymou.task.individual_tasks;
 
 import android.animation.AnimatorSet;
@@ -34,6 +24,15 @@ import mymou.preferences.PreferencesManager;
 import mymou.task.backend.TaskInterface;
 import mymou.task.backend.UtilsTask;
 
+/**
+ * Training task five: Two step task
+ *
+ * Implementation of Thomas Akam's reduced two-step task (Akam et al. 2015)
+ *
+ * Stimuli are taken from Brady, T. F., Konkle, T., Alvarez, G. A. and Oliva, A. (2008). Visual
+ *  long-term memory has a massive storage capacity for object details. Proceedings of the National
+ *  Academy of Sciences, USA, 105 (38), 14325-14329.
+ */
 public class TaskTrainingFiveTwoStep extends Task {
 
     // Debug
