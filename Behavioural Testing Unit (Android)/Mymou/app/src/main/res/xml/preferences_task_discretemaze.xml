@@ -32,9 +32,9 @@
 
         <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_dm_num_extra_steps"
+                android:summary="Only applicable if 'Timeout after certain number of extra steps' is enabled"
                 app:key="@string/preftag_dm_num_extra_steps"
-                app:title="Number of extra steps allowed before timeout"
-                android:summary="Only applicable if 'Timeout after certain number of extra steps' is enabled"/>
+                app:title="Number of extra steps allowed before timeout" />
 
         <mymou.preferences.SeekBarPreferenceCustom
                 android:summary="Trial will end when they are this distance away from the target"
@@ -63,18 +63,21 @@
 
         <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_dm_target_switch_freq"
-                app:key="@string/preftag_dm_target_switch_freq"
-                app:title="Target switch frequency (if static reward enabled)"
-                app:summary="The number of trials that will occur in between each time the target location is moved around the map"
                 android:max="500"
-                app:min="1"/>
+                app:key="@string/preftag_dm_target_switch_freq"
+                app:min="1"
+                app:summary="The number of trials that will occur in between each time the target location is moved around the map"
+                app:title="Target switch frequency (if static reward enabled)" />
 
         <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_dm_booster_amount"
                 app:key="@string/preftag_dm_booster_amount"
                 app:title="Duration (ms) of small reward given when they move towards the target location" />
 
-
+        <SwitchPreferenceCompat
+                android:summary="Display progress bar indicating on each step whether it was away or towards the target location"
+                app:key="@string/preftag_dm_use_progress_bar"
+                app:title="Display progress bar" />
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

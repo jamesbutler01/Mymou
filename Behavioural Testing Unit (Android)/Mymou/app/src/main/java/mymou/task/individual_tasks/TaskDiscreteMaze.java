@@ -71,7 +71,6 @@ public class TaskDiscreteMaze extends Task {
 
     private int current_pos, start_pos, start_dist, target_pos, num_stimulus, currentDistanceFromTarget, num_steps = 0;
     private boolean choicePeriod = false;
-    private boolean use_progress_bar = true; // Whether to display progress bar on top of screen to display whether each step is towards (bar fills up) or away (bar decreases) from the current target
     private int[] chosenXlocs = {-1, -1, -1, -1};
     private int[] chosenYlocs = {-1, -1, -1, -1};
 
@@ -151,7 +150,7 @@ public class TaskDiscreteMaze extends Task {
         ibWait = (ImageButton) getView().findViewById(R.id.imageButtonWaitCue);
 
         pb1 = (ProgressBar) getView().findViewById(R.id.boosterBar);
-        if (!use_progress_bar) {
+        if (!preferencesManager.dm_use_progress_bar) {
             UtilsTask.toggleView(pb1, false);
         }
 
@@ -553,7 +552,7 @@ public class TaskDiscreteMaze extends Task {
     }
 
     private void setMaxProgress() {
-        if (use_progress_bar) {
+        if (preferencesManager.dm_use_progress_bar) {
             pb_length = mapParams.maxDistance;
             pb1.setMax(pb_length * pb_scalar);
             pb1.setProgress((pb_length - currentDistanceFromTarget) * pb_scalar);
@@ -589,7 +588,7 @@ public class TaskDiscreteMaze extends Task {
 
 
     private void updateProgressBar(int delay) {
-        if (use_progress_bar) {
+        if (preferencesManager.dm_use_progress_bar) {
             h6.postDelayed(new Runnable() {
                 @Override
                 public void run() {
