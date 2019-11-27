@@ -230,7 +230,6 @@ public class TaskObjectDiscrim extends Task {
 
     // Implement interface and listener to enable communication up to TaskManager
     TaskInterface callback;
-
     public void setFragInterfaceListener(TaskInterface callback) {
         this.callback = callback;
     }

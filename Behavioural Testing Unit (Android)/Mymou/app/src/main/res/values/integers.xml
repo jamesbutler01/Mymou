@@ -53,6 +53,9 @@
     <integer name="default_random_reward_start">20</integer>
     <integer name="default_random_reward_stop">40</integer>
 
+    <integer name="default_sl_map_selected">0</integer>
+    <integer name="default_sl_seq_length">7</integer>
+
     <integer name="default_pr_cue_colour">6</integer>
     <integer name="default_pr_animation_duration">450</integer>
 

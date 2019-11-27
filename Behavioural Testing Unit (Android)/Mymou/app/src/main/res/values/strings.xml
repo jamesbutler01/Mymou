@@ -172,6 +172,9 @@
     <string name="preftag_t_random_reward_stop">t_random_reward_stop</string>
     <string name="preftag_t_one_num_presses">t_one_num_presses</string>
 
+    <string name="preftag_sl_map_selected">preftag_sl_map_selected</string>
+    <string name="preftag_sl_seq_length">preftag_sl_seq_length</string>
+
     <string name="preftag_pr_cue_colour">pr_cue_colour</string>
     <string name="preftag_pr_progress_bar">preftag_pr_progress_bar</string>
     <string name="preftag_pr_animation_duration">pr_animation_duration</string>

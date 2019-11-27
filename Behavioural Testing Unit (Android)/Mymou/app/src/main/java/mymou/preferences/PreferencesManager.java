@@ -220,6 +220,16 @@ public class PreferencesManager {
 
     }
 
+    public int sl_seq_length, sl_map_selected, sl_num_maps, sl_max_seq_length;
+
+    public void SequentialLearning() {
+        sl_num_maps = 2;
+        sl_max_seq_length = 10;
+        sl_seq_length = sharedPrefs.getInt(r.getString(R.string.preftag_sl_seq_length), r.getInteger(R.integer.default_sl_seq_length));
+        sl_map_selected = sharedPrefs.getInt(r.getString(R.string.preftag_sl_map_selected), r.getInteger(R.integer.default_sl_map_selected));
+
+    }
+
     public int ts_transition_prob, ts_go_cue_reward_amount, ts_trial_reward_amount, ts_intertrial_interval;
     public int ts_low_reward_percent, ts_high_reward_percent;
     public int ts_rew_change_interval;
