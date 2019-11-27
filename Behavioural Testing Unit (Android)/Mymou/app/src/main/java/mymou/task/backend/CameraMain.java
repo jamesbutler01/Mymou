@@ -238,7 +238,9 @@ public class CameraMain extends Fragment
         PreferencesManager preferencesManager = new PreferencesManager(getContext());
         try {
                 String[] all_camera_ids = manager.getCameraIdList();
-                String cameraId = all_camera_ids[preferencesManager.camera_to_use];
+                // Just double check the camera selected is actually connected
+                int camera_to_use = preferencesManager.camera_to_use < all_camera_ids.length ? preferencesManager.camera_to_use : getResources().getInteger(R.integer.default_camera_to_use);
+                String cameraId = all_camera_ids[camera_to_use];
                 CameraCharacteristics characteristics
                         = manager.getCameraCharacteristics(cameraId);
 
