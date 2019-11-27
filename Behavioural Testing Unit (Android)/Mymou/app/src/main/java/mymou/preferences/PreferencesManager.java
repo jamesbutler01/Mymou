@@ -179,7 +179,7 @@ public class PreferencesManager {
     }
 
     public boolean dm_repeat_on_error, dm_static_reward, dm_extra_step_timeout, dm_use_progress_bar;
-    public int dm_min_start_distance, dm_max_start_distance, dm_max_dist_in_map, dm_map_selected, dm_num_maps, dm_num_extra_steps, dm_dist_to_target_needed;
+    public int dm_min_start_distance, dm_max_start_distance, dm_max_dist_in_map, dm_map_selected, dm_num_extra_steps, dm_dist_to_target_needed;
     public int dm_choice_delay, dm_animation_duration, dm_booster_amount, dm_target_switch_freq;
 
     public void DiscreteMaze() {
@@ -202,8 +202,6 @@ public class PreferencesManager {
         dm_animation_duration = 300;
 
         dm_max_dist_in_map = 4;
-        dm_num_maps = 2;
-
     }
 
     public int t_one_screen_colour, t_one_num_presses, t_random_reward_start_time,  t_random_reward_stop_time;

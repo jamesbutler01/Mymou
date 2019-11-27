@@ -223,15 +223,24 @@ public class TaskDiscreteMaze extends Task {
         editor.putBoolean("dm_previous_error", successfulTrial);
         editor.putInt("dm_prev_target", target_pos);
         editor.putInt("dm_prev_start", start_pos);
+        editor.putInt("dm_prev_map", preferencesManager.dm_map_selected);
         editor.commit();
     }
 
     // Load previous trial params
     private void loadTrialParams() {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-        prev_trial_correct = settings.getBoolean("dm_previous_error", true);
-        prev_target = settings.getInt("dm_prev_target", -1);
-        prev_start = settings.getInt("dm_prev_start", -1);
+
+        // If map has been changed in settings, then saved values are not valid
+        boolean map_changed = preferencesManager.dm_map_selected != settings.getInt("dm_prev_map", -1);
+        if (map_changed) {
+            prev_trial_correct = true;
+        } else {
+            prev_trial_correct = settings.getBoolean("dm_previous_error", true);
+            prev_target = settings.getInt("dm_prev_target", -1);
+            prev_start = settings.getInt("dm_prev_start", -1);
+        }
+
     }
 
 
