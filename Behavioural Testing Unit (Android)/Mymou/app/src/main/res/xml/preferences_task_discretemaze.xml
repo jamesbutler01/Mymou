@@ -8,8 +8,8 @@
 
         <ListPreference
                 android:defaultValue="@integer/default_dm_map"
-                android:entries="@array/mapnames"
-                android:entryValues="@array/mapvalues"
+                android:entries="@array/dm_mapnames"
+                android:entryValues="@array/dm_mapvalues"
                 app:key="@string/preftag_dm_map"
                 app:title="Select map" />
 

@@ -152,16 +152,19 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     }
 
     private void initialiseAutoRestartHandler() {
-        Log.d(TAG, "initialiseAutoRestartHandler");
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread thread, Throwable throwable) {
-                Log.d(TAG, "Task crashed");
-                new CrashReport(throwable, mContext);
-                rewardSystem.quitBt();
-                restartApp();
-            }
-        });
+        if (!preferencesManager.debug) {
+            Log.d(TAG, "initialiseAutoRestartHandler");
+            Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+                @Override
+                public void uncaughtException(Thread thread, Throwable throwable) {
+                    Log.d(TAG, "Task crashed");
+                    new CrashReport(throwable, mContext);
+                    rewardSystem.quitBt();
+                    restartApp();
+
+                }
+            });
+        }
     }
 
     private void loadtask() {
@@ -203,6 +206,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 break;
             case 11:
                 preferencesManager.SpatialResponse();
+                break;
+            case 12:
+                preferencesManager.SequentialLearning();
                 break;
             default:
                 Log.d(TAG, "No task specified");
@@ -318,6 +324,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 break;
             case 11:
                 task = new TaskSpatialResponse();
+                break;
+            case 12:
+                task = new TaskSequentialLearning();
                 break;
             default:
                 new Exception("No valid task specified");

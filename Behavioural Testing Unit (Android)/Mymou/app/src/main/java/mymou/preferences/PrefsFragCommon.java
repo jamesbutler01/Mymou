@@ -28,7 +28,7 @@ public class PrefsFragCommon extends PreferenceFragmentCompat {
             prefTag = getArguments().getString(getString(R.string.preftag_settings_to_load));
         }
 
-        Log.d(TAG, "Loading settings for "+prefTag);
+        Log.d(TAG, "Loading settings for " + prefTag);
 
         if (prefTag.equals(getString(R.string.preftag_cue_settings))) {
 
@@ -42,7 +42,7 @@ public class PrefsFragCommon extends PreferenceFragmentCompat {
 
             setPreferencesFromResource(R.xml.preferences_system, rootKey);
 
-        }else if (prefTag.equals(getString(R.string.preftag_task_sr_settings))) {
+        } else if (prefTag.equals(getString(R.string.preftag_task_sr_settings))) {
 
             setPreferencesFromResource(R.xml.preferences_task_spatialresponse, rootKey);
 
@@ -50,9 +50,13 @@ public class PrefsFragCommon extends PreferenceFragmentCompat {
 
             setPreferencesFromResource(R.xml.preferences_task_objectdiscrim, rootKey);
 
-    } else if (prefTag.equals(getString(R.string.preftag_bluetooth_strobes))) {
+        } else if (prefTag.equals(getString(R.string.preftag_bluetooth_strobes))) {
 
             setPreferencesFromResource(R.xml.preferences_bluetooth_strobes, rootKey);
+
+        } else if (prefTag.equals(getString(R.string.preftag_task_sl_settings))) {
+
+            setPreferencesFromResource(R.xml.preferences_task_sequential_learning, rootKey);
 
         } else {
 

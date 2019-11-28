@@ -26,6 +26,7 @@
         <item>Progressive Ratio</item>
         <item>Evidence Accumulation</item>
         <item>Spatial response</item>
+        <item>Sequential Learning</item>
     </string-array>
 
     <string-array name="task_descriptions">
@@ -129,6 +130,7 @@
     <string name="preftag_task_pr_settings">preftag_task_pr_settings</string>
     <string name="preftag_task_ea_settings">preftag_task_ea_settings</string>
     <string name="preftag_task_sr_settings">preftag_task_sr_settings</string>
+    <string name="preftag_task_sl_settings">preftag_task_sl_settings</string>
     <string name="preftag_task_od_settings">preftag_task_od_settings</string>
     <string name="preftag_bluetooth_strobes">preftag_bluetooth_strobes</string>
     <string name="preftag_settings_to_load">preftag_settings_to_load</string>

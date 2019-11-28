@@ -51,18 +51,29 @@
         <item>9</item>
     </string-array>
 
-    <string-array name="mapvalues">
+    <string-array name="dm_mapvalues">
         <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
     </string-array>
 
-    <string-array name="mapnames">
+    <string-array name="dm_mapnames">
         <item>Linear Map #1 (1x10)</item>
         <item>2D Map #1 (4x4)</item>
         <item>2D Map #2 (5x5)</item>
         <item>2D Map #3 (5x5)</item>
+    </string-array>
+
+
+    <string-array name="sl_mapvalues">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="sl_mapnames">
+        <item>Map #1 (Blue A-J)</item>
+        <item>Map #2 (Green A-J)</item>
     </string-array>
 
     <string-array name="task_has_settings">
@@ -72,6 +83,7 @@
         <item>true</item>
         <item>true</item>
         <item>false</item>
+        <item>true</item>
         <item>true</item>
         <item>true</item>
         <item>true</item>

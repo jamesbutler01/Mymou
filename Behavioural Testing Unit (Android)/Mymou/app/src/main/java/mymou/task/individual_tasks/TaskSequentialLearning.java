@@ -83,7 +83,7 @@ public class TaskSequentialLearning extends Task {
     }
 
     private void forced_choice_step() {
-        cue_forced_choice.setImageResource(i_sequence);
+        cue_forced_choice.setImageResource(cue_images[i_sequence]);
         randomlyPositionCue(cue_forced_choice);
     }
 
@@ -116,7 +116,10 @@ public class TaskSequentialLearning extends Task {
         // Pick where the choice phase will be
         // This is anywhere from position 2 until the second from end of the sequence
         corr_choice = r.nextInt(prefManager.sl_seq_length-1) + 1;
-        incorr_choice = r.nextInt(prefManager.sl_seq_length - corr_choice);
+        incorr_choice = corr_choice;
+        while (incorr_choice==corr_choice) {
+            incorr_choice = r.nextInt(prefManager.sl_seq_length);
+        }
 
         // Create cues
         cue_forced_choice = UtilsTask.addImageCue(id_forced_choice, getContext(), getView().findViewById(R.id.parent_task_empty), buttonClickListener);
