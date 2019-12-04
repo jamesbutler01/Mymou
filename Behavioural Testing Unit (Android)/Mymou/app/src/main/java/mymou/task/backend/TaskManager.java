@@ -149,6 +149,8 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         // Lastly, we connect to the reward system, which will then activate the task once it successfully connects to bluetooth
         initialiseRewardSystem();
 
+        startTrial(-1);
+
     }
 
     private void initialiseAutoRestartHandler() {
@@ -273,7 +275,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
 
     public static void startTrial(int monkId) {
-
         if (!task_enabled) {
             return;
         }  // Abort if task currently disabled
@@ -328,8 +329,12 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             case 12:
                 task = new TaskSequentialLearning();
                 break;
+            case 13:
+                task = new TaskRandomDotMotion();
+                break;
             default:
                 new Exception("No valid task specified");
+                break;
         }
 
         task.setFragInterfaceListener(new TaskInterface() {

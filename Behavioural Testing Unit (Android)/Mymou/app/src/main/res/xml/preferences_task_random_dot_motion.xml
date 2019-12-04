@@ -15,9 +15,9 @@
 
         <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_rdm_dot_size"
-                android:max="20"
+                android:max="100"
                 app:key="@string/preftag_rdm_dot_size"
-                app:min="1"
+                app:min="20"
                 app:title="Size of dots to be displayed" />
         <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_rdm_coherence_min"
@@ -47,6 +47,12 @@
                 app:min="1"
                 app:summary="Expressed as pixels on screen"
                 app:title="Maximum distance for each dot to move" />
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_rdm_movie_length"
+                android:max="200"
+                app:key="@string/preftag_rdm_dist_max"
+                app:min="1"
+                app:title="Length of movie (ms)" />
 
 
     </PreferenceCategory>

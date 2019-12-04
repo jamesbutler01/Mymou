@@ -1,12 +1,20 @@
 package mymou.task.individual_tasks;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import java.util.Random;
 
@@ -14,14 +22,14 @@ import mymou.R;
 import mymou.preferences.PreferencesManager;
 import mymou.task.backend.TaskInterface;
 
+import android.graphics.Path;
+import android.graphics.Point;
+
 /**
- *
  * Random dot motion task
- *
+ * <p>
  * A 'movie' is played, with certain number of dots moving in certain direction
  * After movie has finished, subjects must select which direction had greatest movement
- *
- *
  */
 public class TaskRandomDotMotion extends Task {
 
@@ -30,9 +38,7 @@ public class TaskRandomDotMotion extends Task {
 
     // Global task variables
     private static PreferencesManager prefManager;  // Load settings specified by experimenter
-    private static int total1, total2;  // The total counts of how much each bar is filled over the sequence
-    private static ProgressBar[] progressBars = new ProgressBar[2];  // The bar task objects, whose height will be altered on each movie frame
-    private static int[] amounts1, amounts2;  // The sequence of amounts to fill option1 and option2
+    private static boolean upper_option_corr;
     private static Handler h0 = new Handler();  // Show object handler
     private static Handler h1 = new Handler();  // Hide object handler
 
@@ -43,22 +49,30 @@ public class TaskRandomDotMotion extends Task {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_task_evidence_accum, container, false);
+        return inflater.inflate(R.layout.activity_task_random_dot_motion, container, false);
     }
 
     /**
-     *
      * Function called after the UI has been loaded
      * Once this is called you can then make any UI changes you want (moving cues around etc)
-     *
      */
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
+
         // Instantiate task objects
         assignObjects();
 
-        // Start the movie playing of the different bar heights for this trial
-        startMovie(prefManager.ea_num_steps);
+        // Terrible Android design means have to execute this code in runnable to ensure view is actually created
+        // Even though this function is literally called on view created...
+        view.post(new Runnable() {
+            @Override
+            public void run() {
+
+                // Start the movie playing of the different bar heights for this trial
+                startMovie();
+            }
+        });
+
 
     }
 
@@ -68,130 +82,105 @@ public class TaskRandomDotMotion extends Task {
      * repeats until the desired number of bars have been displayed, at which points it asks subjects
      * to choose between the two options
      *
-     * @param prefManager.ea_step_duration_on the amount of time to show each bar height (ms)
+     * @param prefManager.ea_step_duration_on  the amount of time to show each bar height (ms)
      * @param prefManager.ea_step_duration_off the amount of time to wait with blank screen before
      *                                         showing next bar heights
-     * @param num_steps The current position in the sequence. Decremented on each iteration to
-     *                  advance the sequence
-     *
+     * @param num_steps                        The current position in the sequence. Decremented on each iteration to
+     *                                         advance the sequence
      */
-    private void startMovie(int num_steps) {
+    private void startMovie() {
 
+        Random r = new Random();
 
+        // Decide on correct option
+        upper_option_corr = r.nextBoolean();
 
-        // First check its not the final step, which would the choice phase
-        if (num_steps > 0) {
+        // Get view properties
+        RelativeLayout movie_bg = getActivity().findViewById(R.id.ll_rdm_movie);
+        int max_x = movie_bg.getWidth() - (prefManager.rdm_dot_size);
+        int max_y = movie_bg.getHeight() - (prefManager.rdm_dot_size);
 
-            // Set timer to switch on bars of appropriate heights after a certain duration
-            h0.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Log.d(TAG, "Setting bars to " + amounts1[num_steps - 1] + " and " + amounts2[num_steps - 1]);
-                    // Display bars on screen
-                    progressBars[0].setVisibility(View.VISIBLE);
-                    progressBars[1].setVisibility(View.VISIBLE);
+        // Figure out how many dots to move in correct direction
+        float coherence = r.nextFloat() * (prefManager.rdm_coherence_max - prefManager.rdm_coherence_min);
+        coherence += prefManager.rdm_coherence_min;
+        coherence /= 100;  // As a fraction
+        float num_dots_in_corr_dir = prefManager.rdm_num_dots * coherence;
 
-                    // Set bars to the appropriate height
-                    progressBars[0].setProgress(amounts1[num_steps - 1]);
-                    progressBars[1].setProgress(amounts2[num_steps - 1]);
+        // Add dots
+        ObjectAnimator[] animations = new ObjectAnimator[prefManager.rdm_num_dots];
+        for (int i = 0; i < prefManager.rdm_num_dots; i++) {
 
-                    // Keep track of the total amounts so we know which answer is the correct answer
-                    // at the end
-                    total1 += amounts1[num_steps - 1];
-                    total2 += amounts2[num_steps - 1];
+            // Draw object in random location
+            Button myButton = new Button(getActivity());
+            myButton.setLayoutParams(new LinearLayout.LayoutParams(
+                    prefManager.rdm_dot_size,
+                    prefManager.rdm_dot_size));
+            myButton.setX(r.nextInt(max_x));
+            myButton.setY(r.nextInt(max_y));
+            movie_bg.addView(myButton);
 
+            // Calculate distance to move object
+            float rand_dist = r.nextFloat() * (prefManager.rdm_movement_distance_max - prefManager.rdm_movement_distance_min);
+            rand_dist += prefManager.rdm_movement_distance_min;
+            rand_dist *= 2; // As formula uses radius, not diameter
+
+            // Calculate translation
+            double angle;
+            if (i > num_dots_in_corr_dir) {
+                // Pick random angle and calculate translation in terms of x and y
+                angle = (2.0 * Math.PI) * r.nextFloat();  // Pick random angle between 0 and 2 pi
+            } else {
+                if (upper_option_corr) {
+                    angle = 0.5 * Math.PI;
+                } else {
+                    angle = 1.5 * Math.PI;
                 }
-            }, prefManager.ea_step_duration_off);
+            }
+            float xtransloc = (float) (rand_dist * Math.cos(angle * i));
+            float ytransloc = (float) (rand_dist * Math.sin(angle * i));
 
-            // At the same time, set a second timer to switch off the bars after a certain duration
-            h1.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    // Set both bars to invisible
-                    progressBars[0].setVisibility(View.INVISIBLE);
-                    progressBars[1].setVisibility(View.INVISIBLE);
+            // Build animation
+            Path path = new Path();
+            path.moveTo(myButton.getX(), myButton.getY());
+            path.lineTo(myButton.getX() + xtransloc, myButton.getY() + ytransloc);
+            animations[i] = ObjectAnimator.ofFloat(myButton, "x", "y", path);
+            animations[i].setDuration(prefManager.rdm_movie_length);
 
-                    // Call the function again and decrement where we are in the sequence
-                    startMovie(num_steps - 1);
-
-                }
-
-            }, prefManager.ea_step_duration_on + prefManager.ea_step_duration_off);
-
-        } else {
-
-            // Choice phase, simply switch on the choice buttons and activate the buttonClickListener
-            getView().findViewById(R.id.ea_butt_1).setVisibility(View.VISIBLE);
-            getView().findViewById(R.id.ea_butt_2).setVisibility(View.VISIBLE);
-            getView().findViewById(R.id.ea_butt_1).setOnClickListener(buttonClickListener);
-            getView().findViewById(R.id.ea_butt_2).setOnClickListener(buttonClickListener);
-
-
+            Log.d(TAG, "Adding dot " + i + " " + angle + " " + prefManager.rdm_coherence_max + " " + coherence + " " + num_dots_in_corr_dir + " " + (myButton.getX() + rand_dist) + " " + (myButton.getX() + xtransloc) + " " + (myButton.getX() + ytransloc));
         }
+
+        // We're now ready to play animations
+        for (int i = 0; i < prefManager.rdm_num_dots; i++) {
+            animations[i].start();
+        }
+
     }
 
     /**
      * Load objects of the task
-     *
+     * <p>
      * Loads the following settings that the experiment has set through the settings menu:
      *
      * @param prefManager.ea_num_steps The number of different bar heights to display before choice
-     * @param prefManager.ea_variance The variance in bar heights for each of the two options
-     * @param prefManager.ea_distance The distance between the means of the gaussian distribution
-     *                                for the two bar heights
-     *
+     * @param prefManager.ea_variance  The variance in bar heights for each of the two options
+     * @param prefManager.ea_distance  The distance between the means of the gaussian distribution
+     *                                 for the two bar heights
      */
     private void assignObjects() {
         // Load settings for this task
         prefManager = new PreferencesManager(getContext());
-        prefManager.EvidenceAccum();
+        prefManager.RandomDotMotion();
 
         // Make everything invisible at the start as startMovie handles the displaying of task objects
-        getView().findViewById(R.id.ea_butt_1).setVisibility(View.INVISIBLE);
-        getView().findViewById(R.id.ea_butt_2).setVisibility(View.INVISIBLE);
-        getView().findViewById(R.id.ea_bar_1).setVisibility(View.INVISIBLE);
-        getView().findViewById(R.id.ea_bar_2).setVisibility(View.INVISIBLE);
-
-        // Assign the progress bars
-        progressBars[0] = getView().findViewById(R.id.ea_bar_1);
-        progressBars[1] = getView().findViewById(R.id.ea_bar_2);
-
-        // Reset the total counts
-        total1 = 0;
-        total2 = 0;
-
-        // Calculate amounts
-        Random r = new Random();
-
-        // Calculate the means of the bar heights for bar 1 and bar 2
-        int range = 6 - prefManager.ea_distance;
-        int mean1 = 3 + r.nextInt(range);
-        int mean2 = mean1 + prefManager.ea_distance;
-
-        // Swap which bar is on the top, and which is on the bottom, half the time
-        // This eliminates any motor correlations for solving the task
-        if (r.nextBoolean()) {
-            int s = mean1;
-            mean1 = mean2;
-            mean2 = s;
-        }
-
-        // Instantiate arrays that store the height of each bar for each step
-        amounts1 = new int[prefManager.ea_num_steps];
-        amounts2 = new int[prefManager.ea_num_steps];
-
-        // Now for each step, pick a value for each bar from the appropriate gaussian distribution
-        for (int i = 0; i < prefManager.ea_num_steps; i++) {
-            amounts1[i] = (int) getValue(r, mean1);
-            amounts2[i] = (int) getValue(r, mean2);
-        }
+        getView().findViewById(R.id.rdm_butt_1).setVisibility(View.INVISIBLE);
+        getView().findViewById(R.id.rdm_butt_2).setVisibility(View.INVISIBLE);
 
     }
 
     /**
-     * @param r Random number generator (instantiated only once in parent function to improve
-     *          performance compared to instantiating a new generator each time function is called)
-     * @param mean The mean value of the gaussian distribution from which the sample will be drawn
+     * @param r                       Random number generator (instantiated only once in parent function to improve
+     *                                performance compared to instantiating a new generator each time function is called)
+     * @param mean                    The mean value of the gaussian distribution from which the sample will be drawn
      * @param prefManager.ea_variance The variance of the gaussian distribution
      * @return a random number drawn a gaussian distribution of the specified mean and variance
      */
@@ -223,11 +212,11 @@ public class TaskRandomDotMotion extends Task {
             switch (view.getId()) {
                 case R.id.ea_butt_1:
                     // They pressed cue for bar '1', so total1 should be higher than total2
-                    correct_chosen = total1 > total2;
+                    correct_chosen = upper_option_corr;
                     break;
                 case R.id.ea_butt_2:
                     // They pressed cue for bar '2', so this time total2 should be higher
-                    correct_chosen = total2 > total1;
+                    correct_chosen = !upper_option_corr;
                     break;
             }
 
@@ -240,7 +229,7 @@ public class TaskRandomDotMotion extends Task {
 
     /**
      * onPause called whenever a task is paused, interrupted, or cancelled
-     *
+     * <p>
      * If task aborted for some reason (e.g. they did not respond quick enough), then cancel the handlers to stop the movie playing
      * This prevents task objects being loaded AFTER a trial has finished
      */
@@ -252,12 +241,15 @@ public class TaskRandomDotMotion extends Task {
         h1.removeCallbacksAndMessages(null);
     }
 
-     /**
+    /**
      * This is static code repeated in each task that enables communication between the individual
      * task and the parent TaskManager.java which handles the backend utilities (reward delivery,
      * selfie processing, intertrial intervals, etc etc)
      */
     TaskInterface callback;
-    public void setFragInterfaceListener(TaskInterface callback) {this.callback = callback;}
+
+    public void setFragInterfaceListener(TaskInterface callback) {
+        this.callback = callback;
+    }
 
 }

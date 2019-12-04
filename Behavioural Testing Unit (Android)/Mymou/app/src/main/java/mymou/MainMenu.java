@@ -62,6 +62,8 @@ public class MainMenu extends Activity {
 
         UtilsSystem.setBrightness(true, this);
 
+        startTask();
+
     }
 
     private void checkPermissions() {
