@@ -35,7 +35,6 @@ public class MainMenu extends Activity {
     private static int reward_chan;
 
     // The task to be loaded, set by the spinner
-    // TODO: Convert this to string UIDs, rather than numbers
     private static int taskSelected = 2;
 
     // Tasks cannot run unless permissions have been granted
@@ -285,6 +284,8 @@ public class MainMenu extends Activity {
                         intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_sr_settings));
                     } else if (taskSelected == 12) {
                         intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_sl_settings));
+                    } else if (taskSelected == 13) {
+                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_rdm_settings));
                     }
 
                     startActivity(intent2);

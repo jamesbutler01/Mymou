@@ -27,6 +27,7 @@
         <item>Evidence Accumulation</item>
         <item>Spatial response</item>
         <item>Sequential Learning</item>
+        <item>Random dot motion</item>
     </string-array>
 
     <string-array name="task_descriptions">
@@ -42,6 +43,8 @@
         <item>One stimuli is displayed on the screen. After each press, the subjects must then have to press twice as many times to gain reward. After a certain period the number of presses needed for reward resets to 1. </item>
         <item>Two bars are displayed with varying length for a certain number of frames. Subjects must then choose which bar had the greatest total length over all the frames. </item>
         <item>Different spatial locations are shown sequentially. Subjects must then repeat the sequence in order for reward. </item>
+        <item>A sequence of images in shown, each image must be pressed to progress to the next image. On the second lap of the sequence, at a random point a choice will be given between the next valid image in the sequence vs one of the other images from the sequence</item>
+        <item>A movie is played consisting of dots moving in different directions, for which a specified proportion of dots all move towards either the left or right of the screen. Subjects must then select which side of the screen the dots were moving towards.</item>
     </string-array>
 
     <string name="default_startuptime">0700</string>
@@ -131,6 +134,7 @@
     <string name="preftag_task_ea_settings">preftag_task_ea_settings</string>
     <string name="preftag_task_sr_settings">preftag_task_sr_settings</string>
     <string name="preftag_task_sl_settings">preftag_task_sl_settings</string>
+    <string name="preftag_task_rdm_settings">preftag_task_rdm_settings</string>
     <string name="preftag_task_od_settings">preftag_task_od_settings</string>
     <string name="preftag_bluetooth_strobes">preftag_bluetooth_strobes</string>
     <string name="preftag_settings_to_load">preftag_settings_to_load</string>
@@ -195,6 +199,13 @@
     <string name="preftag_od_duration_off">od_duration_off</string>
     <string name="preftag_od_duration_on">od_duration_on</string>
     <string name="preftag_od_num_distractors">od_num_distractors</string>
+
+    <string name="preftag_rdm_num_dots">preftag_rdm_num_dots</string>
+    <string name="preftag_rdm_dot_size">preftag_rdm_dot_size</string>
+    <string name="preftag_rdm_coherence_min">preftag_rdm_coherence_min</string>
+    <string name="preftag_rdm_coherence_max">preftag_rdm_coherence_max</string>
+    <string name="preftag_rdm_dist_min">preftag_rdm_dist_min</string>
+    <string name="preftag_rdm_dist_max">preftag_rdm_dist_max</string>
 
     <string-array name="error_messages">
         <item>Bluetooth couldn\'t connect to reward system (to run task without reward system, disable the reward system

@@ -73,5 +73,12 @@
     <integer name="default_od_duration_on">750</integer>
     <integer name="default_od_duration_off">1500</integer>
 
+    <integer name="default_rdm_num_dots">100</integer>
+    <integer name="default_rdm_dot_size">5</integer>
+    <integer name="default_rdm_coherence_min">50</integer>
+    <integer name="default_rdm_coherence_max">90</integer>
+    <integer name="default_rdm_dist_min">50</integer>
+    <integer name="default_rdm_dist_max">100</integer>
+
 
 </resources>

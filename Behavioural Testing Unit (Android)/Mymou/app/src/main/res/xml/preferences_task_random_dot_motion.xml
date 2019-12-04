@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+            app:key="task_settings"
+            app:title="Settings for Random Dot motion task">
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_rdm_num_dots"
+                android:max="200"
+                app:key="@string/preftag_rdm_num_dots"
+                app:min="10"
+                app:title="Number of dots to be displayed" />
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_rdm_dot_size"
+                android:max="20"
+                app:key="@string/preftag_rdm_dot_size"
+                app:min="1"
+                app:title="Size of dots to be displayed" />
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_rdm_coherence_min"
+                android:max="100"
+                app:key="@string/preftag_rdm_coherence_min"
+                app:min="1"
+                app:summary="Expressed as a percentage of dots that will move in the direction of choice versus dots that will move in random direction"
+                app:title="Minimum coherence to be presented" />
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_rdm_coherence_max"
+                android:max="100"
+                app:key="@string/preftag_rdm_coherence_max"
+                app:min="1"
+                app:summary="Expressed as a percentage of dots that will move in the direction of choice versus dots that will move in random direction"
+                app:title="Maximum coherence to be presented" />
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_rdm_dist_min"
+                android:max="200"
+                app:key="@string/preftag_rdm_dist_min"
+                app:min="1"
+                app:summary="Expressed as pixels on screen"
+                app:title="Minimum distance for each dot to move" />
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_rdm_dist_max"
+                android:max="200"
+                app:key="@string/preftag_rdm_dist_max"
+                app:min="1"
+                app:summary="Expressed as pixels on screen"
+                app:title="Maximum distance for each dot to move" />
+
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

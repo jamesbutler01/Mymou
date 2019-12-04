@@ -61,6 +61,12 @@ public class PrefsActSystem extends AppCompatActivity implements
             bundle.putString(getString(R.string.preftag_settings_to_load), settings_to_load);
             preferenceFragment.setArguments(bundle);
 
+        } else if (settings_to_load.equals(getString(R.string.preftag_task_rdm_settings))) {
+            preferenceFragment = new PrefsFragCommon();
+            Bundle bundle = new Bundle();
+            bundle.putString(getString(R.string.preftag_settings_to_load), settings_to_load);
+            preferenceFragment.setArguments(bundle);
+
         } else {
             new Exception("Invalid preferences specified");
         }
