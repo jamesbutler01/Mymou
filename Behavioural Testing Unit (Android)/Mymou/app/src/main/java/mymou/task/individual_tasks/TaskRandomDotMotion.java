@@ -82,14 +82,13 @@ public class TaskRandomDotMotion extends Task {
      * distribution between the percentages specified by the user
      * Angles sampled uniformly from 0 - 2pi radians
      *
-     * @param prefManager.rdm_num_dots Number of dots to be created
-     * @param prefManager.rdm_dot_size Size of dots to be created
-     * @param prefManager.rdm_coherence_min Minimum percentage of dots to move in correct direction
-     * @param prefManager.rdm_coherence_max Maximum percentage of dots to move in correct direction
+     * @param prefManager.rdm_num_dots              Number of dots to be created
+     * @param prefManager.rdm_dot_size              Size of dots to be created
+     * @param prefManager.rdm_coherence_min         Minimum percentage of dots to move in correct direction
+     * @param prefManager.rdm_coherence_max         Maximum percentage of dots to move in correct direction
      * @param prefManager.rdm_movement_distance_min Minimum distance for each dot to move
      * @param prefManager.rdm_movement_distance_max Maximum distance for each dot to move
-     * @param prefManager.rdm_movie_length Duration of the movie (ms)
-     *
+     * @param prefManager.rdm_movie_length          Duration of the movie (ms)
      */
     private void startMovie() {
 
@@ -102,14 +101,19 @@ public class TaskRandomDotMotion extends Task {
         RelativeLayout movie_bg = getActivity().findViewById(R.id.ll_rdm_movie);
         movie_bg.setBackgroundColor(prefManager.rdm_colour_bg);
 
-        int max_x = movie_bg.getWidth() + (prefManager.rdm_movement_distance_max*2);
-        int max_y = movie_bg.getHeight()  + (prefManager.rdm_movement_distance_max*2);
+        int max_x = movie_bg.getWidth() + (prefManager.rdm_movement_distance_max * 2);
+        int max_y = movie_bg.getHeight() + (prefManager.rdm_movement_distance_max * 2);
 
         // Figure out how many dots to move in correct direction
         float coherence = r.nextFloat() * (prefManager.rdm_coherence_max - prefManager.rdm_coherence_min);
         coherence += prefManager.rdm_coherence_min;
         coherence /= 100;  // As a fraction
         float num_dots_in_corr_dir = prefManager.rdm_num_dots * coherence;
+
+        // Create drawable to colour in dots as they are made
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setShape(GradientDrawable.OVAL);
+        drawable.setColor(prefManager.rdm_colour_dots);
 
         // Add dots
         ObjectAnimator[] animations = new ObjectAnimator[prefManager.rdm_num_dots];
@@ -120,9 +124,6 @@ public class TaskRandomDotMotion extends Task {
             dot.setLayoutParams(new LinearLayout.LayoutParams(
                     prefManager.rdm_dot_size,
                     prefManager.rdm_dot_size));
-            GradientDrawable drawable = new GradientDrawable();
-            drawable.setShape(GradientDrawable.OVAL);
-            drawable.setColor(prefManager.rdm_colour_dots);
             dot.setBackgroundDrawable(drawable);
 
             // Choose random position
@@ -187,6 +188,13 @@ public class TaskRandomDotMotion extends Task {
             butt_option_two = getView().findViewById(R.id.rdm_butt_lower);
         }
 
+        // Set colours of choice buttons
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setShape(GradientDrawable.OVAL);
+        drawable.setColor(prefManager.rdm_colour_choice);
+        butt_option_one.setBackgroundDrawable(drawable);
+        butt_option_two.setBackgroundDrawable(drawable);
+
         // Make everything invisible at the start as startMovie handles the displaying of task objects
         getView().findViewById(R.id.rdm_butt_left).setVisibility(View.INVISIBLE);
         getView().findViewById(R.id.rdm_butt_right).setVisibility(View.INVISIBLE);
@@ -200,7 +208,6 @@ public class TaskRandomDotMotion extends Task {
      *
      * @param prefManager.rdm_choice_delay Delay between movie ending, and choice buttons being
      *                                     presented (ms)
-     *
      */
     private void toggleChoice() {
         h0.postDelayed(new Runnable() {

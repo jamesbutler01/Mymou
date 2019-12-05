@@ -149,8 +149,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         // Lastly, we connect to the reward system, which will then activate the task once it successfully connects to bluetooth
         initialiseRewardSystem();
 
-        startTrial(-1);
-
     }
 
     private void initialiseAutoRestartHandler() {

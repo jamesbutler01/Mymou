@@ -87,6 +87,13 @@
                 app:key="@string/preftag_rdm_colour_bg"
                 app:title="Select colour of background" />
 
+        <ListPreference
+                android:defaultValue="@integer/default_rdm_color_choice"
+                android:entries="@array/colournames"
+                android:entryValues="@array/colourvalues"
+                app:key="@string/preftag_rdm_colour_choice"
+                app:title="Select colour of choice buttons" />
+
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

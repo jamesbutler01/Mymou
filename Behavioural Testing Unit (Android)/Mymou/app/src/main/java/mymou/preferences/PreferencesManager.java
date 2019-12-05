@@ -289,7 +289,7 @@ public class PreferencesManager {
     }
 
     public int rdm_num_dots, rdm_dot_size, rdm_coherence_min, rdm_coherence_max, rdm_movement_distance_min, rdm_movement_distance_max,
-            rdm_movie_length, rdm_choice_delay, rdm_colour_bg, rdm_colour_dots;
+            rdm_movie_length, rdm_choice_delay, rdm_colour_bg, rdm_colour_dots, rdm_colour_choice;
     public boolean rdm_horizontal_layout;
 
     public void RandomDotMotion() {
@@ -306,6 +306,8 @@ public class PreferencesManager {
         rdm_colour_bg = colors[bg_colour];
         int dot_colour = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_rdm_colour_dots), Integer.toString(r.getInteger(R.integer.default_rdm_color_dots))));
         rdm_colour_dots = colors[dot_colour];
+        int choice_colour = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_rdm_colour_choice), Integer.toString(r.getInteger(R.integer.default_rdm_color_choice))));
+        rdm_colour_choice = colors[choice_colour];
     }
 
 }

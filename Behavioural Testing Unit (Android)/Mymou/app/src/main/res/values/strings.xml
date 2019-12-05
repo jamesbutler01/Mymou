@@ -210,6 +210,7 @@
     <string name="preftag_rdm_choice_delay">preftag_rdm_choice_delay</string>
     <string name="preftag_rdm_horizontal">preftag_rdm_horizontal</string>
     <string name="preftag_rdm_colour_bg">preftag_rdm_colour_bg</string>
+    <string name="preftag_rdm_colour_choice">preftag_rdm_colour_choice</string>
     <string name="preftag_rdm_colour_dots">preftag_rdm_colour_dots</string>
 
     <string-array name="error_messages">
