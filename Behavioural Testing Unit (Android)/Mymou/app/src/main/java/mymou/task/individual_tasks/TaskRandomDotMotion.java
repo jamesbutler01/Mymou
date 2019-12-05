@@ -40,7 +40,6 @@ public class TaskRandomDotMotion extends Task {
     private static PreferencesManager prefManager;  // Load settings specified by experimenter
     private static boolean upper_option_corr;
     private static Handler h0 = new Handler();  // Show object handler
-    private static Handler h1 = new Handler();  // Hide object handler
 
     /**
      * Function called when task first loaded (before the UI is loaded)
@@ -70,6 +69,9 @@ public class TaskRandomDotMotion extends Task {
 
                 // Start the movie playing of the different bar heights for this trial
                 startMovie();
+
+                // And then present choice once we're finished with the movie
+                toggleChoice();
             }
         });
 
@@ -77,16 +79,21 @@ public class TaskRandomDotMotion extends Task {
     }
 
     /**
-     * Recursive function that manages the timing of the task
-     * Flashes two bars onto the screen of different heights, then displays a blank screen, then
-     * repeats until the desired number of bars have been displayed, at which points it asks subjects
-     * to choose between the two options
+     * Builds and plays the random dot motion movie
+     * Draws specified number of dots on the screen
+     * Then animates each dot to move either in the direction of choice, or in a random direction
+     * The proportion of dots moving in each of these two conditions is drawn from a random uniform
+     * distribution between the percentages specified by the user
+     * Angles sampled uniformly from 0 - 2pi radians
      *
-     * @param prefManager.ea_step_duration_on  the amount of time to show each bar height (ms)
-     * @param prefManager.ea_step_duration_off the amount of time to wait with blank screen before
-     *                                         showing next bar heights
-     * @param num_steps                        The current position in the sequence. Decremented on each iteration to
-     *                                         advance the sequence
+     * @param prefManager.rdm_num_dots Number of dots to be created
+     * @param prefManager.rdm_dot_size Size of dots to be created
+     * @param prefManager.rdm_coherence_min Minimum percentage of dots to move in correct direction
+     * @param prefManager.rdm_coherence_max Maximum percentage of dots to move in correct direction
+     * @param prefManager.rdm_movement_distance_min Minimum distance for each dot to move
+     * @param prefManager.rdm_movement_distance_max Maximum distance for each dot to move
+     * @param prefManager.rdm_movie_length Duration of the movie (ms)
+     *
      */
     private void startMovie() {
 
@@ -111,13 +118,13 @@ public class TaskRandomDotMotion extends Task {
         for (int i = 0; i < prefManager.rdm_num_dots; i++) {
 
             // Draw object in random location
-            Button myButton = new Button(getActivity());
-            myButton.setLayoutParams(new LinearLayout.LayoutParams(
+            Button dot = new Button(getActivity());
+            dot.setLayoutParams(new LinearLayout.LayoutParams(
                     prefManager.rdm_dot_size,
                     prefManager.rdm_dot_size));
-            myButton.setX(r.nextInt(max_x));
-            myButton.setY(r.nextInt(max_y));
-            movie_bg.addView(myButton);
+            dot.setX(r.nextInt(max_x));
+            dot.setY(r.nextInt(max_y));
+            movie_bg.addView(dot);
 
             // Calculate distance to move object
             float rand_dist = r.nextFloat() * (prefManager.rdm_movement_distance_max - prefManager.rdm_movement_distance_min);
@@ -141,12 +148,11 @@ public class TaskRandomDotMotion extends Task {
 
             // Build animation
             Path path = new Path();
-            path.moveTo(myButton.getX(), myButton.getY());
-            path.lineTo(myButton.getX() + xtransloc, myButton.getY() + ytransloc);
-            animations[i] = ObjectAnimator.ofFloat(myButton, "x", "y", path);
+            path.moveTo(dot.getX(), dot.getY());
+            path.lineTo(dot.getX() + xtransloc, dot.getY() + ytransloc);
+            animations[i] = ObjectAnimator.ofFloat(dot, "x", "y", path);
             animations[i].setDuration(prefManager.rdm_movie_length);
 
-            Log.d(TAG, "Adding dot " + i + " " + angle + " " + prefManager.rdm_coherence_max + " " + coherence + " " + num_dots_in_corr_dir + " " + (myButton.getX() + rand_dist) + " " + (myButton.getX() + xtransloc) + " " + (myButton.getX() + ytransloc));
         }
 
         // We're now ready to play animations
@@ -158,13 +164,6 @@ public class TaskRandomDotMotion extends Task {
 
     /**
      * Load objects of the task
-     * <p>
-     * Loads the following settings that the experiment has set through the settings menu:
-     *
-     * @param prefManager.ea_num_steps The number of different bar heights to display before choice
-     * @param prefManager.ea_variance  The variance in bar heights for each of the two options
-     * @param prefManager.ea_distance  The distance between the means of the gaussian distribution
-     *                                 for the two bar heights
      */
     private void assignObjects() {
         // Load settings for this task
@@ -178,24 +177,23 @@ public class TaskRandomDotMotion extends Task {
     }
 
     /**
-     * @param r                       Random number generator (instantiated only once in parent function to improve
-     *                                performance compared to instantiating a new generator each time function is called)
-     * @param mean                    The mean value of the gaussian distribution from which the sample will be drawn
-     * @param prefManager.ea_variance The variance of the gaussian distribution
-     * @return a random number drawn a gaussian distribution of the specified mean and variance
+     * After a specified delay, toggles the movie off, and the choice buttons on
      */
-    private double getValue(Random r, int mean) {
-        double a = ((r.nextGaussian() * prefManager.ea_variance) + mean) * 100;
+    private void toggleChoice() {
+        h0.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Make movie invisible
+                getView().findViewById(R.id.ll_rdm_movie).setVisibility(View.INVISIBLE);
 
-        // Double check the number is not outside the limits of the progress bars
-        if (a > 1000) {
-            a = 1000;
-        }
-        if (a < 0) {
-            a = 0;
-        }
-        Log.d(TAG, "Returning value: " + a);
-        return a;
+                // Make choices visible
+                getView().findViewById(R.id.rdm_butt_1).setVisibility(View.VISIBLE);
+                getView().findViewById(R.id.rdm_butt_2).setVisibility(View.VISIBLE);
+                getView().findViewById(R.id.rdm_butt_1).setOnClickListener(buttonClickListener);
+                getView().findViewById(R.id.rdm_butt_2).setOnClickListener(buttonClickListener);
+            }
+        }, prefManager.rdm_movie_length + prefManager.rdm_choice_delay);
+
     }
 
 
@@ -210,13 +208,13 @@ public class TaskRandomDotMotion extends Task {
             // Decide what to do based on which cue pressed
             boolean correct_chosen = false;
             switch (view.getId()) {
-                case R.id.ea_butt_1:
-                    // They pressed cue for bar '1', so total1 should be higher than total2
-                    correct_chosen = upper_option_corr;
-                    break;
-                case R.id.ea_butt_2:
-                    // They pressed cue for bar '2', so this time total2 should be higher
+                case R.id.rdm_butt_1:
+                    // They pressed cue for the lower option
                     correct_chosen = !upper_option_corr;
+                    break;
+                case R.id.rdm_butt_2:
+                    // They pressed cue for the upper option
+                    correct_chosen = upper_option_corr;
                     break;
             }
 
@@ -229,7 +227,6 @@ public class TaskRandomDotMotion extends Task {
 
     /**
      * onPause called whenever a task is paused, interrupted, or cancelled
-     * <p>
      * If task aborted for some reason (e.g. they did not respond quick enough), then cancel the handlers to stop the movie playing
      * This prevents task objects being loaded AFTER a trial has finished
      */
@@ -238,7 +235,6 @@ public class TaskRandomDotMotion extends Task {
         super.onPause();
         super.onDestroy();
         h0.removeCallbacksAndMessages(null);
-        h1.removeCallbacksAndMessages(null);
     }
 
     /**

@@ -288,7 +288,7 @@ public class PreferencesManager {
         od_num_stim = 1;
     }
 
-    public int rdm_num_dots, rdm_dot_size, rdm_coherence_min, rdm_coherence_max, rdm_movement_distance_min, rdm_movement_distance_max, rdm_movie_length;
+    public int rdm_num_dots, rdm_dot_size, rdm_coherence_min, rdm_coherence_max, rdm_movement_distance_min, rdm_movement_distance_max, rdm_movie_length, rdm_choice_delay;
 
     public void RandomDotMotion() {
         rdm_num_dots = sharedPrefs.getInt(r.getString(R.string.preftag_rdm_num_dots), r.getInteger(R.integer.default_rdm_num_dots));
@@ -298,6 +298,7 @@ public class PreferencesManager {
         rdm_movement_distance_min = sharedPrefs.getInt(r.getString(R.string.preftag_rdm_dist_min), r.getInteger(R.integer.default_rdm_dist_min));
         rdm_movement_distance_max = sharedPrefs.getInt(r.getString(R.string.preftag_rdm_dist_max), r.getInteger(R.integer.default_rdm_dist_max));
         rdm_movie_length = sharedPrefs.getInt(r.getString(R.string.preftag_rdm_movie_length), r.getInteger(R.integer.default_rdm_movie_length));
+        rdm_choice_delay = sharedPrefs.getInt(r.getString(R.string.preftag_rdm_choice_delay), r.getInteger(R.integer.default_rdm_choice_delay));
 
     }
 

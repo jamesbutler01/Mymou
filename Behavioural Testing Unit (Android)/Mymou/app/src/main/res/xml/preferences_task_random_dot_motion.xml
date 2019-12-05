@@ -50,9 +50,16 @@
         <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_rdm_movie_length"
                 android:max="200"
-                app:key="@string/preftag_rdm_dist_max"
+                app:key="@string/preftag_rdm_movie_length"
                 app:min="1"
                 app:title="Length of movie (ms)" />
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_rdm_choice_delay"
+                android:max="5000"
+                app:key="@string/preftag_rdm_choice_delay"
+                app:min="1"
+                app:summary="Delay between end of movie and choice options appearing on the screen"
+                app:title="Choice delay (ms)" />
 
 
     </PreferenceCategory>

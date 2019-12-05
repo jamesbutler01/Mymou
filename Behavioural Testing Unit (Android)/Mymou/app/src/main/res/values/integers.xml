@@ -80,6 +80,7 @@
     <integer name="default_rdm_dist_min">50</integer>
     <integer name="default_rdm_dist_max">100</integer>
     <integer name="default_rdm_movie_length">2000</integer>
+    <integer name="default_rdm_choice_delay">100</integer>
 
 
 </resources>
