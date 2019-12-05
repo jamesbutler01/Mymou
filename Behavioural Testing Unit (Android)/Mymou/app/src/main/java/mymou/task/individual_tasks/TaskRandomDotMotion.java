@@ -136,8 +136,8 @@ public class TaskRandomDotMotion extends Task {
                     angle = 1.5 * Math.PI;
                 }
             }
-            float xtransloc = (float) (rand_dist * Math.cos(angle * i));
-            float ytransloc = (float) (rand_dist * Math.sin(angle * i));
+            float xtransloc = (float) (rand_dist * Math.cos(angle));
+            float ytransloc = (float) (rand_dist * Math.sin(angle));
 
             // Build animation
             Path path = new Path();
