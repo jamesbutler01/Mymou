@@ -13,8 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:weightSum="1"
-            android:id="@+id/ll_parent_random_dot_motion">
+            android:weightSum="1">
 
         <RelativeLayout
                 android:layout_width="match_parent"
@@ -22,7 +21,7 @@
                 android:layout_weight="0.5">
 
             <Button
-                    android:id="@+id/rdm_butt_1"
+                    android:id="@+id/rdm_butt_upper"
                     style="@android:style/Widget.ProgressBar.Horizontal"
                     android:layout_width="250dp"
                     android:layout_height="250dp"
@@ -37,7 +36,44 @@
                 android:layout_weight="0.5">
 
             <Button
-                    android:id="@+id/rdm_butt_2"
+                    android:id="@+id/rdm_butt_lower"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:layout_centerInParent="true" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+        <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5">
+
+            <Button
+                    android:id="@+id/rdm_butt_left"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:layout_centerInParent="true" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5">
+
+            <Button
+                    android:id="@+id/rdm_butt_right"
                     style="@android:style/Widget.ProgressBar.Horizontal"
                     android:layout_width="250dp"
                     android:layout_height="250dp"

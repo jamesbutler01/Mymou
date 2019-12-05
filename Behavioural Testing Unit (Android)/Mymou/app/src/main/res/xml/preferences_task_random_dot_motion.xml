@@ -49,7 +49,7 @@
                 app:title="Maximum distance for each dot to move" />
         <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_rdm_movie_length"
-                android:max="200"
+                android:max="5000"
                 app:key="@string/preftag_rdm_movie_length"
                 app:min="1"
                 app:title="Length of movie (ms)" />
@@ -60,7 +60,11 @@
                 app:min="1"
                 app:summary="Delay between end of movie and choice options appearing on the screen"
                 app:title="Choice delay (ms)" />
-
+        <SwitchPreferenceCompat
+                app:defaultValue="@bool/default_rdm_horizontal"
+                app:key="@string/preftag_rdm_horizontal"
+                app:summary="If selected, choices will be between left and right options, rather than up and down (vertical) options"
+                app:title="Horizontal layout" />
 
     </PreferenceCategory>
 

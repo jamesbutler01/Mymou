@@ -208,6 +208,7 @@
     <string name="preftag_rdm_dist_max">preftag_rdm_dist_max</string>
     <string name="preftag_rdm_movie_length">preftag_rdm_movie_length</string>
     <string name="preftag_rdm_choice_delay">preftag_rdm_choice_delay</string>
+    <string name="preftag_rdm_horizontal">preftag_rdm_horizontal</string>
 
     <string-array name="error_messages">
         <item>Bluetooth couldn\'t connect to reward system (to run task without reward system, disable the reward system

@@ -1,19 +1,13 @@
 package mymou.task.individual_tasks;
 
-import android.animation.Animator;
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import java.util.Random;
@@ -23,7 +17,6 @@ import mymou.preferences.PreferencesManager;
 import mymou.task.backend.TaskInterface;
 
 import android.graphics.Path;
-import android.graphics.Point;
 
 /**
  * Random dot motion task
@@ -38,8 +31,10 @@ public class TaskRandomDotMotion extends Task {
 
     // Global task variables
     private static PreferencesManager prefManager;  // Load settings specified by experimenter
-    private static boolean upper_option_corr;
-    private static Handler h0 = new Handler();  // Show object handler
+    private static boolean option_one_correct;
+    private static Button butt_option_one, butt_option_two;
+    private static Handler h0 = new Handler();  // Hide movie handler
+    private static Handler h1 = new Handler();  // Show choice buttons handler
 
     /**
      * Function called when task first loaded (before the UI is loaded)
@@ -100,12 +95,12 @@ public class TaskRandomDotMotion extends Task {
         Random r = new Random();
 
         // Decide on correct option
-        upper_option_corr = r.nextBoolean();
+        option_one_correct = r.nextBoolean();
 
         // Get view properties
         RelativeLayout movie_bg = getActivity().findViewById(R.id.ll_rdm_movie);
-        int max_x = movie_bg.getWidth() - (prefManager.rdm_dot_size);
-        int max_y = movie_bg.getHeight() - (prefManager.rdm_dot_size);
+        int max_x = movie_bg.getWidth() + (prefManager.rdm_movement_distance_max*2);
+        int max_y = movie_bg.getHeight()  + (prefManager.rdm_movement_distance_max*2);
 
         // Figure out how many dots to move in correct direction
         float coherence = r.nextFloat() * (prefManager.rdm_coherence_max - prefManager.rdm_coherence_min);
@@ -122,8 +117,12 @@ public class TaskRandomDotMotion extends Task {
             dot.setLayoutParams(new LinearLayout.LayoutParams(
                     prefManager.rdm_dot_size,
                     prefManager.rdm_dot_size));
-            dot.setX(r.nextInt(max_x));
-            dot.setY(r.nextInt(max_y));
+
+            // Choose random position
+            dot.setX(r.nextInt(max_x) - prefManager.rdm_movement_distance_max);
+            dot.setY(r.nextInt(max_y) - prefManager.rdm_movement_distance_max);
+
+            // Add dot to view
             movie_bg.addView(dot);
 
             // Calculate distance to move object
@@ -131,18 +130,18 @@ public class TaskRandomDotMotion extends Task {
             rand_dist += prefManager.rdm_movement_distance_min;
             rand_dist *= 2; // As formula uses radius, not diameter
 
-            // Calculate translation
+            // Calculate angle for dot to move along
             double angle;
             if (i > num_dots_in_corr_dir) {
-                // Pick random angle and calculate translation in terms of x and y
                 angle = (2.0 * Math.PI) * r.nextFloat();  // Pick random angle between 0 and 2 pi
             } else {
-                if (upper_option_corr) {
-                    angle = 0.5 * Math.PI;
+                if (option_one_correct) {
+                    angle = prefManager.rdm_horizontal_layout ? 0 * Math.PI : 0.5 * Math.PI;
                 } else {
-                    angle = 1.5 * Math.PI;
+                    angle = prefManager.rdm_horizontal_layout ? 1 * Math.PI : 1.5 * Math.PI;
                 }
             }
+            // Convert angle and radius to polar coordinates
             float xtransloc = (float) (rand_dist * Math.cos(angle));
             float ytransloc = (float) (rand_dist * Math.sin(angle));
 
@@ -160,24 +159,41 @@ public class TaskRandomDotMotion extends Task {
             animations[i].start();
         }
 
+
     }
 
     /**
      * Load objects of the task
+     * Set choice buttons to invisible, as these will be enabled after movie has finished playing
      */
     private void assignObjects() {
         // Load settings for this task
         prefManager = new PreferencesManager(getContext());
         prefManager.RandomDotMotion();
 
+        // Pick which buttons to use
+        if (prefManager.rdm_horizontal_layout) {
+            butt_option_one = getView().findViewById(R.id.rdm_butt_left);
+            butt_option_two = getView().findViewById(R.id.rdm_butt_right);
+        } else {
+            butt_option_one = getView().findViewById(R.id.rdm_butt_upper);
+            butt_option_two = getView().findViewById(R.id.rdm_butt_lower);
+        }
+
         // Make everything invisible at the start as startMovie handles the displaying of task objects
-        getView().findViewById(R.id.rdm_butt_1).setVisibility(View.INVISIBLE);
-        getView().findViewById(R.id.rdm_butt_2).setVisibility(View.INVISIBLE);
+        getView().findViewById(R.id.rdm_butt_left).setVisibility(View.INVISIBLE);
+        getView().findViewById(R.id.rdm_butt_right).setVisibility(View.INVISIBLE);
+        getView().findViewById(R.id.rdm_butt_upper).setVisibility(View.INVISIBLE);
+        getView().findViewById(R.id.rdm_butt_lower).setVisibility(View.INVISIBLE);
 
     }
 
     /**
      * After a specified delay, toggles the movie off, and the choice buttons on
+     *
+     * @param prefManager.rdm_choice_delay Delay between movie ending, and choice buttons being
+     *                                     presented (ms)
+     *
      */
     private void toggleChoice() {
         h0.postDelayed(new Runnable() {
@@ -185,12 +201,17 @@ public class TaskRandomDotMotion extends Task {
             public void run() {
                 // Make movie invisible
                 getView().findViewById(R.id.ll_rdm_movie).setVisibility(View.INVISIBLE);
+            }
+        }, prefManager.rdm_movie_length);
 
+        h1.postDelayed(new Runnable() {
+            @Override
+            public void run() {
                 // Make choices visible
-                getView().findViewById(R.id.rdm_butt_1).setVisibility(View.VISIBLE);
-                getView().findViewById(R.id.rdm_butt_2).setVisibility(View.VISIBLE);
-                getView().findViewById(R.id.rdm_butt_1).setOnClickListener(buttonClickListener);
-                getView().findViewById(R.id.rdm_butt_2).setOnClickListener(buttonClickListener);
+                butt_option_one.setVisibility(View.VISIBLE);
+                butt_option_two.setVisibility(View.VISIBLE);
+                butt_option_one.setOnClickListener(buttonClickListener);
+                butt_option_two.setOnClickListener(buttonClickListener);
             }
         }, prefManager.rdm_movie_length + prefManager.rdm_choice_delay);
 
@@ -208,13 +229,21 @@ public class TaskRandomDotMotion extends Task {
             // Decide what to do based on which cue pressed
             boolean correct_chosen = false;
             switch (view.getId()) {
-                case R.id.rdm_butt_1:
-                    // They pressed cue for the lower option
-                    correct_chosen = !upper_option_corr;
+                case R.id.rdm_butt_left:
+                    // They pressed cue for the left option
+                    correct_chosen = !option_one_correct;
                     break;
-                case R.id.rdm_butt_2:
+                case R.id.rdm_butt_right:
+                    // They pressed cue for the right option
+                    correct_chosen = option_one_correct;
+                    break;
+                case R.id.rdm_butt_upper:
+                    // They pressed cue for the lower option
+                    correct_chosen = !option_one_correct;
+                    break;
+                case R.id.rdm_butt_lower:
                     // They pressed cue for the upper option
-                    correct_chosen = upper_option_corr;
+                    correct_chosen = option_one_correct;
                     break;
             }
 
@@ -235,6 +264,7 @@ public class TaskRandomDotMotion extends Task {
         super.onPause();
         super.onDestroy();
         h0.removeCallbacksAndMessages(null);
+        h1.removeCallbacksAndMessages(null);
     }
 
     /**
