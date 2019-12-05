@@ -8,7 +8,7 @@
 
         <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_rdm_num_dots"
-                android:max="200"
+                android:max="400"
                 app:key="@string/preftag_rdm_num_dots"
                 app:min="10"
                 app:title="Number of dots to be displayed" />
@@ -65,6 +65,27 @@
                 app:key="@string/preftag_rdm_horizontal"
                 app:summary="If selected, choices will be between left and right options, rather than up and down (vertical) options"
                 app:title="Horizontal layout" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+            app:key="task_settings"
+            app:title="Colours">
+
+        <ListPreference
+                android:defaultValue="@integer/default_rdm_color_dots"
+                android:entries="@array/colournames"
+                android:entryValues="@array/colourvalues"
+                app:key="@string/preftag_rdm_colour_dots"
+                app:title="Select colour of dots" />
+
+        <ListPreference
+                android:defaultValue="@integer/default_rdm_color_bg"
+                android:entries="@array/colournames"
+                android:entryValues="@array/colourvalues"
+                app:key="@string/preftag_rdm_colour_bg"
+                app:title="Select colour of background" />
 
     </PreferenceCategory>
 

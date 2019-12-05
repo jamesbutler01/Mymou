@@ -1,6 +1,7 @@
 package mymou.task.individual_tasks;
 
 import android.animation.ObjectAnimator;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -99,6 +100,8 @@ public class TaskRandomDotMotion extends Task {
 
         // Get view properties
         RelativeLayout movie_bg = getActivity().findViewById(R.id.ll_rdm_movie);
+        movie_bg.setBackgroundColor(prefManager.rdm_colour_bg);
+
         int max_x = movie_bg.getWidth() + (prefManager.rdm_movement_distance_max*2);
         int max_y = movie_bg.getHeight()  + (prefManager.rdm_movement_distance_max*2);
 
@@ -117,6 +120,10 @@ public class TaskRandomDotMotion extends Task {
             dot.setLayoutParams(new LinearLayout.LayoutParams(
                     prefManager.rdm_dot_size,
                     prefManager.rdm_dot_size));
+            GradientDrawable drawable = new GradientDrawable();
+            drawable.setShape(GradientDrawable.OVAL);
+            drawable.setColor(prefManager.rdm_colour_dots);
+            dot.setBackgroundDrawable(drawable);
 
             // Choose random position
             dot.setX(r.nextInt(max_x) - prefManager.rdm_movement_distance_max);
