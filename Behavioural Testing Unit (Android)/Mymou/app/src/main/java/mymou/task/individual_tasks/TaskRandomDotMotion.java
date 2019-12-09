@@ -190,7 +190,7 @@ public class TaskRandomDotMotion extends Task {
 
         // Set colours of choice buttons
         GradientDrawable drawable = new GradientDrawable();
-        drawable.setShape(GradientDrawable.OVAL);
+        drawable.setShape(GradientDrawable.RECTANGLE);
         drawable.setColor(prefManager.rdm_colour_choice);
         butt_option_one.setBackgroundDrawable(drawable);
         butt_option_two.setBackgroundDrawable(drawable);

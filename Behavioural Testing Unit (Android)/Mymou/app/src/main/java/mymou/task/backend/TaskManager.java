@@ -247,6 +247,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         rewardSystem = new RewardSystem(this, this);
         if (rewardSystem.bluetoothConnection | !preferencesManager.bluetooth) {
             successfullyEstablished = enableApp(true);
+
         }
 
         // Repeat if either couldn't connect or couldn't enable app
@@ -259,6 +260,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 }
             }, 5000);
         } else {
+            tvErrors.setVisibility(View.INVISIBLE);
 
             // Register listener to disable tablet if bluetooth gets DC'ed
             rewardSystem.setCustomObjectListener(new RewardSystem.MyCustomObjectListener() {
