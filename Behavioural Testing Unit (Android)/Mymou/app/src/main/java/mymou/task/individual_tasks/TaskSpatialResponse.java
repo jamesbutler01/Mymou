@@ -64,14 +64,15 @@ public class TaskSpatialResponse extends Task {
 
 
     private void startMovie(int num_steps) {
-        Log.d(TAG, "Playing movie, frame: " + num_steps + "/" + prefManager.sr_num_stim);
+        logEvent("Playing movie, frame: " + num_steps + "/" + prefManager.sr_num_stim, callback);
+
         if (num_steps > 0) {
             h0.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     UtilsTask.toggleCues(cues, true);
                     cues[chosen_cues[num_steps - 1]].setBackgroundDrawable(drawable_red);
-
+                    logEvent("Cues toggled on (frame: " + num_steps + "/" + prefManager.sr_num_stim +")", callback);
                 }
             }, prefManager.sr_duration_off);
 
@@ -81,9 +82,9 @@ public class TaskSpatialResponse extends Task {
                     cues[chosen_cues[num_steps - 1]].setBackgroundDrawable(drawable_grey);
 
                     UtilsTask.toggleCues(cues, false);
+                    logEvent("Cues toggled off (frame: " + num_steps + "/" + prefManager.sr_num_stim +")", callback);
 
                     startMovie(num_steps - 1);
-
                 }
             }, prefManager.sr_duration_on + prefManager.sr_duration_off);
 
@@ -107,6 +108,7 @@ public class TaskSpatialResponse extends Task {
                         drawable.setStroke(5, ContextCompat.getColor(getContext(), R.color.black));
                         cues[i].setBackgroundDrawable(drawable);
                     }
+                    logEvent("Choice cues toggled on (frame: " + num_steps + "/" + prefManager.sr_num_stim +")", callback);
                 }
             }, prefManager.sr_duration_off);
         }
@@ -125,6 +127,7 @@ public class TaskSpatialResponse extends Task {
         chosen_cues_b = UtilsSystem.getBooleanFalseArray(num_positions);
 
         for (int i = 0; i < prefManager.sr_num_stim; i++) {
+            logEvent("C");
             chosen_cues[i] = UtilsTask.chooseValueNoReplacement(chosen_cues_b);
             chosen_cues_b[chosen_cues[i]] = true;
         }
@@ -182,18 +185,18 @@ public class TaskSpatialResponse extends Task {
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Log.d(TAG, "onClick " + view.getId());
 
             boolean correct_chosen = Integer.valueOf(view.getId()) == chosen_cues[(prefManager.sr_num_stim - choice_counter) - 1];
-
+            logEvent(""+view.getId()+" cue pressed ("+correct_chosen+" answer)", callback);
             choice_counter += 1;
 
             if (choice_counter == prefManager.sr_num_stim | !correct_chosen) {
+                logEvent("End of trial, correct outcome:"+correct_chosen, callback);
                 endOfTrial(correct_chosen, callback);
             } else {
+                logEvent("Disabling cue"+Integer.valueOf(view.getId()), callback);
                 UtilsTask.toggleCue(cues[Integer.valueOf(view.getId())], false);
             }
-
         }
     };
 

@@ -25,8 +25,6 @@ import mymou.task.backend.TaskInterface;
  *
  * The amount of evidence shown, and the distance (difficulty) between options can be altered in the options menu
  *
- * TODO: Implement logging of task variables
- *
  */
 public class TaskEvidenceAccum extends Task {
 
@@ -83,6 +81,7 @@ public class TaskEvidenceAccum extends Task {
      *
      */
     private void startMovie(int num_steps) {
+        logEvent("Playing step: "+num_steps, callback);
 
         // First check its not the final step, which would the choice phase
         if (num_steps > 0) {
@@ -91,7 +90,8 @@ public class TaskEvidenceAccum extends Task {
             h0.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d(TAG, "Setting bars to " + amounts1[num_steps - 1] + " and " + amounts2[num_steps - 1]);
+                    logEvent("Setting bars to " + amounts1[num_steps - 1] + " and " + amounts2[num_steps - 1], callback);
+
                     // Display bars on screen
                     progressBars[0].setVisibility(View.VISIBLE);
                     progressBars[1].setVisibility(View.VISIBLE);
@@ -112,26 +112,27 @@ public class TaskEvidenceAccum extends Task {
             h1.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    logEvent("Switching bars off", callback);
+
                     // Set both bars to invisible
                     progressBars[0].setVisibility(View.INVISIBLE);
                     progressBars[1].setVisibility(View.INVISIBLE);
 
                     // Call the function again and decrement where we are in the sequence
                     startMovie(num_steps - 1);
-
                 }
 
             }, prefManager.ea_step_duration_on + prefManager.ea_step_duration_off);
 
         } else {
 
+            logEvent("Choice phase enabled", callback);
+
             // Choice phase, simply switch on the choice buttons and activate the buttonClickListener
             getView().findViewById(R.id.ea_butt_1).setVisibility(View.VISIBLE);
             getView().findViewById(R.id.ea_butt_2).setVisibility(View.VISIBLE);
             getView().findViewById(R.id.ea_butt_1).setOnClickListener(buttonClickListener);
             getView().findViewById(R.id.ea_butt_2).setOnClickListener(buttonClickListener);
-
-
         }
     }
 
@@ -189,6 +190,8 @@ public class TaskEvidenceAccum extends Task {
         for (int i = 0; i < prefManager.ea_num_steps; i++) {
             amounts1[i] = (int) getValue(r, mean1);
             amounts2[i] = (int) getValue(r, mean2);
+            logEvent("For step "+i+": amount1 ="+amounts1[i]+", amount2 ="+amounts2[i], callback);
+
         }
 
     }
@@ -229,10 +232,12 @@ public class TaskEvidenceAccum extends Task {
                 case R.id.ea_butt_1:
                     // They pressed cue for bar '1', so total1 should be higher than total2
                     correct_chosen = total1 > total2;
+                    logEvent("Button 1 pressed, correct trial="+correct_chosen, callback);
                     break;
                 case R.id.ea_butt_2:
                     // They pressed cue for bar '2', so this time total2 should be higher
                     correct_chosen = total2 > total1;
+                    logEvent("Button 2 pressed, correct trial="+correct_chosen, callback);
                     break;
             }
 
