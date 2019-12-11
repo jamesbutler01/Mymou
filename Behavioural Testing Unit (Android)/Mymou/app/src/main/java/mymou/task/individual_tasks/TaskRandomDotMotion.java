@@ -21,7 +21,7 @@ import android.graphics.Path;
 
 /**
  * Random dot motion task
- * <p>
+ *
  * A 'movie' is played, with certain number of dots moving in certain direction
  * After movie has finished, subjects must select which direction had greatest movement
  */

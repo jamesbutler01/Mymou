@@ -20,49 +20,48 @@ import mymou.task.backend.UtilsTask;
 
 /**
  * Task Sequential Learning
- *
+ * <p>
  * Must click on cue to progress through a sequence of images
  * On second lap of the sequence, at a random point a choice will be given to see if subjects can
  * correctly guess next image in sequence
- *
  */
 public class TaskSequentialLearning extends Task {
 
     // Debug
-    public static String TAG = "TaskTrainingFiveTwoStep";
+    public static String TAG = "TaskSequentialLearning";
 
     private static PreferencesManager prefManager;
 
     // Task objects
     private int[] seq_one = {
-                R.drawable.slaaa,
-                R.drawable.slaab,
-                R.drawable.slaac,
-                R.drawable.slaad,
-                R.drawable.slaae,
-                R.drawable.slaaf,
-                R.drawable.slaag,
-                R.drawable.slaah,
-                R.drawable.slaai,
-                R.drawable.slaaj,
-        };
+            R.drawable.slaaa,
+            R.drawable.slaab,
+            R.drawable.slaac,
+            R.drawable.slaad,
+            R.drawable.slaae,
+            R.drawable.slaaf,
+            R.drawable.slaag,
+            R.drawable.slaah,
+            R.drawable.slaai,
+            R.drawable.slaaj,
+    };
     private int[] seq_two = {
-                R.drawable.slaba,
-                R.drawable.slabb,
-                R.drawable.slabc,
-                R.drawable.slabd,
-                R.drawable.slabe,
-                R.drawable.slabf,
-                R.drawable.slabg,
-                R.drawable.slabh,
-                R.drawable.slabi,
-                R.drawable.slabj,
-        };
+            R.drawable.slaba,
+            R.drawable.slabb,
+            R.drawable.slabc,
+            R.drawable.slabd,
+            R.drawable.slabe,
+            R.drawable.slabf,
+            R.drawable.slabg,
+            R.drawable.slabh,
+            R.drawable.slabi,
+            R.drawable.slabj,
+    };
     private static int[] cue_images;  // The images to be used in the task
     private static ImageButton cue_forced_choice, cue_choice_corr, cue_choice_incorr;  // The 3 buttons in the task
     private final static int id_forced_choice = 0, id_corr_choice = 1, id_incorr_choice = 2;  // ID's of the cues of the 3 buttons in the task
     private static int i_sequence, num_laps;  // Current position in sequence, and number of laps round sequence (choice is given on second lap)
-    private static int choice_point, corr_choice, incorr_choice;  // Where the choice phase will be
+    private static int corr_choice, incorr_choice;  // Where the choice phase will be
     private Float x_range, y_range;  // Limits of the screen (x and y coordinates) where images are to be placed
     private Random r;  // Random number generator
 
@@ -83,11 +82,13 @@ public class TaskSequentialLearning extends Task {
     }
 
     private void forced_choice_step() {
+        logEvent("Enabling forced choice cue (position " + i_sequence + ")", callback);
         cue_forced_choice.setImageResource(cue_images[i_sequence]);
         randomlyPositionCue(cue_forced_choice);
     }
 
     private void choice_step() {
+        logEvent("Enabling choice cues at position ("+i_sequence+")", callback);
         UtilsTask.toggleCue(cue_forced_choice, false);
         UtilsTask.toggleCue(cue_choice_incorr, true);
         UtilsTask.toggleCue(cue_choice_corr, true);
@@ -97,9 +98,9 @@ public class TaskSequentialLearning extends Task {
         // Load preferences
         prefManager = new PreferencesManager(getContext());
         prefManager.SequentialLearning();
-        
 
         // Load the images to be used for the cues
+        logEvent("Map loaded: " + prefManager.sl_map_selected, callback);
         cue_images = new int[prefManager.sl_seq_length];
         for (int i = 0; i < prefManager.sl_seq_length; i++) {
             int image_name = prefManager.sl_map_selected == 0 ? seq_one[i] : seq_two[i];
@@ -115,11 +116,13 @@ public class TaskSequentialLearning extends Task {
 
         // Pick where the choice phase will be
         // This is anywhere from position 2 until the second from end of the sequence
-        corr_choice = r.nextInt(prefManager.sl_seq_length-1) + 1;
+        corr_choice = r.nextInt(prefManager.sl_seq_length - 1) + 1;
         incorr_choice = corr_choice;
-        while (incorr_choice==corr_choice) {
+        while (incorr_choice == corr_choice) {
             incorr_choice = r.nextInt(prefManager.sl_seq_length);
         }
+        logEvent("Choice point: " + corr_choice, callback);
+        logEvent("Incorrect choice stimulus: " + incorr_choice, callback);
 
         // Create cues
         cue_forced_choice = UtilsTask.addImageCue(id_forced_choice, getContext(), getView().findViewById(R.id.parent_task_empty), buttonClickListener);
@@ -152,7 +155,7 @@ public class TaskSequentialLearning extends Task {
         }
 
         // Figure out if its forced choice or choice stage next
-        if(num_laps==1 && i_sequence == corr_choice) {
+        if (num_laps == 1 && i_sequence == corr_choice) {
             choice_step();
         } else {
             forced_choice_step();
@@ -169,12 +172,15 @@ public class TaskSequentialLearning extends Task {
 
             switch (view.getId()) {
                 case id_forced_choice:
+                    logEvent("Forced choice button pressed", callback);
                     next_step();
                     break;
                 case id_corr_choice:
+                    logEvent("Correct choice button pressed", callback);
                     endOfTrial(true, callback);
                     break;
                 case id_incorr_choice:
+                    logEvent("Incorrect choice button pressed", callback);
                     endOfTrial(false, callback);
                     break;
             }
@@ -199,11 +205,13 @@ public class TaskSequentialLearning extends Task {
         // Hardcoded as for some reason using Point's didn't work
         if (r.nextBoolean()) {
             if (r.nextBoolean()) {
+                logEvent("Choice locations set to combinatin #0", callback);
                 choice1.setX(175);
                 choice1.setY(1200);
                 choice2.setX(725);
                 choice2.setY(300);
             } else {
+                logEvent("Choice locations set to combinatin #1", callback);
                 choice1.setX(725);
                 choice1.setY(300);
                 choice2.setX(175);
@@ -211,11 +219,13 @@ public class TaskSequentialLearning extends Task {
             }
         } else {
             if (r.nextBoolean()) {
+                logEvent("Choice locations set to combinatin #2", callback);
                 choice1.setX(725);
                 choice1.setY(1200);
                 choice2.setX(175);
                 choice2.setY(300);
             } else {
+                logEvent("Choice locations set to combinatin #3", callback);
                 choice1.setX(175);
                 choice1.setY(300);
                 choice2.setX(725);
@@ -228,6 +238,7 @@ public class TaskSequentialLearning extends Task {
 
     // Implement interface and listener to enable communication up to TaskManager
     TaskInterface callback;
+
     public void setFragInterfaceListener(TaskInterface callback) {
         this.callback = callback;
     }
