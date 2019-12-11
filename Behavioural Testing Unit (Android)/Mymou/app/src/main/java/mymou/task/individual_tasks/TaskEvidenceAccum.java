@@ -31,7 +31,7 @@ import mymou.task.backend.TaskInterface;
 public class TaskEvidenceAccum extends Task {
 
     // Debug
-    public static String TAG = "MyMouEvidenceAccum";
+    public static String TAG = "TaskEvidenceAccum";
 
     // Global task variables
     private static PreferencesManager prefManager;  // Load settings specified by experimenter
@@ -59,6 +59,8 @@ public class TaskEvidenceAccum extends Task {
      */
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
+        logEvent(TAG+" started", callback);
+
         // Instantiate task objects
         assignObjects();
 

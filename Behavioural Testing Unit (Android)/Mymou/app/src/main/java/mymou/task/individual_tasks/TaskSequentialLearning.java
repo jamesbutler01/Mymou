@@ -2,14 +2,11 @@ package mymou.task.individual_tasks;
 
 import android.graphics.Point;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-
-import androidx.core.content.ContextCompat;
 
 import java.util.Random;
 
@@ -73,7 +70,7 @@ public class TaskSequentialLearning extends Task {
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        Log.d(TAG, "Task started");
+        logEvent(TAG + " started", callback);
 
         assignObjects();
 
@@ -88,7 +85,7 @@ public class TaskSequentialLearning extends Task {
     }
 
     private void choice_step() {
-        logEvent("Enabling choice cues at position ("+i_sequence+")", callback);
+        logEvent("Enabling choice cues at position (" + i_sequence + ")", callback);
         UtilsTask.toggleCue(cue_forced_choice, false);
         UtilsTask.toggleCue(cue_choice_incorr, true);
         UtilsTask.toggleCue(cue_choice_corr, true);

@@ -1,12 +1,3 @@
-/**
- * Training task four: Small moving cue
- *
- * Cue moves randomly around the screen
- * Instead of idle timeout, it randomly gives reward and then moves the cue
- * Different to all other tasks in that it never ends a trial, and so must handle data logging itself rather than using TaskManager
- *
- */
-
 package mymou.task.individual_tasks;
 
 import android.graphics.Point;
@@ -26,6 +17,14 @@ import mymou.preferences.PreferencesManager;
 import mymou.task.backend.TaskInterface;
 import mymou.task.backend.UtilsTask;
 
+/**
+ * Training task four: Small moving cue
+ *
+ * Cue moves randomly around the screen
+ * Instead of idle timeout, it randomly gives reward and then moves the cue
+ * Different to all other tasks in that it never ends a trial, and so must handle data logging itself rather than using TaskManager
+ *
+ */
 public class TaskTrainingFourSmallMovingCue extends Task {
 
     // Debug
@@ -49,7 +48,7 @@ public class TaskTrainingFourSmallMovingCue extends Task {
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        Log.d(TAG, "Task started");
+        logEvent(TAG+" started", callback);
 
         assignObjects();
 

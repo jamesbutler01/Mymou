@@ -62,7 +62,7 @@ public class TaskTrainingFiveTwoStep extends Task {
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        Log.d(TAG, "Task started");
+        logEvent(TAG+" started", callback);
 
         assignObjects();
 

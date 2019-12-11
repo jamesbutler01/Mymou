@@ -53,6 +53,7 @@ public class TaskRandomDotMotion extends Task {
      */
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
+        logEvent(TAG+" started", callback);
 
         // Instantiate task objects
         assignObjects();

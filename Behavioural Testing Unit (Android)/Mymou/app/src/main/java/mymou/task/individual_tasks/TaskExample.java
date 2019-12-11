@@ -57,6 +57,8 @@ public class TaskExample extends Task implements View.OnClickListener {
      */
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
+        logEvent(TAG+" started", callback);
+
         // Instantiate task objects
         assignObjects();
 

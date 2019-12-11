@@ -1,12 +1,3 @@
-/**
- * Training task one
- *
- * Pressing anywhere on screen will trigger device
- * Must get specified amount of presses in a row to receive reward
- *
- * @param  num_steps the current number of presses made in this trial
- *
- */
 package mymou.task.individual_tasks;
 
 import android.graphics.Point;
@@ -22,6 +13,15 @@ import mymou.preferences.PreferencesManager;
 import mymou.task.backend.TaskInterface;
 import mymou.task.backend.UtilsTask;
 
+/**
+ * Training task one
+ *
+ * Pressing anywhere on screen will trigger device
+ * Must get specified amount of presses in a row to receive reward
+ *
+ * @param  num_steps the current number of presses made in this trial
+ *
+ */
 public class TaskTrainingOneFullScreen extends Task {
 
     // Debug
@@ -42,10 +42,9 @@ public class TaskTrainingOneFullScreen extends Task {
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        Log.d(TAG, "Task started");
+        logEvent(TAG+" started", callback);
 
         assignObjects();
-
     }
 
     private void assignObjects() {

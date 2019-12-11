@@ -1,15 +1,3 @@
-/**
- * Task Object Discrimination (stimulus)
- * <p>
- * Subjects shown a stimuli, and then must choose them from up to 3 distractors
- * <p>
- * Stimuli are taken from Brady, T. F., Konkle, T., Alvarez, G. A. and Oliva, A. (2008). Visual
- * long-term memory has a massive storage capacity for object details. Proceedings of the National
- * Academy of Sciences, USA, 105 (38), 14325-14329.
- * <p>
- * TODO: Implement logging of task variables
- */
-
 package mymou.task.individual_tasks;
 
 import android.os.Bundle;
@@ -30,7 +18,17 @@ import mymou.preferences.PreferencesManager;
 import mymou.task.backend.TaskInterface;
 import mymou.task.backend.UtilsTask;
 
-
+/**
+ * Task Object Discrimination (stimulus)
+ * <p>
+ * Subjects shown a stimuli, and then must choose them from up to 3 distractors
+ * <p>
+ * Stimuli are taken from Brady, T. F., Konkle, T., Alvarez, G. A. and Oliva, A. (2008). Visual
+ * long-term memory has a massive storage capacity for object details. Proceedings of the National
+ * Academy of Sciences, USA, 105 (38), 14325-14329.
+ * <p>
+ * TODO: Implement logging of task variables
+ */
 public class TaskObjectDiscrim extends Task {
 
     // Debug
@@ -83,7 +81,7 @@ public class TaskObjectDiscrim extends Task {
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        Log.d(TAG, "Task started");
+        logEvent(TAG+" started", callback);
 
         assignObjects();
 

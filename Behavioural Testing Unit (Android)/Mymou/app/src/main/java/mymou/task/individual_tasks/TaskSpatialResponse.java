@@ -1,14 +1,3 @@
-/**
- * Spatial response task
- * <p>
- * Subjects are shown movie where certain cues are highlighted sequentially
- * Must then repeat the sequence that they saw in correct order to receive reward
- * <p>
- * The length of each sequence, and timing properties of the movie, can be altered in the options menu
- * <p>
- * TODO: Implement logging of task variables
- */
-
 package mymou.task.individual_tasks;
 
 import android.graphics.drawable.GradientDrawable;
@@ -31,11 +20,20 @@ import mymou.preferences.PreferencesManager;
 import mymou.task.backend.TaskInterface;
 import mymou.task.backend.UtilsTask;
 
-
+/**
+ * Spatial response task
+ *
+ * Subjects are shown movie where certain cues are highlighted sequentially
+ * Must then repeat the sequence that they saw in correct order to receive reward
+ *
+ * The length of each sequence, and timing properties of the movie, can be altered in the options menu
+ *
+ * TODO: Implement logging of task variables
+ */
 public class TaskSpatialResponse extends Task {
 
     // Debug
-    public static String TAG = "MyMouEvidenceAccum";
+    public static String TAG = "TaskSpatialResponse";
 
     private static int num_positions = 8;
     private static int[] chosen_cues;
@@ -57,7 +55,7 @@ public class TaskSpatialResponse extends Task {
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        Log.d(TAG, "Task started");
+        logEvent(TAG+" started", callback);
 
         assignObjects();
 

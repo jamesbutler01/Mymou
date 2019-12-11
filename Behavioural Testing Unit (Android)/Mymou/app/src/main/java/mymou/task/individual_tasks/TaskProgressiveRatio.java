@@ -1,14 +1,3 @@
-/**
- * Progressive Ratio task
- *
- * After each successful press, you need 2^(successful presses) for reward
- * On idle timeout will then reset number of successful presses needed to 1
- *
- * @param num_consecutive_corr the current number of consecutive successful trials
- * @param num_presses_needed this trial's presses needed for reward
- * @param num_presses the current number of presses made in this trial
- */
-
 package mymou.task.individual_tasks;
 
 import android.content.SharedPreferences;
@@ -32,6 +21,16 @@ import mymou.preferences.PreferencesManager;
 import mymou.task.backend.TaskInterface;
 import mymou.task.backend.UtilsTask;
 
+/**
+ * Progressive Ratio task
+ *
+ * After each successful press, you need 2^(successful presses) for reward
+ * On idle timeout will then reset number of successful presses needed to 1
+ *
+ * @param num_consecutive_corr the current number of consecutive successful trials
+ * @param num_presses_needed this trial's presses needed for reward
+ * @param num_presses the current number of presses made in this trial
+ */
 public class TaskProgressiveRatio extends Task {
 
     // Debug
@@ -56,7 +55,7 @@ public class TaskProgressiveRatio extends Task {
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        Log.d(TAG, "Task started");
+        logEvent(TAG+" started", callback);
 
         loadTrialParams();
 
