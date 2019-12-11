@@ -162,11 +162,19 @@ public class TaskRandomDotMotion extends Task {
 
         }
 
+        // Log trial variables
+        logEvent("Coherence set to:"+coherence, callback);
+        logEvent("Option one set to:"+option_one_correct, callback);
+        logEvent("Max movement distance ="+prefManager.rdm_movement_distance_max, callback);
+        logEvent("Min movement distance ="+prefManager.rdm_movement_distance_min, callback);
+        logEvent("Movie length ="+prefManager.rdm_movie_length, callback);
+
         // We're now ready to play animations
         for (int i = 0; i < prefManager.rdm_num_dots; i++) {
             animations[i].start();
         }
 
+        logEvent("Movie started", callback);
 
     }
 
@@ -215,6 +223,8 @@ public class TaskRandomDotMotion extends Task {
             public void run() {
                 // Make movie invisible
                 getView().findViewById(R.id.ll_rdm_movie).setVisibility(View.INVISIBLE);
+                logEvent("Movie finished", callback);
+
             }
         }, prefManager.rdm_movie_length);
 
@@ -226,6 +236,7 @@ public class TaskRandomDotMotion extends Task {
                 butt_option_two.setVisibility(View.VISIBLE);
                 butt_option_one.setOnClickListener(buttonClickListener);
                 butt_option_two.setOnClickListener(buttonClickListener);
+                logEvent("Choice options enabled", callback);
             }
         }, prefManager.rdm_movie_length + prefManager.rdm_choice_delay);
 
@@ -239,6 +250,7 @@ public class TaskRandomDotMotion extends Task {
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            logEvent("Button clicked", callback);
 
             // Decide what to do based on which cue pressed
             boolean correct_chosen = false;
@@ -287,7 +299,6 @@ public class TaskRandomDotMotion extends Task {
      * selfie processing, intertrial intervals, etc etc)
      */
     TaskInterface callback;
-
     public void setFragInterfaceListener(TaskInterface callback) {
         this.callback = callback;
     }
