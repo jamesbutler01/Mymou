@@ -250,31 +250,39 @@ public class TaskRandomDotMotion extends Task {
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            logEvent("Button clicked", callback);
 
             // Decide what to do based on which cue pressed
             boolean correct_chosen = false;
             switch (view.getId()) {
                 case R.id.rdm_butt_left:
+                    logEvent("Left button clicked", callback);
+
                     // They pressed cue for the left option
                     correct_chosen = !option_one_correct;
                     break;
                 case R.id.rdm_butt_right:
+                    logEvent("Right button clicked", callback);
+
                     // They pressed cue for the right option
                     correct_chosen = option_one_correct;
                     break;
                 case R.id.rdm_butt_upper:
-                    // They pressed cue for the lower option
+                    logEvent("Upper button clicked", callback);
+
+                    // They pressed cue for the upper option
                     correct_chosen = !option_one_correct;
                     break;
                 case R.id.rdm_butt_lower:
-                    // They pressed cue for the upper option
+                    logEvent("Lower button clicked", callback);
+
+                    // They pressed cue for the lower option
                     correct_chosen = option_one_correct;
                     break;
             }
 
             // Tell parent (TrialManager.java) the outcome of the trial, which will then respond accordingly
             // (e.g. give reward if correct, set up for next trial, save photo etc)
+            logEvent("Trial ended, correct trial="+correct_chosen, callback);
             endOfTrial(correct_chosen, callback);
 
         }
