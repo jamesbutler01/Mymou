@@ -86,6 +86,7 @@ public class TaskTrainingThreeMovingCue extends Task {
 
         cue.setWidth(x_length);
         cue.setHeight(y_length);
+        logEvent("Cue height set to "+x_length+" "+y_length, callback);
 
         // Put cue in random location
         Float x_range = (float) (screen_size.x - x_length);
@@ -99,6 +100,7 @@ public class TaskTrainingThreeMovingCue extends Task {
         cue.setY(y_loc);
 
         UtilsTask.toggleCue(cue, true);
+        logEvent("Cue toggled on at location "+x_loc+" "+y_loc, callback);
 
     }
 
@@ -129,7 +131,7 @@ public class TaskTrainingThreeMovingCue extends Task {
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Log.d(TAG, "onClick");
+            logEvent("Cue pressed", callback);
 
             // Always disable cues first
             UtilsTask.toggleCue(cue, false);

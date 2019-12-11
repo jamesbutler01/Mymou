@@ -113,6 +113,8 @@ public class TaskTrainingFourSmallMovingCue extends Task {
         int x_loc = (int) (r.nextFloat() * x_range);
         int y_loc = (int) (r.nextFloat() * y_range);
 
+        logEvent("Moving cue to "+x_loc+" "+y_loc, callback);
+
         cue.setX(x_loc);
         cue.setY(y_loc);
     }
@@ -120,7 +122,7 @@ public class TaskTrainingFourSmallMovingCue extends Task {
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Log.d(TAG, "onClick");
+            logEvent("Cue clicked", callback);
 
             // Always disable cues first
             UtilsTask.toggleCue(cue, false);
@@ -152,6 +154,7 @@ public class TaskTrainingFourSmallMovingCue extends Task {
                 @Override
                 public void run() {
                     UtilsTask.toggleCue(cue, true);
+                    logEvent("Cue toggled on", callback);
                     randomRewardTimer(0);
                 }
             }, 2000);

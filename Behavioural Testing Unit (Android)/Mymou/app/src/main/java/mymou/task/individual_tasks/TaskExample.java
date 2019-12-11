@@ -103,6 +103,9 @@ public class TaskExample extends Task implements View.OnClickListener {
          // Reset timer for idle timeout on each press
         callback.resetTimer_();
 
+        // Log screen press
+        logEvent(""+view.getId()+" button pressed", callback);
+
         // Now decide what to do based on what cue pressed
         boolean successfulTrial = false;
         switch (view.getId()) {

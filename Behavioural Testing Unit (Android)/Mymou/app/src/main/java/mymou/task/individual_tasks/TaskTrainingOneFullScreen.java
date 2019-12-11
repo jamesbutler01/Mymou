@@ -66,13 +66,12 @@ public class TaskTrainingOneFullScreen extends Task {
 
         // Enable cue
         UtilsTask.toggleCue(cue, true);
-
+        logEvent("Cue toggled on", callback);
     }
 
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Log.d(TAG, "onClick");
 
             // Always disable cues first
             UtilsTask.toggleCue(cue, false);
@@ -87,12 +86,13 @@ public class TaskTrainingOneFullScreen extends Task {
             callback.takePhotoFromTask_();
 
             // Check how many correct presses they've got and how many they need per trial
-            Log.d(TAG, "Num steps: "+num_steps+"/"+prefManager.t_one_num_presses);
+            logEvent("Cue pressed (num steps: "+num_steps+"/"+prefManager.t_one_num_presses+")", callback);
 
             if (num_steps >= prefManager.t_one_num_presses) {
                 endOfTrial(true, rew_scalar, callback);
             } else {
                 UtilsTask.toggleCue(cue, true);
+                logEvent("Cue toggled on", callback);
             }
         }
     };

@@ -127,9 +127,9 @@ public class TaskSpatialResponse extends Task {
         chosen_cues_b = UtilsSystem.getBooleanFalseArray(num_positions);
 
         for (int i = 0; i < prefManager.sr_num_stim; i++) {
-            logEvent("C");
             chosen_cues[i] = UtilsTask.chooseValueNoReplacement(chosen_cues_b);
             chosen_cues_b[chosen_cues[i]] = true;
+            logEvent("Cue "+i+" set to "+chosen_cues[i], callback);
         }
 
         // Cue colours

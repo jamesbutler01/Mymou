@@ -80,6 +80,7 @@ public class TaskTrainingTwoShrinkingCue extends Task {
 
         cue.setWidth(new_x);
         cue.setHeight(new_y);
+        logEvent("Cue height set to "+new_x+" "+new_y, callback);
 
         // Centre cue on screen
         float x_loc = (screen_size.x/2) - (new_x/2);
@@ -88,7 +89,7 @@ public class TaskTrainingTwoShrinkingCue extends Task {
         cue.setY(y_loc);
 
         UtilsTask.toggleCue(cue, true);
-
+        logEvent("Cue toggled on at location "+x_loc+" "+y_loc, callback);
     }
 
 
@@ -103,8 +104,6 @@ public class TaskTrainingTwoShrinkingCue extends Task {
 
         // Now save values, and they will be overwritten upon correct trial happening
         log_trial_outcome(false);
-
-        Log.d(TAG, ""+num_consecutive_corr+" "+prev_trial_correct);
     }
 
     private void log_trial_outcome(boolean outcome) {
@@ -118,7 +117,7 @@ public class TaskTrainingTwoShrinkingCue extends Task {
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Log.d(TAG, "onClick");
+            logEvent("Cue pressed", callback);
 
             // Always disable cues first
             UtilsTask.toggleCue(cue, false);
