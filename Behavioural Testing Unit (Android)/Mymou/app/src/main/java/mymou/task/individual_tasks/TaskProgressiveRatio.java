@@ -71,7 +71,6 @@ public class TaskProgressiveRatio extends Task {
     }
 
     private void assignObjects() {
-        Log.d(TAG, "Assigning objects");
 
         // Progress bar
         if (prefManager.pr_progress_bar) {
@@ -105,6 +104,7 @@ public class TaskProgressiveRatio extends Task {
         Random r = new Random();
         cue.setX(xlocs[r.nextInt(xlocs.length)]);
         cue.setY(ylocs[r.nextInt(ylocs.length)] + 300);
+        logTaskEvent("cue moved to "+cue.getX()+" "+cue.getY());
     }
 
 
@@ -140,6 +140,7 @@ public class TaskProgressiveRatio extends Task {
     }
 
     private void configureProgressBar() {
+        logEvent("Progress bar enabled", callback);
         pb1 = (ProgressBar) getView().findViewById(R.id.boosterBar);
         pb1.setMax(num_presses_needed * pb_scalar);
         pb1.setProgress(0);
@@ -157,7 +158,7 @@ public class TaskProgressiveRatio extends Task {
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Log.d(TAG, "onClick");
+            logTaskEvent("cue pressed,"+num_presses);
 
             // Always disable cues first
             UtilsTask.toggleCue(cue, false);
@@ -190,6 +191,7 @@ public class TaskProgressiveRatio extends Task {
 
                 // Let them press again
                 UtilsTask.toggleCue(cue, true);
+                logTaskEvent("Cues toggled on");
             }
         }
     };
