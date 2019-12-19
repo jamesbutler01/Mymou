@@ -35,16 +35,17 @@ public class TaskSpatialResponse extends Task {
     // Debug
     public static String TAG = "TaskSpatialResponse";
 
-    private static int num_positions = 8;
     private static int[] chosen_cues;
     private static int choice_counter;
     private static boolean[] chosen_cues_b;
-    private static Button[] cues = new Button[num_positions];
     GradientDrawable drawable_red, drawable_grey;
     private static PreferencesManager prefManager;
     private static Handler h0 = new Handler();  // Show object
     private static Handler h1 = new Handler();  // Hide object
     private static Handler h2 = new Handler();  // Choice phase
+
+    private int num_positions = 8;
+    private Button[] cues = new Button[num_positions];
 
 
     @Override
@@ -122,9 +123,11 @@ public class TaskSpatialResponse extends Task {
 
         choice_counter = 0;
 
+        cues = new Button[prefManager.sr_locations];
+
         // Choose cues (without replacement)
         chosen_cues = new int[prefManager.sr_num_stim];
-        chosen_cues_b = UtilsSystem.getBooleanFalseArray(num_positions);
+        chosen_cues_b = UtilsSystem.getBooleanFalseArray(prefManager.sr_locations);
 
         for (int i = 0; i < prefManager.sr_num_stim; i++) {
             chosen_cues[i] = UtilsTask.chooseValueNoReplacement(chosen_cues_b);
@@ -152,24 +155,44 @@ public class TaskSpatialResponse extends Task {
             layout.addView(cues[i]);
         }
 
-        // Position cues clockwise from 12:00
-        cues[0].setX(575);
-        cues[1].setX(775);
-        cues[2].setX(975);
-        cues[3].setX(775);
-        cues[4].setX(575);
-        cues[5].setX(375);
-        cues[6].setX(175);
-        cues[7].setX(375);
-
-        cues[0].setY(400);
-        cues[1].setY(650);
-        cues[2].setY(900);
-        cues[3].setY(1150);
-        cues[4].setY(1400);
-        cues[5].setY(1150);
-        cues[6].setY(900);
-        cues[7].setY(650);
+        switch (prefManager.sr_locations) {
+            case 2:
+                cues[0].setX(575);
+                cues[1].setX(575);
+                cues[0].setY(400);
+                cues[1].setY(1400);
+                break;
+            case 4:
+                // Position cues clockwise from 12:00
+                cues[0].setX(575);
+                cues[1].setX(975);
+                cues[2].setX(575);
+                cues[3].setX(175);
+                cues[0].setY(400);
+                cues[1].setY(900);
+                cues[2].setY(1400);
+                cues[3].setY(900);
+                break;
+            default:
+                // Position cues clockwise from 12:00
+                cues[0].setX(575);
+                cues[1].setX(775);
+                cues[2].setX(975);
+                cues[3].setX(775);
+                cues[4].setX(575);
+                cues[5].setX(375);
+                cues[6].setX(175);
+                cues[7].setX(375);
+                cues[0].setY(400);
+                cues[1].setY(650);
+                cues[2].setY(900);
+                cues[3].setY(1150);
+                cues[4].setY(1400);
+                cues[5].setY(1150);
+                cues[6].setY(900);
+                cues[7].setY(650);
+                break;
+        }
 
         UtilsTask.toggleCues(cues, false);
 

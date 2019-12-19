@@ -270,12 +270,13 @@ public class PreferencesManager {
         ea_variance = sharedPrefs.getInt(r.getString(R.string.preftag_ea_variance), r.getInteger(R.integer.default_ea_variance));
     }
 
-    public int sr_duration_on, sr_duration_off, sr_num_stim;
+    public int sr_duration_on, sr_duration_off, sr_num_stim, sr_locations;
 
     public void SpatialResponse() {
         sr_duration_off = sharedPrefs.getInt(r.getString(R.string.preftag_sr_duration_off), r.getInteger(R.integer.default_sr_duration_off));
         sr_duration_on = sharedPrefs.getInt(r.getString(R.string.preftag_sr_duration_on), r.getInteger(R.integer.default_sr_duration_on));
         sr_num_stim = sharedPrefs.getInt(r.getString(R.string.preftag_sr_num_stimuli), r.getInteger(R.integer.default_sr_num_stimuli));
+        sr_locations = sharedPrefs.getInt(r.getString(R.string.preftag_sr_locations), r.getInteger(R.integer.default_sr_locations));
     } 
     
     public int od_duration_on, od_duration_off, od_num_stim, od_num_distractors, od_start_delay;
