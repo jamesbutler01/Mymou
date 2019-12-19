@@ -6,11 +6,16 @@
             app:key="task_settings"
             app:title="Settings for Spatial Response task">
 
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_sr_locations"
+                android:max="8"
+                app:key="@string/preftag_sr_locations"
+                app:title="Number of locations" />
 
         <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_sr_num_stimuli"
                 app:key="@string/preftag_sr_num_stimuli"
-                app:title="Number of stimuli to present"
+                app:title="Number of successive stimuli to present"
                 android:max="8"/>
 
         <mymou.preferences.SeekBarPreferenceCustom

@@ -195,6 +195,7 @@
     <string name="preftag_sr_duration_off">sr_duration_off</string>
     <string name="preftag_sr_duration_on">sr_duration_on</string>
     <string name="preftag_sr_num_stimuli">sr_num_stimuli</string>
+    <string name="preftag_sr_locations">sr_locations</string>
     
     <string name="preftag_od_duration_off">od_duration_off</string>
     <string name="preftag_od_duration_on">od_duration_on</string>

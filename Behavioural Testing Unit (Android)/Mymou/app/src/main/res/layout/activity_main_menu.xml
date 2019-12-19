@@ -307,6 +307,7 @@
 
             <Button
                     android:id="@+id/buttonViewData"
+                    style="@style/Widget.AppCompat.Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="16dp"
