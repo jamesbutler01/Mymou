@@ -35,6 +35,7 @@ public class TaskSpatialResponse extends Task {
     // Debug
     public static String TAG = "TaskSpatialResponse";
 
+    private static Button[] cues;
     private static int[] chosen_cues;
     private static int choice_counter;
     private static boolean[] chosen_cues_b;
@@ -43,10 +44,6 @@ public class TaskSpatialResponse extends Task {
     private static Handler h0 = new Handler();  // Show object
     private static Handler h1 = new Handler();  // Hide object
     private static Handler h2 = new Handler();  // Choice phase
-
-    private int num_positions = 8;
-    private Button[] cues = new Button[num_positions];
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -151,7 +148,7 @@ public class TaskSpatialResponse extends Task {
             cues[i].setHeight(75);
             cues[i].setBackgroundDrawable(drawable_grey);
             cues[i].setId(i);
-            cues[i].setOnClickListener(buttonClickListener);
+            //cues[i].setOnClickListener(buttonClickListener);
             layout.addView(cues[i]);
         }
 
