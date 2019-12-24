@@ -98,9 +98,6 @@ public class TaskSpatialResponse extends Task {
 
                         UtilsTask.toggleCue(cues[i], true);
 
-                        // Make clickable
-                        cues[i].setOnClickListener(buttonClickListener);
-
                         // Change colour to not reveal answer!
                         GradientDrawable drawable = new GradientDrawable();
                         drawable.setShape(GradientDrawable.OVAL); //use different shape to denote a response cue
