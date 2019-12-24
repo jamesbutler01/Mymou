@@ -112,18 +112,20 @@ public class TaskSpatialResponse extends Task {
 
     }
 
-
     private void assignObjects() {
         prefManager = new PreferencesManager(getContext());
         prefManager.SpatialResponse();
 
+        int locations = prefManager.sr_locations;
+        if (locations<3) {locations=2;}else if (locations<5) {locations=4;}else {locations = 8;}
+
         choice_counter = 0;
         task_phase = 0;
-        cues = new Button[prefManager.sr_locations];
+        cues = new Button[locations];
 
         // Choose cues (without replacement)
         chosen_cues = new int[prefManager.sr_num_stim];
-        chosen_cues_b = UtilsSystem.getBooleanFalseArray(prefManager.sr_locations);
+        chosen_cues_b = UtilsSystem.getBooleanFalseArray(locations);
 
         for (int i = 0; i < prefManager.sr_num_stim; i++) {
             chosen_cues[i] = UtilsTask.chooseValueNoReplacement(chosen_cues_b);
@@ -151,7 +153,7 @@ public class TaskSpatialResponse extends Task {
             layout.addView(cues[i]);
         }
 
-        switch (prefManager.sr_locations) {
+        switch (locations) {
             case 2:
                 cues[0].setX(575);
                 cues[1].setX(575);
