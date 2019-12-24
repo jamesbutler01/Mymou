@@ -39,8 +39,7 @@ public class TaskSpatialResponse extends Task {
     private static int[] chosen_cues;
     private static int choice_counter;
     private static int task_phase;
-    private static boolean[] chosen_cues_b;
-    GradientDrawable drawable_red, drawable_grey;
+    private GradientDrawable drawable_red, drawable_grey;
     private static PreferencesManager prefManager;
     private static Handler h0 = new Handler();  // Show object
     private static Handler h1 = new Handler();  // Hide object
@@ -125,7 +124,7 @@ public class TaskSpatialResponse extends Task {
 
         // Choose cues (without replacement)
         chosen_cues = new int[prefManager.sr_num_stim];
-        chosen_cues_b = UtilsSystem.getBooleanFalseArray(locations);
+        boolean[] chosen_cues_b = UtilsSystem.getBooleanFalseArray(locations);
 
         for (int i = 0; i < prefManager.sr_num_stim; i++) {
             chosen_cues[i] = UtilsTask.chooseValueNoReplacement(chosen_cues_b);
@@ -207,7 +206,7 @@ public class TaskSpatialResponse extends Task {
         @Override
         public void onClick(View view) {
 
-            boolean correct_chosen = Integer.valueOf(view.getId()) == chosen_cues[(prefManager.sr_num_stim - choice_counter) - 1];
+            boolean correct_chosen = view.getId() == chosen_cues[(prefManager.sr_num_stim - choice_counter) - 1];
             logEvent(""+view.getId()+" cue pressed ("+correct_chosen+" answer)", callback);
             choice_counter += 1;
 
@@ -219,8 +218,8 @@ public class TaskSpatialResponse extends Task {
                 logEvent("End of trial, correct outcome:"+correct_chosen, callback);
                 endOfTrial(correct_chosen, callback);
             } else {
-                logEvent("Disabling cue"+Integer.valueOf(view.getId()), callback);
-                UtilsTask.toggleCue(cues[Integer.valueOf(view.getId())], false);
+                logEvent("Disabling cue"+view.getId(), callback);
+                UtilsTask.toggleCue(cues[view.getId()], false);
             }
         }
     };
