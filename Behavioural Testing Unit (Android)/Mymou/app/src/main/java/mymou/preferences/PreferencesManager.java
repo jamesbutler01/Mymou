@@ -55,8 +55,7 @@ public class PreferencesManager {
         camera_to_use = sharedPrefs.getInt(r.getString(R.string.preftag_camera_to_use), r.getInteger(R.integer.default_camera_to_use));
         sound_to_play = sharedPrefs.getInt(r.getString(R.string.preftag_sound_to_play), 0);
 
-        int[] dimscreenlevels = r.getIntArray(R.array.dimscreenvalues);
-        dimscreenlevel = dimscreenlevels[sharedPrefs.getInt(r.getString(R.string.preftag_dimscreenlevel), 5)];
+        dimscreenlevel = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_dimscreenlevel), "5"));
 
         max_reward_channels = Integer.valueOf(mContext.getString(R.string.max_reward_channels));
         num_reward_chans = sharedPrefs.getInt(r.getString(R.string.preftag_num_rew_chans), r.getInteger(R.integer.default_num_rew_chans));
