@@ -22,6 +22,12 @@
                 app:title="Enable facial recognition" />
 
         <SwitchPreferenceCompat
+                app:defaultValue="@bool/default_savefacerecogarrays"
+                app:key="@string/preftag_savefacerecogarrays"
+                app:title="Convert photos to integer arrays and save them"
+                app:summary="The facial recognition module will then use these arrays to train the classifier. This option is expensive to run, however."/>
+
+        <SwitchPreferenceCompat
                 app:defaultValue="false"
                 app:key="@string/preftag_crop_photos"
                 app:title="Crop camera photos" />

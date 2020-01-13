@@ -4,6 +4,7 @@
     <bool name="default_bluetooth">false</bool>
     <bool name="default_camera">true</bool>
     <bool name="default_facerecog">false</bool>
+    <bool name="default_savefacerecogarrays">false</bool>
     <bool name="default_restartoncrash">true</bool>
     <bool name="default_sound">true</bool>
     <bool name="default_autostart">false</bool>

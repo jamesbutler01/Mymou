@@ -69,6 +69,7 @@
     <string name="preftag_cam_picker">preftag_cam_picker</string>
     <string name="preftag_camera_resolution">preftag_camera_resolution</string>
     <string name="preftag_facerecog">facerecog</string>
+    <string name="preftag_savefacerecogarrays">savefacerecogarrays</string>
     <string name="preftag_restartoncrash">restartoncrash</string>
     <string name="preftag_sound">sound</string>
     <string name="preftag_autostart">autostart</string>

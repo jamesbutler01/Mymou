@@ -269,6 +269,7 @@ public class CameraMain extends Fragment
                 Size[] choices = map.getOutputSizes(SurfaceTexture.class);
                 mPreviewSize = choices[0];
                 mCameraId = cameraId;
+
                 return;
         } catch (CameraAccessException e) {
             e.printStackTrace();

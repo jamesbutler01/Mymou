@@ -9,6 +9,8 @@ import android.graphics.Matrix;
 import android.media.Image;
 import android.util.Log;
 import androidx.preference.PreferenceManager;
+
+import mymou.R;
 import mymou.Utils.FolderManager;
 
 import java.io.ByteArrayOutputStream;
@@ -80,9 +82,9 @@ class CameraSavePhoto implements Runnable {
 
         }
 
-        PreferencesManager preferencesManager = new PreferencesManager(mContext);
+        // Check if user wants to save the integer array (expensive)
+        if (settings.getBoolean(mContext.getResources().getString(R.string.preftag_savefacerecogarrays),  mContext.getResources().getBoolean(R.bool.default_savefacerecogarrays))) {
 
-        if (preferencesManager.facerecog == true) {
             // Create integer array for facerecog
             int x = bitmapCropped.getWidth();
             int y = bitmapCropped.getHeight();
