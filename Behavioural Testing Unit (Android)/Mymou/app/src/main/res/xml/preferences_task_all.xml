@@ -70,6 +70,20 @@
                 android:summary="Device will beep on successful trials to aid secondary reinforcement"
                 app:defaultValue="@bool/default_sound"/>
 
+        <SwitchPreferenceCompat
+                app:key="@string/preftag_dimscreen"
+                app:title="Dim screen when not in use"
+                android:summary="Device will reduce screen brightness when not in use to conserve power"
+                app:defaultValue="@bool/default_dimscreen"/>
+
+        <ListPreference
+                app:key="@string/preftag_dimscreenlevel"
+                app:title="Dim screen amount (percentage)"
+                android:entries="@array/dimscreennames"
+                android:entryValues="@array/dimscreenvalues"
+                android:defaultValue="@integer/default_dimscreenamount"/>
+
+
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

@@ -19,6 +19,7 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import mymou.R;
+import mymou.preferences.PreferencesManager;
 
 import java.util.StringTokenizer;
 
@@ -27,13 +28,13 @@ public class UtilsSystem {
     public static String TAG = "MymouUtilsSystem";
 
 
-    public static void setBrightness(boolean bool, Context context) {
+    public static void setBrightness(boolean bool, Context context, PreferencesManager preferencesManager) {
         if (Settings.System.canWrite(context)) {
             int brightness;
-            if (bool) {
+            if (bool || !preferencesManager.dimscreen) {
                 brightness = 255;
             } else {
-                brightness = 0;
+                brightness = preferencesManager.dimscreenlevel;
             }
             ContentResolver cResolver = context.getContentResolver();
             Settings.System.putInt(cResolver, Settings.System.SCREEN_BRIGHTNESS, brightness);

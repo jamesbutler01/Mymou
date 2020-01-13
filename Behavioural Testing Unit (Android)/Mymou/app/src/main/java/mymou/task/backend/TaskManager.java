@@ -365,7 +365,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
             @Override
             public void setBrightnessFromTask_(boolean bool) {
-                UtilsSystem.setBrightness(bool, mContext);
+                UtilsSystem.setBrightness(bool, mContext, preferencesManager);
             }
 
             @Override
@@ -578,7 +578,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     public static boolean enableApp(boolean bool) {
         Log.d(TAG, "Enabling app" + bool);
-        UtilsSystem.setBrightness(bool, mContext);
+        UtilsSystem.setBrightness(bool, mContext, preferencesManager);
 
         View foregroundBlack = activity.findViewById(R.id.foregroundblack);
         if (foregroundBlack != null) {
@@ -771,7 +771,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         resetTimer();
 
         // Make screen bright
-        UtilsSystem.setBrightness(true, mContext);
+        UtilsSystem.setBrightness(true, mContext, preferencesManager);
 
         // Now decide what to do based on what menu_button pressed
         switch (view.getId()) {
@@ -982,7 +982,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     private static void resetTimer() {
         Log.d(TAG, "resetTimer");
-        UtilsSystem.setBrightness(true, mContext);
+        UtilsSystem.setBrightness(true, mContext, preferencesManager);
         time = 0;
     }
 
@@ -1027,7 +1027,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     }
 
     private static void PrepareForNewTrial(int delay) {
-        UtilsSystem.setBrightness(true, mContext);
+        UtilsSystem.setBrightness(true, mContext, preferencesManager);
 
         h1.postDelayed(new Runnable() {
             @Override

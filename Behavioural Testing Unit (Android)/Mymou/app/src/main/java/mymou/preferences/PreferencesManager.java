@@ -17,8 +17,10 @@ public class PreferencesManager {
     public String base_error_message = "Error: Invalid settings configured so task cannot run. Please adjust settings and restart the task:\n\n";
     public String data_headers = "taskId, trialCounter, faceRecogPrediction, overallTrialOutcome, photoTimestamp, eventTimestamp, task manager code, task specific event codes";
 
-    public static boolean debug, bluetooth, camera, facerecog, savefacerecogarrays, restartoncrash, sound, autostart, autostop, skip_go_cue=false;
+    public static boolean debug, bluetooth, camera, facerecog, savefacerecogarrays, restartoncrash,
+            sound, autostart, autostop, skip_go_cue=false, dimscreen;
     public static int sound_to_play;
+    public static int dimscreenlevel;
     public static int num_reward_chans, default_rew_chan, max_reward_channels;
     public static int rewardduration, responseduration, timeoutduration;
     public static int autostart_hour, autostop_hour, autostart_min, autostop_min;
@@ -44,6 +46,7 @@ public class PreferencesManager {
         camera = sharedPrefs.getBoolean(r.getString(R.string.preftag_camera), r.getBoolean(R.bool.default_camera));
         facerecog = sharedPrefs.getBoolean(r.getString(R.string.preftag_facerecog), r.getBoolean(R.bool.default_facerecog));
         savefacerecogarrays = sharedPrefs.getBoolean(r.getString(R.string.preftag_savefacerecogarrays), r.getBoolean(R.bool.default_savefacerecogarrays));
+        dimscreen = sharedPrefs.getBoolean(r.getString(R.string.preftag_dimscreen), r.getBoolean(R.bool.default_dimscreen));
         restartoncrash = sharedPrefs.getBoolean(r.getString(R.string.preftag_restartoncrash), r.getBoolean(R.bool.default_restartoncrash));
         sound = sharedPrefs.getBoolean(r.getString(R.string.preftag_sound), r.getBoolean(R.bool.default_sound));
         autostart = sharedPrefs.getBoolean(r.getString(R.string.preftag_autostart), r.getBoolean(R.bool.default_autostart));
@@ -51,6 +54,9 @@ public class PreferencesManager {
 
         camera_to_use = sharedPrefs.getInt(r.getString(R.string.preftag_camera_to_use), r.getInteger(R.integer.default_camera_to_use));
         sound_to_play = sharedPrefs.getInt(r.getString(R.string.preftag_sound_to_play), 0);
+
+        int[] dimscreenlevels = r.getIntArray(R.array.dimscreenvalues);
+        dimscreenlevel = dimscreenlevels[sharedPrefs.getInt(r.getString(R.string.preftag_dimscreenlevel), 5)];
 
         max_reward_channels = Integer.valueOf(mContext.getString(R.string.max_reward_channels));
         num_reward_chans = sharedPrefs.getInt(r.getString(R.string.preftag_num_rew_chans), r.getInteger(R.integer.default_num_rew_chans));

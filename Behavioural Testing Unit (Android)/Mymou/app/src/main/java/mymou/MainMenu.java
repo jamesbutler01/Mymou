@@ -60,7 +60,7 @@ public class MainMenu extends Activity {
 
         initialiseSpinner();
 
-        UtilsSystem.setBrightness(true, this);
+        UtilsSystem.setBrightness(true, this, preferencesManager);
 
     }
 

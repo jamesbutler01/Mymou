@@ -31,6 +31,7 @@
                 app:defaultValue="false"
                 app:key="@string/preftag_crop_photos"
                 app:title="Crop camera photos" />
+
         <Preference
                 app:fragment="mymou.preferences.PrefsActCropPicker"
                 app:key="@string/preftag_crop_picker"
