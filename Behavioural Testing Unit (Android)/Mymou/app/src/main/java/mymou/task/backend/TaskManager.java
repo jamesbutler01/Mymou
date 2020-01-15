@@ -8,6 +8,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
@@ -581,11 +582,13 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             if (hour >= preferencesManager.autostop_hour && min > preferencesManager.autostop_min) {
                 Log.d(TAG, "dailyTimer disabling app");
 
-                if (preferencesManager.autostart) {
-                    // Awaken screen
-                    UtilsSystem.setBrightness(false, mContext, preferencesManager);
-                    
-                    // Reactivate task
+                if (preferencesManager.autostop) {
+
+                    // Dim screen
+                    ContentResolver cResolver = mContext.getContentResolver();
+                    Settings.System.putInt(cResolver, Settings.System.SCREEN_BRIGHTNESS, 0);
+
+                    // Deactivate task
                     enableApp(false);
 
                 }

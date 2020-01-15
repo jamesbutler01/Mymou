@@ -31,27 +31,34 @@ public class PrefsFragTimePicker extends DialogFragment {
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         key = getArguments().getString("pref_tag");
 
-        timePicker = view.findViewById(R.id.timePicker);
-        timePicker.setIs24HourView(true);
-
-        // Set timepicker to currently selected time
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-        int default_hour;
-        if (key == "autostart") {
+        // Load settings depending on whether this is auto start or autostop
+         int default_hour;
+         String hour_key, minute_key;
+        if (key == getResources().getString(R.string.preftag_autostarttimepicker)) {
             default_hour = getResources().getInteger(R.integer.default_autostart_hour);
+            hour_key = getResources().getString(R.string.preftag_autostart_hour);
+            minute_key = getResources().getString(R.string.preftag_autostart_min);
         } else {
             default_hour = getResources().getInteger(R.integer.default_autostop_hour);
+            hour_key = getResources().getString(R.string.preftag_autostop_hour);
+            minute_key = getResources().getString(R.string.preftag_autostop_min);
         }
-        int hour = settings.getInt(key+"_hour", default_hour);
-        int min = settings.getInt(key+"_min", 0);
+
+        // Get currently selected time
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+        int hour = settings.getInt(hour_key, default_hour);
+        int min = settings.getInt(minute_key, 0);
+
+        timePicker = view.findViewById(R.id.timePicker);
+        timePicker.setIs24HourView(true);
         timePicker.setHour(hour);
         timePicker.setMinute(min);
 
         timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
                 SharedPreferences.Editor editor = settings.edit();
-                editor.putInt(key+"_hour", hourOfDay);
-                editor.putInt(key+"_min", minute);
+                editor.putInt(hour_key, hourOfDay);
+                editor.putInt(minute_key, minute);
                 editor.commit();
             }
         });

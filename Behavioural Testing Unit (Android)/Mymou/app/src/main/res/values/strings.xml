@@ -76,7 +76,9 @@
     <string name="preftag_restartoncrash">restartoncrash</string>
     <string name="preftag_sound">sound</string>
     <string name="preftag_autostart">autostart</string>
+    <string name="preftag_autostarttimepicker">autostarttimepicker</string>
     <string name="preftag_autostop">autostop</string>
+    <string name="preftag_autostoptimepicker">autostoptimepicker</string>
     <string name="preftag_skip_go_cue">skip_go_cue</string>
 
     <string name="preftag_gocuecolors">colours_gocues</string>

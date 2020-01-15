@@ -6,25 +6,27 @@
             app:title="Automatic startup and shutdown">
 
         <SwitchPreferenceCompat
-                app:key="autostartswitch"
+                app:key="@string/preftag_autostart"
                 app:title="Automatic device startup"
+                app:summary="If selected, task will automatically start when the selected time occurs"
                 app:defaultValue="@bool/default_autostart"/>
 
         <Preference
                 app:fragment="mymou.preferences.PrefsFragTimePicker"
-                app:key="autostart"
-                app:title="Configure start up time"
+                app:key="@string/preftag_autostarttimepicker"
+                app:title="Set start up time"
                 app:isPreferenceVisible="false"/>
 
         <SwitchPreferenceCompat
-                app:key="autostopswitch"
+                app:key="@string/preftag_autostop"
                 app:title="Automatic device shutdown"
+                app:summary="If selected, task will automatically enter a low power saving mode when the selected time occurs. During this time the task will not be accessible to the subjects."
                 app:defaultValue="@bool/default_autostop"/>
 
         <Preference
                 app:fragment="mymou.preferences.PrefsFragTimePicker"
-                app:key="autostop"
-                app:title="Configure shut down time"
+                app:key="@string/preftag_autostoptimepicker"
+                app:title="Set shut down time"
                 app:isPreferenceVisible="false"/>
 
     </PreferenceCategory>
