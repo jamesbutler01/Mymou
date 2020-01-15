@@ -31,5 +31,16 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 />
 
+        <Button
+                android:id="@+id/timepicker_exit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save and exit"
+                android:textSize="25sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/timePicker"
+                android:layout_marginTop="40dp"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

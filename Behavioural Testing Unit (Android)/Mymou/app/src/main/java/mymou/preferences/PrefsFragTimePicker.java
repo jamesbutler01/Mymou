@@ -8,16 +8,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.preference.PreferenceManager;
 import mymou.R;
 
-public class PrefsFragTimePicker extends DialogFragment {
+public class PrefsFragTimePicker extends DialogFragment implements View.OnClickListener {
 
     private TimePicker timePicker;
     private String key;
 
     public PrefsFragTimePicker() {
+    }
+
+    @Override
+    public void onClick(View view) {
+        // Tell user settings have been saved
+        Toast.makeText(getContext(), "Settings saved", Toast.LENGTH_LONG);
+
+        // Close fragment
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        fm.popBackStack();
     }
 
     @Override
@@ -44,7 +57,7 @@ public class PrefsFragTimePicker extends DialogFragment {
             minute_key = getResources().getString(R.string.preftag_autostop_min);
         }
 
-        // Get currently selected time
+        // Set picker to currently selected time
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
         int hour = settings.getInt(hour_key, default_hour);
         int min = settings.getInt(minute_key, 0);
@@ -54,6 +67,7 @@ public class PrefsFragTimePicker extends DialogFragment {
         timePicker.setHour(hour);
         timePicker.setMinute(min);
 
+        // Set onChangedListener to save any changes to the time
         timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
                 SharedPreferences.Editor editor = settings.edit();
@@ -62,6 +76,9 @@ public class PrefsFragTimePicker extends DialogFragment {
                 editor.commit();
             }
         });
+
+        // Implement exit button
+        view.findViewById(R.id.timepicker_exit_button).setOnClickListener(this);
 
     }
 
