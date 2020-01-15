@@ -564,13 +564,33 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         if (shutdown) {  // If shutdown and waiting to start up in the morning
             if (hour >= preferencesManager.autostart_hour && min > preferencesManager.autostart_min) {
                 Log.d(TAG, "dailyTimer enabling app");
-                enableApp(true);
+
+                if (preferencesManager.autostart) {
+                    // Awaken screen
+                    UtilsSystem.setBrightness(true, mContext, preferencesManager);
+
+                    // Reactivate task
+                    enableApp(true);
+
+                }
+
+                // Flip the switch so that timer is now waiting to shut down task
                 shutdown = false;
             }
         } else {  // If active and waiting to shutdown
             if (hour >= preferencesManager.autostop_hour && min > preferencesManager.autostop_min) {
                 Log.d(TAG, "dailyTimer disabling app");
-                enableApp(false);
+
+                if (preferencesManager.autostart) {
+                    // Awaken screen
+                    UtilsSystem.setBrightness(false, mContext, preferencesManager);
+                    
+                    // Reactivate task
+                    enableApp(false);
+
+                }
+
+                // Flip the switch so that timer is now waiting to shut down task
                 shutdown = true;
             }
         }
@@ -598,8 +618,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             } else {
                 killTask();
             }
-
-            UtilsSystem.setBrightness(bool, mContext, preferencesManager);
 
             return true;
 
