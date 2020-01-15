@@ -4,6 +4,7 @@
 
     <PreferenceCategory
             app:key="task_settings"
+            android:layout="@layout/preferences_title"
             app:title="Settings for Spatial Response task">
 
         <ListPreference

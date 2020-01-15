@@ -1,68 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:background="@android:color/transparent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/task_container"
-    tools:context="com.example.jbutler.mymou.mymou.MainMenu">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        tools:context="com.example.jbutler.mymou.mymou.MainMenu">
 
     <View
             android:id="@+id/background_main"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"/>
+            android:layout_height="fill_parent" />
 
-     <Button
-                android:text="Reward\nChoice #0"
-                android:layout_width="175dp"
-                android:layout_height="175dp"
-                android:textSize="30sp"
-                android:id="@+id/buttonRewardZero"/>
+    <Button
+            android:id="@+id/buttonRewardZero"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:text="Reward\nChoice #0"
+            android:textSize="30sp" />
 
-        <Button
-                android:text="Reward\nChoice #1"
-                android:layout_width="175dp"
-                android:layout_height="175dp"
-                android:textSize="30sp"
-                android:id="@+id/buttonRewardOne"/>
+    <Button
+            android:id="@+id/buttonRewardOne"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:text="Reward\nChoice #1"
+            android:textSize="30sp" />
 
-        <Button
-                android:text="Reward\nChoice #2"
-                android:layout_width="175dp"
-                android:layout_height="175dp"
-                android:textSize="30sp"
-                android:id="@+id/buttonRewardTwo"/>
+    <Button
+            android:id="@+id/buttonRewardTwo"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:text="Reward\nChoice #2"
+            android:textSize="30sp" />
 
-        <Button
-                android:text="Reward\nChoice #3"
-                android:layout_width="175dp"
-                android:layout_height="175dp"
-                android:textSize="30sp"
-                android:id="@+id/buttonRewardThree"/>
+    <Button
+            android:id="@+id/buttonRewardThree"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:text="Reward\nChoice #3"
+            android:textSize="30sp" />
 
 
-        <View
-                android:id="@+id/foregroundblack"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@color/black"/>
+    <View
+            android:id="@+id/foregroundblack"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/black" />
 
     <TextView
             android:id="@+id/tvLog"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:textSize="40sp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textSize="40sp" />
 
     <TextView
             android:id="@+id/tvError"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:textSize="30sp"
-            android:textColor="@color/grey"
             android:layout_marginHorizontal="20dp"
-            app:layout_constraintBottom_toBottomOf="@+id/foregroundblack"/>
+            android:textColor="@color/grey"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="@+id/foregroundblack" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

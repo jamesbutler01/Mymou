@@ -3,6 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
+            android:layout="@layout/preferences_title"
             app:key="task_settings"
             app:title="Task settings">
 

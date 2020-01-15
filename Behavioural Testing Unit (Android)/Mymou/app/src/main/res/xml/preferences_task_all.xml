@@ -2,6 +2,7 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
+            android:layout="@layout/preferences_title"
             app:key="task_settings"
             app:title="Common task settings">
 
@@ -73,6 +74,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+            android:layout="@layout/preferences_title"
             app:key="power_saving_settings"
             app:title="Power saving settings">
 
@@ -92,7 +94,7 @@
         <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_dimscreentime"
                 android:max="60"
-                android:min="1"
+                app:min="1"
                 android:summary="If no trial is started for this duration then the screen will be dimmed until it is next pressed"
                 app:key="@string/preftag_dimscreentime"
                 app:title="Time to wait until dimming screen (minutes)" />

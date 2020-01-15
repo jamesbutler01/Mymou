@@ -4,6 +4,7 @@
 
     <PreferenceCategory
             app:key="system_settings"
+            android:layout="@layout/preferences_title"
             app:title="System settings">
 
         <SwitchPreferenceCompat
@@ -36,7 +37,6 @@
                 app:fragment="mymou.preferences.PrefsFragSoundPicker"
                 app:key="soundpicker_prefsfrag"
                 app:title="Choose sound for secondary reinforcer"/>
-
 
     </PreferenceCategory>
 

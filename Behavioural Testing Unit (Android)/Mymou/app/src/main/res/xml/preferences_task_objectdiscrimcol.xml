@@ -3,48 +3,50 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-        app:key="cue_settings"
-        app:title="Cue settings">
+            android:layout="@layout/preferences_title"
+            app:key="cue_settings"
+            app:title="Cue settings">
 
-            <Preference
-            app:fragment="mymou.preferences.PrefsFragColourPicker"
-            app:title="Correct cue colours"
-            app:key="@string/preftag_od_corr_cols"
-            android:summary="Choose colours of the correct (CS+) cues here"/>
+        <Preference
+                android:summary="Choose colours of the correct (CS+) cues here"
+                app:fragment="mymou.preferences.PrefsFragColourPicker"
+                app:key="@string/preftag_od_corr_cols"
+                app:title="Correct cue colours" />
 
-            <Preference
-            app:fragment="mymou.preferences.PrefsFragColourPicker"
-            app:title="Incorrect cue colours"
-            app:key="@string/preftag_od_incorr_cols"
-            android:summary="Choose colours of the incorrect (CS-) cues here"/>
+        <Preference
+                android:summary="Choose colours of the incorrect (CS-) cues here"
+                app:fragment="mymou.preferences.PrefsFragColourPicker"
+                app:key="@string/preftag_od_incorr_cols"
+                app:title="Incorrect cue colours" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:key="task_settings"
-        app:title="Task settings">
-            <mymou.preferences.SeekBarPreferenceCustom
-            app:key="@string/preftag_od_num_corr_cues"
-            app:title="Number of correct cues on screen each trial"
-            android:defaultValue="@integer/default_objdisc_num_corr_shown"
-            android:summary="If you wish to select more, then select more cues colours in the above options"/>
+            android:layout="@layout/preferences_title"
+            app:key="task_settings"
+            app:title="Task settings">
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_objdisc_num_corr_shown"
+                android:summary="If you wish to select more, then select more cues colours in the above options"
+                app:key="@string/preftag_od_num_corr_cues"
+                app:title="Number of correct cues on screen each trial" />
 
-            <mymou.preferences.SeekBarPreferenceCustom
-            app:key="@string/preftag_od_num_incorr_cues"
-            app:title="Number of incorrect cues on screen each trial"
-            android:defaultValue="@integer/default_objdisc_num_incorr_shown"
-            android:summary="If you wish to select more, then select more cues colours in the above options"/>
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_objdisc_num_incorr_shown"
+                android:summary="If you wish to select more, then select more cues colours in the above options"
+                app:key="@string/preftag_od_num_incorr_cues"
+                app:title="Number of incorrect cues on screen each trial" />
 
-            <mymou.preferences.SeekBarPreferenceCustom
-            app:key="@string/preftag_od_num_steps"
-            app:title="Number of correct choices per trial"
-            android:defaultValue="@integer/default_objdisc_num_steps"
-            android:summary="The subject will need to complete this many choices correctly before they gain reward"/>
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_objdisc_num_steps"
+                android:summary="The subject will need to complete this many choices correctly before they gain reward"
+                app:key="@string/preftag_od_num_steps"
+                app:title="Number of correct choices per trial" />
 
-            <SwitchPreferenceCompat
-            app:key="@string/preftag_od_repeat_error"
-            app:title="Repeat trial on error"
-            android:summary="If selected, subjects will be given same trial until they get it correct"/>
+        <SwitchPreferenceCompat
+                android:summary="If selected, subjects will be given same trial until they get it correct"
+                app:key="@string/preftag_od_repeat_error"
+                app:title="Repeat trial on error" />
 
     </PreferenceCategory>
 

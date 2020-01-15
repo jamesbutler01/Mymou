@@ -3,6 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
+            android:layout="@layout/preferences_title"
             app:key="system_settings"
             app:title="Camera settings">
 
@@ -24,8 +25,8 @@
         <SwitchPreferenceCompat
                 app:defaultValue="@bool/default_savefacerecogarrays"
                 app:key="@string/preftag_savefacerecogarrays"
-                app:title="Convert photos to integer arrays and save them"
-                app:summary="The facial recognition module will then use these arrays to train the classifier. This option is expensive to run, however."/>
+                app:summary="The facial recognition module will then use these arrays to train the classifier. This option is expensive to run, however."
+                app:title="Convert photos to integer arrays and save them" />
 
         <SwitchPreferenceCompat
                 app:defaultValue="false"
@@ -42,8 +43,8 @@
                 android:entries="@array/colournames"
                 android:entryValues="@array/colourvalues"
                 app:key="@string/preftag_camera_resolution"
-                app:title="Camera resolution"
-                app:summary="The resolution of selfies that are taken during the task"/>
+                app:summary="The resolution of selfies that are taken during the task"
+                app:title="Camera resolution" />
 
     </PreferenceCategory>
 

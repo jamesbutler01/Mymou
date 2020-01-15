@@ -2,10 +2,10 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
        <PreferenceCategory
             app:key="settings_menu"
-            app:title="Settings">
+               android:layout="@layout/preferences_title"
+               app:title="Settings">
 
     <Preference
             app:fragment="mymou.preferences.PrefsFragCommon"

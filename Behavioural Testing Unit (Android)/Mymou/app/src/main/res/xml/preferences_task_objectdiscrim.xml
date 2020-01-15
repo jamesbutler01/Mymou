@@ -3,15 +3,16 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
+            android:layout="@layout/preferences_title"
             app:key="task_settings"
             app:title="Settings for Object Discrimination task">
 
         <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_od_num_distractors"
-                app:key="@string/preftag_od_num_distractors"
-                app:title="Number of distractors to present"
                 android:max="3"
-                android:min="1"/>
+                android:min="1"
+                app:key="@string/preftag_od_num_distractors"
+                app:title="Number of distractors to present" />
 
         <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_od_duration_on"

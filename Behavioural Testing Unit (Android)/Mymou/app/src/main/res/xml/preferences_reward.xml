@@ -4,6 +4,7 @@
 
     <PreferenceCategory
             app:key="reward_settings"
+            android:layout="@layout/preferences_title"
             app:title="Reward settings">
 
         <SwitchPreferenceCompat
