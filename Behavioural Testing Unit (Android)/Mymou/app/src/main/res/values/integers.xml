@@ -28,6 +28,7 @@
     <integer name="default_rewardbackgroundcolour">14</integer>
     <integer name="default_timeoutbackgroundcolour">6</integer>
     <integer name="default_dimscreenamount">6</integer>
+    <integer name="default_dimscreentime">10</integer>
     <integer name="default_bordercolour">1</integer>
 
     <integer name="default_bordersize">20</integer>

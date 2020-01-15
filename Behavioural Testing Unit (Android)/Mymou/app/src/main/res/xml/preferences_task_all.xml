@@ -83,6 +83,13 @@
                 android:entryValues="@array/dimscreenvalues"
                 android:defaultValue="@integer/default_dimscreenamount"/>
 
+        <mymou.preferences.SeekBarPreferenceCustom
+                app:key="@string/preftag_dimscreentime"
+                app:title="Time to wait until dimming screen (minutes)"
+                android:max="1"
+                android:min="60"
+                android:summary="If no trial is started for this duration then the screen will be dimmed until it is next pressed"
+                android:defaultValue="@integer/default_dimscreentime"/>
 
     </PreferenceCategory>
 

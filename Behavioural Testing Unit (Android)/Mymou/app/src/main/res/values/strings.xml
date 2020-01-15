@@ -72,6 +72,7 @@
     <string name="preftag_savefacerecogarrays">savefacerecogarrays</string>
     <string name="preftag_dimscreen">preftag_dimscreen</string>
     <string name="preftag_dimscreenlevel">preftag_dimscreenlevel</string>
+    <string name="preftag_dimscreentime">preftag_dimscreentime</string>
     <string name="preftag_restartoncrash">restartoncrash</string>
     <string name="preftag_sound">sound</string>
     <string name="preftag_autostart">autostart</string>

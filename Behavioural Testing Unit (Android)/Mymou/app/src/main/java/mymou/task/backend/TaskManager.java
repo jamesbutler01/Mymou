@@ -69,6 +69,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     private static Handler h1 = new Handler();  // Prepare for new trial
     private static Handler h2 = new Handler();  // Timeout go cues
     private static Handler h3 = new Handler();  // Daily timer
+    private static Handler h4 = new Handler();  // Screen dim timer
 
     // Predetermined locations where cues can appear on screen, calculated by UtilsTask.calculateCueLocations()
     private static Point[] possible_cue_locs;
@@ -384,13 +385,20 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
         } else {
 
+            // Start task timer first (so will still timeout if task is disabled)
             if (!timerRunning) {
                 trial_timer();
-            } // Start task timer first (so will still timeout if task is disabled)
+            }
 
+            // Cancel screen dimmer timer
+            h4.removeCallbacksAndMessages(null);
+
+            // Log trial is starting
             logEvent(preferencesManager.ec_trial_started, false);
             updateTvExplanation("");
             trial_running = true;
+
+            // Finally start the trial
             commitFragment();
 
         }
@@ -578,7 +586,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     public static boolean enableApp(boolean bool) {
         Log.d(TAG, "Enabling app" + bool);
-        UtilsSystem.setBrightness(bool, mContext, preferencesManager);
 
         View foregroundBlack = activity.findViewById(R.id.foregroundblack);
         if (foregroundBlack != null) {
@@ -591,7 +598,11 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             } else {
                 killTask();
             }
+
+            UtilsSystem.setBrightness(bool, mContext, preferencesManager);
+
             return true;
+
         } else {
             Log.d(TAG, "foregroundBlack object not instantiated");
             return false;
@@ -667,6 +678,11 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        UtilsSystem.setBrightness(true, mContext, preferencesManager);
+    }
 
     @Override
     public void onDestroy() {
@@ -1042,6 +1058,14 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 }
             }
         }, delay);
+
+        // Set screen to dim if no trial started
+        h4.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                UtilsSystem.setBrightness(false, mContext, preferencesManager);
+            }
+        }, preferencesManager.dimscreentime*1000*60);
     }
 
 
@@ -1051,6 +1075,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         h1.removeCallbacksAndMessages(null);
         h2.removeCallbacksAndMessages(null);
         h3.removeCallbacksAndMessages(null);
+        h4.removeCallbacksAndMessages(null);
         timerRunning = false;
 
     }

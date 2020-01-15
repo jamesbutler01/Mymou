@@ -20,7 +20,7 @@ public class PreferencesManager {
     public static boolean debug, bluetooth, camera, facerecog, savefacerecogarrays, restartoncrash,
             sound, autostart, autostop, skip_go_cue=false, dimscreen;
     public static int sound_to_play;
-    public static int dimscreenlevel;
+    public static int dimscreenlevel, dimscreentime;
     public static int num_reward_chans, default_rew_chan, max_reward_channels;
     public static int rewardduration, responseduration, timeoutduration;
     public static int autostart_hour, autostop_hour, autostart_min, autostop_min;
@@ -56,6 +56,7 @@ public class PreferencesManager {
         sound_to_play = sharedPrefs.getInt(r.getString(R.string.preftag_sound_to_play), 0);
 
         dimscreenlevel = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_dimscreenlevel), "5"));
+        dimscreentime = sharedPrefs.getInt(r.getString(R.string.preftag_dimscreentime),  r.getInteger(R.integer.default_dimscreentime));
 
         max_reward_channels = Integer.valueOf(mContext.getString(R.string.max_reward_channels));
         num_reward_chans = sharedPrefs.getInt(r.getString(R.string.preftag_num_rew_chans), r.getInteger(R.integer.default_num_rew_chans));
