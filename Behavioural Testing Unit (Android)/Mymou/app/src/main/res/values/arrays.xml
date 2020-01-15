@@ -119,4 +119,10 @@
         <item>true</item>
     </string-array>
 
+    <string-array name="spatialresponsenumcues">
+        <item>2</item>
+        <item>4</item>
+        <item>8</item>
+    </string-array>
+
 </resources>

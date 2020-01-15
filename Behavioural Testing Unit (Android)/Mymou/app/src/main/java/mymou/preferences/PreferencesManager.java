@@ -283,7 +283,7 @@ public class PreferencesManager {
         sr_duration_off = sharedPrefs.getInt(r.getString(R.string.preftag_sr_duration_off), r.getInteger(R.integer.default_sr_duration_off));
         sr_duration_on = sharedPrefs.getInt(r.getString(R.string.preftag_sr_duration_on), r.getInteger(R.integer.default_sr_duration_on));
         sr_num_stim = sharedPrefs.getInt(r.getString(R.string.preftag_sr_num_stimuli), r.getInteger(R.integer.default_sr_num_stimuli));
-        sr_locations = sharedPrefs.getInt(r.getString(R.string.preftag_sr_locations), r.getInteger(R.integer.default_sr_locations));
+        sr_locations = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_sr_locations), "2"));
     } 
     
     public int od_duration_on, od_duration_off, od_num_stim, od_num_distractors, od_start_delay;

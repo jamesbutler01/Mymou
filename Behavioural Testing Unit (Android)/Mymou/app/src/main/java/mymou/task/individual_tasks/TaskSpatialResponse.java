@@ -28,7 +28,6 @@ import mymou.task.backend.UtilsTask;
  *
  * The length of each sequence, and timing properties of the movie, can be altered in the options menu
  *
- * TODO: Implement logging of task variables
  */
 public class TaskSpatialResponse extends Task {
 
@@ -115,16 +114,13 @@ public class TaskSpatialResponse extends Task {
         prefManager = new PreferencesManager(getContext());
         prefManager.SpatialResponse();
 
-        int locations = prefManager.sr_locations;
-        if (locations<3) {locations=2;}else if (locations<5) {locations=4;}else {locations = 8;}
-
         choice_counter = 0;
         task_phase = 0;
-        cues = new Button[locations];
+        cues = new Button[prefManager.sr_locations];
 
         // Choose cues (without replacement)
         chosen_cues = new int[prefManager.sr_num_stim];
-        boolean[] chosen_cues_b = UtilsSystem.getBooleanFalseArray(locations);
+        boolean[] chosen_cues_b = UtilsSystem.getBooleanFalseArray(prefManager.sr_locations);
 
         for (int i = 0; i < prefManager.sr_num_stim; i++) {
             chosen_cues[i] = UtilsTask.chooseValueNoReplacement(chosen_cues_b);
@@ -152,7 +148,7 @@ public class TaskSpatialResponse extends Task {
             layout.addView(cues[i]);
         }
 
-        switch (locations) {
+        switch (prefManager.sr_locations) {
             case 2:
                 cues[0].setX(575);
                 cues[1].setX(575);

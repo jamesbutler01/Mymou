@@ -68,8 +68,8 @@
     <integer name="default_ea_variance">1</integer>
 
     <integer name="default_sr_num_stimuli">1</integer>
-    <integer name="default_sr_locations">8</integer>
-    <integer name="default_sr_duration_on">500</integer>
+    <integer name="default_sr_locations">2</integer>
+    <integer name="default_sr_duration_on">800</integer>
     <integer name="default_sr_duration_off">1500</integer>
     
     <integer name="default_od_num_distractors">3</integer>
