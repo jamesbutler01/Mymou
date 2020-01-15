@@ -35,17 +35,15 @@ public class TaskSpatialResponse extends Task {
     // Debug
     public static String TAG = "TaskSpatialResponse";
 
-    private static int num_positions = 8;
+    private static Button[] cues;
     private static int[] chosen_cues;
     private static int choice_counter;
-    private static boolean[] chosen_cues_b;
-    private static Button[] cues = new Button[num_positions];
-    GradientDrawable drawable_red, drawable_grey;
+    private static int task_phase;
+    private GradientDrawable drawable_red, drawable_grey;
     private static PreferencesManager prefManager;
     private static Handler h0 = new Handler();  // Show object
     private static Handler h1 = new Handler();  // Hide object
     private static Handler h2 = new Handler();  // Choice phase
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,21 +67,21 @@ public class TaskSpatialResponse extends Task {
         if (num_steps > 0) {
             h0.postDelayed(new Runnable() {
                 @Override
-                public void run() {
+                public void run() { // turn ON the cue
+                    task_phase = 1;
                     UtilsTask.toggleCues(cues, true);
                     cues[chosen_cues[num_steps - 1]].setBackgroundDrawable(drawable_red);
                     logEvent("Cues toggled on (frame: " + num_steps + "/" + prefManager.sr_num_stim +")", callback);
                 }
             }, prefManager.sr_duration_off);
 
-            h1.postDelayed(new Runnable() {
+            h1.postDelayed(new Runnable() { // turn off the cue
                 @Override
                 public void run() {
+                    task_phase = 2;
                     cues[chosen_cues[num_steps - 1]].setBackgroundDrawable(drawable_grey);
-
                     UtilsTask.toggleCues(cues, false);
                     logEvent("Cues toggled off (frame: " + num_steps + "/" + prefManager.sr_num_stim +")", callback);
-
                     startMovie(num_steps - 1);
                 }
             }, prefManager.sr_duration_on + prefManager.sr_duration_off);
@@ -94,16 +92,14 @@ public class TaskSpatialResponse extends Task {
             h2.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    task_phase = 3;
                     for (int i = 0; i < cues.length; i++) {
 
                         UtilsTask.toggleCue(cues[i], true);
 
-                        // Make clickable
-                        cues[i].setOnClickListener(buttonClickListener);
-
                         // Change colour to not reveal answer!
                         GradientDrawable drawable = new GradientDrawable();
-                        drawable.setShape(GradientDrawable.RECTANGLE);
+                        drawable.setShape(GradientDrawable.OVAL); //use different shape to denote a response cue
                         drawable.setColor(ContextCompat.getColor(getContext(), R.color.white));
                         drawable.setStroke(5, ContextCompat.getColor(getContext(), R.color.black));
                         cues[i].setBackgroundDrawable(drawable);
@@ -115,16 +111,20 @@ public class TaskSpatialResponse extends Task {
 
     }
 
-
     private void assignObjects() {
         prefManager = new PreferencesManager(getContext());
         prefManager.SpatialResponse();
 
+        int locations = prefManager.sr_locations;
+        if (locations<3) {locations=2;}else if (locations<5) {locations=4;}else {locations = 8;}
+
         choice_counter = 0;
+        task_phase = 0;
+        cues = new Button[locations];
 
         // Choose cues (without replacement)
         chosen_cues = new int[prefManager.sr_num_stim];
-        chosen_cues_b = UtilsSystem.getBooleanFalseArray(num_positions);
+        boolean[] chosen_cues_b = UtilsSystem.getBooleanFalseArray(locations);
 
         for (int i = 0; i < prefManager.sr_num_stim; i++) {
             chosen_cues[i] = UtilsTask.chooseValueNoReplacement(chosen_cues_b);
@@ -152,24 +152,44 @@ public class TaskSpatialResponse extends Task {
             layout.addView(cues[i]);
         }
 
-        // Position cues clockwise from 12:00
-        cues[0].setX(575);
-        cues[1].setX(775);
-        cues[2].setX(975);
-        cues[3].setX(775);
-        cues[4].setX(575);
-        cues[5].setX(375);
-        cues[6].setX(175);
-        cues[7].setX(375);
-
-        cues[0].setY(400);
-        cues[1].setY(650);
-        cues[2].setY(900);
-        cues[3].setY(1150);
-        cues[4].setY(1400);
-        cues[5].setY(1150);
-        cues[6].setY(900);
-        cues[7].setY(650);
+        switch (locations) {
+            case 2:
+                cues[0].setX(575);
+                cues[1].setX(575);
+                cues[0].setY(400);
+                cues[1].setY(1400);
+                break;
+            case 4:
+                // Position cues clockwise from 12:00
+                cues[0].setX(575);
+                cues[1].setX(975);
+                cues[2].setX(575);
+                cues[3].setX(175);
+                cues[0].setY(400);
+                cues[1].setY(900);
+                cues[2].setY(1400);
+                cues[3].setY(900);
+                break;
+            default:
+                // Position cues clockwise from 12:00
+                cues[0].setX(575);
+                cues[1].setX(775);
+                cues[2].setX(975);
+                cues[3].setX(775);
+                cues[4].setX(575);
+                cues[5].setX(375);
+                cues[6].setX(175);
+                cues[7].setX(375);
+                cues[0].setY(400);
+                cues[1].setY(650);
+                cues[2].setY(900);
+                cues[3].setY(1150);
+                cues[4].setY(1400);
+                cues[5].setY(1150);
+                cues[6].setY(900);
+                cues[7].setY(650);
+                break;
+        }
 
         UtilsTask.toggleCues(cues, false);
 
@@ -186,16 +206,20 @@ public class TaskSpatialResponse extends Task {
         @Override
         public void onClick(View view) {
 
-            boolean correct_chosen = Integer.valueOf(view.getId()) == chosen_cues[(prefManager.sr_num_stim - choice_counter) - 1];
+            boolean correct_chosen = view.getId() == chosen_cues[(prefManager.sr_num_stim - choice_counter) - 1];
             logEvent(""+view.getId()+" cue pressed ("+correct_chosen+" answer)", callback);
             choice_counter += 1;
 
-            if (choice_counter == prefManager.sr_num_stim | !correct_chosen) {
+            if (task_phase < 3) {
+                logEvent("Stimulus cue rather than decision cue clicked!!!", callback);
+                endOfTrial(false, callback);
+            }
+            else if (choice_counter == prefManager.sr_num_stim | !correct_chosen) {
                 logEvent("End of trial, correct outcome:"+correct_chosen, callback);
                 endOfTrial(correct_chosen, callback);
             } else {
-                logEvent("Disabling cue"+Integer.valueOf(view.getId()), callback);
-                UtilsTask.toggleCue(cues[Integer.valueOf(view.getId())], false);
+                logEvent("Disabling cue"+view.getId(), callback);
+                UtilsTask.toggleCue(cues[view.getId()], false);
             }
         }
     };

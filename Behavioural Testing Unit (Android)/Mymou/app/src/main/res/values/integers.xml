@@ -67,7 +67,8 @@
     <integer name="default_ea_distance">3</integer>
     <integer name="default_ea_variance">1</integer>
 
-    <integer name="default_sr_num_stimuli">3</integer>
+    <integer name="default_sr_num_stimuli">1</integer>
+    <integer name="default_sr_locations">8</integer>
     <integer name="default_sr_duration_on">500</integer>
     <integer name="default_sr_duration_off">1500</integer>
     
