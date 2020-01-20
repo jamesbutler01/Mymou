@@ -1,26 +1,3 @@
-/**
- * Task: Discrete Maze
- * <p>
- * The task used in Butler & Kennerley (2018)
- * Target cue is shown at top of screen
- * Progress bar at top of screen also shows distance from target cue
- * Current location cue is shown in centre of screen
- * Option cues are shown in lower portion of screen and highlighted with border
- * Subjects must choose correct cues to navigate towards target cue
- * Upon arrival at target cue will receive reward
- *
- * @param current_pos their corrent location in the maze
- * @param start_pos their start location in the maze
- * @param start_dist their starting distance from the target
- * @param currentDistanceFromTarget their current distance from the target
- * @param target_pos the target location where reward is located
- * @param num_steps the current number of steps on this trial
- * @param transitionMatrix the graph layout
- * <p>
- * Stimuli are taken from Brady, T. F., Konkle, T., Alvarez, G. A. and Oliva, A. (2008). Visual
- * long-term memory has a massive storage capacity for object details. Proceedings of the National
- * Academy of Sciences, USA, 105 (38), 14325-14329.
- */
 package mymou.task.individual_tasks;
 
 import android.animation.AnimatorSet;
@@ -46,7 +23,6 @@ import android.widget.TextView;
 
 import androidx.preference.PreferenceManager;
 
-import mymou.Utils.FolderManager;
 import mymou.Utils.UtilsSystem;
 import mymou.task.backend.MatrixMaths;
 import mymou.preferences.PreferencesManager;
@@ -57,7 +33,29 @@ import mymou.task.backend.UtilsTask;
 
 import java.util.Random;
 
-
+/**
+ * Task: Discrete Maze
+ * <p>
+ * The task used in Butler & Kennerley (2018)
+ * Target cue is shown at top of screen
+ * Progress bar at top of screen also shows distance from target cue
+ * Current location cue is shown in centre of screen
+ * Option cues are shown in lower portion of screen and highlighted with border
+ * Subjects must choose correct cues to navigate towards target cue
+ * Upon arrival at target cue will receive reward
+ *
+ * @param current_pos their corrent location in the maze
+ * @param start_pos their start location in the maze
+ * @param start_dist their starting distance from the target
+ * @param currentDistanceFromTarget their current distance from the target
+ * @param target_pos the target location where reward is located
+ * @param num_steps the current number of steps on this trial
+ * @param transitionMatrix the graph layout
+ * <p>
+ * Stimuli are taken from Brady, T. F., Konkle, T., Alvarez, G. A. and Oliva, A. (2008). Visual
+ * long-term memory has a massive storage capacity for object details. Proceedings of the National
+ * Academy of Sciences, USA, 105 (38), 14325-14329.
+ */
 public class TaskDiscreteMaze extends Task {
 
     private String TAG = "TaskDiscreteMaze";
@@ -168,7 +166,7 @@ public class TaskDiscreteMaze extends Task {
 
         // Get map parameters
         neighbours = new int[mapParams.numNeighbours];
-        transitionMatrix = MatrixMaths.generateTransitionMatrix(mapParams.y_size, mapParams.y_size, mapParams.torus);
+        transitionMatrix = MatrixMaths.generateDistanceMatrix(mapParams.y_size, mapParams.y_size, mapParams.torus);
         num_stimulus = mapParams.imageList.length;
 
         textView = (TextView) getView().findViewById(R.id.textview_dm);

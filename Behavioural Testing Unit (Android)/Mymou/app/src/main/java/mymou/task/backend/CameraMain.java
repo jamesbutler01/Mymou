@@ -1,12 +1,3 @@
-/**
- * Camera Main
- *
- * Main camera function which runs in background behind tasks
- * Instantiated by task manager
- * Will then take photos when requested
- * Will run photos through face recognition and then return result to TaskManager
- *
- */
 package mymou.task.backend;
 
 import android.app.Activity;
@@ -55,6 +46,17 @@ import mymou.R;
 import mymou.Utils.UtilsSystem;
 import mymou.preferences.PreferencesManager;
 
+/**
+ * Camera Main
+ *
+ * Main camera function which runs in background behind tasks
+ * Instantiated by task manager
+ * Will then take photos when requested (typically whenever a trial is started)
+ * If configured, will run photos through face recognition and then return result to TaskManager
+ *
+ * @param onImageAvailable: Listener that is called whenever the camera takes a photo
+ *
+ */
 public class CameraMain extends Fragment
         implements FragmentCompat.OnRequestPermissionsResultCallback {
 
@@ -91,8 +93,10 @@ public class CameraMain extends Fragment
         return inflater.inflate(R.layout.activity_camera_main, container, false);
     }
 
+    // Initialisation
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
+
         mTextureView = (TextureView) view.findViewById(R.id.camera_texture);
 
         // If in crop picker menu, we want to make the camera preview visible
@@ -416,7 +420,6 @@ public class CameraMain extends Fragment
                     CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
 
             //To rotate photo set angle here
-//            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, 270);
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, 0);
 
             //Set black and white

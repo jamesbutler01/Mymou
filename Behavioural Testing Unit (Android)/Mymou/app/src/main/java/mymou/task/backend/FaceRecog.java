@@ -12,13 +12,20 @@ import java.util.List;
 
 
 /**
- Uses opencsv parser library
-    Download from http://opencsv.sourceforge.net/
- Which in turn requires Apache Commons Lang 3.6 and Commons BeanUtils
-    Download from http://commons.apache.org/proper/commons-beanutils/index.html and
-    http://commons.apache.org/proper/commons-lang/download_lang.cgi respectively
- Place the three .jar file in libs folder
- Build --> Edit Libraries and Dependencies --> Add opencsv JAR
+ * Facial Recognition module
+ *
+ * Receives image input from CameraSavePhoto and return prediction from network
+ * Expensive to instantiate, so instantiate once at beginning of a session
+ *      As has to read in weights from CSV files on start up
+ *
+ * Dependencies:
+ *      Uses opencsv parser library
+ *          Download from http://opencsv.sourceforge.net/
+ *      Which in turn requires Apache Commons Lang 3.6 and Commons BeanUtils
+ *          Download from http://commons.apache.org/proper/commons-beanutils/index.html and
+ *          http://commons.apache.org/proper/commons-lang/download_lang.cgi respectively
+ *      Place the three .jar file in libs folder
+ *      Build --> Edit Libraries and Dependencies --> Add opencsv JAR
  */
 
 final class FaceRecog {

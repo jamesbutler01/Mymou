@@ -7,6 +7,11 @@ import java.util.List;
 
 import static java.lang.StrictMath.abs;
 
+/**
+ *
+ * Basic matrix functions for use with facial recognition
+ *
+ */
 public class MatrixMaths {
 
     //Tranpose matrix
@@ -143,23 +148,49 @@ public class MatrixMaths {
         return out;
     }
 
-    private static int[] convertImageNumToCoords(int imageNum, int width) {
+    /**
+     *
+     * Converts unique state references to euclidean coordinate position for a square graph
+     *
+     * E.g., in a 10x10 graph:
+     *      state 0 will return (0, 0)
+     *      state 9 will return (9, 0)
+     *      state 90 will return (9, 0)
+     *      state 99 will return (9, 9)
+     *
+     * @param state Location of interest
+     * @param x_width Width/height of the graph
+     * @return integer array of length 2 corresponding to x and y position respectively
+     */
+    private static int[] convertImageNumToCoords(int state, int x_width) {
         int[] locs = new int[2];
-        locs[0] = (imageNum % width);
-        locs[1] = (imageNum - imageNum % width) / width;
+        locs[0] = (state % x_width);
+        locs[1] = (state - state % x_width) / x_width;
         return locs;
     }
 
-    public static int[][] generateTransitionMatrix(int xlength, int ylength, boolean torus) {
+    /**
+     *
+     * Generate a distance matrix for a graph with 4-edges per node
+     * Output will be a matrix of size xlength*ylength x xlength*ylength
+     * Connected nodes will equal 1
+     *
+     * @param xlength Size of first dimension
+     * @param ylength Size of second dimension
+     * @param torus If specified, graph will have no edges
+     * @return Matrix of distances between all points on the graph
+     *
+     */
+    public static int[][] generateDistanceMatrix(int xlength, int ylength, boolean torus) {
         int numStimuli = xlength * ylength;
-        int[][] transMatrix = new int[numStimuli][numStimuli];
+        int[][] distMatrix = new int[numStimuli][numStimuli];
 
         for (int i = 0; i < numStimuli; i++) {
             int[] startLocs = convertImageNumToCoords(i, xlength);
             for (int j = 0; j < numStimuli; j++) {
                 int[] endLocs = convertImageNumToCoords(j, xlength);
                 if (!torus) {
-                    transMatrix[i][j] = abs(endLocs[0] - startLocs[0]) + abs(endLocs[1] - startLocs[1]);
+                    distMatrix[i][j] = abs(endLocs[0] - startLocs[0]) + abs(endLocs[1] - startLocs[1]);
                 } else {
                     int xdist = abs(endLocs[0] - startLocs[0]);
                     int ydist = abs(endLocs[1] - startLocs[1]);
@@ -169,11 +200,11 @@ public class MatrixMaths {
                     if (ydist > ylength / 2) {
                         ydist = ylength - ydist;
                     }
-                    transMatrix[i][j] = xdist + ydist;
+                    distMatrix[i][j] = xdist + ydist;
                 }
             }
         }
-        return transMatrix;
+        return distMatrix;
 
     }
 }

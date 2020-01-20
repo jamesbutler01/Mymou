@@ -1,10 +1,3 @@
-/**
- * Data viewer
- *
- * Loads previous performance on tasks and displays in graph format
- * TODO: In development, not currently functioning
- *
- */
 package mymou.task.backend;
 
 import android.app.Activity;
@@ -30,6 +23,13 @@ import mymou.preferences.PrefsActSystem;
 
 import java.util.List;
 
+/**
+ * Data viewer
+ *
+ * Loads previous performance on tasks and displays in graph format
+ * TODO: In development, not currently functioning
+ *
+ */
 public class DataViewer extends Activity {
 
     private String TAG = "DataViewer";

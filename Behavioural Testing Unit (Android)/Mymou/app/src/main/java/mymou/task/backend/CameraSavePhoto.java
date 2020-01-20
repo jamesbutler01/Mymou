@@ -24,7 +24,8 @@ import java.nio.ByteBuffer;
 import mymou.preferences.PreferencesManager;
 
 /**
- * Saves linked file into linked filename
+ * Saves image file with filename corresponding to the provided timestamp
+ *
  */
 class CameraSavePhoto implements Runnable {
 
@@ -35,15 +36,23 @@ class CameraSavePhoto implements Runnable {
     private Context mContext;
     private FolderManager folderManager;
 
+    /**
+     * Instantiation
+     *
+     * @param image Image to be saved
+     * @param timestampU Filename to be saved
+     */
     public CameraSavePhoto(Image image, String timestampU, Context context) {
         mImage = image;
         timestamp = timestampU;
         mContext = context;
         folderManager = new FolderManager(mContext, 0);
         day = folderManager.getBaseDate();
-        Log.d(TAG, " instantiated");
     }
 
+    /**
+     *
+     */
     @Override
     public void run() {
         Log.d(TAG, "Running CameraSavePhoto..");
@@ -77,6 +86,7 @@ class CameraSavePhoto implements Runnable {
             bitmapCropped = Bitmap.createBitmap(bitmap, startX, startY, endX, endY);
 
         } else {
+
             // Just take whole image
             bitmapCropped = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight());
 
@@ -164,13 +174,6 @@ class CameraSavePhoto implements Runnable {
             e.printStackTrace();
         }
         Log.d(TAG, "Int array saved"+fileName);
-    }
-
-    public static Bitmap rotateImage(Bitmap source, float angle) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
-                matrix, true);
     }
 
 }
