@@ -205,7 +205,7 @@ public class TaskDiscreteValueSpace extends Task {
 
 
         // Create buttons
-        ConstraintLayout layout = getView().findViewById(R.id.parent_task_from_paper);
+        ConstraintLayout layout = getView().findViewById(R.id.parent_task_empty);
         cue1 = UtilsTask.addImageCue(cue1_id, getContext(), layout, buttonClickListener);
         cue2 = UtilsTask.addImageCue(cue2_id, getContext(), layout, buttonClickListener);
         cue1.setImageResource(imagelist[cue1_x][cue1_y]);
@@ -309,12 +309,11 @@ public class TaskDiscreteValueSpace extends Task {
 
             // End trial a consistent amount of time after feedback
             // This time is set quite long to encourage learning about the correct choices
-            final boolean finalSuccessfulTrial = successfulTrial;
             Handler handlerOne = new Handler();
             handlerOne.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    endOfTrial(finalSuccessfulTrial, 0, callback);
+                    endOfTrial(false, 0, callback);
                 }
             }, preferencesManager.dvs_feedback_duration);
 
