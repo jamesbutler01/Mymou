@@ -1,4 +1,5 @@
 package mymou.task.individual_tasks;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -19,16 +20,16 @@ import mymou.task.backend.UtilsTask;
 
 /**
  * Discrete Value Space
- *
+ * <p>
  * Subjects are presented with two options, each of which are a  location in a 2D value space (magnitude x probability)
  * Subjects will then receive the magnitude * probability of whichever stimuli they choose and a secondary
  * reinforcer to indicate whether they chose the higher or lower option
- *
+ * <p>
  * Stimuli are taken from Brady, T. F., Konkle, T., Alvarez, G. A. and Oliva, A. (2008). Visual
- *  long-term memory has a massive storage capacity for object details. Proceedings of the National
- *  Academy of Sciences, USA, 105 (38), 14325-14329.
+ * long-term memory has a massive storage capacity for object details. Proceedings of the National
+ * Academy of Sciences, USA, 105 (38), 14325-14329.
  */
-public class TaskDiscreteValueSpace extends Task implements View.OnClickListener {
+public class TaskDiscreteValueSpace extends Task {
 
     // Debug
     public static String TAG = "TaskDiscreteValueSpace";
@@ -36,110 +37,110 @@ public class TaskDiscreteValueSpace extends Task implements View.OnClickListener
 
     // Global task variables
     private static ImageButton cue1, cue2;
-    private final static int cue1_id=1, cue2_id=2;
+    private final static int cue1_id = 1, cue2_id = 2;
     private static int cue1_x, cue1_y, cue2_x, cue2_y;
     private static Random r;
 
     private static int[][] imagelist = {
-     {R.drawable.aafaa,
-R.drawable.aafab,
-R.drawable.aafac,
-R.drawable.aafad,
-R.drawable.aafae,
-R.drawable.aafaf,
-R.drawable.aafag,
-R.drawable.aafah,
-R.drawable.aafai,
-R.drawable.aafaj,
-},{
-R.drawable.aafak,
-R.drawable.aafal,
-R.drawable.aafam,
-R.drawable.aafan,
-R.drawable.aafao,
-R.drawable.aafap,
-R.drawable.aafaq,
-R.drawable.aafar,
-R.drawable.aafas,
-R.drawable.aafat,
-},{
-R.drawable.aafau,
-R.drawable.aafav,
-R.drawable.aafaw,
-R.drawable.aafax,
-R.drawable.aafay,
-R.drawable.aafaz,
-R.drawable.aafba,
-R.drawable.aafbb,
-R.drawable.aafbc,
-R.drawable.aafbd,
-},{
-R.drawable.aafbe,
-R.drawable.aafbf,
-R.drawable.aafbg,
-R.drawable.aafbh,
-R.drawable.aafbi,
-R.drawable.aafbj,
-R.drawable.aafbk,
-R.drawable.aafbl,
-R.drawable.aafbm,
-R.drawable.aafbn,
-},{
-R.drawable.aafbo,
-R.drawable.aafbp,
-R.drawable.aafbq,
-R.drawable.aafbr,
-R.drawable.aafbs,
-R.drawable.aafbt,
-R.drawable.aafbu,
-R.drawable.aafbv,
-R.drawable.aafbw,
-R.drawable.aafbx,
-},{
-R.drawable.aafby,
-R.drawable.aafbz,
-R.drawable.aafca,
-R.drawable.aafcb,
-R.drawable.aafcc,
-R.drawable.aafcd,
-R.drawable.aafce,
-R.drawable.aafcf,
-R.drawable.aafcg,
-R.drawable.aafch,
-},{
-R.drawable.aafci,
-R.drawable.aafcj,
-R.drawable.aafck,
-R.drawable.aafcl,
-R.drawable.aafcm,
-R.drawable.aafcn,
-R.drawable.aafco,
-R.drawable.aafcp,
-R.drawable.aafcq,
-R.drawable.aafcr,
-},{
-R.drawable.aafcs,
-R.drawable.aafct,
-R.drawable.aafcu,
-R.drawable.aafcv,
-R.drawable.aafcw,
-R.drawable.aafcx,
-R.drawable.aafcy,
-R.drawable.aafcz,
-R.drawable.aafda,
-R.drawable.aafdb,
-},{
-R.drawable.aafdc,
-R.drawable.aafdd,
-R.drawable.aafde,
-R.drawable.aafdf,
-R.drawable.aafdg,
-R.drawable.aafdh,
-R.drawable.aafdi,
-R.drawable.aafdj,
-R.drawable.aafdk,
-R.drawable.aafdl,
-}, {
+            {R.drawable.aafaa,
+                    R.drawable.aafab,
+                    R.drawable.aafac,
+                    R.drawable.aafad,
+                    R.drawable.aafae,
+                    R.drawable.aafaf,
+                    R.drawable.aafag,
+                    R.drawable.aafah,
+                    R.drawable.aafai,
+                    R.drawable.aafaj,
+            }, {
+            R.drawable.aafak,
+            R.drawable.aafal,
+            R.drawable.aafam,
+            R.drawable.aafan,
+            R.drawable.aafao,
+            R.drawable.aafap,
+            R.drawable.aafaq,
+            R.drawable.aafar,
+            R.drawable.aafas,
+            R.drawable.aafat,
+    }, {
+            R.drawable.aafau,
+            R.drawable.aafav,
+            R.drawable.aafaw,
+            R.drawable.aafax,
+            R.drawable.aafay,
+            R.drawable.aafaz,
+            R.drawable.aafba,
+            R.drawable.aafbb,
+            R.drawable.aafbc,
+            R.drawable.aafbd,
+    }, {
+            R.drawable.aafbe,
+            R.drawable.aafbf,
+            R.drawable.aafbg,
+            R.drawable.aafbh,
+            R.drawable.aafbi,
+            R.drawable.aafbj,
+            R.drawable.aafbk,
+            R.drawable.aafbl,
+            R.drawable.aafbm,
+            R.drawable.aafbn,
+    }, {
+            R.drawable.aafbo,
+            R.drawable.aafbp,
+            R.drawable.aafbq,
+            R.drawable.aafbr,
+            R.drawable.aafbs,
+            R.drawable.aafbt,
+            R.drawable.aafbu,
+            R.drawable.aafbv,
+            R.drawable.aafbw,
+            R.drawable.aafbx,
+    }, {
+            R.drawable.aafby,
+            R.drawable.aafbz,
+            R.drawable.aafca,
+            R.drawable.aafcb,
+            R.drawable.aafcc,
+            R.drawable.aafcd,
+            R.drawable.aafce,
+            R.drawable.aafcf,
+            R.drawable.aafcg,
+            R.drawable.aafch,
+    }, {
+            R.drawable.aafci,
+            R.drawable.aafcj,
+            R.drawable.aafck,
+            R.drawable.aafcl,
+            R.drawable.aafcm,
+            R.drawable.aafcn,
+            R.drawable.aafco,
+            R.drawable.aafcp,
+            R.drawable.aafcq,
+            R.drawable.aafcr,
+    }, {
+            R.drawable.aafcs,
+            R.drawable.aafct,
+            R.drawable.aafcu,
+            R.drawable.aafcv,
+            R.drawable.aafcw,
+            R.drawable.aafcx,
+            R.drawable.aafcy,
+            R.drawable.aafcz,
+            R.drawable.aafda,
+            R.drawable.aafdb,
+    }, {
+            R.drawable.aafdc,
+            R.drawable.aafdd,
+            R.drawable.aafde,
+            R.drawable.aafdf,
+            R.drawable.aafdg,
+            R.drawable.aafdh,
+            R.drawable.aafdi,
+            R.drawable.aafdj,
+            R.drawable.aafdk,
+            R.drawable.aafdl,
+    }, {
             R.drawable.aafdm,
             R.drawable.aafdn,
             R.drawable.aafdo,
@@ -164,14 +165,12 @@ R.drawable.aafdl,
     }
 
     /**
-     *
      * Function called after the UI has been loaded
      * Once this is called you can then make any UI changes you want (moving cues around etc)
-     *
      */
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        logEvent(TAG+" started", callback);
+        logEvent(TAG + " started", callback);
 
         // Instantiate task objects
         assignObjects();
@@ -201,8 +200,8 @@ R.drawable.aafdl,
         }
 
         // Log the values
-        callback.logEvent_("1,"+cue1_x+","+cue1_y+", cue1 values");
-        callback.logEvent_("2,"+cue2_x+","+cue2_y+", cue2 values");
+        callback.logEvent_("1," + cue1_x + "," + cue1_y + ", cue1 values");
+        callback.logEvent_("2," + cue2_x + "," + cue2_y + ", cue2 values");
 
 
         // Create buttons
@@ -289,6 +288,7 @@ R.drawable.aafdl,
 
             // Determine reward amount to be given
             PreferencesManager preferencesManager = new PreferencesManager(getContext());
+            preferencesManager.DiscreteValueSpace();
             float rew_scalar;
             int roll = r.nextInt(10);
             if (roll < chosen_prob) {
@@ -297,7 +297,7 @@ R.drawable.aafdl,
                 rew_scalar = chosen_mag / 10;
             }
             int reward_amount = Math.round(preferencesManager.rewardduration * rew_scalar);
-            callback.logEvent_("6,"+reward_amount+",, amount of reward given");
+            callback.logEvent_("6," + reward_amount + ",, amount of reward given");
 
             // Feedback
             if (successfulTrial) {
@@ -316,7 +316,7 @@ R.drawable.aafdl,
                 public void run() {
                     endOfTrial(finalSuccessfulTrial, 0, callback);
                 }
-            }, preferencesManager.rewardduration * 4);
+            }, preferencesManager.dvs_feedback_duration);
 
 
         }
@@ -328,6 +328,7 @@ R.drawable.aafdl,
      * selfie processing, intertrial intervals, etc etc)
      */
     TaskInterface callback;
+
     public void setFragInterfaceListener(TaskInterface callback) {
         this.callback = callback;
     }

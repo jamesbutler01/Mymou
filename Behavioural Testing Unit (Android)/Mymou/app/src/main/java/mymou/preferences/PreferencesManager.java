@@ -236,6 +236,12 @@ public class PreferencesManager {
 
     }
 
+    public int dvs_feedback_duration;
+
+    public void DiscreteValueSpace() {
+        dvs_feedback_duration = sharedPrefs.getInt(r.getString(R.string.preftag_dvs_feedback_duration), r.getInteger(R.integer.default_dvs_feedback_duration));
+    }
+
     public int ts_transition_prob, ts_go_cue_reward_amount, ts_trial_reward_amount, ts_intertrial_interval;
     public int ts_low_reward_percent, ts_high_reward_percent;
     public int ts_rew_change_interval;

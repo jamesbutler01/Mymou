@@ -28,6 +28,7 @@
         <item>Spatial response</item>
         <item>Sequential Learning</item>
         <item>Random dot motion</item>
+        <item>Discrete value space</item>
     </string-array>
 
     <string-array name="task_descriptions">
@@ -45,6 +46,7 @@
         <item>Different spatial locations are shown sequentially. Subjects must then repeat the sequence in order for reward. </item>
         <item>A sequence of images in shown, each image must be pressed to progress to the next image. On the second lap of the sequence, at a random point a choice will be given between the next valid image in the sequence vs one of the other images from the sequence</item>
         <item>A movie is played consisting of dots moving in different directions, for which a specified proportion of dots all move towards either the left or right of the screen. Subjects must then select which side of the screen the dots were moving towards.</item>
+        <item>Subjects are given choices between two cues that lie on a 10x10 value grid made up of probability and magnitude dimensions. For example, the cue at (1, 1) will give 10% reward 10% of the time. They can then pick either cue are given the corresponding reward along with a secondary reinforcer to indicate whether it was better or worse than the counterfactual option.</item>
     </string-array>
 
     <string name="default_startuptime">0700</string>
@@ -141,6 +143,7 @@
     <string name="preftag_task_sr_settings">preftag_task_sr_settings</string>
     <string name="preftag_task_sl_settings">preftag_task_sl_settings</string>
     <string name="preftag_task_rdm_settings">preftag_task_rdm_settings</string>
+    <string name="preftag_task_dvs_settings">preftag_task_dvs_settings</string>
     <string name="preftag_task_od_settings">preftag_task_od_settings</string>
     <string name="preftag_bluetooth_strobes">preftag_bluetooth_strobes</string>
     <string name="preftag_settings_to_load">preftag_settings_to_load</string>
@@ -186,6 +189,8 @@
 
     <string name="preftag_sl_map_selected">preftag_sl_map_selected</string>
     <string name="preftag_sl_seq_length">preftag_sl_seq_length</string>
+
+    <string name="preftag_dvs_feedback_duration">preftag_dvs_feedback_duration</string>
 
     <string name="preftag_pr_cue_colour">pr_cue_colour</string>
     <string name="preftag_pr_progress_bar">preftag_pr_progress_bar</string>

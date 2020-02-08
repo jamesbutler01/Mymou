@@ -58,6 +58,9 @@
     <integer name="default_sl_map_selected">0</integer>
     <integer name="default_sl_seq_length">7</integer>
 
+    <integer name="default_dvs_feedback_duration">5000</integer>
+
+
     <integer name="default_pr_cue_colour">6</integer>
     <integer name="default_pr_animation_duration">450</integer>
 

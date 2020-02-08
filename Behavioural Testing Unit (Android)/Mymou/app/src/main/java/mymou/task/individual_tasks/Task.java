@@ -1,3 +1,9 @@
+package mymou.task.individual_tasks;
+
+import androidx.fragment.app.Fragment;
+import mymou.preferences.PreferencesManager;
+import mymou.task.backend.TaskInterface;
+
 /**
  * Parent Task Fragment
  *
@@ -5,13 +11,6 @@
  * Enables communiation with TaskManager parent
  *
  */
-
-package mymou.task.individual_tasks;
-
-import androidx.fragment.app.Fragment;
-import mymou.preferences.PreferencesManager;
-import mymou.task.backend.TaskInterface;
-
 public abstract class Task extends Fragment {
 
     public abstract void setFragInterfaceListener(TaskInterface callback);

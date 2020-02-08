@@ -210,6 +210,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 preferencesManager.SpatialResponse();
                 break;
             case 12:
+                preferencesManager.DiscreteValueSpace();
+                break;
+            case 13:
                 preferencesManager.SequentialLearning();
                 break;
             default:
@@ -333,6 +336,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 break;
             case 13:
                 task = new TaskRandomDotMotion();
+                break;
+            case 14:
+                task = new TaskDiscreteValueSpace();
                 break;
             default:
                 new Exception("No valid task specified");
@@ -1086,7 +1092,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             public void run() {
                 UtilsSystem.setBrightness(false, mContext, preferencesManager);
             }
-        }, preferencesManager.dimscreentime*1000*60);
+        }, preferencesManager.dimscreentime * 1000 * 60);
     }
 
 
