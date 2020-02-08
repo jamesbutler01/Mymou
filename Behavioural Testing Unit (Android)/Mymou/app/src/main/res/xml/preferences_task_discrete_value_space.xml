@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+            app:key="task_settings"
+            android:layout="@layout/preferences_title"
+            app:title="Settings for Discrete Value Space task">
+
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_dvs_feedback_duration"
+                app:key="@string/preftag_dvs_feedback_duration"
+                app:title="Feedback length"
+                android:max="9999"
+                app:min="100"
+                />
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>
