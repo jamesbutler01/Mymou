@@ -267,6 +267,7 @@ public class TaskDiscreteValueSpace extends Task {
                     UtilsTask.toggleCue(cue1, true);
                     cue1.setClickable(false);
                     break;
+                    
                 case cue2_id:
                     callback.logEvent_("5,2,, cue 2 pressed");
 
@@ -280,8 +281,8 @@ public class TaskDiscreteValueSpace extends Task {
                     }
 
                     // Show them option that they chose for the feedback period
-                    UtilsTask.toggleCue(cue1, true);
-                    cue1.setClickable(false);
+                    UtilsTask.toggleCue(cue2, true);
+                    cue2.setClickable(false);
 
                     break;
             }
