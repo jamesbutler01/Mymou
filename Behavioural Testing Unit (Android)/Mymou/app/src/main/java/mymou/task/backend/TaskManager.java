@@ -45,12 +45,12 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     public static String TAG_FRAGMENT_TASK = "taskfrag";
     public static String TAG_FRAGMENT_CAMERA = "camerafrag";
 
-    public static int faceRecogPrediction = -1;
-    private static int monkeyButtonPressed = -1;
-    private static boolean faceRecogRunning = false;
-    private static int trialCounter = 0;
+    // Settings
     public static RewardSystem rewardSystem;
-    private static int latestRewardChannel;
+    private static int latestRewardChannel;  // Track which reward channel was used so that it can be reused.
+    public static int faceRecogPrediction = -1;  // Number corresponds to ID of the predicted subject
+    private static int monkeyButtonPressed = -1;  // Each monkey has their individual go cue, which this tracks
+    private static boolean faceRecogRunning = false;  // If true, TaskManager will not start a trial as it is waiting for the result of faceRecog to be returned
 
     private static PreferencesManager preferencesManager;
     private static FolderManager folderManager;
@@ -71,6 +71,8 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     private static Handler h2 = new Handler();  // Timeout go cues
     private static Handler h3 = new Handler();  // Daily timer
     private static Handler h4 = new Handler();  // Screen dim timer
+
+    private static int trialCounter = 0;
 
     // Predetermined locations where cues can appear on screen, calculated by UtilsTask.calculateCueLocations()
     private static Point[] possible_cue_locs;
@@ -210,10 +212,12 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 preferencesManager.SpatialResponse();
                 break;
             case 12:
-                preferencesManager.DiscreteValueSpace();
+                preferencesManager.SequentialLearning();
                 break;
             case 13:
-                preferencesManager.SequentialLearning();
+                Log.d(TAG, "handlefeedback="+preferencesManager.handle_feedback);
+                preferencesManager.DiscreteValueSpace();
+                Log.d(TAG, "handlefeedback="+preferencesManager.handle_feedback);
                 break;
             default:
                 Log.d(TAG, "No task specified");
@@ -909,10 +913,14 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
         killTask();
 
-        if (result == preferencesManager.ec_correct_trial) {
-            correctTrial(rew_scalar);
+        if (!preferencesManager.handle_feedback) {
+            endOfTrial(result, 0);
         } else {
-            incorrectTrial(result);
+            if (result == preferencesManager.ec_correct_trial) {
+                correctTrial(rew_scalar);
+            } else {
+                incorrectTrial(result);
+            }
         }
     }
 

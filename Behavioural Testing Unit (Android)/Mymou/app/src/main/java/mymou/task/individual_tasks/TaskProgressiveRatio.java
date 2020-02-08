@@ -182,7 +182,7 @@ public class TaskProgressiveRatio extends Task {
                 log_trial_outcome(true);
 
                 // End trial for reward
-                endOfTrial(true, rew_scalar, callback);
+                endOfTrial(true, rew_scalar, callback, prefManager);
 
             } else {
 

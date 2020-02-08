@@ -7,6 +7,7 @@ import android.widget.Button;
 
 import mymou.R;
 import mymou.Utils.UtilsSystem;
+import mymou.preferences.PreferencesManager;
 import mymou.task.backend.TaskInterface;
 import mymou.task.backend.UtilsTask;
 
@@ -38,6 +39,8 @@ public class TaskExample extends Task implements View.OnClickListener {
     private static int num_cues = 2;  // The number of cues to be presented on each trial
     private static Button[] cues;  // List of all trial objects for an individual monkey
     private static Button[][] cues_all = {new Button[num_cues], new Button[num_cues]};  // All cues across all monkeys
+
+    private static PreferencesManager preferencesManager;
 
     /**
      * Function called when task first loaded (before the UI is loaded)
@@ -81,6 +84,9 @@ public class TaskExample extends Task implements View.OnClickListener {
      * In this case, it loads the different cues that have been specified for each monkey
      */
     private void assignObjects() {
+        // Load preferences
+        preferencesManager = new PreferencesManager(getContext());
+
         // Monkey 0 cues
         cues_all[monkey_o][0] = getView().findViewById(R.id.buttonCue1MonkO);
         cues_all[monkey_o][1] = getView().findViewById(R.id.buttonCue2MonkO);
@@ -120,7 +126,8 @@ public class TaskExample extends Task implements View.OnClickListener {
 
         // Tell parent (TrialManager.java) the outcome of the trial, which will then respond accordingly
         // (e.g. give reward if correct, set up for next trial etc)
-        endOfTrial(successfulTrial, rew_scalar, callback);
+
+        endOfTrial(successfulTrial, rew_scalar, callback, preferencesManager);
     }
 
     /**

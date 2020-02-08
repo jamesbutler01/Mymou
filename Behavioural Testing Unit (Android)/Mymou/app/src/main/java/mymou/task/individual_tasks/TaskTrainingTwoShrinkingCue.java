@@ -133,7 +133,7 @@ public class TaskTrainingTwoShrinkingCue extends Task {
             log_trial_outcome(true);
 
             // End trial
-            endOfTrial(true, rew_scalar, callback);
+            endOfTrial(true, rew_scalar, callback, prefManager);
 
         }
     };

@@ -309,11 +309,12 @@ public class TaskDiscreteValueSpace extends Task {
 
             // End trial a consistent amount of time after feedback
             // This time is set quite long to encourage learning about the correct choices
+            final boolean finalSuccessfulTrial = successfulTrial;
             Handler handlerOne = new Handler();
             handlerOne.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    endOfTrial(false, 0, callback);
+                    endOfTrial(finalSuccessfulTrial, callback, preferencesManager);
                 }
             }, preferencesManager.dvs_feedback_duration);
 

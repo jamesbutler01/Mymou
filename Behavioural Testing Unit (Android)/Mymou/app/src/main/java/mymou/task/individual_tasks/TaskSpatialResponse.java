@@ -208,11 +208,11 @@ public class TaskSpatialResponse extends Task {
 
             if (task_phase < 3) {
                 logEvent("Stimulus cue rather than decision cue clicked!!!", callback);
-                endOfTrial(false, callback);
+                endOfTrial(false, callback, prefManager);
             }
             else if (choice_counter == prefManager.sr_num_stim | !correct_chosen) {
                 logEvent("End of trial, correct outcome:"+correct_chosen, callback);
-                endOfTrial(correct_chosen, callback);
+                endOfTrial(correct_chosen, callback, prefManager);
             } else {
                 logEvent("Disabling cue"+view.getId(), callback);
                 UtilsTask.toggleCue(cues[view.getId()], false);

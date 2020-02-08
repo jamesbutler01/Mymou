@@ -243,7 +243,7 @@ public class TaskEvidenceAccum extends Task {
 
             // Tell parent (TrialManager.java) the outcome of the trial, which will then respond accordingly
             // (e.g. give reward if correct, set up for next trial, save photo etc)
-            endOfTrial(correct_chosen, callback);
+            endOfTrial(correct_chosen, callback, prefManager);
 
         }
     };

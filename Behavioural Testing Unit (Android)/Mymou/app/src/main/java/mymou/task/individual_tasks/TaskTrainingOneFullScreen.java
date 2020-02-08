@@ -89,7 +89,7 @@ public class TaskTrainingOneFullScreen extends Task {
             logEvent("Cue pressed (num steps: "+num_steps+"/"+prefManager.t_one_num_presses+")", callback);
 
             if (num_steps >= prefManager.t_one_num_presses) {
-                endOfTrial(true, rew_scalar, callback);
+                endOfTrial(true, rew_scalar, callback, prefManager);
             } else {
                 UtilsTask.toggleCue(cue, true);
                 logEvent("Cue toggled on", callback);
