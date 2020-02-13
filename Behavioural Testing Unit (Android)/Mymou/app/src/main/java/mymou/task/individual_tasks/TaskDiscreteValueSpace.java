@@ -203,7 +203,6 @@ public class TaskDiscreteValueSpace extends Task {
         callback.logEvent_("1," + cue1_x + "," + cue1_y + ", cue1 values");
         callback.logEvent_("2," + cue2_x + "," + cue2_y + ", cue2 values");
 
-
         // Create buttons
         ConstraintLayout layout = getView().findViewById(R.id.parent_task_empty);
         cue1 = UtilsTask.addImageCue(cue1_id, getContext(), layout, buttonClickListener);
@@ -212,19 +211,11 @@ public class TaskDiscreteValueSpace extends Task {
         cue2.setImageResource(imagelist[cue2_x][cue2_y]);
 
         // Place buttons
-        if (r.nextBoolean()) {
-            callback.logEvent_("3,175,725, cue positions");
-            cue1.setX(175);
-            cue1.setY(750);
-            cue2.setX(725);
-            cue2.setY(750);
-        } else {
-            callback.logEvent_("3,725,175, cue positions");
-            cue1.setX(725);
-            cue1.setY(750);
-            cue2.setX(175);
-            cue2.setY(750);
-        }
+        cue1.setX(175);
+        cue1.setY(750);
+        cue2.setX(725);
+        cue2.setY(750);
+
     }
 
     /**
@@ -244,7 +235,7 @@ public class TaskDiscreteValueSpace extends Task {
             callback.resetTimer_();
 
             // Log screen press
-            logEvent("4,,," + view.getId() + " button pressed", callback);
+            logEvent("3,,," + view.getId() + " button pressed", callback);
 
             // Figure out if they chose better option decide what to do based on what cue pressed
             boolean successfulTrial = false;
@@ -252,7 +243,7 @@ public class TaskDiscreteValueSpace extends Task {
             float chosen_mag = 0;
             switch (view.getId()) {
                 case cue1_id:
-                    callback.logEvent_("5,1,, cue 1 pressed");
+                    callback.logEvent_("4,1,, cue 1 pressed");
 
                     // Store reward values to give
                     chosen_mag = cue1_x;
@@ -269,7 +260,7 @@ public class TaskDiscreteValueSpace extends Task {
                     break;
                     
                 case cue2_id:
-                    callback.logEvent_("5,2,, cue 2 pressed");
+                    callback.logEvent_("4,2,, cue 2 pressed");
 
                     // Store reward values to give
                     chosen_mag = cue2_x;
@@ -291,14 +282,14 @@ public class TaskDiscreteValueSpace extends Task {
             PreferencesManager preferencesManager = new PreferencesManager(getContext());
             preferencesManager.DiscreteValueSpace();
             float rew_scalar;
-            int roll = r.nextInt(10);
-            if (roll < chosen_prob) {
+            int roll = r.nextInt(10);  // Random number between 0 and 9
+            if (roll < chosen_prob+1) {
                 rew_scalar = 0;
             } else {
-                rew_scalar = chosen_mag / 10;
+                rew_scalar = (chosen_mag+1) / 10;
             }
             int reward_amount = Math.round(preferencesManager.rewardduration * rew_scalar);
-            callback.logEvent_("6," + reward_amount + ",, amount of reward given");
+            callback.logEvent_("5," + reward_amount + ",, amount of reward given");
 
             // Feedback
             if (successfulTrial) {
