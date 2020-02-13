@@ -170,7 +170,7 @@ public class TaskDiscreteValueSpace extends Task {
      */
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        logEvent(TAG + " started", callback);
+        logEvent("0,,,"+TAG + " started", callback);
 
         // Instantiate task objects
         assignObjects();
@@ -235,7 +235,7 @@ public class TaskDiscreteValueSpace extends Task {
             callback.resetTimer_();
 
             // Log screen press
-            logEvent("3,,," + view.getId() + " button pressed", callback);
+            logEvent("3,,,cue " + view.getId() + " pressed", callback);
 
             // Figure out if they chose better option decide what to do based on what cue pressed
             boolean successfulTrial = false;
@@ -243,8 +243,6 @@ public class TaskDiscreteValueSpace extends Task {
             float chosen_mag = 0;
             switch (view.getId()) {
                 case cue1_id:
-                    callback.logEvent_("4,1,, cue 1 pressed");
-
                     // Store reward values to give
                     chosen_mag = cue1_x;
                     chosen_prob = cue1_y;
@@ -260,8 +258,6 @@ public class TaskDiscreteValueSpace extends Task {
                     break;
                     
                 case cue2_id:
-                    callback.logEvent_("4,2,, cue 2 pressed");
-
                     // Store reward values to give
                     chosen_mag = cue2_x;
                     chosen_prob = cue2_y;
@@ -289,7 +285,7 @@ public class TaskDiscreteValueSpace extends Task {
                 rew_scalar = (chosen_mag+1) / 10;
             }
             int reward_amount = Math.round(preferencesManager.rewardduration * rew_scalar);
-            callback.logEvent_("5," + reward_amount + ",, amount of reward given");
+            callback.logEvent_("4," + reward_amount + ",, amount of reward given");
 
             // Feedback
             if (successfulTrial) {
@@ -309,7 +305,6 @@ public class TaskDiscreteValueSpace extends Task {
                     endOfTrial(finalSuccessfulTrial, callback, preferencesManager);
                 }
             }, preferencesManager.dvs_feedback_duration);
-
 
         }
     };

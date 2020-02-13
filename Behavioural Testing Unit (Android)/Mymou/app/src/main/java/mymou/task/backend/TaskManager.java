@@ -646,7 +646,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
         // Seperate task logs and manager logs into different columns
         String column = "";
-        if (!from_task) {
+        if (from_task) {
             column = ",";
         }
 
