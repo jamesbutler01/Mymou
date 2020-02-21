@@ -217,13 +217,18 @@ public class TaskDiscreteValueSpace extends Task {
         // Place buttons
         if (preferencesManager.dvs_randomly_place_options) {
             ImageButton[] cues = {cue1, cue2};
-            UtilsTask.randomlyPositionCues(cues, new UtilsTask().getPossibleCueLocs(getActivity()));
+            UtilsTask.randomlyPositionCues(cues, getActivity());
         } else{
             cue1.setX(175);
             cue1.setY(750);
             cue2.setX(725);
             cue2.setY(750);
         }
+
+        callback.logEvent_("3," + cue1.getX() + "," + cue1.getY() + ", cue1 position");
+        callback.logEvent_("4," + cue2.getX() + "," + cue2.getY() + ", cue2 position");
+
+
 
     }
 
@@ -244,7 +249,7 @@ public class TaskDiscreteValueSpace extends Task {
             callback.resetTimer_();
 
             // Log screen press
-            logEvent("3,,,cue " + view.getId() + " pressed", callback);
+            logEvent("5,,,cue " + view.getId() + " pressed", callback);
 
             // Figure out if they chose better option decide what to do based on what cue pressed
             boolean successfulTrial = false;
@@ -292,7 +297,7 @@ public class TaskDiscreteValueSpace extends Task {
                 rew_scalar = (chosen_mag+1) / 10;
             }
             int reward_amount = Math.round(preferencesManager.rewardduration * rew_scalar);
-            callback.logEvent_("4," + reward_amount + ",, amount of reward given");
+            callback.logEvent_("6," + reward_amount + ",, amount of reward given");
 
             // Feedback
             if (successfulTrial) {

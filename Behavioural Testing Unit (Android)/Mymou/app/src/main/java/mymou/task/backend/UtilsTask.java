@@ -163,6 +163,27 @@ public class UtilsTask {
         }
     }
 
+    public static void randomlyPositionCues(View[] cues, Activity activity) {
+        Point[] locs = getPossibleCueLocs(activity);
+
+        // Make zero array tracking which locations have already been used
+        int maxCueLocations = locs.length;
+        int[] chosen = new int[maxCueLocations];
+
+        Random r = new Random();
+
+        // Loop through and place each cue
+        int choice = r.nextInt(maxCueLocations);
+        for (int i = 0; i < cues.length; i++) {
+            while (chosen[choice] == 1) {
+                choice = r.nextInt(maxCueLocations);
+            }
+            cues[i].setX(locs[choice].x);
+            cues[i].setY(locs[choice].y);
+            chosen[choice] = 1;
+        }
+    }
+
     public static void randomlyPositionCue(View cue, Activity activity) {
         Point[] locs = getPossibleCueLocs(activity);
         Random r = new Random();
