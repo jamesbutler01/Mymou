@@ -51,6 +51,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     public static int faceRecogPrediction = -1;  // Number corresponds to ID of the predicted subject
     private static int monkeyButtonPressed = -1;  // Each monkey has their individual go cue, which this tracks
     private static boolean faceRecogRunning = false;  // If true, TaskManager will not start a trial as it is waiting for the result of faceRecog to be returned
+    private static boolean handle_feedback = true;  // If true, taskmanager will deliver reward for correct trials and display timeouts for incorrect trials
 
     private static PreferencesManager preferencesManager;
     private static FolderManager folderManager;
@@ -215,14 +216,17 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 preferencesManager.SequentialLearning();
                 break;
             case 13:
-                Log.d(TAG, "handlefeedback="+preferencesManager.handle_feedback);
+                preferencesManager.RandomDotMotion();
+                break;
+            case 14:
                 preferencesManager.DiscreteValueSpace();
-                Log.d(TAG, "handlefeedback="+preferencesManager.handle_feedback);
                 break;
             default:
                 Log.d(TAG, "No task specified");
                 new Exception("No task specified");
         }
+
+        handle_feedback = preferencesManager.handle_feedback;
 
     }
 
@@ -913,7 +917,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
         killTask();
 
-        if (!preferencesManager.handle_feedback) {
+        if (!handle_feedback) {
             endOfTrial(result, 0);
         } else {
             if (result == preferencesManager.ec_correct_trial) {
