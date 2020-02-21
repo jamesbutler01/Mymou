@@ -858,7 +858,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         if (!photoTaken) {
 
             // Photo not taken as camera/faceRecog wasn't ready so reset go cues to let them press again
-            Log.d(TAG, "Error: Camera not ready!");
+            updateTvExplanation("Error: Camera not ready!");
             UtilsTask.toggleCues(cues_Go, true);
 
         } else if (photoTaken) {
@@ -866,7 +866,8 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             if (preferencesManager.facerecog) {
                 // If photo successfully taken then do nothing as wait for faceRecog to return prediction
                 // setFaceRecogPrediction will ultimately call resultMonkeyPressedTheirCue
-                Log.d(TAG, "Photo taken, waiting for faceRecog..");
+
+                updateTvExplanation("Photo taken, waiting for faceRecog..");
 
             } else {
 
