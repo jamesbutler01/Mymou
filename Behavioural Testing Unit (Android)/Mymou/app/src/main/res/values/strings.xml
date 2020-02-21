@@ -191,6 +191,7 @@
     <string name="preftag_sl_seq_length">preftag_sl_seq_length</string>
 
     <string name="preftag_dvs_feedback_duration">preftag_dvs_feedback_duration</string>
+    <string name="preftag_dvs_randomly_place_options">preftag_dvs_randomly_p</string>
 
     <string name="preftag_pr_cue_colour">pr_cue_colour</string>
     <string name="preftag_pr_progress_bar">preftag_pr_progress_bar</string>

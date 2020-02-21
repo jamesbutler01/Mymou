@@ -36,6 +36,7 @@ public class TaskDiscreteValueSpace extends Task {
 
 
     // Global task variables
+    PreferencesManager preferencesManager;
     private static ImageButton cue1, cue2;
     private final static int cue1_id = 1, cue2_id = 2;
     private static int cue1_x, cue1_y, cue2_x, cue2_y;
@@ -173,6 +174,9 @@ public class TaskDiscreteValueSpace extends Task {
         logEvent("0,,,"+TAG + " started", callback);
 
         // Instantiate task objects
+        preferencesManager = new PreferencesManager(getContext());
+        preferencesManager.DiscreteValueSpace();
+
         assignObjects();
 
     }
@@ -211,10 +215,15 @@ public class TaskDiscreteValueSpace extends Task {
         cue2.setImageResource(imagelist[cue2_x][cue2_y]);
 
         // Place buttons
-        cue1.setX(175);
-        cue1.setY(750);
-        cue2.setX(725);
-        cue2.setY(750);
+        if (preferencesManager.dvs_randomly_place_options) {
+            ImageButton[] cues = {cue1, cue2};
+            UtilsTask.randomlyPositionCues(cues, new UtilsTask().getPossibleCueLocs(getActivity()));
+        } else{
+            cue1.setX(175);
+            cue1.setY(750);
+            cue2.setX(725);
+            cue2.setY(750);
+        }
 
     }
 
@@ -275,8 +284,6 @@ public class TaskDiscreteValueSpace extends Task {
             }
 
             // Determine reward amount to be given
-            PreferencesManager preferencesManager = new PreferencesManager(getContext());
-            preferencesManager.DiscreteValueSpace();
             float rew_scalar;
             int roll = r.nextInt(10);  // Random number between 0 and 9
             if (roll < chosen_prob+1) {

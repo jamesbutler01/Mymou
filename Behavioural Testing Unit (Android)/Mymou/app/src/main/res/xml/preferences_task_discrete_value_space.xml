@@ -16,6 +16,11 @@
                 app:min="100"
                 />
 
+        <SwitchPreferenceCompat
+                android:summary="If selected, each option will appear at a random position on the screen each trial, otherwise options are on the left and right of the screen centre"
+                app:key="@string/preftag_dvs_randomly_place_options"
+                app:title="Randomly place options around screen" />
+
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>
