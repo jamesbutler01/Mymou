@@ -249,7 +249,7 @@ public class TaskDiscreteValueSpace extends Task {
             callback.resetTimer_();
 
             // Log screen press
-            logEvent("5,,,cue " + view.getId() + " pressed", callback);
+            logEvent("5,"+view.getId()+",,cue " + view.getId() + " pressed", callback);
 
             // Figure out if they chose better option decide what to do based on what cue pressed
             boolean successfulTrial = false;
