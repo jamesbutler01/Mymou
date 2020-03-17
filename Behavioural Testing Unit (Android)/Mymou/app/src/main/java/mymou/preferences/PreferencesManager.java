@@ -239,11 +239,12 @@ public class PreferencesManager {
     }
 
     public int dvs_feedback_duration;
-    public boolean dvs_randomly_place_options;
+    public boolean dvs_randomly_place_options, dvs_give_full_map;
 
     public void DiscreteValueSpace() {
         dvs_feedback_duration = sharedPrefs.getInt(r.getString(R.string.preftag_dvs_feedback_duration), r.getInteger(R.integer.default_dvs_feedback_duration));
         dvs_randomly_place_options = sharedPrefs.getBoolean(r.getString(R.string.preftag_dvs_randomly_place_options), r.getBoolean(R.bool.default_dvs_randomly_place_options));
+        dvs_randomly_place_options = sharedPrefs.getBoolean(r.getString(R.string.preftag_dvs_give_full_map), r.getBoolean(R.bool.default_dvs_give_full_map));
         handle_feedback = false;
     }
 

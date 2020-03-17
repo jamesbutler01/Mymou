@@ -21,6 +21,11 @@
                 app:key="@string/preftag_dvs_randomly_place_options"
                 app:title="Randomly place options around screen" />
 
+        <SwitchPreferenceCompat
+                android:summary="If selected, choices will be drawn from the entire 10x10 grid. If not selected, stimuli will only be drawn from every other row and column of the map (50 stimuli), alternating between the odd and even rows/columns each day"
+                app:key="@string/preftag_dvs_randomly_place_options"
+                app:title="Use the entire map (100 stimuli)" />
+
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

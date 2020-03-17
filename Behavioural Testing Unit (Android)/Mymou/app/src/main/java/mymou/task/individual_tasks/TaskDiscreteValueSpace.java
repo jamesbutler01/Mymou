@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import java.util.Calendar;
 import java.util.Random;
 
 import mymou.R;
@@ -39,7 +40,7 @@ public class TaskDiscreteValueSpace extends Task {
     PreferencesManager preferencesManager;
     private static ImageButton cue1, cue2;
     private final static int cue1_id = 1, cue2_id = 2;
-    private static int cue1_x, cue1_y, cue2_x, cue2_y;
+    private static int cue1_x=-1, cue1_y=-1, cue2_x=-1, cue2_y=-1;
     private static Random r;
 
     private static int[][] imagelist = {
@@ -186,21 +187,32 @@ public class TaskDiscreteValueSpace extends Task {
      */
     private void assignObjects() {
 
-        // Randomly pick cue locations
+        // Determine choices
         r = new Random();
-        cue1_x = r.nextInt(10);
-        cue2_x = r.nextInt(10);
-        cue1_y = r.nextInt(10);
-        cue2_y = r.nextInt(10);
 
-        // Prevent same choice being presented on each side
-        if (cue1_x == cue2_x && cue1_y == cue2_y) {
-            while (cue1_x == cue2_x && cue1_y == cue2_y) {
+        // Make sure both options aren't the same
+        cue1_x = cue2_x;
+        cue1_y = cue2_y;
+        while (cue1_x == cue2_x && cue1_y == cue2_y) {
+
+            if (preferencesManager.dvs_give_full_map){  // Pick from all 100 possible cues
                 cue1_x = r.nextInt(10);
                 cue2_x = r.nextInt(10);
                 cue1_y = r.nextInt(10);
                 cue2_y = r.nextInt(10);
+            } else {  // Only every other row, which alternates between odds and evens each day
+
+                // Is today's date odd or even?
+                Calendar currentDate = Calendar.getInstance();
+                int today = currentDate.get(Calendar.DAY_OF_MONTH);
+                int odd = today % 2 == 1 ? 0 : 1;
+
+                cue1_x = (r.nextInt(5) * 2) + odd;
+                cue2_x = (r.nextInt(5) * 2) + odd;
+                cue1_y = (r.nextInt(5) * 2) + odd;
+                cue2_y = (r.nextInt(5) * 2) + odd;
             }
+
         }
 
         // Log the values
