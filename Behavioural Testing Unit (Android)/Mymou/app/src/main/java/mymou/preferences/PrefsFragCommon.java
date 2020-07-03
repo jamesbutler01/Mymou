@@ -1,11 +1,13 @@
 package mymou.preferences;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.preference.PreferenceFragmentCompat;
 
 import mymou.R;
+import mymou.task.backend.TaskManager;
 
 /**
  * Common preference fragment used to manage all preferences that have no special behaviour
@@ -65,6 +67,11 @@ public class PrefsFragCommon extends PreferenceFragmentCompat {
         } else if (prefTag.equals(getString(R.string.preftag_task_dvs_settings))) {
 
             setPreferencesFromResource(R.xml.preferences_task_discrete_value_space, rootKey);
+
+        } else if (prefTag.equals(getString(R.string.preftag_task_dvs_settings))) {
+
+            Intent intent = new Intent(getActivity(), TaskManager.class);
+            startActivity(intent);
 
         } else {
 
