@@ -33,6 +33,7 @@ public class RewardSystem {
     private static String TAG = "MymouRewardSystem";
 
     public static boolean bluetoothConnection = false;
+    public static String status = "Disabled";
     private static Handler connectionLoopHandler;
     private static boolean bluetoothEnabled = false;
     private static boolean active = false;
@@ -55,7 +56,9 @@ public class RewardSystem {
         this.listener = null; // set null listener
 
         if (new PreferencesManager(context).bluetooth && new PermissionManager(context_in, activity).checkPermissions()) {
-            loopUntilConnected();
+            connectToBluetooth();
+        } else {
+            status = "Disabled";
         }
 
     }
@@ -67,7 +70,7 @@ public class RewardSystem {
             context.registerReceiver(bluetoothReceiver, bluetoothIntent);
     }
 
-    private static void connectToBluetooth() {
+    public static void connectToBluetooth() {
         Log.d(TAG, "Connecting to bluetooth");
         checkBluetoothEnabled();
         if (bluetoothEnabled) {
@@ -82,6 +85,8 @@ public class RewardSystem {
 
     private static void establishConnection() {
         Log.d(TAG,"Connecting to bluetooth..");
+        Toast.makeText(context, "Connecting to bluetooth..", Toast.LENGTH_LONG).show();
+        status = "Connecting..";
 
         // Get list of paired bluetooth devices
         Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
@@ -89,12 +94,14 @@ public class RewardSystem {
         // Check device is paired with tablet
         if (pairedDevices.size() == 0) {
             log("No bluetooth devices paired");
+            status = "Connection failed";
             return;
         }
 
         // Check only one device paired
         if (pairedDevices.size() > 1) {
             log("Too many bluetooth devices paired to device, please unpair other Bluetooth devices");
+            status = "Connection failed";
             return;
         }
 
@@ -105,6 +112,7 @@ public class RewardSystem {
             btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
         } catch (IOException e) {
             Log.d(TAG,"Error: Could not create socket");
+            status = "Connection failed";
             return;
         }
 
@@ -117,6 +125,7 @@ public class RewardSystem {
             bluetoothConnectedBool(true);
             registerBluetoothReceivers();
         } catch (IOException e) {
+            status = "Connection failed";
             Log.d(TAG,"Error: Failed to establish connection");
             try {
                 btSocket.close();
@@ -129,6 +138,7 @@ public class RewardSystem {
         try {
             outStream = btSocket.getOutputStream();
         } catch (IOException e) {
+            status = "Connection failed";
             Log.d(TAG,"Error: Failed to create output stream");
         }
     }
@@ -277,8 +287,9 @@ public class RewardSystem {
         preferencesManager.RewardStrobeChannels();
     }
 
-    private static void bluetoothConnectedBool(boolean status) {
-        bluetoothConnection = status;
+    private static void  bluetoothConnectedBool(boolean statusswitch) {
+        bluetoothConnection = statusswitch;
+        status = bluetoothConnection ? "Connected" : "Disconnected";
         try {
             listener.onChangeListener();
         } catch (NullPointerException e) {

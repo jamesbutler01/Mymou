@@ -56,8 +56,6 @@ public class MainMenu extends Activity {
 
         checkIfCrashed();
 
-        initialiseRewardSystem();
-
         initialiseSpinner();
 
         UtilsSystem.setBrightness(true, this, preferencesManager);
@@ -92,6 +90,7 @@ public class MainMenu extends Activity {
     private void initialiseRewardSystem() {
         rewardSystem = new RewardSystem(this, this);
         updateRewardText();
+//        UtilsTask.toggleCue((Button) findViewById(R.id.buttConnectToBt), false);
         rewardSystem.setCustomObjectListener(new RewardSystem.MyCustomObjectListener() {
             @Override
             public void onChangeListener() {
@@ -102,13 +101,15 @@ public class MainMenu extends Activity {
     }
 
     private void updateRewardText() {
+        Log.d(TAG, "!!!!Updating reward controller "+rewardSystem.status+" "+rewardSystem.status.equals("Connection failed"));
         TextView tv1 = findViewById(R.id.tvBluetooth);
-        if (!preferencesManager.bluetooth) {
-            tv1.setText("Disabled");
-        } else if (rewardSystem.bluetoothConnection) {
-            tv1.setText("Connected");
-        } else if (!rewardSystem.bluetoothConnection) {
-            tv1.setText("Disconnected");
+        tv1.setText(rewardSystem.status);
+        Button connectToBt = findViewById(R.id.buttConnectToBt);
+        if (rewardSystem.status.equals("Connection failed")) {
+            UtilsTask.toggleCue(connectToBt, true);
+            connectToBt.setText(" Connect ");
+        } else {
+            UtilsTask.toggleCue(connectToBt, false);
         }
     }
 
@@ -181,6 +182,7 @@ public class MainMenu extends Activity {
         findViewById(R.id.buttonTaskSettings).setOnClickListener(buttonClickListener);
         findViewById(R.id.buttonViewData).setOnClickListener(buttonClickListener);
         findViewById(R.id.info_button).setOnClickListener(buttonClickListener);
+        findViewById(R.id.buttConnectToBt).setOnClickListener(buttonClickListener);
 
         // Disabled as in development
         findViewById(R.id.buttonViewData).setEnabled(false);
@@ -305,6 +307,11 @@ public class MainMenu extends Activity {
                     AlertDialog dialog = builder.create();
                     dialog.show();
                     break;
+                case R.id.buttConnectToBt:
+                    Log.d(TAG, "!!!!"+rewardSystem.status);
+                    if (rewardSystem.status.equals("Connection failed")) {
+                        rewardSystem.connectToBluetooth();
+                    }
             }
         }
     };
@@ -315,6 +322,7 @@ public class MainMenu extends Activity {
         Log.d(TAG, "onResume() called");
         preferencesManager = new PreferencesManager(this);
         initialiseLayoutParameters();
+        initialiseRewardSystem();
     }
 
     @Override
