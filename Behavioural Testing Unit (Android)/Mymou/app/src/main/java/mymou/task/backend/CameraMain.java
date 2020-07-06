@@ -20,6 +20,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -109,7 +110,7 @@ public class CameraMain extends Fragment
                 int scale = UtilsSystem.getCropScale(getActivity(), camera_width, camera_height);
                 camera_width *= scale;
                 camera_height *= scale;
-                Log.d(TAG, "width: " + camera_width + " height:" + camera_height);
+                Log.d(TAG, "width: " + camera_width + " height:" + camera_height + "Activity: "+getActivity());
                 // Centre texture view
                 Point default_position = UtilsSystem.getCropDefaultXandY(getActivity(), camera_width);
                 mTextureView.setLayoutParams(new RelativeLayout.LayoutParams(camera_width, camera_height));
@@ -184,7 +185,7 @@ public class CameraMain extends Fragment
 
         @Override
         public void onError(@NonNull CameraDevice cameraDevice, int error) {
-            Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!! onError() called: "+error);
+            Log.d(TAG, " onError() called: "+error);
             mCameraOpenCloseLock.release();
             cameraDevice.close();
             mCameraDevice = null;
@@ -231,9 +232,9 @@ public class CameraMain extends Fragment
     @Override
     public void onPause() {
         super.onPause();
+        Log.d(TAG, "Camera paused");
         closeCamera();
         stopBackgroundThread();
-        getActivity().finish();
     }
 
         private void setUpCameraOutputs() {
@@ -257,13 +258,29 @@ public class CameraMain extends Fragment
                 // Find which resolution user selected
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
                 int default_size = sizes.size() - 1;
-                String resolution_saved = settings.getString(getString(R.string.preftag_camera_resolution), ""+default_size);
+                String resolution_saved ="";
+                String save_suffix="";
+                Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
+                switch (facing) {
+                    case CameraCharacteristics.LENS_FACING_BACK:
+                        resolution_saved = settings.getString(getString(R.string.preftag_camera_resolution_rear), "" + default_size);
+                        save_suffix = "rear";
+                        break;
+                    case CameraCharacteristics.LENS_FACING_FRONT:
+                        resolution_saved = settings.getString(getString(R.string.preftag_camera_resolution_front), "" + default_size);
+                        save_suffix = "front";
+                        break;
+                    case CameraCharacteristics.LENS_FACING_EXTERNAL:
+                        resolution_saved = settings.getString(getString(R.string.preftag_camera_resolution_ext), "" + default_size);
+                        save_suffix = "ext";
+                        break;
+                }
                 Size resolution = (Size) sizes.get(Integer.valueOf(resolution_saved));
 
                 // Store this to be used by crop menu
                 SharedPreferences.Editor editor = settings.edit();
-                editor.putInt("camera_width", resolution.getHeight());
-                editor.putInt("camera_height", resolution.getWidth());
+                editor.putInt("camera_width_"+save_suffix, resolution.getHeight());
+                editor.putInt("camera_height"+save_suffix, resolution.getWidth());
                 editor.commit();
 
                 mImageReader = ImageReader.newInstance(resolution.getWidth(), resolution.getHeight(),

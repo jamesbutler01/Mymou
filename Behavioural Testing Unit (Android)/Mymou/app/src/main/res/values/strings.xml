@@ -69,7 +69,9 @@
     <string name="preftag_crop_photos">crop_photos</string>
     <string name="preftag_crop_picker">preftag_crop_picker</string>
     <string name="preftag_cam_picker">preftag_cam_picker</string>
-    <string name="preftag_camera_resolution">preftag_camera_resolution</string>
+    <string name="preftag_camera_resolution_front">camera_resolution_front</string>
+    <string name="preftag_camera_resolution_rear">camera_resolution_rear</string>
+    <string name="preftag_camera_resolution_ext">camera_resolution_ext</string>
     <string name="preftag_facerecog">facerecog</string>
     <string name="preftag_savefacerecogarrays">savefacerecogarrays</string>
     <string name="preftag_dimscreen">preftag_dimscreen</string>

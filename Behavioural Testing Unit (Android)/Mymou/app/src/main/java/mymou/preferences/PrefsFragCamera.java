@@ -46,45 +46,67 @@ public class PrefsFragCamera extends PreferenceFragmentCompat {
 
         // Load up camera to get resolutions available
         CameraManager manager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
+
+        PreferencesManager preferencesManager  = new PreferencesManager(getContext());
         try {
-            for (String cameraId : manager.getCameraIdList()) {
-                CameraCharacteristics characteristics
-                        = manager.getCameraCharacteristics(cameraId);
+            String[] all_camera_ids = manager.getCameraIdList();
+            // Just double check the camera selected is actually connected
+            int camera_to_use = preferencesManager.camera_to_use < all_camera_ids.length ? preferencesManager.camera_to_use : getResources().getInteger(R.integer.default_camera_to_use);
+            String cameraId = all_camera_ids[camera_to_use];
+            CameraCharacteristics characteristics
+                    = manager.getCameraCharacteristics(cameraId);
 
-                // Find selfie camera
-                Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
-                if (facing != null && facing == CameraCharacteristics.LENS_FACING_BACK) {
-                    continue;
-                }
+            StreamConfigurationMap map = characteristics.get(
+                    CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
 
-                StreamConfigurationMap map = characteristics.get(
-                        CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-                if (map == null) {
-                    continue;
-                }
-
-                // Use the smallest available size.
-                List sizes = Arrays.asList(map.getOutputSizes(ImageFormat.JPEG));
-                CharSequence[] resolutions = new CharSequence[sizes.size()];
-                CharSequence[] ints = new CharSequence[sizes.size()];
-                for (int i=0; i<sizes.size(); i++) {
-                    Size size = (Size) sizes.get(i);
-                    resolutions[i] = ""+size.getHeight()+"x"+size.getWidth();
-                    ints[i] = ""+i;
-                }
-                ListPreference lp = (ListPreference)findPreference(getString(R.string.preftag_camera_resolution));
-                lp.setEntries(resolutions);
-                lp.setEntryValues(ints);
-
-                // And set value of list to saved one
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-                int default_size = sizes.size() - 1;
-                String resolution_saved = settings.getString(getString(R.string.preftag_camera_resolution), ""+default_size);
-                Log.d(TAG, "Setting resolution value to "+resolution_saved);
-                int resolution_index = Integer.valueOf(resolution_saved);
-                lp.setValueIndex(resolution_index);
-
+            // Figure out which camera they're using to load the appropriate resolution
+            Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
+            String prefTag = "";
+            switch (facing) {
+                case CameraCharacteristics.LENS_FACING_BACK:
+                    prefTag = getString(R.string.preftag_camera_resolution_rear);
+                    findPreference(getString(R.string.preftag_camera_resolution_front)).setEnabled(false);
+                    findPreference(getString(R.string.preftag_camera_resolution_ext)).setEnabled(false);
+                    findPreference(getString(R.string.preftag_camera_resolution_front)).setVisible(false);
+                    findPreference(getString(R.string.preftag_camera_resolution_ext)).setVisible(false);
+                    break;
+                case CameraCharacteristics.LENS_FACING_FRONT:
+                    prefTag = getString(R.string.preftag_camera_resolution_front);
+                    findPreference(getString(R.string.preftag_camera_resolution_ext)).setEnabled(false);
+                    findPreference(getString(R.string.preftag_camera_resolution_rear)).setEnabled(false);
+                    findPreference(getString(R.string.preftag_camera_resolution_ext)).setVisible(false);
+                    findPreference(getString(R.string.preftag_camera_resolution_rear)).setVisible(false);
+                    break;
+                case CameraCharacteristics.LENS_FACING_EXTERNAL:
+                    prefTag = getString(R.string.preftag_camera_resolution_ext);
+                    findPreference(getString(R.string.preftag_camera_resolution_front)).setEnabled(false);
+                    findPreference(getString(R.string.preftag_camera_resolution_rear)).setEnabled(false);
+                    findPreference(getString(R.string.preftag_camera_resolution_front)).setVisible(false);
+                    findPreference(getString(R.string.preftag_camera_resolution_rear)).setVisible(false);
+                    break;
             }
+
+            // Build list of resolutions to present to user
+            List sizes = Arrays.asList(map.getOutputSizes(ImageFormat.JPEG));
+            CharSequence[] resolutions = new CharSequence[sizes.size()];
+            CharSequence[] ints = new CharSequence[sizes.size()];
+            for (int i=0; i<sizes.size(); i++) {
+                Size size = (Size) sizes.get(i);
+                resolutions[i] = ""+size.getHeight()+"x"+size.getWidth();
+                ints[i] = ""+i;
+            }
+            ListPreference lp = (ListPreference)findPreference(prefTag);
+            lp.setEntries(resolutions);
+            lp.setEntryValues(ints);
+
+            // And set value of list to saved one
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+            int default_size = sizes.size() - 1;
+            String resolution_saved = settings.getString(prefTag, ""+default_size);
+            Log.d(TAG, "Setting resolution value to "+resolution_saved+ ",default="+default_size+" for "+prefTag);
+            int resolution_index = Integer.valueOf(resolution_saved);
+            lp.setValueIndex(resolution_index);
+
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }

@@ -61,9 +61,9 @@ public class PrefsActCamPicker extends FragmentActivity {
 
         CameraManager manager = (CameraManager) this.getSystemService(Context.CAMERA_SERVICE);
 
-        int cameraSelected = 1;
         try {
             String[] ids = manager.getCameraIdList();
+
             for (int i_cam = 0; i_cam < ids.length; i_cam++) {
                 String cameraId = ids[i_cam];
                 CameraCharacteristics characteristics
@@ -102,7 +102,7 @@ public class PrefsActCamPicker extends FragmentActivity {
         fragment.setArguments(bundle);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.layout_camerapicker, fragment, "camera_fragment");
-        fragmentTransaction.addToBackStack("frag");
+//        fragmentTransaction.addToBackStack("frag");
         fragmentTransaction.commit();
     }
 
@@ -126,17 +126,20 @@ public class PrefsActCamPicker extends FragmentActivity {
     };
 
     private void switch_camera(int id) {
-        // Save new choice
-        Log.d(TAG, "Camera saved: " + preferencesManager.camera_to_use);
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putInt(getString(R.string.preftag_camera_to_use), id);
-        editor.apply();
+        // Check they have actually changed the choice
+        if (id != preferencesManager.camera_to_use) {
+            // Save new choice
+            Log.d(TAG, "Camera saved: " + preferencesManager.camera_to_use);
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putInt(getString(R.string.preftag_camera_to_use), id);
+            editor.apply();
 
-        // Remove fragment and restart the activity
-        getSupportFragmentManager().popBackStack();
-        Intent intent = new Intent(this, PrefsActCamPicker.class);
-        startActivity(intent);
+            // Restart this activity with the new camera selected
+            super.onBackPressed();
+            Intent intent = new Intent(this, PrefsActCamPicker.class);
+            startActivity(intent);
+        }
     }
 
 

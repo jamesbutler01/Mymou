@@ -29,7 +29,7 @@ public class PrefsFragTaskAll extends PreferenceFragmentCompat {
 
     @Override
     public void onCreatePreferences(Bundle bundle, String rootKey) {
-        Log.d(TAG, "Preference loaded!!!!!");
+        Log.d(TAG, "Preference loaded");
 
         setPreferencesFromResource(R.xml.preferences_task_all, rootKey);
 
