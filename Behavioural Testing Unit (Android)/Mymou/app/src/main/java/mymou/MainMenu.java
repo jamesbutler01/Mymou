@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -90,7 +91,6 @@ public class MainMenu extends Activity {
     private void initialiseRewardSystem() {
         rewardSystem = new RewardSystem(this, this);
         updateRewardText();
-//        UtilsTask.toggleCue((Button) findViewById(R.id.buttConnectToBt), false);
         rewardSystem.setCustomObjectListener(new RewardSystem.MyCustomObjectListener() {
             @Override
             public void onChangeListener() {
@@ -310,6 +310,7 @@ public class MainMenu extends Activity {
                 case R.id.buttConnectToBt:
                     Log.d(TAG, "!!!!"+rewardSystem.status);
                     if (rewardSystem.status.equals("Connection failed")) {
+                        UtilsTask.toggleCue((Button) findViewById(R.id.buttConnectToBt), false);
                         rewardSystem.connectToBluetooth();
                     }
             }
@@ -322,15 +323,28 @@ public class MainMenu extends Activity {
         Log.d(TAG, "onResume() called");
         preferencesManager = new PreferencesManager(this);
         initialiseLayoutParameters();
-        initialiseRewardSystem();
+
+        // Connect to bluetooth off the main thread
+        final Runnable r = new Runnable() {
+            public void run() {
+                initialiseRewardSystem();
+            }
+        };
+        r.run();
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "onDestroy() called");
+    public void onPause() {
+        super.onPause();
+
+        // Quit bluetooth
         if (permissions_granted) {
-            rewardSystem.quitBt();
+            final Runnable r = new Runnable() {
+                public void run() {
+                    rewardSystem.quitBt();
+                }
+            };
+            r.run();
         }
     }
 

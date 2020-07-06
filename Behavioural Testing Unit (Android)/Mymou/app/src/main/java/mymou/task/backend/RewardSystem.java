@@ -58,7 +58,7 @@ public class RewardSystem {
         if (new PreferencesManager(context).bluetooth && new PermissionManager(context_in, activity).checkPermissions()) {
             connectToBluetooth();
         } else {
-            status = "Disabled";
+            bluetoothConnectedBool(false, "Disabled");
         }
 
     }
@@ -71,7 +71,6 @@ public class RewardSystem {
     }
 
     public static void connectToBluetooth() {
-        Log.d(TAG, "Connecting to bluetooth");
         checkBluetoothEnabled();
         if (bluetoothEnabled) {
             establishConnection();
@@ -84,9 +83,8 @@ public class RewardSystem {
     }
 
     private static void establishConnection() {
-        Log.d(TAG,"Connecting to bluetooth..");
-        Toast.makeText(context, "Connecting to bluetooth..", Toast.LENGTH_LONG).show();
-        status = "Connecting..";
+        Toast.makeText(context, "Connecting to bluetooth..", Toast.LENGTH_SHORT).show();
+        bluetoothConnectedBool(false, "Connecting..");
 
         // Get list of paired bluetooth devices
         Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
@@ -94,14 +92,14 @@ public class RewardSystem {
         // Check device is paired with tablet
         if (pairedDevices.size() == 0) {
             log("No bluetooth devices paired");
-            status = "Connection failed";
+            bluetoothConnectedBool(false, "Connection failed");
             return;
         }
 
         // Check only one device paired
         if (pairedDevices.size() > 1) {
             log("Too many bluetooth devices paired to device, please unpair other Bluetooth devices");
-            status = "Connection failed";
+            bluetoothConnectedBool(false, "Connection failed");
             return;
         }
 
@@ -111,8 +109,8 @@ public class RewardSystem {
         try {
             btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
         } catch (IOException e) {
-            Log.d(TAG,"Error: Could not create socket");
-            status = "Connection failed";
+            log("Error: Could not create socket");
+            bluetoothConnectedBool(false, "Connection failed");
             return;
         }
 
@@ -121,16 +119,16 @@ public class RewardSystem {
         // Establish the connection.  This will block until it connects.
         try {
             btSocket.connect();
-            Log.d(TAG, "Connected to Bluetooth");
-            bluetoothConnectedBool(true);
+            Toast.makeText(context, "Connected", Toast.LENGTH_SHORT).show();
+            bluetoothConnectedBool(true, "Connected");
             registerBluetoothReceivers();
         } catch (IOException e) {
-            status = "Connection failed";
-            Log.d(TAG,"Error: Failed to establish connection");
+            bluetoothConnectedBool(true, "Connection failed");
+            log("Error: Failed to establish connection");
             try {
                 btSocket.close();
             } catch (IOException e2) {
-                Log.d(TAG,"Error: Failed to close socket");
+                log("Error: Failed to close socket");
             }
         }
 
@@ -138,8 +136,8 @@ public class RewardSystem {
         try {
             outStream = btSocket.getOutputStream();
         } catch (IOException e) {
-            status = "Connection failed";
-            Log.d(TAG,"Error: Failed to create output stream");
+            bluetoothConnectedBool(true, "Connection failed");
+            log("Error: Failed to create output stream");
         }
     }
 
@@ -251,13 +249,11 @@ public class RewardSystem {
             String action = intent.getAction();
             switch (action){
                 case BluetoothDevice.ACTION_ACL_CONNECTED:
-                    //Bluetooth connected, no action needed
-                    Log.d(TAG,"Bluetooth reconnected");
+                    log("Bluetooth reconnected");
                     break;
                 case BluetoothDevice.ACTION_ACL_DISCONNECTED:
-                    //Bluetooth disconnected
-                    Log.d(TAG,"Lost bluetooth connection..");
-                    bluetoothConnectedBool(false);
+                    log("Lost bluetooth connection..");
+                    bluetoothConnectedBool(false, "Disconnected");
                     loopUntilConnected();
                     break;
             }
@@ -269,6 +265,7 @@ public class RewardSystem {
         connectToBluetooth();
 
         if(!bluetoothConnection) {
+            bluetoothConnectedBool(false, "Waiting to reconnect");
             connectionLoopHandler = new Handler();
             connectionLoopHandler.postDelayed(new Runnable() {
                 @Override
@@ -287,9 +284,9 @@ public class RewardSystem {
         preferencesManager.RewardStrobeChannels();
     }
 
-    private static void  bluetoothConnectedBool(boolean statusswitch) {
+    private static void  bluetoothConnectedBool(boolean statusswitch, String statusstring) {
         bluetoothConnection = statusswitch;
-        status = bluetoothConnection ? "Connected" : "Disconnected";
+        status = statusstring;
         try {
             listener.onChangeListener();
         } catch (NullPointerException e) {
