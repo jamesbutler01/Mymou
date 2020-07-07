@@ -107,7 +107,7 @@ public class MainMenu extends Activity {
     }
 
     private void updateRewardText() {
-        Log.d(TAG, "mymourewa Updating reward controller "+rewardSystem.status+" "+rewardSystem.status.equals("Connection failed"));
+        Log.d(TAG, "Updating reward controller "+rewardSystem.status);
         TextView tv1 = findViewById(R.id.tvBluetooth);
         tv1.setText(rewardSystem.status);
         Button connectToBt = findViewById(R.id.buttConnectToBt);
