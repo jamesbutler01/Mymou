@@ -89,8 +89,11 @@ public class MainMenu extends Activity {
     }
 
     private void initialiseRewardSystem() {
+        // Initialise reward system
         rewardSystem = new RewardSystem(this, this);
         updateRewardText();
+
+        // Set object listener to react when bluetooth status changes
         rewardSystem.setCustomObjectListener(new RewardSystem.MyCustomObjectListener() {
             @Override
             public void onChangeListener() {
@@ -98,10 +101,13 @@ public class MainMenu extends Activity {
             }
         });
 
+        // And now we can try to connect
+        rewardSystem.connectToBluetooth();
+
     }
 
     private void updateRewardText() {
-        Log.d(TAG, "!!!!Updating reward controller "+rewardSystem.status+" "+rewardSystem.status.equals("Connection failed"));
+        Log.d(TAG, "mymourewa Updating reward controller "+rewardSystem.status+" "+rewardSystem.status.equals("Connection failed"));
         TextView tv1 = findViewById(R.id.tvBluetooth);
         tv1.setText(rewardSystem.status);
         Button connectToBt = findViewById(R.id.buttConnectToBt);
@@ -308,7 +314,6 @@ public class MainMenu extends Activity {
                     dialog.show();
                     break;
                 case R.id.buttConnectToBt:
-                    Log.d(TAG, "!!!!"+rewardSystem.status);
                     if (rewardSystem.status.equals("Connection failed")) {
                         UtilsTask.toggleCue((Button) findViewById(R.id.buttConnectToBt), false);
                         rewardSystem.connectToBluetooth();
@@ -323,14 +328,7 @@ public class MainMenu extends Activity {
         Log.d(TAG, "onResume() called");
         preferencesManager = new PreferencesManager(this);
         initialiseLayoutParameters();
-
-        // Connect to bluetooth off the main thread
-        final Runnable r = new Runnable() {
-            public void run() {
-                initialiseRewardSystem();
-            }
-        };
-        r.run();
+        initialiseRewardSystem();
     }
 
     @Override

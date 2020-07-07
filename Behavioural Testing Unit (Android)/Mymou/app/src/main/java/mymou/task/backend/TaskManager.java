@@ -258,21 +258,14 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         boolean successfullyEstablished = false;
         rewardSystem.quitBt();
         rewardSystem = new RewardSystem(this, this);
+        rewardSystem.connectToBluetooth();
         if (rewardSystem.bluetoothConnection | !preferencesManager.bluetooth) {
             successfullyEstablished = enableApp(true);
 
         }
 
         // Repeat if either couldn't connect or couldn't enable app
-        if (!successfullyEstablished) {
-            Handler handlerOne = new Handler();
-            handlerOne.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    initialiseRewardSystem();
-                }
-            }, 5000);
-        } else {
+        if (successfullyEstablished) {
             tvErrors.setVisibility(View.INVISIBLE);
 
             // Register listener to disable tablet if bluetooth gets DC'ed
@@ -282,6 +275,15 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                     enableApp(rewardSystem.bluetoothConnection);
                 }
             });
+
+        } else {
+            Handler handlerOne = new Handler();
+            handlerOne.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    initialiseRewardSystem();
+                }
+            }, 5000);
 
         }
     }

@@ -35,10 +35,10 @@ public class RewardSystem {
     public static boolean bluetoothConnection = false;
     public static String status = "Disabled";
     private static Handler connectionLoopHandler;
-    private static boolean bluetoothEnabled = false;
     private static boolean active = false;
     private static PreferencesManager preferencesManager;
     private static Context context;
+    private static Activity activity;
     private static final int REQUEST_ENABLE_BT = 1;
     private static BluetoothAdapter btAdapter = null;
     private static BluetoothSocket btSocket = null;
@@ -47,19 +47,14 @@ public class RewardSystem {
     // Replace with your devices UUID and address
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
-    public RewardSystem(Context context_in, Activity activity) {
+    public RewardSystem(Context context_in, Activity activity_in) {
 
         context = context_in;
+        activity = activity_in;
 
         initialiseRewardChannelStrings();
 
         this.listener = null; // set null listener
-
-        if (new PreferencesManager(context).bluetooth && new PermissionManager(context_in, activity).checkPermissions()) {
-            connectToBluetooth();
-        } else {
-            bluetoothConnectedBool(false, "Disabled");
-        }
 
     }
 
@@ -71,15 +66,24 @@ public class RewardSystem {
     }
 
     public static void connectToBluetooth() {
-        checkBluetoothEnabled();
-        if (bluetoothEnabled) {
-            establishConnection();
+
+        if (new PreferencesManager(context).bluetooth) {  // Has user activated bluetooth in settings?
+            if (new PermissionManager(context, activity).checkPermissions()) {  // Has user allowed permission to access the bt?
+                if (checkBluetoothEnabled()) {  // Is the tablet's bluetooth enabled?
+                    establishConnection();
+                    return;
+                }
+            }
         }
+
+        // Failed one of the checks
+        bluetoothConnectedBool(false, "Disabled");
+
     }
 
     private static void log(String msg) {
         Log.d(TAG, msg);
-        Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 
     private static void establishConnection() {
@@ -123,8 +127,8 @@ public class RewardSystem {
             bluetoothConnectedBool(true, "Connected");
             registerBluetoothReceivers();
         } catch (IOException e) {
-            bluetoothConnectedBool(true, "Connection failed");
-            log("Error: Failed to establish connection");
+            bluetoothConnectedBool(false, "Connection failed");
+            log("Error: Failed to establish bluetooth connection");
             try {
                 btSocket.close();
             } catch (IOException e2) {
@@ -136,13 +140,13 @@ public class RewardSystem {
         try {
             outStream = btSocket.getOutputStream();
         } catch (IOException e) {
-            bluetoothConnectedBool(true, "Connection failed");
+            bluetoothConnectedBool(false, "Connection failed");
             log("Error: Failed to create output stream");
         }
     }
 
 
-    private static void checkBluetoothEnabled() {
+    private static boolean checkBluetoothEnabled() {
 
         btAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -155,10 +159,10 @@ public class RewardSystem {
             Intent enableBtIntent = new Intent(btAdapter.ACTION_REQUEST_ENABLE);
             Activity activity = (Activity) context;
             activity.startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-            return;
+            return false;
         }
 
-        bluetoothEnabled = true;
+        return true;
     }
 
     private static void stopAllChannels() {
@@ -265,14 +269,14 @@ public class RewardSystem {
         connectToBluetooth();
 
         if(!bluetoothConnection) {
-            bluetoothConnectedBool(false, "Waiting to reconnect");
+            bluetoothConnectedBool(false, "Attempting to reconnect");
             connectionLoopHandler = new Handler();
             connectionLoopHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     loopUntilConnected();
                 }
-            }, 15000);
+            }, 10000);
         } else {
             stopAllChannels();
         }
@@ -285,6 +289,7 @@ public class RewardSystem {
     }
 
     private static void  bluetoothConnectedBool(boolean statusswitch, String statusstring) {
+        Log.d(TAG, "New status: " + statusstring);
         bluetoothConnection = statusswitch;
         status = statusstring;
         try {
