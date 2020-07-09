@@ -16,6 +16,7 @@ public abstract class Camera extends Fragment {
 
     public boolean camera_error;
 
+    public abstract void setFragInterfaceListener(CameraInterface callback);
     public abstract boolean captureStillPicture(String ts);
 
 }

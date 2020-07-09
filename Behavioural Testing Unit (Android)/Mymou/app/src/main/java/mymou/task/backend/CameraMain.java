@@ -105,8 +105,7 @@ public class CameraMain extends Camera
         mTextureView = (TextureView) view.findViewById(R.id.camera_texture);
 
         // If in crop picker menu, we want to make the camera preview visible
-        if (getArguments() != null) {
-            if (getArguments().getBoolean("crop_picker", false)) {
+        if (getArguments() != null && getArguments().getBoolean("crop_picker", false)) {
                 // Set image to size of photo
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
                 int camera_width = settings.getInt("camera_width", 176);
@@ -122,7 +121,6 @@ public class CameraMain extends Camera
                 mTextureView.setLayoutParams(lp);
                 mTextureView.setY(default_position.x);
                 mTextureView.setX(default_position.y);
-            }
         }
 
         startBackgroundThread();

@@ -13,6 +13,8 @@
     <string name="chanThreeOn">7</string>
     <string name="chanThreeOff">8</string>
 
+    <string name="task_mode">task_mode</string>
+
     <string-array name="available_tasks">
         <item>Training 1: Full screen cue</item>
         <item>Training 2: Shrinking central cue</item>

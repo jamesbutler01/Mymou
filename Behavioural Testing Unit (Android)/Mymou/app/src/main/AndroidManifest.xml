@@ -58,7 +58,7 @@
 <!--            </intent-filter>-->
         </activity>
 
-        <activity android:name=".CameraExternal"
+        <activity android:name=".task.backend.CameraExternal"
                 android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>

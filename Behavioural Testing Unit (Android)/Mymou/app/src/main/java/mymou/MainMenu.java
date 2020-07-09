@@ -63,9 +63,6 @@ public class MainMenu extends Activity {
 
         UtilsSystem.setBrightness(true, this, preferencesManager);
 
-        Intent intent = new Intent(context, PrefsActSystem.class);
-        intent.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_menu_prefs));
-        startActivity(intent);
     }
 
     private void checkPermissions() {

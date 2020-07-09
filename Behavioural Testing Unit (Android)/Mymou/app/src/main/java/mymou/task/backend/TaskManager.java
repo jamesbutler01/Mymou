@@ -14,7 +14,6 @@ import android.view.*;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -36,11 +35,9 @@ import java.util.Calendar;
 
 public class TaskManager extends FragmentActivity implements View.OnClickListener {
 
-
     // Debug
     public static String TAG = "MyMouTaskManager";
     private static TextView tvExplanation, tvErrors;  // Explanatory messages for demo mode, and any errors present
-
 
     private static int taskId;  // Unique string prefixed to all log entries
     public static String TAG_FRAGMENT_TASK = "taskfrag";
@@ -444,6 +441,15 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         } else {
             camera = new CameraExternal();
         }
+        camera.setFragInterfaceListener(new CameraInterface() {
+            @Override
+            public void CameraLoaded() {
+                Log.d(TAG, "Camera loaded");  // do nothing
+            }
+        });
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(mContext.getResources().getString(R.string.task_mode), true);
+        camera.setArguments(bundle);
         fragmentTransaction.add(R.id.task_container, camera);
         commitFragment();
     }
@@ -701,6 +707,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             boolean photoTaken = camera.captureStillPicture(photoTimestamp);
             return photoTaken;
         } else {
+            Log.d(TAG, "Skipping photo taking..");
             return true;
         }
     }
@@ -939,7 +946,11 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     private static void killTask() {
         if (trial_running) {
-            fragmentTransaction.remove(fragmentManager.findFragmentByTag(TAG_FRAGMENT_TASK));
+            try {
+                fragmentTransaction.remove(fragmentManager.findFragmentByTag(TAG_FRAGMENT_TASK));
+            } catch (NullPointerException e) {
+              Log.d(TAG, "No Task loaded");
+            };
             commitFragment();
             h0.removeCallbacksAndMessages(null);
             timerRunning = false;
