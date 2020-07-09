@@ -105,16 +105,6 @@
             android:layout_weight="0.5"
             android:layout_marginBottom="10dp"/>
 
-    <Button
-            android:text="Select image"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/butt_selectimage"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_weight="0.5"
-            android:textSize="30dp"
-            android:layout_marginBottom="10dp"/>
 
     </LinearLayout>
 

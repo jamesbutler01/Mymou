@@ -97,75 +97,9 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
             seekbars[i].setOnSeekBarChangeListener(this);
         }
 
-        // Add onClickListener to exit button
-        view.findViewById(R.id.butt_exitcroppicker).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Log.d(TAG, "Exit button pressed");
-                getActivity().finish();
-            }
-        });
-
-        // Add onClickListener to select image button
-        view.findViewById(R.id.butt_selectimage).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                openImageChooser();
-            }
-        });
-
-        // Disabled as not functioning at the moment
-        view.findViewById(R.id.butt_selectimage).setEnabled(false);
-        view.findViewById(R.id.butt_selectimage).setVisibility(View.INVISIBLE);
-
         updateImage();
 
     }
-
-    private static int SELECT_PICTURE = 111;
-
-    void openImageChooser() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
-    }
-
-    // For returning selected image
-    // TODO: Get onActivityResult working
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "onActivityResult");
-        if (resultCode == RESULT_OK) {
-            Log.d(TAG, "onActivityResult2");
-            if (requestCode == SELECT_PICTURE) {
-                Log.d(TAG, "onActivityResult3");
-                // Get the url from data
-                Uri selectedImageUri = data.getData();
-
-                if (null != selectedImageUri) {
-                    // Get the image from the Uri
-                    File imgFile = new File("/sdcard/Images/test_image.jpg");
-
-                    if (imgFile.exists()) {
-
-                        // Put image on layout
-                        Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                        TextureView textureView = getView().findViewById(R.id.crop_picker_texture);
-                        ImageView imageView = new ImageView(getContext());
-                        imageView.setImageBitmap(myBitmap);
-
-                        imageView.setLayoutParams(new RelativeLayout.LayoutParams(camera_width, camera_height));
-                        LayoutParams lp = (LayoutParams) imageView.getLayoutParams();
-                        textureView.setLayoutParams(lp);
-                        textureView.setY(default_position.y);
-                        textureView.setX(default_position.x);
-
-                        mTextureView.bringToFront();
-                    }
-                }
-            }
-        }
-    }
-
 
     // Make sure that left crop + right crop is less than total width, and same for the other dimension
     private boolean checkValidAdjustment() {
@@ -186,8 +120,8 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
         mTextureView.setLayoutParams(new RelativeLayout.LayoutParams(crop_width, crop_height));
         LayoutParams lp = (LayoutParams) mTextureView.getLayoutParams();
         mTextureView.setLayoutParams(lp);
-        mTextureView.setX(default_position.y + seekbars[i_left].getProgress());  // Shift to the right by left crop amount
-        mTextureView.setY(default_position.x + seekbars[i_top].getProgress());
+        mTextureView.setX(default_position.x + seekbars[i_left].getProgress());  // Shift to the right by left crop amount
+        mTextureView.setY(default_position.y + seekbars[i_top].getProgress());
     }
 
     // Write settings to shared preferences

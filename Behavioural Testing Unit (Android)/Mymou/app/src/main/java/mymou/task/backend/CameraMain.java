@@ -108,8 +108,8 @@ public class CameraMain extends Camera
         if (getArguments() != null && getArguments().getBoolean("crop_picker", false)) {
                 // Set image to size of photo
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-                int camera_width = settings.getInt("camera_width", 176);
-                int camera_height = settings.getInt("camera_height", 144);
+                int camera_width = settings.getInt("camera_width", 320);
+                int camera_height = settings.getInt("camera_height", 240);
                 int scale = UtilsSystem.getCropScale(getActivity(), camera_width, camera_height);
                 camera_width *= scale;
                 camera_height *= scale;
@@ -119,8 +119,8 @@ public class CameraMain extends Camera
                 mTextureView.setLayoutParams(new RelativeLayout.LayoutParams(camera_width, camera_height));
                 LayoutParams lp = (LayoutParams) mTextureView.getLayoutParams();
                 mTextureView.setLayoutParams(lp);
-                mTextureView.setY(default_position.x);
-                mTextureView.setX(default_position.y);
+                mTextureView.setY(default_position.y);
+                mTextureView.setX(default_position.x);
         }
 
         startBackgroundThread();

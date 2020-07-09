@@ -88,13 +88,13 @@ public class UtilsSystem {
 
     // Calculate the position to put view in the centre of the screen
     public static Point getCropDefaultXandY(Activity activity, int camera_width) {
-        int default_y = 200;
+        int default_y = 200;  // At top of screen
         // Get size of screen for centring views
         Display display = activity.getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int screen_width = size.x;
-        int default_x = ((screen_width - camera_width) / 2);
+        int default_x = ((size.x - camera_width) / 2);
+//        default_x = (size.x) / 2) - camera_width;
         Point out = new Point(default_x, default_y);
         return out;
     }

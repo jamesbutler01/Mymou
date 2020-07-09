@@ -21,6 +21,7 @@ import mymou.Utils.PermissionManager;
 import mymou.Utils.UtilsSystem;
 import mymou.preferences.PreferencesManager;
 import mymou.preferences.PrefsActCamPicker;
+import mymou.preferences.PrefsActCropPicker;
 import mymou.task.backend.DataViewer;
 import mymou.task.backend.RewardSystem;
 import mymou.task.backend.TaskManager;
@@ -63,7 +64,7 @@ public class MainMenu extends Activity {
 
         UtilsSystem.setBrightness(true, this, preferencesManager);
 
-        Intent intent = new Intent(context, PrefsActCamPicker.class);
+        Intent intent = new Intent(context, PrefsActCropPicker.class);
         startActivity(intent);
 
     }

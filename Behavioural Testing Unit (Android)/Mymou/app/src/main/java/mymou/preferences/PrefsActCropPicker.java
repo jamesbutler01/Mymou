@@ -5,6 +5,8 @@ import android.util.Log;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
+
+import mymou.task.backend.CameraInterface;
 import mymou.task.backend.CameraMain;
 import mymou.R;
 
@@ -29,6 +31,12 @@ public class PrefsActCropPicker extends FragmentActivity {
         Bundle bundle = new Bundle();
         bundle.putBoolean("crop_picker", true);
         CameraMain fragment = new CameraMain();
+        fragment.setFragInterfaceListener(new CameraInterface() {
+            @Override
+            public void CameraLoaded() {
+                Log.d(TAG, "Camera loaded");  // do nothing
+            }
+        });
         fragment.setArguments(bundle);
 
         // Load crop picker fragment
