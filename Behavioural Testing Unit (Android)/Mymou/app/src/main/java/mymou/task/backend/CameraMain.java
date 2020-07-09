@@ -59,7 +59,7 @@ import mymou.preferences.PreferencesManager;
  * @param onImageAvailable: Listener that is called whenever the camera takes a photo
  *
  */
-public class CameraMain extends Fragment
+public class CameraMain extends Camera
         implements FragmentCompat.OnRequestPermissionsResultCallback {
 
     public static String TAG = "MyMouCameraMain";

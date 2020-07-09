@@ -866,10 +866,11 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
         } else if (photoTaken) {
 
-            if (preferencesManager.facerecog) {
-                // If photo successfully taken then do nothing as wait for faceRecog to return prediction
-                // setFaceRecogPrediction will ultimately call resultMonkeyPressedTheirCue
+            if (preferencesManager.facerecog && preferencesManager.camera_to_use != mContext.getResources().getInteger(R.integer.TAG_CAMERA_EXTERNAL)) {
 
+                // If photo successfully taken  (and we're not using the external camera) then do
+                // nothing as wait for faceRecog to return prediction
+                // setFaceRecogPrediction will ultimately call resultMonkeyPressedTheirCue
                 updateTvExplanation("Photo taken, waiting for faceRecog..");
 
             } else {
