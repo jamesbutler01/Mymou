@@ -72,10 +72,7 @@ public class PrefsActSystem extends AppCompatActivity implements
         Bundle args = pref.getExtras();
         args.putString("pref_tag", pref.getKey());
 
-        final Fragment fragment = getSupportFragmentManager().getFragmentFactory().instantiate(
-                getClassLoader(),
-                pref.getFragment(),
-                args);
+        final Fragment fragment = getSupportFragmentManager().getFragmentFactory().instantiate(getClassLoader(),pref.getFragment());
         fragment.setArguments(args);
         fragment.setTargetFragment(caller, 0);
 

@@ -59,7 +59,7 @@ import mymou.preferences.PreferencesManager;
  *
  */
 public class CameraMain extends Fragment
-        implements FragmentCompat.OnRequestPermissionsResultCallback {
+        implements FragmentCompat.OnRequestPermissionsResultCallback, CameraInterface {
 
     public static String TAG = "MyMouCameraMain";
 

@@ -27,7 +27,7 @@ import mymou.preferences.PreferencesManager;
  * Saves image file with filename corresponding to the provided timestamp
  *
  */
-class CameraSavePhoto implements Runnable {
+public class CameraSavePhoto implements Runnable {
 
     private String TAG = "CameraSavePhoto";
     private final Image mImage;
@@ -35,6 +35,7 @@ class CameraSavePhoto implements Runnable {
     private final String day;
     private Context mContext;
     private FolderManager folderManager;
+    public File photoFile;
 
     /**
      * Instantiation
@@ -48,6 +49,19 @@ class CameraSavePhoto implements Runnable {
         mContext = context;
         folderManager = new FolderManager(mContext, 0);
         day = folderManager.getBaseDate();
+        String photoName = day + "_" + timestamp + ".jpg";
+        File folder = folderManager.getImageFolder();
+        photoFile = new File(folder, photoName);
+    }
+
+    public CameraSavePhoto(String timestampU, Context context) {
+        timestamp = timestampU;
+        mContext = context;
+        folderManager = new FolderManager(mContext, 0);
+        day = folderManager.getBaseDate();    String photoName = day + "_" + timestamp + ".jpg";
+        File folder = folderManager.getImageFolder();
+        photoFile = new File(folder, photoName);
+        mImage = null;
     }
 
     /**
@@ -55,6 +69,12 @@ class CameraSavePhoto implements Runnable {
      */
     @Override
     public void run() {
+
+        if (mImage==null) {
+            Log.d(TAG, "No image inputted! Are you using the external camera instead?");
+            return;
+        }
+
         Log.d(TAG, "Running CameraSavePhoto..");
 
         // Convert photo to byte array
@@ -132,17 +152,14 @@ class CameraSavePhoto implements Runnable {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] bytes = stream.toByteArray();
-        File folder = folderManager.getImageFolder();
-        String fileName = day + "_" + timestamp + ".jpg";
-        File filetowrite = new File(folder, fileName);
         FileOutputStream output = null;
         try {
-            output = new FileOutputStream(filetowrite);
+            output = new FileOutputStream(photoFile);
             output.write(bytes);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            Log.d(TAG, "Bitmap saved "+fileName);
+            Log.d(TAG, "Bitmap saved "+photoFile.getPath());
             mImage.close();
             if (output != null) {
                 try {

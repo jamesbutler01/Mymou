@@ -17,8 +17,34 @@
             android:textColor="@color/white"
             android:textSize="25sp"
             app:layout_constraintBottom_toTopOf="@+id/buttSelfieCamera"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="@+id/buttSelfieCamera" />
+
+    <TextView
+            android:id="@+id/tv_resolution_to_use"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="Currently selected: "
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_camera_to_use"
+            app:layout_constraintStart_toStartOf="@+id/buttSelfieCamera" />
+
+    <Button
+            android:id="@+id/buttPickResolution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/menu_button"
+            android:paddingHorizontal="30dp"
+            android:paddingVertical="10dp"
+            android:paddingStart="20dp"
+            android:text="Select Resolution"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_resolution_to_use"
+            app:layout_constraintStart_toEndOf="@+id/tv_resolution_to_use" />
 
     <Button
             android:id="@+id/buttSelfieCamera"

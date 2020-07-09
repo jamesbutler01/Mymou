@@ -51,12 +51,7 @@
                 app:key="@string/preftag_camera_resolution_rear"
                 app:summary="The resolution of selfies that are taken during the task"
                 app:title="Camera resolution" />
-        <ListPreference
-                android:entries="@array/colournames"
-                android:entryValues="@array/colourvalues"
-                app:key="@string/preftag_camera_resolution_ext"
-                app:summary="The resolution of selfies that are taken during the task"
-                app:title="Camera resolution" />
+
 
     </PreferenceCategory>
 
