@@ -2,6 +2,7 @@ package mymou.preferences;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.ImageFormat;
@@ -95,6 +96,7 @@ public class PrefsActCamPicker extends FragmentActivity {
 
 
     private void showResolutionListDialog() {
+
         // Figure out which resolutions to load
         List<String> resolutions;
         if (cameraMain != null && cameraMain.resolutions != null) {
@@ -102,33 +104,35 @@ public class PrefsActCamPicker extends FragmentActivity {
         }else if (cameraExternal != null && cameraExternal.resolutions != null) {
             resolutions = cameraExternal.resolutions;
         } else {
-            Toast.makeText(getApplicationContext(), "Waiting for camera to load resolutions..", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Waiting for camera to load resolutions..", Toast.LENGTH_SHORT).show();
             return;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-        View rootView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.layout_dialog_list, null);
-        ListView listView = (ListView) rootView.findViewById(R.id.listview_dialog);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, resolutions);
-        if (adapter != null) {
-            listView.setAdapter(adapter);
+        CharSequence[] resolutionsChar = new CharSequence[resolutions.size()];
+        for (int i = 0; i < resolutions.size(); i++) {
+                        resolutionsChar[i] = resolutions.get(i);
         }
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                final String resolution = (String) adapterView.getItemAtPosition(position);
-                String[] tmp = resolution.split("x");
-                if (tmp != null && tmp.length >= 2) {
-                    int widht = Integer.valueOf(tmp[0]);
-                    int height = Integer.valueOf(tmp[1]);
-                }
-                mDialog.dismiss();
+        AlertDialog.Builder builder = new AlertDialog.Builder(PrefsActCamPicker.this, R.style.Theme_AppCompat_Dialog);
+        builder.setTitle("Choose resolution");
+        builder.setItems(resolutionsChar, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                TextView tv = findViewById(R.id.tv_resolution_to_use);
+                tv.setText("Resolution: "+resolutions.get(item));
+
+                // Store the value
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                String[] prefTags = { getString(R.string.preftag_camera_resolution_front),
+                        getString(R.string.preftag_camera_resolution_rear),
+                        getString(R.string.preftag_camera_resolution_ext)};
+                String prefTag = prefTags[preferencesManager.camera_to_use];
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putInt(prefTag, item);
+                editor.commit();
             }
         });
+        AlertDialog alert = builder.create();
+        alert.show();
 
-        builder.setView(rootView);
-        mDialog = builder.create();
-        mDialog.show();
     }
 
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
@@ -171,3 +175,4 @@ public class PrefsActCamPicker extends FragmentActivity {
 
 
 }
+

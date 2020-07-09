@@ -48,71 +48,7 @@ public class PrefsFragCamera extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle bundle, String rootKey) {
         setPreferencesFromResource(R.xml.preferences_camera, rootKey);
         Log.d(TAG, "onCreatePreferences");
-////
-////        // Build resolution list for camera
-////        PreferencesManager preferencesManager  = new PreferencesManager(getContext());
-////        String prefTag = "";
-////        switch (preferencesManager.camera_to_use) {
-////            case CameraCharacteristics.LENS_FACING_BACK:
-////                prefTag = getString(R.string.preftag_camera_resolution_rear);
-////                findPreference(getString(R.string.preftag_camera_resolution_front)).setEnabled(false);
-////                findPreference(getString(R.string.preftag_camera_resolution_front)).setVisible(false);
-////                break;
-////            case CameraCharacteristics.LENS_FACING_FRONT:
-////                prefTag = getString(R.string.preftag_camera_resolution_front);
-////                findPreference(getString(R.string.preftag_camera_resolution_rear)).setEnabled(false);
-////                findPreference(getString(R.string.preftag_camera_resolution_rear)).setVisible(false);
-////                break;
-////            case CameraCharacteristics.LENS_FACING_EXTERNAL:
-////                prefTag = getString(R.string.preftag_camera_resolution_ext);
-////                findPreference(getString(R.string.preftag_camera_resolution_front)).setEnabled(false);
-////                findPreference(getString(R.string.preftag_camera_resolution_rear)).setEnabled(false);
-////                findPreference(getString(R.string.preftag_camera_resolution_front)).setVisible(false);
-////                findPreference(getString(R.string.preftag_camera_resolution_rear)).setVisible(false);
-////                break;
-////        }
-////
-////        if (preferencesManager.camera_to_use == getContext().getResources().getInteger(R.integer.TAG_CAMERA_EXTERNAL)) {
-////            return;
-////        }
-////
-////        // Load up camera to get resolutions available
-////        CameraManager manager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
-////
-////        try {
-////            String[] all_camera_ids = manager.getCameraIdList();
-////            String cameraId = all_camera_ids[preferencesManager.camera_to_use];
-////            CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraId);
-////
-////            StreamConfigurationMap map = characteristics.get(
-////                    CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-////
-////            // Build list of resolutions to present to user
-////            List sizes = Arrays.asList(map.getOutputSizes(ImageFormat.JPEG));
-////            CharSequence[] resolutions = new CharSequence[sizes.size()];
-////            CharSequence[] ints = new CharSequence[sizes.size()];
-////            for (int i = 0; i < sizes.size(); i++) {
-////                Size size = (Size) sizes.get(i);
-////                resolutions[i] = "" + size.getHeight() + "x" + size.getWidth();
-////                ints[i] = "" + i;
-////            }
-////            // Update list
-////            ListPreference lp = (ListPreference) findPreference(prefTag);
-////            lp.setEntries(resolutions);
-////            lp.setEntryValues(ints);
-////
-////            // And set value of list to saved one
-////            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-////            int default_size = resolutions.length - 1;
-////            String resolution_saved = settings.getString(prefTag, ""+default_size);
-////            Log.d(TAG, "Setting resolution value to "+resolution_saved+ ",default="+default_size+" for "+prefTag);
-////            int resolution_index = Integer.valueOf(resolution_saved);
-////            lp.setValueIndex(resolution_index);
-//
-//        } catch (CameraAccessException e) {
-//
-//            e.printStackTrace();
-//        }
+
 
     }
 

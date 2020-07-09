@@ -274,26 +274,16 @@ public class CameraMain extends Fragment
                 // Find which resolution user selected
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
                 int default_size = sizes.size() - 1;
-                String resolution_saved ="";
-                String save_suffix="";
+                int resolution_saved = -1;
                 switch (camera_facing) {
                     case CameraCharacteristics.LENS_FACING_BACK:
-                        resolution_saved = settings.getString(getString(R.string.preftag_camera_resolution_rear), "" + default_size);
-                        save_suffix = "rear";
+                        resolution_saved = settings.getInt(getString(R.string.preftag_camera_resolution_rear), default_size);
                         break;
                     case CameraCharacteristics.LENS_FACING_FRONT:
-                        resolution_saved = settings.getString(getString(R.string.preftag_camera_resolution_front), "" + default_size);
-                        save_suffix = "front";
+                        resolution_saved = settings.getInt(getString(R.string.preftag_camera_resolution_front), default_size);
                         break;
-
                 }
-                Size resolution = (Size) sizes.get(Integer.valueOf(resolution_saved));
-
-//                // Store this to be used by crop menu
-//                SharedPreferences.Editor editor = settings.edit();
-//                editor.putInt("camera_width_"+save_suffix, resolution.getHeight());
-//                editor.putInt("camera_height"+save_suffix, resolution.getWidth());
-//                editor.commit();
+                Size resolution = (Size) sizes.get(resolution_saved);
 
                 mImageReader = ImageReader.newInstance(resolution.getWidth(), resolution.getHeight(),
                         ImageFormat.JPEG, /*maxImages*/2);

@@ -38,21 +38,6 @@
                 app:key="@string/preftag_crop_picker"
                 app:title="Configure crop boundaries of photos" />
 
-        <ListPreference
-                android:entries="@array/colournames"
-                android:entryValues="@array/colourvalues"
-                app:key="@string/preftag_camera_resolution_front"
-                app:summary="The resolution of selfies that are taken during the task"
-                app:title="Camera resolution" />
-
-        <ListPreference
-                android:entries="@array/colournames"
-                android:entryValues="@array/colourvalues"
-                app:key="@string/preftag_camera_resolution_rear"
-                app:summary="The resolution of selfies that are taken during the task"
-                app:title="Camera resolution" />
-
-
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>
