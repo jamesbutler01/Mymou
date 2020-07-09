@@ -4,11 +4,14 @@ package mymou.preferences;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.ImageFormat;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.params.StreamConfigurationMap;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,14 +19,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.ListPreference;
 import androidx.preference.PreferenceManager;
 
 import org.w3c.dom.Text;
+
+import java.util.Arrays;
+import java.util.List;
 
 import mymou.CameraExternal;
 import mymou.R;
@@ -42,11 +50,13 @@ public class PrefsActCamPicker extends FragmentActivity {
     private static String TAG = "PrefsActCamPicker";
 
     private static String[] messages = {
-            "Currently selected: Rear camera",
             "Currently selected: Selfie camera",
+            "Currently selected: Rear camera",
             "Currently selected: External camera",};
     PreferencesManager preferencesManager;
     private AlertDialog mDialog;
+    private CameraMain cameraMain;
+    private CameraExternal cameraExternal;
 
 
     @Override
@@ -64,21 +74,20 @@ public class PrefsActCamPicker extends FragmentActivity {
         preferencesManager = new PreferencesManager(this);
         TextView tv = findViewById(R.id.tv_camera_to_use);
         tv.setText(messages[preferencesManager.camera_to_use]);
+        Log.d(TAG, "Camera to use"+preferencesManager.camera_to_use+" "+messages[preferencesManager.camera_to_use]);
 
-        
-
-        // Finally, actually load camera fragment
+        // Actually load camera fragment
         Bundle bundle = new Bundle();
         bundle.putBoolean("crop_picker", true);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         if (preferencesManager.camera_to_use != getApplicationContext().getResources().getInteger(R.integer.TAG_CAMERA_EXTERNAL)) {
-            CameraMain fragment = new CameraMain();
-            fragment.setArguments(bundle);
-            fragmentTransaction.add(R.id.layout_camerapicker, fragment, "camera_fragment");
+            cameraMain = new CameraMain();
+            cameraMain.setArguments(bundle);
+            fragmentTransaction.add(R.id.layout_camerapicker, cameraMain, "camera_fragment");
         } else {
-            CameraExternal fragment = new CameraExternal();
-            fragment.setArguments(bundle);
-            fragmentTransaction.add(R.id.layout_camerapicker, fragment, "camera_fragment");
+            cameraExternal = new CameraExternal();
+            cameraExternal.setArguments(bundle);
+            fragmentTransaction.add(R.id.layout_camerapicker, cameraExternal, "camera_fragment");
         }
         fragmentTransaction.commit();
 
@@ -86,10 +95,21 @@ public class PrefsActCamPicker extends FragmentActivity {
 
 
     private void showResolutionListDialog() {
+        // Figure out which resolutions to load
+        List<String> resolutions;
+        if (cameraMain != null && cameraMain.resolutions != null) {
+            resolutions = cameraMain.resolutions;
+        }else if (cameraExternal != null && cameraExternal.resolutions != null) {
+            resolutions = cameraExternal.resolutions;
+        } else {
+            Toast.makeText(getApplicationContext(), "Waiting for camera to load resolutions..", Toast.LENGTH_LONG).show();
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
         View rootView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.layout_dialog_list, null);
         ListView listView = (ListView) rootView.findViewById(R.id.listview_dialog);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, getResolutionList());
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, resolutions);
         if (adapter != null) {
             listView.setAdapter(adapter);
         }
@@ -117,13 +137,13 @@ public class PrefsActCamPicker extends FragmentActivity {
             Log.d(TAG, "onClick: " + view.getId());
             switch (view.getId()) {
                 case R.id.buttRearCam:
-                    switch_camera(0);
+                    switch_camera(getApplicationContext().getResources().getInteger(R.integer.TAG_CAMERA_REAR));
                     break;
                 case R.id.buttSelfieCamera:
-                    switch_camera(1);
+                    switch_camera(getApplicationContext().getResources().getInteger(R.integer.TAG_CAMERA_FRONT));
                     break;
                 case R.id.buttExternalCam:
-                    switch_camera(2);
+                    switch_camera(getApplicationContext().getResources().getInteger(R.integer.TAG_CAMERA_EXTERNAL));
                     break;
                 case R.id.buttPickResolution:
                     showResolutionListDialog();

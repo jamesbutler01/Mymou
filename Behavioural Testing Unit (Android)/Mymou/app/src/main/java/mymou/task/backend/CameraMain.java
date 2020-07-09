@@ -34,6 +34,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -82,6 +83,9 @@ public class CameraMain extends Fragment
 
     // Error handling
     public static boolean camera_error = false;
+
+    // For the user to select the resolution
+    public List<String> resolutions;
 
     public static CameraMain newInstance() {
         return new CameraMain();
@@ -242,26 +246,37 @@ public class CameraMain extends Fragment
         CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
         PreferencesManager preferencesManager = new PreferencesManager(getContext());
         try {
-                String[] all_camera_ids = manager.getCameraIdList();
-                // Just double check the camera selected is actually connected
-                int camera_to_use = preferencesManager.camera_to_use < all_camera_ids.length ? preferencesManager.camera_to_use : getResources().getInteger(R.integer.default_camera_to_use);
-                String cameraId = all_camera_ids[camera_to_use];
-                CameraCharacteristics characteristics
-                        = manager.getCameraCharacteristics(cameraId);
-
-                StreamConfigurationMap map = characteristics.get(
-                        CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-
+            // Iterate through to find correct camera
+            String[] all_camera_ids = manager.getCameraIdList();
+            boolean foundCamera = false;
+            int camera_facing = -1, i_camera = 0;
+            StreamConfigurationMap map = null;
+            for (i_camera=0; i_camera<all_camera_ids.length; i_camera++) {
+                CameraCharacteristics characteristics = manager.getCameraCharacteristics(all_camera_ids[i_camera]);
+                map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+                camera_facing = characteristics.get(CameraCharacteristics.LENS_FACING);
+                if (camera_facing == preferencesManager.camera_to_use) {
+                    foundCamera = true;
+                    break;
+                }
+            }
+            if (!foundCamera) {
+                throw new NullPointerException("Couldn't find camera specified! Should you be loading CameraExternal instead?");
+            }
                  // Get list of available camera resolutions
                 List sizes = Arrays.asList(map.getOutputSizes(ImageFormat.JPEG));
+                resolutions = new ArrayList<>();
+                for (int i = 0; i < sizes.size(); i++) {
+                    Size size = (Size) sizes.get(i);
+                    resolutions.add("" + size.getWidth() + "x" + size.getHeight());
+                }
 
                 // Find which resolution user selected
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
                 int default_size = sizes.size() - 1;
                 String resolution_saved ="";
                 String save_suffix="";
-                Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
-                switch (facing) {
+                switch (camera_facing) {
                     case CameraCharacteristics.LENS_FACING_BACK:
                         resolution_saved = settings.getString(getString(R.string.preftag_camera_resolution_rear), "" + default_size);
                         save_suffix = "rear";
@@ -270,18 +285,15 @@ public class CameraMain extends Fragment
                         resolution_saved = settings.getString(getString(R.string.preftag_camera_resolution_front), "" + default_size);
                         save_suffix = "front";
                         break;
-                    case CameraCharacteristics.LENS_FACING_EXTERNAL:
-                        resolution_saved = settings.getString(getString(R.string.preftag_camera_resolution_ext), "" + default_size);
-                        save_suffix = "ext";
-                        break;
+
                 }
                 Size resolution = (Size) sizes.get(Integer.valueOf(resolution_saved));
 
-                // Store this to be used by crop menu
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putInt("camera_width_"+save_suffix, resolution.getHeight());
-                editor.putInt("camera_height"+save_suffix, resolution.getWidth());
-                editor.commit();
+//                // Store this to be used by crop menu
+//                SharedPreferences.Editor editor = settings.edit();
+//                editor.putInt("camera_width_"+save_suffix, resolution.getHeight());
+//                editor.putInt("camera_height"+save_suffix, resolution.getWidth());
+//                editor.commit();
 
                 mImageReader = ImageReader.newInstance(resolution.getWidth(), resolution.getHeight(),
                         ImageFormat.JPEG, /*maxImages*/2);
@@ -289,7 +301,7 @@ public class CameraMain extends Fragment
                         mOnImageAvailableListener, mBackgroundHandler);
                 Size[] choices = map.getOutputSizes(SurfaceTexture.class);
                 mPreviewSize = choices[0];
-                mCameraId = cameraId;
+                mCameraId = all_camera_ids[i_camera];
 
                 return;
         } catch (CameraAccessException e) {
