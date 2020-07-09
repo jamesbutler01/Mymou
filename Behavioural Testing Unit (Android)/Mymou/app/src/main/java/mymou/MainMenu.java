@@ -63,6 +63,9 @@ public class MainMenu extends Activity {
 
         UtilsSystem.setBrightness(true, this, preferencesManager);
 
+        Intent intent = new Intent(context, PrefsActCamPicker.class);
+        startActivity(intent);
+
     }
 
     private void checkPermissions() {

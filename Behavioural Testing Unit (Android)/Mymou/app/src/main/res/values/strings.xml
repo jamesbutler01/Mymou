@@ -74,6 +74,8 @@
     <string name="preftag_camera_resolution_front">camera_resolution_front</string>
     <string name="preftag_camera_resolution_rear">camera_resolution_rear</string>
     <string name="preftag_camera_resolution_ext">camera_resolution_ext</string>
+    <string name="preftag_camera_resolution_ext_height">camera_resolution_ext_y</string>
+    <string name="preftag_camera_resolution_ext_width">camera_resolution_ext_x</string>
     <string name="preftag_facerecog">facerecog</string>
     <string name="preftag_savefacerecogarrays">savefacerecogarrays</string>
     <string name="preftag_dimscreen">preftag_dimscreen</string>

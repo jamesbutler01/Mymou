@@ -158,6 +158,14 @@ public class PrefsActCamPicker extends FragmentActivity {
                 String prefTag = prefTags[preferencesManager.camera_to_use];
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putInt(prefTag, item);
+
+                // For external camera we have to store the width and height separately so it can be set on startup
+                if (preferencesManager.camera_to_use == getApplicationContext().getResources().getInteger(R.integer.TAG_CAMERA_EXTERNAL)) {
+                    String res = resolutions.get(item);
+                    String[] tmp = res.split("x");
+                    editor.putInt(getApplicationContext().getResources().getString(R.string.preftag_camera_resolution_ext_width), Integer.valueOf(tmp[0]));
+                    editor.putInt(getApplicationContext().getResources().getString(R.string.preftag_camera_resolution_ext_height), Integer.valueOf(tmp[1]));
+                }
                 editor.apply();
             }
         });
