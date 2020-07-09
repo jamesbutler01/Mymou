@@ -36,7 +36,9 @@ import java.util.List;
 
 import mymou.CameraExternal;
 import mymou.R;
+import mymou.task.backend.CameraInterface;
 import mymou.task.backend.CameraMain;
+import mymou.task.backend.TaskInterface;
 import mymou.task.backend.UtilsTask;
 
 import static java.security.AccessController.getContext;
@@ -58,7 +60,7 @@ public class PrefsActCamPicker extends FragmentActivity {
     private AlertDialog mDialog;
     private CameraMain cameraMain;
     private CameraExternal cameraExternal;
-
+    private List<String> resolutions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,21 +86,31 @@ public class PrefsActCamPicker extends FragmentActivity {
         if (preferencesManager.camera_to_use != getApplicationContext().getResources().getInteger(R.integer.TAG_CAMERA_EXTERNAL)) {
             cameraMain = new CameraMain();
             cameraMain.setArguments(bundle);
+            cameraMain.setFragInterfaceListener(new CameraInterface() {
+                @Override
+                public void CameraLoaded() {
+                    updateResolution();
+                }
+            });
             fragmentTransaction.add(R.id.layout_camerapicker, cameraMain, "camera_fragment");
         } else {
             cameraExternal = new CameraExternal();
             cameraExternal.setArguments(bundle);
+            cameraExternal.setFragInterfaceListener(new CameraInterface() {
+                                                        @Override
+                                                        public void CameraLoaded() {
+                                                            updateResolution();
+                                                        }
+                                                    });
             fragmentTransaction.add(R.id.layout_camerapicker, cameraExternal, "camera_fragment");
         }
         fragmentTransaction.commit();
 
-    }
+        }
 
 
-    private void showResolutionListDialog() {
-
+    private void updateResolution() {
         // Figure out which resolutions to load
-        List<String> resolutions;
         if (cameraMain != null && cameraMain.resolutions != null) {
             resolutions = cameraMain.resolutions;
         }else if (cameraExternal != null && cameraExternal.resolutions != null) {
@@ -107,6 +119,12 @@ public class PrefsActCamPicker extends FragmentActivity {
             Toast.makeText(getApplicationContext(), "Waiting for camera to load resolutions..", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        // Set string informing user what resolution currently selected
+        
+    }
+
+    private void showResolutionListDialog() {
 
         CharSequence[] resolutionsChar = new CharSequence[resolutions.size()];
         for (int i = 0; i < resolutions.size(); i++) {

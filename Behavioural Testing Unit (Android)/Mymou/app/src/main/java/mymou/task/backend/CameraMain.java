@@ -60,7 +60,7 @@ import mymou.preferences.PreferencesManager;
  *
  */
 public class CameraMain extends Fragment
-        implements FragmentCompat.OnRequestPermissionsResultCallback, CameraInterface {
+        implements FragmentCompat.OnRequestPermissionsResultCallback {
 
     public static String TAG = "MyMouCameraMain";
 
@@ -490,58 +490,11 @@ public class CameraMain extends Fragment
 
     }
 
-        /***
-     *
-     * Old code that automatically selects the selfie camera
-     *
-     */
-//    private void setUpCameraOutputs() {
-//        Activity activity = getActivity();
-//        CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
-//        try {
-//            for (String cameraId : manager.getCameraIdList()) {
-//                CameraCharacteristics characteristics
-//                        = manager.getCameraCharacteristics(cameraId);
-//
-//                // Find selfie camera
-//                Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
-//                if (facing != null && facing == CameraCharacteristics.LENS_FACING_BACK) {
-//                    continue;
-//                }
-//
-//                StreamConfigurationMap map = characteristics.get(
-//                        CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-//                if (map == null) {
-//                    continue;
-//                }
-//
-//                 // Get list of available camera resolutions
-//                List sizes = Arrays.asList(map.getOutputSizes(ImageFormat.JPEG));
-//
-//                // Find which resolution user selected
-//                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-//                int default_size = sizes.size() - 1;
-//                String resolution_saved = settings.getString(getString(R.string.preftag_camera_resolution), ""+default_size);
-//                Size resolution = (Size) sizes.get(Integer.valueOf(resolution_saved));
-//
-//                // Store this to be used by crop menu
-//                SharedPreferences.Editor editor = settings.edit();
-//                editor.putInt("camera_width", resolution.getHeight());
-//                editor.putInt("camera_height", resolution.getWidth());
-//                editor.commit();
-//
-//                mImageReader = ImageReader.newInstance(resolution.getWidth(), resolution.getHeight(),
-//                        ImageFormat.JPEG, /*maxImages*/2);
-//                mImageReader.setOnImageAvailableListener(
-//                        mOnImageAvailableListener, mBackgroundHandler);
-//                Size[] choices = map.getOutputSizes(SurfaceTexture.class);
-//                mPreviewSize = choices[0];
-//                mCameraId = cameraId;
-//                return;
-//            }
-//        } catch (CameraAccessException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    // Add callback to enable parent activity to react when camera is loaded
+    CameraInterface callback;
+    public void setFragInterfaceListener(CameraInterface callback) {
+        this.callback = callback;
+    }
+
 
 }
