@@ -274,16 +274,16 @@ public class CameraMain extends Fragment
                 // Find which resolution user selected
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
                 int default_size = sizes.size() - 1;
-                int resolution_saved = -1;
-                switch (camera_facing) {
+                int i_resolution = -1;
+                switch (preferencesManager.camera_to_use) {
                     case CameraCharacteristics.LENS_FACING_BACK:
-                        resolution_saved = settings.getInt(getString(R.string.preftag_camera_resolution_rear), default_size);
+                        i_resolution = settings.getInt(getString(R.string.preftag_camera_resolution_rear), default_size);
                         break;
                     case CameraCharacteristics.LENS_FACING_FRONT:
-                        resolution_saved = settings.getInt(getString(R.string.preftag_camera_resolution_front), default_size);
+                        i_resolution = settings.getInt(getString(R.string.preftag_camera_resolution_front), default_size);
                         break;
                 }
-                Size resolution = (Size) sizes.get(resolution_saved);
+                Size resolution = (Size) sizes.get(i_resolution);
 
                 mImageReader = ImageReader.newInstance(resolution.getWidth(), resolution.getHeight(),
                         ImageFormat.JPEG, /*maxImages*/2);
@@ -292,6 +292,9 @@ public class CameraMain extends Fragment
                 Size[] choices = map.getOutputSizes(SurfaceTexture.class);
                 mPreviewSize = choices[0];
                 mCameraId = all_camera_ids[i_camera];
+
+                // Tell parent we've finished loading camera
+                callback.CameraLoaded();
 
                 return;
         } catch (CameraAccessException e) {

@@ -120,20 +120,53 @@ public class PrefsActCamPicker extends FragmentActivity {
             return;
         }
 
-        // Set string informing user what resolution currently selected
-        
+        // Find the saved resolution
+        int default_size = resolutions.size() - 1;
+        int i_resolution = -1;
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        switch (preferencesManager.camera_to_use) {
+            case CameraCharacteristics.LENS_FACING_BACK:
+                i_resolution = settings.getInt(getString(R.string.preftag_camera_resolution_rear), default_size);
+                break;
+            case CameraCharacteristics.LENS_FACING_FRONT:
+                i_resolution = settings.getInt(getString(R.string.preftag_camera_resolution_front), default_size);
+                break;
+            case CameraCharacteristics.LENS_FACING_EXTERNAL:
+                i_resolution = settings.getInt(getString(R.string.preftag_camera_resolution_ext), 0);
+                break;
+        }
+
+        // Set textview informing user what resolution currently selected
+        final int i_res_final = i_resolution;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView tv = findViewById(R.id.tv_resolution_to_use);
+                tv.setText("Resolution: "+resolutions.get(i_res_final));
+            }
+        });
+
     }
 
     private void showResolutionListDialog() {
+        // Make sure camera has loaded
+        if (resolutions == null) {
+            Toast.makeText(getApplicationContext(), "Camera still loading", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        // Convert list to array to use with AlertDialog
         CharSequence[] resolutionsChar = new CharSequence[resolutions.size()];
         for (int i = 0; i < resolutions.size(); i++) {
-                        resolutionsChar[i] = resolutions.get(i);
+                resolutionsChar[i] = resolutions.get(i);
         }
+
+        // Build alert dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(PrefsActCamPicker.this, R.style.Theme_AppCompat_Dialog);
         builder.setTitle("Choose resolution");
         builder.setItems(resolutionsChar, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
+                // Update UI
                 TextView tv = findViewById(R.id.tv_resolution_to_use);
                 tv.setText("Resolution: "+resolutions.get(item));
 
@@ -145,7 +178,7 @@ public class PrefsActCamPicker extends FragmentActivity {
                 String prefTag = prefTags[preferencesManager.camera_to_use];
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putInt(prefTag, item);
-                editor.commit();
+                editor.apply();
             }
         });
         AlertDialog alert = builder.create();
