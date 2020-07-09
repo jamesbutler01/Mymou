@@ -14,5 +14,8 @@ import mymou.task.backend.TaskInterface;
  */
 public abstract class Camera extends Fragment {
 
+    public boolean camera_error;
+
+    public abstract boolean captureStillPicture(String ts);
 
 }

@@ -417,8 +417,13 @@ public class CameraMain extends Camera
         }
     }
 
+    @Override
+    public boolean captureStillPicture(String ts) {
+        return captureStillPictureStatic(ts);
+    }
+
     // Say cheese
-    public static boolean captureStillPicture(String ts) {
+    public static boolean captureStillPictureStatic(String ts) {
         Log.d(TAG, "Capture request started at" + ts);
         // If the camera is still in process of taking previous picture it will not take another one
         // If it took multiple photos the timestamp for saving/indexing the photos would be wrong

@@ -65,7 +65,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     private static FragmentTransaction fragmentTransaction;
     private static Context mContext;
     private static Activity activity;
-    private static CameraMain cM;
+    private static Camera camera;
 
     // Aync handlers used to posting delayed task events
     private static Handler h0 = new Handler();  // Task trial_timer
@@ -439,8 +439,12 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             return;
         }
         Log.d(TAG, "Loading camera fragment");
-        cM = new CameraMain();
-        fragmentTransaction.add(R.id.task_container, cM);
+        if ( preferencesManager.camera_to_use != mContext.getResources().getInteger(R.integer.TAG_CAMERA_EXTERNAL)) {
+            camera = new CameraMain();
+        } else {
+            camera = new CameraExternal();
+        }
+        fragmentTransaction.add(R.id.task_container, camera);
         commitFragment();
     }
 
@@ -684,7 +688,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     public static boolean takePhoto() {
         if (preferencesManager.camera) {
-            if (cM.camera_error) {
+            if (camera.camera_error) {
                 // Kill camera fragment and restart it
                 fragmentTransaction.remove(fragmentManager.findFragmentByTag(TAG_FRAGMENT_TASK));
                 fragmentTransaction.remove(fragmentManager.findFragmentByTag(TAG_FRAGMENT_CAMERA));
@@ -694,7 +698,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             }
             Log.d(TAG, "takePhoto() called");
             photoTimestamp = folderManager.getTimestamp();
-            boolean photoTaken = CameraMain.captureStillPicture(photoTimestamp);
+            boolean photoTaken = camera.captureStillPicture(photoTimestamp);
             return photoTaken;
         } else {
             return true;
