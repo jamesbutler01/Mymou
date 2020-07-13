@@ -107,8 +107,8 @@ public class CameraMain extends Camera
         // If not in task mode, we want to make the camera preview visible
         if (getArguments() != null && !getArguments().getBoolean(getContext().getResources().getString(R.string.task_mode), false)) {
                 // Set image to size of photo
-                int camera_width = 240;
-                int camera_height = 320;
+                int camera_width = 320;
+                int camera_height = 240;
                 int scale = UtilsSystem.getCropScale(getActivity(), camera_width, camera_height);
                 camera_width *= scale;
                 camera_height *= scale;

@@ -62,8 +62,8 @@ public class PrefsFragCropPicker extends Fragment implements SeekBar.OnSeekBarCh
 
         // Load settings
         settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-        camera_width = settings.getInt("camera_width", 240);
-        camera_height = settings.getInt("camera_height", 320);
+        camera_width = settings.getInt("camera_width", 320);
+        camera_height = settings.getInt("camera_height", 240);
         scale = UtilsSystem.getCropScale(getActivity(), camera_width, camera_height);
 
         // Scale views
