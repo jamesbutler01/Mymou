@@ -95,17 +95,17 @@ public class CameraSavePhoto implements Runnable {
             int cropRight = settings.getInt("crop_right", 0);
             int cropLeft = settings.getInt("crop_left", 0);
 
-            int startX = cropLeft;
-            int startY = cropTop;
-            int endX = bitmap.getWidth() - cropLeft - cropRight;
-            int endY = bitmap.getHeight() - cropTop - cropBottom;
+            int startX = cropRight;
+            int startY = cropBottom;
+            int endX = bitmap.getHeight() - cropLeft - cropRight;
+            int endY = bitmap.getWidth() - cropTop - cropBottom;
 
             Log.d(TAG, "Cropping photo: "+cropLeft+" "+cropRight+" "+cropTop+" "+cropBottom);
             Log.d(TAG, "Cropping photo: Width="+bitmap.getWidth()+", left="+cropLeft+", right="+cropRight);
             Log.d(TAG, "Cropping photo: Height="+bitmap.getHeight()+", top="+cropTop+", bottom="+cropBottom);
             Log.d(TAG, "Cropping photo: "+startX+" "+endX+" "+startY+" "+endY);
 
-            bitmapCropped = Bitmap.createBitmap(bitmap, startX, startY, endX, endY);
+            bitmapCropped = Bitmap.createBitmap(bitmap, startY, startX, endY, endX);
 
         } else {
 

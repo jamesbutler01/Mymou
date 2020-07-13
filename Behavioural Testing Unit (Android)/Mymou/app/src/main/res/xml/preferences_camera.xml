@@ -28,15 +28,15 @@
                 app:summary="The facial recognition module will then use these arrays to train the classifier. This option is expensive to run, however."
                 app:title="Convert photos to integer arrays and save them" />
 
-<!--        <SwitchPreferenceCompat-->
-<!--                app:defaultValue="false"-->
-<!--                app:key="@string/preftag_crop_photos"-->
-<!--                app:title="Crop camera photos" />-->
+        <SwitchPreferenceCompat
+                app:defaultValue="false"
+                app:key="@string/preftag_crop_photos"
+                app:title="Crop camera photos" />
 
-<!--        <Preference-->
-<!--                app:fragment="mymou.preferences.PrefsActCropPicker"-->
-<!--                app:key="@string/preftag_crop_picker"-->
-<!--                app:title="Configure crop boundaries of photos" />-->
+        <Preference
+                app:fragment="mymou.preferences.PrefsActCropPicker"
+                app:key="@string/preftag_crop_picker"
+                app:title="Configure crop boundaries of photos" />
 
     </PreferenceCategory>
 
