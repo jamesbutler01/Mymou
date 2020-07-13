@@ -262,10 +262,18 @@ public class MainMenu extends Activity {
     };
 
 
+
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Log.d(TAG, "onClick: "+view.getId());
+
+            if (!permissions_granted) {
+                Toast.makeText(getApplicationContext(), "All permissions must be enabled before app can run", Toast.LENGTH_SHORT).show();
+                checkPermissions();
+                return;
+            }
+
             switch (view.getId()) {
                 case R.id.buttonStart:
                     startTask();
