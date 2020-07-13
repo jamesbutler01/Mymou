@@ -17,7 +17,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
-            android:name=".MainActivity"
             android:allowBackup="true"
             android:icon="@drawable/ic_launcher"
             android:label="Mymou"
@@ -47,16 +46,6 @@
                 android:screenOrientation="portrait"/>
         <activity android:name=".preferences.PrefsActCropPicker"/>
         <activity android:name=".preferences.PrefsActCamPicker"/>
-
-        <activity android:name=".SplashActivity"
-                android:screenOrientation="portrait"
-                android:theme="@style/MainAppTheme">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
 
         <activity android:name=".task.backend.CameraExternal"
                 android:screenOrientation="portrait">
