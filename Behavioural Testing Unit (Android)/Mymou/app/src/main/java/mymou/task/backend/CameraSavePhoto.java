@@ -90,18 +90,20 @@ public class CameraSavePhoto implements Runnable {
         Bitmap bitmapCropped;
         if (settings.getBoolean("crop_photos", false)) {
             // For some reason photo is rotated 90 degrees so adjust crop settings accordingly
-            int cropLeft = settings.getInt("crop_bottom", 0);
-            int cropRight = settings.getInt("crop_top", 0);
-            int cropTop = settings.getInt("crop_right", 0);
-            int cropBottom = settings.getInt("crop_left", 0);
+            int cropBottom = settings.getInt("crop_bottom", 0);
+            int cropTop = settings.getInt("crop_top", 0);
+            int cropRight = settings.getInt("crop_right", 0);
+            int cropLeft = settings.getInt("crop_left", 0);
 
             int startX = cropLeft;
             int startY = cropTop;
             int endX = bitmap.getWidth() - cropLeft - cropRight;
             int endY = bitmap.getHeight() - cropTop - cropBottom;
 
+            Log.d(TAG, "Cropping photo: "+cropLeft+" "+cropRight+" "+cropTop+" "+cropBottom);
             Log.d(TAG, "Cropping photo: Width="+bitmap.getWidth()+", left="+cropLeft+", right="+cropRight);
             Log.d(TAG, "Cropping photo: Height="+bitmap.getHeight()+", top="+cropTop+", bottom="+cropBottom);
+            Log.d(TAG, "Cropping photo: "+startX+" "+endX+" "+startY+" "+endY);
 
             bitmapCropped = Bitmap.createBitmap(bitmap, startX, startY, endX, endY);
 

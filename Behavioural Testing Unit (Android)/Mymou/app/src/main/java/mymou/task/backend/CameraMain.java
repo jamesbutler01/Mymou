@@ -107,8 +107,8 @@ public class CameraMain extends Camera
         // If not in task mode, we want to make the camera preview visible
         if (getArguments() != null && !getArguments().getBoolean(getContext().getResources().getString(R.string.task_mode), false)) {
                 // Set image to size of photo
-                int camera_width = 320;
-                int camera_height = 240;
+                int camera_width = 240;
+                int camera_height = 320;
                 int scale = UtilsSystem.getCropScale(getActivity(), camera_width, camera_height);
                 camera_width *= scale;
                 camera_height *= scale;
@@ -120,6 +120,7 @@ public class CameraMain extends Camera
                 mTextureView.setLayoutParams(lp);
                 mTextureView.setY(default_position.y);
                 mTextureView.setX(default_position.x);
+                Log.d(TAG, "hi");
         }
 
         startBackgroundThread();
@@ -345,12 +346,14 @@ public class CameraMain extends Camera
     }
 
     private void stopBackgroundThread() {
-        mBackgroundThread.quitSafely();
         try {
+            mBackgroundThread.quitSafely();
             mBackgroundThread.join();
             mBackgroundThread = null;
             mBackgroundHandler = null;
         } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
