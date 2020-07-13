@@ -85,7 +85,7 @@ public class CameraMain extends Camera
     public static boolean camera_error = false;
 
     // For the user to select the resolution
-    public List<String> resolutions;
+    public List<Size> resolutions;
 
     public static CameraMain newInstance() {
         return new CameraMain();
@@ -104,12 +104,11 @@ public class CameraMain extends Camera
 
         mTextureView = (TextureView) view.findViewById(R.id.camera_texture);
 
-        // If in crop picker menu, we want to make the camera preview visible
-        if (getArguments() != null && getArguments().getBoolean("crop_picker", false)) {
+        // If not in task mode, we want to make the camera preview visible
+        if (getArguments() != null && !getArguments().getBoolean(getContext().getResources().getString(R.string.task_mode), false)) {
                 // Set image to size of photo
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-                int camera_width = settings.getInt("camera_width", 320);
-                int camera_height = settings.getInt("camera_height", 240);
+                int camera_width = 320;
+                int camera_height = 240;
                 int scale = UtilsSystem.getCropScale(getActivity(), camera_width, camera_height);
                 camera_width *= scale;
                 camera_height *= scale;
@@ -261,40 +260,35 @@ public class CameraMain extends Camera
             if (!foundCamera) {
                 throw new NullPointerException("Couldn't find camera specified! Should you be loading CameraExternal instead?");
             }
-                 // Get list of available camera resolutions
-                List sizes = Arrays.asList(map.getOutputSizes(ImageFormat.JPEG));
-                resolutions = new ArrayList<>();
-                for (int i = 0; i < sizes.size(); i++) {
-                    Size size = (Size) sizes.get(i);
-                    resolutions.add("" + size.getWidth() + "x" + size.getHeight());
-                }
 
-                // Find which resolution user selected
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-                int default_size = sizes.size() - 1;
-                int i_resolution = -1;
-                switch (preferencesManager.camera_to_use) {
-                    case CameraCharacteristics.LENS_FACING_BACK:
-                        i_resolution = settings.getInt(getString(R.string.preftag_camera_resolution_rear), default_size);
-                        break;
-                    case CameraCharacteristics.LENS_FACING_FRONT:
-                        i_resolution = settings.getInt(getString(R.string.preftag_camera_resolution_front), default_size);
-                        break;
-                }
-                Size resolution = (Size) sizes.get(i_resolution);
+            // Get string list of available camera resolutions and find smallest
+            resolutions = Arrays.asList(map.getOutputSizes(ImageFormat.JPEG));
+            int default_size= UtilsSystem.getArgMinResolution(resolutions);
 
-                mImageReader = ImageReader.newInstance(resolution.getWidth(), resolution.getHeight(),
-                        ImageFormat.JPEG, /*maxImages*/2);
-                mImageReader.setOnImageAvailableListener(
-                        mOnImageAvailableListener, mBackgroundHandler);
-                Size[] choices = map.getOutputSizes(SurfaceTexture.class);
-                mPreviewSize = choices[0];
-                mCameraId = all_camera_ids[i_camera];
+            // Find which resolution user selected
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+            int i_resolution = -1;
+            switch (preferencesManager.camera_to_use) {
+                case CameraCharacteristics.LENS_FACING_BACK:
+                    i_resolution = settings.getInt(getString(R.string.preftag_camera_resolution_rear), default_size);
+                    break;
+                case CameraCharacteristics.LENS_FACING_FRONT:
+                    i_resolution = settings.getInt(getString(R.string.preftag_camera_resolution_front), default_size);
+                    break;
+            }
+            Size resolution = (Size) resolutions.get(i_resolution);
 
-                // Tell parent we've finished loading camera
-                callback.CameraLoaded();
+            mImageReader = ImageReader.newInstance(resolution.getWidth(), resolution.getHeight(),
+                    ImageFormat.JPEG, /*maxImages*/2);
+            mImageReader.setOnImageAvailableListener(
+                    mOnImageAvailableListener, mBackgroundHandler);
+            Size[] choices = map.getOutputSizes(SurfaceTexture.class);
+            mPreviewSize = choices[0];
+            mCameraId = all_camera_ids[i_camera];
 
-                return;
+            // Tell parent we've finished loading camera
+            callback.CameraLoaded();
+
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
@@ -481,17 +475,6 @@ public class CameraMain extends Camera
 
             // Couldn't take photo, return false
             return false;
-        }
-
-    }
-
-    // Compares two areas and returns 1 if A is bigger, 0 if same size, or -1 if B is bigger
-    private class cameraCompareAreas implements Comparator<Size> {
-        @Override
-        public int compare(Size lhs, Size rhs) {
-            // We cast here to ensure the multiplications won't overflow
-            return Long.signum((long) lhs.getWidth() * lhs.getHeight() -
-                    (long) rhs.getWidth() * rhs.getHeight());
         }
 
     }

@@ -131,7 +131,7 @@ public class UVCCamera {
 	protected int mCurrentWidth = DEFAULT_PREVIEW_WIDTH, mCurrentHeight = DEFAULT_PREVIEW_HEIGHT;
 	protected float mCurrentBandwidthFactor = DEFAULT_BANDWIDTH;
     protected String mSupportedSize;
-    protected List<Size> mCurrentSizeList;
+    protected List<SizeCustom> mCurrentSizeList;
 	// these fields from here are accessed from native code and do not change name and remove
     protected long mNativePtr;
     protected int mScanningModeMin, mScanningModeMax, mScanningModeDef;
@@ -281,10 +281,10 @@ public class UVCCamera {
     	return !TextUtils.isEmpty(mSupportedSize) ? mSupportedSize : (mSupportedSize = nativeGetSupportedSize(mNativePtr));
     }
 
-	public Size getPreviewSize() {
-		Size result = null;
-		final List<Size> list = getSupportedSizeList();
-		for (final Size sz: list) {
+	public SizeCustom getPreviewSize() {
+		SizeCustom result = null;
+		final List<SizeCustom> list = getSupportedSizeList();
+		for (final SizeCustom sz: list) {
 			if ((sz.width == mCurrentWidth)
 				|| (sz.height == mCurrentHeight)) {
 				result =sz;
@@ -347,13 +347,13 @@ public class UVCCamera {
 		}
 	}
 
-	public List<Size> getSupportedSizeList() {
+	public List<SizeCustom> getSupportedSizeList() {
 		final int type = (mCurrentFrameFormat > 0) ? 6 : 4;
 		return getSupportedSize(type, mSupportedSize);
 	}
 
-	public static List<Size> getSupportedSize(final int type, final String supportedSize) {
-		final List<Size> result = new ArrayList<Size>();
+	public static List<SizeCustom> getSupportedSize(final int type, final String supportedSize) {
+		final List<SizeCustom> result = new ArrayList<SizeCustom>();
 		if (!TextUtils.isEmpty(supportedSize))
 		try {
 			final JSONObject json = new JSONObject(supportedSize);
@@ -374,13 +374,13 @@ public class UVCCamera {
 		return result;
 	}
 
-	private static final void addSize(final JSONObject format, final int formatType, final int frameType, final List<Size> size_list) throws JSONException {
+	private static final void addSize(final JSONObject format, final int formatType, final int frameType, final List<SizeCustom> size_list) throws JSONException {
 		final JSONArray size = format.getJSONArray("size");
 		final int size_nums = size.length();
 		for (int j = 0; j < size_nums; j++) {
 			final String[] sz = size.getString(j).split("x");
 			try {
-				size_list.add(new Size(formatType, frameType, j, Integer.parseInt(sz[0]), Integer.parseInt(sz[1])));
+				size_list.add(new SizeCustom(formatType, frameType, j, Integer.parseInt(sz[0]), Integer.parseInt(sz[1])));
 			} catch (final Exception e) {
 				break;
 			}

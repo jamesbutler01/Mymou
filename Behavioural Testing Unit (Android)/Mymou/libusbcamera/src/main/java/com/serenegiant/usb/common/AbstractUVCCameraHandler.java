@@ -3,7 +3,6 @@ package com.serenegiant.usb.common;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
@@ -21,7 +20,7 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 
 import com.serenegiant.usb.IFrameCallback;
-import com.serenegiant.usb.Size;
+import com.serenegiant.usb.SizeCustom;
 import com.serenegiant.usb.USBMonitor;
 import com.serenegiant.usb.UVCCamera;
 import com.serenegiant.usb.encoder.MediaEncoder;
@@ -50,7 +49,6 @@ import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -255,7 +253,7 @@ public abstract class AbstractUVCCameraHandler extends Handler {
         sendEmptyMessage(MSG_CAMERA_FOUCS);
     }
 
-    public List<Size> getSupportedPreviewSizes() {
+    public List<SizeCustom> getSupportedPreviewSizes() {
         return mWeakThread.get().getSupportedSizes();
     }
 
@@ -917,7 +915,7 @@ public abstract class AbstractUVCCameraHandler extends Handler {
         }
 
         // 获取支持的分辨率
-        public List<Size> getSupportedSizes() {
+        public List<SizeCustom> getSupportedSizes() {
             if ((mUVCCamera == null) || !mIsPreviewing)
                 return null;
             return mUVCCamera.getSupportedSizeList();

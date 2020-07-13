@@ -28,7 +28,7 @@ import android.os.Parcelable;
 
 import java.util.Locale;
 
-public class Size implements Parcelable {
+public class SizeCustom implements Parcelable {
 	//
 	/**
 	 * native側のuvc_raw_format_tの値, こっちは主にlibuvc用
@@ -58,7 +58,7 @@ public class Size implements Parcelable {
 	 * @param _width
 	 * @param _height
 	 */
-	public Size(final int _type, final int _frame_type, final int _index, final int _width, final int _height) {
+	public SizeCustom(final int _type, final int _frame_type, final int _index, final int _width, final int _height) {
 		type = _type;
 		frame_type = _frame_type;
 		index = _index;
@@ -80,7 +80,7 @@ public class Size implements Parcelable {
 	 * @param _min_intervals
 	 * @param _max_intervals
 	 */
-	public Size(final int _type, final int _frame_type, final int _index, final int _width, final int _height, final int _min_intervals, final int _max_intervals, final int _step) {
+	public SizeCustom(final int _type, final int _frame_type, final int _index, final int _width, final int _height, final int _min_intervals, final int _max_intervals, final int _step) {
 		type = _type;
 		frame_type = _frame_type;
 		index = _index;
@@ -104,7 +104,7 @@ public class Size implements Parcelable {
 	 * @param _height
      * @param _intervals
      */
-	public Size(final int _type, final int _frame_type, final int _index, final int _width, final int _height, final int[] _intervals) {
+	public SizeCustom(final int _type, final int _frame_type, final int _index, final int _width, final int _height, final int[] _intervals) {
 		type = _type;
 		frame_type = _frame_type;
 		index = _index;
@@ -127,7 +127,7 @@ public class Size implements Parcelable {
 	 * コピーコンストラクタ
 	 * @param other
 	 */
-	public Size(final Size other) {
+	public SizeCustom(final SizeCustom other) {
 		type = other.type;
 		frame_type = other.frame_type;
 		index = other.index;
@@ -145,7 +145,7 @@ public class Size implements Parcelable {
 		updateFrameRate();
 	}
 
-	private Size(final Parcel source) {
+	private SizeCustom(final Parcel source) {
 		// 読み取り順はwriteToParcelでの書き込み順と同じでないとダメ
 		type = source.readInt();
 		frame_type = source.readInt();
@@ -167,7 +167,7 @@ public class Size implements Parcelable {
 		updateFrameRate();
 	}
 
-	public Size set(final Size other) {
+	public SizeCustom set(final SizeCustom other) {
 		if (other != null) {
 			type = other.type;
 			frame_type = other.frame_type;
@@ -289,14 +289,14 @@ public class Size implements Parcelable {
 		return String.format(Locale.US, "Size(%dx%d@%4.1f,type:%d,frame:%d,index:%d,%s)", width, height, frame_rate, type, frame_type, index, frameRates);
 	}
 
-	public static final Creator<Size> CREATOR = new Creator<Size>() {
+	public static final Creator<SizeCustom> CREATOR = new Creator<SizeCustom>() {
 		@Override
-		public Size createFromParcel(final Parcel source) {
-			return new Size(source);
+		public SizeCustom createFromParcel(final Parcel source) {
+			return new SizeCustom(source);
 		}
 		@Override
-		public Size[] newArray(final int size) {
-			return new Size[size];
+		public SizeCustom[] newArray(final int size) {
+			return new SizeCustom[size];
 		}
 	};
 }

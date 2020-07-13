@@ -5,9 +5,11 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.ImageFormat;
 import android.graphics.Point;
 import android.provider.Settings;
 import android.util.Log;
+import android.util.Size;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +23,10 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import mymou.R;
 import mymou.preferences.PreferencesManager;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class UtilsSystem {
@@ -148,7 +154,25 @@ public class UtilsSystem {
         return out;
     }
 
+    // Compares two areas and returns true if rhs is smaller
+        private static boolean cameraCompareAreas(Size lhs, Size rhs) {
+            // We cast here to ensure the multiplications won't overflow
+            return Long.signum((long) rhs.getWidth() * rhs.getHeight() -
+                    (long) lhs.getWidth() * lhs.getHeight()) < 0;
+        }
 
+        public static int getArgMinResolution(List<Size> sizes) {
+            Size smallest = sizes.get(0);
+            int i_smallest = 0;
+            for (int i = 1; i < sizes.size(); i++) {
+                Size size = (Size) sizes.get(i);
+                    if (cameraCompareAreas(smallest, (Size) sizes.get(i))) {
+                        i_smallest = i;
+                        smallest = size;
+                    }
+            }
+            return i_smallest;
+        }
 }
 
 

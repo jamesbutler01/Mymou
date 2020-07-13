@@ -8,7 +8,7 @@ import android.os.Environment;
 import com.jiangdg.libusbcamera.R;
 import org.easydarwin.sw.TxtOverlay;
 import com.serenegiant.usb.DeviceFilter;
-import com.serenegiant.usb.Size;
+import com.serenegiant.usb.SizeCustom;
 import com.serenegiant.usb.USBMonitor;
 import com.serenegiant.usb.UVCCamera;
 import com.serenegiant.usb.common.AbstractUVCCameraHandler;
@@ -340,7 +340,7 @@ public class UVCCameraHelper {
         }
     }
 
-    public List<Size> getSupportedPreviewSizes() {
+    public List<SizeCustom> getSupportedPreviewSizes() {
         if (mCameraHandler == null)
             return null;
         return mCameraHandler.getSupportedPreviewSizes();

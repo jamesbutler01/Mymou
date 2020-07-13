@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.View;
@@ -17,7 +18,7 @@ import android.widget.Toast;
 import com.jiangdg.usbcamera.UVCCameraHelper;
 import com.jiangdg.usbcamera.utils.FileUtils;
 import com.serenegiant.usb.CameraDialog;
-import com.serenegiant.usb.Size;
+import com.serenegiant.usb.SizeCustom;
 import com.serenegiant.usb.USBMonitor;
 import com.serenegiant.usb.common.AbstractUVCCameraHandler;
 import com.serenegiant.usb.widget.CameraViewInterface;
@@ -54,7 +55,7 @@ public class CameraExternal extends Camera implements CameraDialog.CameraDialogP
     private static Context mContext;
     private boolean isRequest;
     private boolean isPreview;
-    public List<String> resolutions;
+    public List<Size> resolutions;
 
     // Error handling
     public static boolean camera_error = false;
@@ -110,7 +111,17 @@ public class CameraExternal extends Camera implements CameraDialog.CameraDialogP
                         Looper.prepare();
                         if(mCameraHelper != null && mCameraHelper.isCameraOpened()) {
                             showShortMsg("Connected to USB camera");
-                            getResolutionList();
+
+                            // Get resolutions and convert to approriate format
+                            List<SizeCustom> _resolutions = mCameraHelper.getSupportedPreviewSizes();
+                            resolutions = new ArrayList<>();
+                            for (SizeCustom sizeCustom : _resolutions) {
+                                if (sizeCustom != null) {
+                                    Size size = new Size(sizeCustom.width, sizeCustom.height);
+                                    resolutions.add(size);
+                                }
+                            }
+
                             if(width != -1) {
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
@@ -249,18 +260,6 @@ public class CameraExternal extends Camera implements CameraDialog.CameraDialogP
         // step.3 unregister USB event broadcast
         if (mCameraHelper != null) {
             mCameraHelper.unregisterUSB();
-        }
-    }
-
-    private void getResolutionList() {
-        List<Size> list = mCameraHelper.getSupportedPreviewSizes();
-        if (list != null && list.size() != 0) {
-            resolutions = new ArrayList<>();
-            for (Size size : list) {
-                if (size != null) {
-                    resolutions.add(size.width + "x" + size.height);
-                }
-            }
         }
     }
 

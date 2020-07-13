@@ -16,8 +16,10 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
+import android.util.Size;
 import java.util.List;
 
+import mymou.Utils.UtilsSystem;
 import mymou.task.backend.CameraExternal;
 import mymou.R;
 import mymou.task.backend.CameraInterface;
@@ -40,7 +42,7 @@ public class PrefsActCamPicker extends FragmentActivity {
     private AlertDialog mDialog;
     private CameraMain cameraMain;
     private CameraExternal cameraExternal;
-    private List<String> resolutions;
+    private List<Size> resolutions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,14 +96,14 @@ public class PrefsActCamPicker extends FragmentActivity {
         if (cameraMain != null && cameraMain.resolutions != null) {
             resolutions = cameraMain.resolutions;
         }else if (cameraExternal != null && cameraExternal.resolutions != null) {
-            resolutions = cameraExternal.resolutions;
+            resolutions = (List<Size>) cameraExternal.resolutions;
         } else {
             Toast.makeText(getApplicationContext(), "Waiting for camera to load resolutions..", Toast.LENGTH_SHORT).show();
             return;
         }
 
         // Find the saved resolution
-        int default_size = resolutions.size() - 1;
+        int default_size= UtilsSystem.getArgMinResolution(resolutions);
         int i_resolution = -1;
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         switch (preferencesManager.camera_to_use) {
@@ -112,7 +114,7 @@ public class PrefsActCamPicker extends FragmentActivity {
                 i_resolution = settings.getInt(getString(R.string.preftag_camera_resolution_front), default_size);
                 break;
             case CameraCharacteristics.LENS_FACING_EXTERNAL:
-                i_resolution = settings.getInt(getString(R.string.preftag_camera_resolution_ext), 0);
+                i_resolution = settings.getInt(getString(R.string.preftag_camera_resolution_ext), default_size);
                 break;
         }
 
@@ -138,7 +140,8 @@ public class PrefsActCamPicker extends FragmentActivity {
         // Convert list to array to use with AlertDialog
         CharSequence[] resolutionsChar = new CharSequence[resolutions.size()];
         for (int i = 0; i < resolutions.size(); i++) {
-                resolutionsChar[i] = resolutions.get(i);
+            Size size = resolutions.get(i);
+            resolutionsChar[i] = size.getWidth() + "x" + size.getHeight();
         }
 
         // Build alert dialog
@@ -161,10 +164,9 @@ public class PrefsActCamPicker extends FragmentActivity {
 
                 // For external camera we have to store the width and height separately so it can be set on startup
                 if (preferencesManager.camera_to_use == getApplicationContext().getResources().getInteger(R.integer.TAG_CAMERA_EXTERNAL)) {
-                    String res = resolutions.get(item);
-                    String[] tmp = res.split("x");
-                    editor.putInt(getApplicationContext().getResources().getString(R.string.preftag_camera_resolution_ext_width), Integer.valueOf(tmp[0]));
-                    editor.putInt(getApplicationContext().getResources().getString(R.string.preftag_camera_resolution_ext_height), Integer.valueOf(tmp[1]));
+                    Size size = resolutions.get(item);
+                    editor.putInt(getApplicationContext().getResources().getString(R.string.preftag_camera_resolution_ext_width), size.getWidth());
+                    editor.putInt(getApplicationContext().getResources().getString(R.string.preftag_camera_resolution_ext_height), size.getHeight());
                 }
                 editor.apply();
             }
