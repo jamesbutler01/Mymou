@@ -120,7 +120,6 @@ public class CameraMain extends Camera
                 mTextureView.setLayoutParams(lp);
                 mTextureView.setY(default_position.y);
                 mTextureView.setX(default_position.x);
-                Log.d(TAG, "hi");
         }
 
         startBackgroundThread();

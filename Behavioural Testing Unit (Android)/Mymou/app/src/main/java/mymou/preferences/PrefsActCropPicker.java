@@ -2,6 +2,7 @@ package mymou.preferences;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -25,7 +26,15 @@ public class PrefsActCropPicker extends FragmentActivity {
         setContentView(R.layout.activity_crop_picker);
         Log.d(TAG, "Loading activity");
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        // Only configured for selfie camera
+        PreferencesManager preferencesManager = new PreferencesManager(this);
+        if (preferencesManager.camera_to_use != getApplicationContext().getResources().getInteger(R.integer.TAG_CAMERA_FRONT)) {
+            Toast.makeText(getApplicationContext(), "You can only crop selfie photos using the settings UI. Select the selfie camera if you wish to use this function", Toast.LENGTH_LONG).show();
+            super.onBackPressed();
+            return;
+        }
+
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         // Load camera fragment
         Bundle bundle = new Bundle();

@@ -94,17 +94,6 @@
             android:layout_marginHorizontal="20dp"
             android:orientation="horizontal"
             android:id="@+id/ll_croppicker_butts">
-    <Button
-            android:text="Save and Exit"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/butt_exitcroppicker"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:textSize="30dp"
-            android:layout_weight="0.5"
-            android:layout_marginBottom="10dp"/>
-
 
     </LinearLayout>
 
