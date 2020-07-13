@@ -238,7 +238,8 @@ public class CameraMain extends Camera
         stopBackgroundThread();
     }
 
-        private void setUpCameraOutputs() {
+
+    private void setUpCameraOutputs() {
         Activity activity = getActivity();
         CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
         PreferencesManager preferencesManager = new PreferencesManager(getContext());
@@ -277,6 +278,11 @@ public class CameraMain extends Camera
                     break;
             }
             Size resolution = (Size) resolutions.get(i_resolution);
+
+            if (getArguments() != null && getArguments().getBoolean("crop_picker", false) && resolution.getWidth() != 320) {
+                Toast.makeText(getContext(), "Crop picker will only work with 320x240 resolution photos", Toast.LENGTH_LONG).show();
+                getActivity().onBackPressed();
+            }
 
             mImageReader = ImageReader.newInstance(resolution.getWidth(), resolution.getHeight(),
                     ImageFormat.JPEG, /*maxImages*/2);

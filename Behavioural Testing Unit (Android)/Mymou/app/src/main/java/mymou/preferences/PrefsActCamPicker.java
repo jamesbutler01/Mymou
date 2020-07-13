@@ -63,7 +63,6 @@ public class PrefsActCamPicker extends FragmentActivity {
 
         // Actually load camera fragment
         Bundle bundle = new Bundle();
-        bundle.putBoolean("crop_picker", true);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         if (preferencesManager.camera_to_use != getApplicationContext().getResources().getInteger(R.integer.TAG_CAMERA_EXTERNAL)) {
             cameraMain = new CameraMain();
