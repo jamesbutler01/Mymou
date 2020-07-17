@@ -59,28 +59,44 @@ void setup() {
 
 
 void loop() {
-  // Check for input
+  
+  // Check for input 
   if(Serial.available() > 0){
 
     bufferInt = Serial.read();
 
     switch (bufferInt) {
 
-      case 0: {
-              pumpcommand(channelTwo, 0);
-              pumpcommand(channelThree, 0);
-              pumpcommand(channelFour, 0);
-              pumpcommand(channelFive, 0);
-              break;
-             }
-      case 1: pumpcommand(channelTwo, 1); break;
-      case 2: pumpcommand(channelTwo,0); break;
-      case 3: pumpcommand(channelThree,1); break;
-      case 4: pumpcommand(channelThree,0); break;
-      case 5: pumpcommand(channelFour,1); break;
-      case 6: pumpcommand(channelFour,0); break;
-      case 7: pumpcommand(channelFive,1); break;
-      case 8: pumpcommand(channelFive,0); break;
+      case '0': 
+        pumpcommand(channelTwo, 0);
+        pumpcommand(channelThree, 0);
+        pumpcommand(channelFour, 0);
+        pumpcommand(channelFive, 0);
+        break;
+      case '1': 
+        pumpcommand(channelTwo, 1); 
+        break;
+      case '2': 
+        pumpcommand(channelTwo,0); 
+        break;
+      case '3': 
+        pumpcommand(channelThree,1); 
+        break;
+      case '4': 
+        pumpcommand(channelThree,0); 
+        break;
+      case '5': 
+        pumpcommand(channelFour,1); 
+        break;
+      case '6': 
+        pumpcommand(channelFour,0); 
+        break;
+      case '7':
+        pumpcommand(channelFive,1); 
+        break;
+      case '8': 
+        pumpcommand(channelFive,0); 
+        break;
     }
   
   }
