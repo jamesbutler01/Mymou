@@ -32,6 +32,12 @@
             app:title="Training 4: Small Moving Cue">
 
         <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_t_four_num_static_pos"
+                app:key="@string/preftag_t_four_num_static_pos"
+                app:title="Number of presses until the cue moves"
+                android:max="@integer/max_t_num_static_cue_presses"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_random_reward_start"
                 app:key="@string/preftag_t_random_reward_start"
                 app:title="Minimum time (s) for random reward to be given" />

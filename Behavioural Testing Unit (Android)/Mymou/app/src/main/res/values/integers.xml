@@ -26,6 +26,7 @@
     <integer name="max_responseduration">60</integer>
     <integer name="max_rewardtimeoutduration">10000</integer>
 
+    <integer name="max_t_num_static_cue_presses">10</integer>
 
     <integer name="default_taskbackgroundcolour">0</integer>
     <integer name="default_rewardbackgroundcolour">14</integer>
@@ -54,6 +55,7 @@
 
     <integer name="default_t_one_num_presses">1</integer>
     <integer name="default_t_one_screen_colour">6</integer>
+    <integer name="default_t_four_num_static_pos">2</integer>
 
     <integer name="default_random_reward_start">20</integer>
     <integer name="default_random_reward_stop">40</integer>
@@ -62,7 +64,6 @@
     <integer name="default_sl_seq_length">7</integer>
 
     <integer name="default_dvs_feedback_duration">5000</integer>
-
 
     <integer name="default_pr_cue_colour">6</integer>
     <integer name="default_pr_animation_duration">450</integer>

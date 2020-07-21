@@ -36,9 +36,8 @@ public class TaskTrainingFourSmallMovingCue extends Task {
     private static Button cue;
     private Float x_range, y_range;
     private Random r;
-    private int random_reward_time;
+    private int random_reward_time, num_cue_presses;
     private static Handler h0 = new Handler();  // Task trial_timer
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -107,16 +106,23 @@ public class TaskTrainingFourSmallMovingCue extends Task {
 
         UtilsTask.toggleCue(cue, true);
 
+        num_cue_presses = 99;  // To position it on trial start
+
     }
 
     private void positionCue() {
-        int x_loc = (int) (r.nextFloat() * x_range);
-        int y_loc = (int) (r.nextFloat() * y_range);
+        if (num_cue_presses >= prefManager.t_four_num_static_cue_pos) {
+            int x_loc = (int) (r.nextFloat() * x_range);
+            int y_loc = (int) (r.nextFloat() * y_range);
 
-        logEvent("Moving cue to "+x_loc+" "+y_loc, callback);
+            logEvent("Moving cue to " + x_loc + " " + y_loc, callback);
 
-        cue.setX(x_loc);
-        cue.setY(y_loc);
+            cue.setX(x_loc);
+            cue.setY(y_loc);
+
+            num_cue_presses = 0;
+
+        }
     }
 
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
@@ -130,12 +136,14 @@ public class TaskTrainingFourSmallMovingCue extends Task {
             // Cancel random reward timer
             h0.removeCallbacksAndMessages(null);
 
-
             // Reset timer for idle timeout on each press
             callback.resetTimer_();
 
             // Take photo of subject
             callback.takePhotoFromTask_();
+
+            // Count cue presses
+            num_cue_presses += 1;
 
             // Reward subject
             callback.giveRewardFromTask_(prefManager.rewardduration);

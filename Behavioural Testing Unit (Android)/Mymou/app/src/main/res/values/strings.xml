@@ -192,6 +192,7 @@
     <string name="preftag_t_random_reward_start">t_random_reward_start</string>
     <string name="preftag_t_random_reward_stop">t_random_reward_stop</string>
     <string name="preftag_t_one_num_presses">t_one_num_presses</string>
+    <string name="preftag_t_four_num_static_pos">t_four_num_static_pos</string>
 
     <string name="preftag_sl_map_selected">preftag_sl_map_selected</string>
     <string name="preftag_sl_seq_length">preftag_sl_seq_length</string>
