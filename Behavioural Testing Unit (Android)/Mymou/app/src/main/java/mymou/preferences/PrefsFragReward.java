@@ -71,8 +71,6 @@ public class PrefsFragReward extends PreferenceFragmentCompat {
             }
         });
 
-        SeekBarPreferenceCustom sb_rewardchan= (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_num_rew_chans));
-        sb_rewardchan.setMin(1);
 
         super.onViewCreated(view, savedInstanceState);
     }

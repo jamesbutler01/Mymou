@@ -17,13 +17,16 @@
                 app:title="Number reward channels"
                 app:summary="The number of channels that the reward system is connected to (and the number of options offered to the monkey after a successful trial)"
                 android:defaultValue="@integer/default_num_rew_chans"
-                android:max="@integer/max_num_rew_chans"/>
+                android:max="@integer/max_num_rew_chans"
+                app:min="1"/>
+
         <mymou.preferences.SeekBarPreferenceCustom
                 app:key="@string/preftag_default_rew_chan"
                 app:title="Default reward channel"
                 app:summary="The reward channel automatically activated when number of reward channels is set to 1"
                 android:defaultValue="@integer/default_rew_chan"
-                android:max="@integer/max_num_rew_chans"/>
+                android:max="@integer/max_num_rew_chans"
+                app:min="1"/>
 
         <mymou.preferences.SeekBarPreferenceCustom
                 app:key="@string/preftag_rewardduration"
