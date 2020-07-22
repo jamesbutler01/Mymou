@@ -73,6 +73,7 @@ public class TaskProgressiveRatio extends Task {
     private void assignObjects() {
 
         // Progress bar
+        pb1 = (ProgressBar) getView().findViewById(R.id.boosterBar);
         if (prefManager.pr_progress_bar) {
             configureProgressBar();
         } else {
@@ -141,7 +142,6 @@ public class TaskProgressiveRatio extends Task {
 
     private void configureProgressBar() {
         logEvent("Progress bar enabled", callback);
-        pb1 = (ProgressBar) getView().findViewById(R.id.boosterBar);
         pb1.setMax(num_presses_needed * pb_scalar);
         pb1.setProgress(0);
     }
