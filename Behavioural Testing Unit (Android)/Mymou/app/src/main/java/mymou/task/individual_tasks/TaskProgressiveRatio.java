@@ -84,12 +84,17 @@ public class TaskProgressiveRatio extends Task {
         // Create cue
         cue = UtilsTask.addColorCue(0, prefManager.pr_cue_colour,
                 getContext(), buttonClickListener, getView().findViewById(R.id.parent_prog_ratio));
+
         randomlyPositionCue();
         UtilsTask.toggleCue(cue, true);
 
     }
 
     private void randomlyPositionCue() {
+
+        // Only move cue if user specified
+        if (!prefManager.pr_move_cue) { return; }
+
         // Get size of screen
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -149,8 +154,7 @@ public class TaskProgressiveRatio extends Task {
     private void updateProgressBar() {
         if (prefManager.pr_progress_bar) {
             ProgressBarAnimation anim = new ProgressBarAnimation(pb1, pb1.getProgress(), num_presses * pb_scalar);
-            anim.setDuration(prefManager.dm_animation_duration);
-            Log.d(TAG, "onClick " + prefManager.pr_animation_duration);
+            anim.setDuration(prefManager.pr_animation_duration);
             pb1.startAnimation(anim);
         }
     }

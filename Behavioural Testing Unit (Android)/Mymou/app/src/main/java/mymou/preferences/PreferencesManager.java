@@ -268,13 +268,14 @@ public class PreferencesManager {
     }
 
     public int pr_cue_colour, pr_animation_duration;
-    public boolean pr_progress_bar;
+    public boolean pr_progress_bar, pr_move_cue;
 
     public void ProgressiveRatio() {
         int cue_colour = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_pr_cue_colour), Integer.toString(r.getInteger(R.integer.default_pr_cue_colour))));
         pr_cue_colour = colors[cue_colour];
 
         pr_progress_bar = sharedPrefs.getBoolean(r.getString(R.string.preftag_pr_progress_bar), r.getBoolean(R.bool.default_pr_progress_bar));
+        pr_move_cue = sharedPrefs.getBoolean(r.getString(R.string.preftag_pr_move_cue), r.getBoolean(R.bool.default_pr_move_cue));
 
         pr_animation_duration = sharedPrefs.getInt(r.getString(R.string.preftag_pr_animation_duration), r.getInteger(R.integer.default_pr_animation_duration));
 

@@ -26,6 +26,7 @@
 
     <bool name="default_pr_skip_go_cue">true</bool>
     <bool name="default_pr_progress_bar">true</bool>
+    <bool name="default_pr_move_cue">true</bool>
 
     <bool name="default_rdm_horizontal">false</bool>
 

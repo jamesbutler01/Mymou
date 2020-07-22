@@ -22,6 +22,8 @@
         <mymou.preferences.SeekBarPreferenceCustom
                 app:key="@string/preftag_pr_animation_duration"
                 app:title="Duration (ms) of progress bar animation"
+                android:max="1000"
+                app:min="1"
                 android:defaultValue="@integer/default_pr_animation_duration"/>
 
     </PreferenceCategory>
