@@ -19,7 +19,23 @@
                 app:title="Show progress bar"
                 app:defaultValue="@bool/default_pr_progress_bar"/>
 
+        <SwitchPreferenceCompat
+                app:key="@string/preftag_pr_move_cue"
+                app:title="Move the cue around the screen on each press"
+                app:defaultValue="@bool/default_pr_move_cue"/>
+
         <mymou.preferences.SeekBarPreferenceCustom
+                app:key="@string/preftag_pr_cuex"
+                app:title="X position of cue on the screen"
+                app:summary="This is only valid if cue is set to not move around the screen"
+                />
+        <mymou.preferences.SeekBarPreferenceCustom
+                app:key="@string/preftag_pr_cuey"
+                app:title="Y position of cue on the screen"
+                app:summary="This is only valid if cue is set to not move around the screen"
+                />
+
+           <mymou.preferences.SeekBarPreferenceCustom
                 app:key="@string/preftag_pr_animation_duration"
                 app:title="Duration (ms) of progress bar animation"
                 android:max="1000"

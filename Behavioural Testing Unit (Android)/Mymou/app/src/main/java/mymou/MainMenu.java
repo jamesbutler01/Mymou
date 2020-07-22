@@ -67,7 +67,7 @@ public class MainMenu extends Activity {
     }
 
     private void checkPermissions() {
-        if (new PermissionManager(this, this).checkPermissions()) {
+        if (!permissions_granted && new PermissionManager(this, this).checkPermissions()) {
             permissions_granted = true;
         }
     }
@@ -268,6 +268,7 @@ public class MainMenu extends Activity {
         public void onClick(View view) {
             Log.d(TAG, "onClick: "+view.getId());
 
+            checkPermissions();
             if (!permissions_granted) {
                 Toast.makeText(getApplicationContext(), "All permissions must be enabled before app can run", Toast.LENGTH_SHORT).show();
                 checkPermissions();

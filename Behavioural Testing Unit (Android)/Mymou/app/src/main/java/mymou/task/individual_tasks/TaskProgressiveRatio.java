@@ -81,11 +81,13 @@ public class TaskProgressiveRatio extends Task {
             pb1.setVisibility(View.INVISIBLE);
         }
 
-        // Create cue
+        // Create and position cue
         cue = UtilsTask.addColorCue(0, prefManager.pr_cue_colour,
                 getContext(), buttonClickListener, getView().findViewById(R.id.parent_prog_ratio));
-
+        cue.setX(prefManager.pr_cuex);
+        cue.setY(prefManager.pr_cuey);
         randomlyPositionCue();
+
         UtilsTask.toggleCue(cue, true);
 
     }
