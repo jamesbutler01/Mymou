@@ -40,7 +40,6 @@ public class PrefsFragTaskProgRatio extends PreferenceFragmentCompat {
         int yval = sharedPrefs.getInt(getString(R.string.preftag_pr_cuey), size.y/2);
         seekBar2.setValue(yval);
 
-
     }
 
 
