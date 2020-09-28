@@ -205,9 +205,11 @@
     <string name="preftag_pr_progress_bar">preftag_pr_progress_bar</string>
     <string name="preftag_pr_move_cue">preftag_pr_move_cue</string>
     <string name="preftag_pr_animation_duration">pr_animation_duration</string>
+    <string name="preftag_pr_iti">preftag_pr_iti</string>
     <string name="preftag_pr_cuex">preftag_pr_cuex</string>
     <string name="preftag_pr_cuey">preftag_pr_cuey</string>
     <string name="preftag_pr_animation_dur_actual">pr_anim_dur_actual</string>
+    <string name="preftag_pr_skip_go_cue">preftag_pr_skip_go_cue</string>
 
     <string name="preftag_ea_num_steps">preftag_ea_num_steps</string>
     <string name="preftag_ea_step_duration_off">ea_step_duration_off</string>

@@ -67,6 +67,7 @@
 
     <integer name="default_pr_cue_colour">6</integer>
     <integer name="default_pr_animation_duration">450</integer>
+    <integer name="default_pr_iti">8000</integer>
 
     <integer name="default_ea_num_steps">8</integer>
     <integer name="default_ea_step_duration_on">600</integer>

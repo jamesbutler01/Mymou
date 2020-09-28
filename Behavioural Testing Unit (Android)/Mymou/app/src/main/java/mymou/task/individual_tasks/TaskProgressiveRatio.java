@@ -3,6 +3,7 @@ package mymou.task.individual_tasks;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -46,6 +47,7 @@ public class TaskProgressiveRatio extends Task {
     private ProgressBar pb1;
     private int pb_scalar = 1000;
     private static Button cue;
+    private Handler h0 = new Handler();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -188,7 +190,17 @@ public class TaskProgressiveRatio extends Task {
                 log_trial_outcome(true);
 
                 // End trial for reward
-                endOfTrial(true, rew_scalar, callback, prefManager);
+                if (!prefManager.pr_skip_go_cue) {
+                    endOfTrial(true, rew_scalar, callback, prefManager);
+                } else {
+                    callback.giveRewardFromTask_(prefManager.rewardduration);
+                    h0.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                          onViewCreated(null, null);
+                        }
+                    }, prefManager.pr_iti);
+                }
 
             } else {
 
@@ -209,5 +221,9 @@ public class TaskProgressiveRatio extends Task {
         this.callback = callback;
     }
 
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        h0.removeCallbacksAndMessages(null);
+    }
 }
