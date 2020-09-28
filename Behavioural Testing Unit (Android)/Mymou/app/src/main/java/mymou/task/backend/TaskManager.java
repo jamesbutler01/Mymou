@@ -2,6 +2,7 @@ package mymou.task.backend;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.*;
 import android.graphics.Point;
@@ -22,6 +23,7 @@ import androidx.preference.PreferenceManager;
 import mymou.*;
 import mymou.Utils.*;
 import mymou.preferences.PreferencesManager;
+import mymou.preferences.PrefsActSystem;
 import mymou.task.individual_tasks.*;
 
 import java.io.File;
@@ -140,6 +142,26 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         // Only lock if we aren't in testing mode
         if (!preferencesManager.debug) {
             this.startLockTask();
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(TaskManager.this);
+            builder.setMessage("The back key is currently functioning, and can be used to exit the task. This is not recommended for actual training. \n\nDebug mode can be deactivated in System Settings.")
+                    .setTitle("Warning - App in Debug mode")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //Do nothing
+                        }
+                    })
+                    .setNegativeButton("System Settings", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //Load settings
+                            Intent intent = new Intent(getApplicationContext(), PrefsActSystem.class);
+                            intent.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_menu_prefs));
+                            startActivity(intent);
+                            onBackPressed();
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
 
         // Normally the reward system handles this as it has to wait for bluetooth connection
