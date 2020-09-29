@@ -37,7 +37,6 @@ class PlayCustomTone extends Thread {
             float duration_s = duration;
             duration_s /= 1000;
             
-            Log.d("asdf", ""+duration_s);
             double dnumSamples = duration_s * sampleRate;
             dnumSamples = Math.ceil(dnumSamples);
             int numSamples = (int) dnumSamples;

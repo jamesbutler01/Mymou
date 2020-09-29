@@ -1,5 +1,6 @@
 package mymou.preferences;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -18,7 +19,7 @@ public class PreferencesManager {
     public String data_headers = "taskId, trialCounter, faceRecogPrediction, overallTrialOutcome, photoTimestamp, eventTimestamp, task manager code, task specific event codes";
 
     public static boolean debug, bluetooth, camera, facerecog, savefacerecogarrays, restartoncrash,
-            sound, autostart, autostop, skip_go_cue=false, dimscreen, handle_feedback, run_timer=true, custom_tone;
+            sound, autostart, autostop, skip_go_cue=false, dimscreen, handle_feedback, run_timer=true;
     public static int sound_to_play, tone_dur, tone_freq;
     public static int dimscreenlevel, dimscreentime;
     public static int num_reward_chans, default_rew_chan, max_reward_channels;
@@ -29,15 +30,18 @@ public class PreferencesManager {
     public static int num_monkeys;
     public static int camera_to_use;
     public static int[] colours_gocues;
+    public static String tone_type, tone_filename;
     public static String ec_correct_trial, ec_incorrect_trial, ec_trial_timeout, ec_wrong_gocue_pressed, ec_trial_started, ec_trial_prepared;
 
     private SharedPreferences sharedPrefs;
     private int[] colors;
     private Resources r;
-    private Context mContext;
+    public Context mContext;
+    public Activity activity;
 
     public PreferencesManager(Context context) {
         mContext = context;
+        activity = (Activity) context;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         r = context.getResources();
 
@@ -51,7 +55,6 @@ public class PreferencesManager {
         sound = sharedPrefs.getBoolean(r.getString(R.string.preftag_sound), r.getBoolean(R.bool.default_sound));
         autostart = sharedPrefs.getBoolean(r.getString(R.string.preftag_autostart), r.getBoolean(R.bool.default_autostart));
         autostop = sharedPrefs.getBoolean(r.getString(R.string.preftag_autostop), r.getBoolean(R.bool.default_autostop));
-        custom_tone = sharedPrefs.getBoolean(r.getString(R.string.preftag_custom_tone), r.getBoolean(R.bool.default_custom_tone));
 
         camera_to_use = sharedPrefs.getInt(r.getString(R.string.preftag_camera_to_use), r.getInteger(R.integer.default_camera_to_use));
         sound_to_play = sharedPrefs.getInt(r.getString(R.string.preftag_sound_to_play), 0);
@@ -111,6 +114,9 @@ public class PreferencesManager {
         ec_wrong_gocue_pressed = sharedPrefs.getString(r.getString(R.string.preftag_eventcode_wrong_gocue), r.getString(R.string.default_eventcode_wrong_gocue));
         ec_trial_started = sharedPrefs.getString(r.getString(R.string.preftag_eventcode_start_trial), r.getString(R.string.default_eventcode_start_trial));
         ec_trial_prepared = sharedPrefs.getString(r.getString(R.string.preftag_eventcode_trial_prepared), r.getString(R.string.default_eventcode_trial_prepared));
+
+        tone_type = sharedPrefs.getString(r.getString(R.string.preftag_tone_type), r.getString(R.string.preftag_custom_tone));
+        tone_filename = sharedPrefs.getString(r.getString(R.string.tone_filename),"");
 
         handle_feedback = true; // Default behaviour, individual tasks can adjust this parameter
 

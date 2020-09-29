@@ -3,7 +3,6 @@ package mymou.preferences;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import androidx.preference.*;
 
 import mymou.R;
 import mymou.Utils.SoundManager;
-import mymou.task.backend.TaskManager;
 
 /**
  * Preference Fragment for user to select secondary reinforcer sound
@@ -41,15 +39,15 @@ public class PrefsFragSoundPicker extends PreferenceFragmentCompat implements Sh
 
         // Load parameters
         mContext = getActivity();
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Do you want to define your own tone (Frequency and duration) or use a predefined tone?")
+        builder.setMessage("Do you want to define your own tone (Frequency and duration), load a tone from disk, or use a predefined tone?")
                 .setTitle("Choose tone type")
-                .setPositiveButton("Custom", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Define tone", new DialogInterface.OnClickListener() {
 
                     // If click 'custom' tone
                     public void onClick(DialogInterface dialog, int id) {
-                        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 
                         // Duration dialog
                         AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
@@ -83,8 +81,8 @@ public class PrefsFragSoundPicker extends PreferenceFragmentCompat implements Sh
 
                                                 // Store settings
                                                 sharedPrefs.edit().putInt(getString(R.string.preftag_tone_freq), freq).commit();
-                                                sharedPrefs.edit().putBoolean(getString(R.string.preftag_custom_tone), true).commit();
                                                 sharedPrefs.edit().putInt(getString(R.string.preftag_tone_dur), dur).commit();
+                                                sharedPrefs.edit().putString(getString(R.string.preftag_tone_type), getString(R.string.preftag_custom_tone)).commit();
 
                                                 // Now play tone to the user
                                                 soundManager = new SoundManager(new PreferencesManager(mContext));
@@ -112,6 +110,34 @@ public class PrefsFragSoundPicker extends PreferenceFragmentCompat implements Sh
                 .setNegativeButton("Predefined", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // Do nothing and Continue to sound picker
+                    }
+                })
+                .setNeutralButton("Load from disk", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        // Get file name from user
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle("Specify file name");
+                        builder.setMessage("Make sure file is a WAV file placed in the Mymou folder.");
+                        final EditText input = new EditText(getContext());
+                        input.setInputType(InputType.TYPE_CLASS_TEXT);
+                        builder.setView(input);
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String m_Text = input.getText().toString();
+                                sharedPrefs.edit().putString(getString(R.string.tone_filename), m_Text).commit();
+                                sharedPrefs.edit().putString(getString(R.string.preftag_tone_type), getString(R.string.preftag_load_tone)).commit();
+
+                                // Now play tone to the user
+                                soundManager = new SoundManager(new PreferencesManager(mContext));
+                                soundManager.playTone();
+                                Toast.makeText(getActivity().getApplicationContext(), "Setting saved", Toast.LENGTH_LONG).show();
+                                getActivity().onBackPressed();
+                            }
+                        });
+                        builder.show();
+
                     }
                 });
         AlertDialog dialog = builder.create();
@@ -155,7 +181,7 @@ public class PrefsFragSoundPicker extends PreferenceFragmentCompat implements Sh
 
         // Store tone
         sharedPreferences.edit().putInt(getString(R.string.preftag_sound_to_play), Integer.valueOf(key)).commit();
-        sharedPreferences.edit().putBoolean(getString(R.string.preftag_custom_tone), false).commit();
+        sharedPreferences.edit().putString(getString(R.string.preftag_tone_type), getString(R.string.preftag_sound_to_play)).commit();
 
         // Play tone for the user
         new SoundManager(new PreferencesManager(mContext)).playTone();
