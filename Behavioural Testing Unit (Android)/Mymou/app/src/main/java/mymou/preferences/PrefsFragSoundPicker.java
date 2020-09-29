@@ -62,6 +62,11 @@ public class PrefsFragSoundPicker extends PreferenceFragmentCompat implements Sh
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 try {
                                     int dur = Integer.valueOf(input2.getText().toString());
+                                    if (dur > 10) {
+                                        Toast.makeText(getActivity().getApplicationContext(), "Error: Cannot have tones greater in length than 10 seconds!", Toast.LENGTH_LONG).show();
+                                        getActivity().onBackPressed();
+                                        return;
+                                    }
 
                                     // Frequency dialog
                                     AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
