@@ -423,8 +423,10 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         } else {
 
             // Start task timer first (so will still timeout if task is disabled)
-            if (!timerRunning) {
+            if (!timerRunning && preferencesManager.run_timer) {
                 trial_timer();
+            } else {
+                h0.removeCallbacksAndMessages(null);
             }
 
             // Cancel screen dimmer timer
@@ -1088,6 +1090,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         Log.d(TAG, "trial_timer " + time + " (limit =" + preferencesManager.responseduration + ")");
 
         time += 1000;
+
+        // Make sure we can't have multiple timer instances
+        h0.removeCallbacksAndMessages(null);
 
         h0.postDelayed(new Runnable() {
             @Override

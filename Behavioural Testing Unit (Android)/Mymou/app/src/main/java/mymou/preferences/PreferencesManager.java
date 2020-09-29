@@ -18,7 +18,7 @@ public class PreferencesManager {
     public String data_headers = "taskId, trialCounter, faceRecogPrediction, overallTrialOutcome, photoTimestamp, eventTimestamp, task manager code, task specific event codes";
 
     public static boolean debug, bluetooth, camera, facerecog, savefacerecogarrays, restartoncrash,
-            sound, autostart, autostop, skip_go_cue=false, dimscreen, handle_feedback;
+            sound, autostart, autostop, skip_go_cue=false, dimscreen, handle_feedback, run_timer=true;
     public static int sound_to_play;
     public static int dimscreenlevel, dimscreentime;
     public static int num_reward_chans, default_rew_chan, max_reward_channels;
@@ -276,7 +276,12 @@ public class PreferencesManager {
 
         pr_progress_bar = sharedPrefs.getBoolean(r.getString(R.string.preftag_pr_progress_bar), r.getBoolean(R.bool.default_pr_progress_bar));
         pr_move_cue = sharedPrefs.getBoolean(r.getString(R.string.preftag_pr_move_cue), r.getBoolean(R.bool.default_pr_move_cue));
+
         pr_skip_go_cue = sharedPrefs.getBoolean(r.getString(R.string.preftag_pr_skip_go_cue), r.getBoolean(R.bool.default_pr_skip_go_cue));
+
+        if (pr_skip_go_cue) {
+            run_timer = false; // Handle timings ourselves
+        }
 
         pr_cuex = sharedPrefs.getInt(r.getString(R.string.preftag_pr_cuex), 300);
         pr_cuey = sharedPrefs.getInt(r.getString(R.string.preftag_pr_cuey), 300);
