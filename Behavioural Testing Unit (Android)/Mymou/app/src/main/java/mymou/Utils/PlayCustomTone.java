@@ -4,6 +4,7 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.os.Build;
+import android.util.Log;
 
 /**
  * The type Play tone thread.
@@ -33,8 +34,11 @@ class PlayCustomTone extends Thread {
             isPlaying = true;
 
             int sampleRate = 44100;// 44.1 KHz
-
-            double dnumSamples = (double) duration * sampleRate;
+            float duration_s = duration;
+            duration_s /= 1000;
+            
+            Log.d("asdf", ""+duration_s);
+            double dnumSamples = duration_s * sampleRate;
             dnumSamples = Math.ceil(dnumSamples);
             int numSamples = (int) dnumSamples;
             double[] sample = new double[numSamples];

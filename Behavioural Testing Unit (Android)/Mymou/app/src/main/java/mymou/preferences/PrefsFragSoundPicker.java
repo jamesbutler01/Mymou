@@ -53,7 +53,7 @@ public class PrefsFragSoundPicker extends PreferenceFragmentCompat implements Sh
 
                         // Duration dialog
                         AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-                        alert.setTitle("Input duration (s)");
+                        alert.setTitle("Input duration (ms)");
                         final EditText input2 = new EditText(getContext());
                         input2.setInputType(InputType.TYPE_CLASS_NUMBER);
                         input2.setRawInputType(Configuration.KEYBOARD_12KEY);
@@ -62,7 +62,7 @@ public class PrefsFragSoundPicker extends PreferenceFragmentCompat implements Sh
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 try {
                                     int dur = Integer.valueOf(input2.getText().toString());
-                                    if (dur > 10) {
+                                    if (dur > 10000) {
                                         Toast.makeText(getActivity().getApplicationContext(), "Error: Cannot have tones greater in length than 10 seconds!", Toast.LENGTH_LONG).show();
                                         getActivity().onBackPressed();
                                         return;

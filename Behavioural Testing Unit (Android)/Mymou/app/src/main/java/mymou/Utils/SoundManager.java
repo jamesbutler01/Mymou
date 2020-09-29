@@ -82,7 +82,7 @@ public class SoundManager {
                         isThreadRunning = false;
                     }
                 }
-            }, preferencesManager.tone_dur * 1000);
+            }, preferencesManager.tone_dur);
         }
 
     }
