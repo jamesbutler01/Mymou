@@ -10,6 +10,7 @@
     <bool name="default_sound">true</bool>
     <bool name="default_autostart">false</bool>
     <bool name="default_autostop">false</bool>
+    <bool name="default_custom_tone">true</bool>
 
     <bool name="default_objdisc_repeaterror">false</bool>
     <bool name="default_objdisc_previouserror">false</bool>

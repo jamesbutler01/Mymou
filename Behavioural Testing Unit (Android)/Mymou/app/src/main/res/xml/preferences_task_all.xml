@@ -71,6 +71,11 @@
                 app:key="@string/preftag_sound"
                 app:title="Enable sounds" />
 
+        <Preference
+                app:fragment="mymou.preferences.PrefsFragSoundPicker"
+                app:key="soundpicker_prefsfrag"
+                app:title="Choose sound for secondary reinforcer"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

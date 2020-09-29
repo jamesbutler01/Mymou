@@ -86,6 +86,7 @@
     <string name="preftag_autostart">autostart</string>
     <string name="preftag_autostarttimepicker">autostarttimepicker</string>
     <string name="preftag_autostop">autostop</string>
+    <string name="preftag_custom_tone">preftag_custom_tone</string>
     <string name="preftag_autostoptimepicker">autostoptimepicker</string>
     <string name="preftag_skip_go_cue">skip_go_cue</string>
 
@@ -154,6 +155,8 @@
     <string name="preftag_bluetooth_strobes">preftag_bluetooth_strobes</string>
     <string name="preftag_settings_to_load">preftag_settings_to_load</string>
     <string name="preftag_sound_to_play">preftag_sound_to_play</string>
+    <string name="preftag_tone_dur">preftag_tone_dur</string>
+    <string name="preftag_tone_freq">preftag_tone_freq</string>
     <string name="preftag_camera_to_use">preftag_camera_to_use</string>
     <string name="preftag_num_rew_chans">preftag_num_rew_chans</string>
     <string name="preftag_default_rew_chan">preftag_default_rew_chan</string>

@@ -18,8 +18,8 @@ public class PreferencesManager {
     public String data_headers = "taskId, trialCounter, faceRecogPrediction, overallTrialOutcome, photoTimestamp, eventTimestamp, task manager code, task specific event codes";
 
     public static boolean debug, bluetooth, camera, facerecog, savefacerecogarrays, restartoncrash,
-            sound, autostart, autostop, skip_go_cue=false, dimscreen, handle_feedback, run_timer=true;
-    public static int sound_to_play;
+            sound, autostart, autostop, skip_go_cue=false, dimscreen, handle_feedback, run_timer=true, custom_tone;
+    public static int sound_to_play, tone_dur, tone_freq;
     public static int dimscreenlevel, dimscreentime;
     public static int num_reward_chans, default_rew_chan, max_reward_channels;
     public static int rewardduration, responseduration, timeoutduration;
@@ -51,9 +51,12 @@ public class PreferencesManager {
         sound = sharedPrefs.getBoolean(r.getString(R.string.preftag_sound), r.getBoolean(R.bool.default_sound));
         autostart = sharedPrefs.getBoolean(r.getString(R.string.preftag_autostart), r.getBoolean(R.bool.default_autostart));
         autostop = sharedPrefs.getBoolean(r.getString(R.string.preftag_autostop), r.getBoolean(R.bool.default_autostop));
+        custom_tone = sharedPrefs.getBoolean(r.getString(R.string.preftag_custom_tone), r.getBoolean(R.bool.default_custom_tone));
 
         camera_to_use = sharedPrefs.getInt(r.getString(R.string.preftag_camera_to_use), r.getInteger(R.integer.default_camera_to_use));
         sound_to_play = sharedPrefs.getInt(r.getString(R.string.preftag_sound_to_play), 0);
+        tone_dur = sharedPrefs.getInt(r.getString(R.string.preftag_tone_dur), 0);
+        tone_freq = sharedPrefs.getInt(r.getString(R.string.preftag_tone_freq), 0);
 
         dimscreenlevel = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_dimscreenlevel), "5"));
         dimscreentime = sharedPrefs.getInt(r.getString(R.string.preftag_dimscreentime),  r.getInteger(R.integer.default_dimscreentime));

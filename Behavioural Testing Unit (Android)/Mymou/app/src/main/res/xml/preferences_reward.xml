@@ -12,6 +12,17 @@
                 app:title="Enable bluetooth/reward system"
                 app:defaultValue="@bool/default_bluetooth"/>
 
+        <SwitchPreferenceCompat
+                android:summary="Device will beep on successful trials to aid secondary reinforcement"
+                app:defaultValue="@bool/default_sound"
+                app:key="@string/preftag_sound"
+                app:title="Enable sounds" />
+
+        <Preference
+                app:fragment="mymou.preferences.PrefsFragSoundPicker"
+                app:key="soundpicker_prefsfrag"
+                app:title="Choose sound for secondary reinforcer"/>
+
         <mymou.preferences.SeekBarPreferenceCustom
                 app:key="@string/preftag_num_rew_chans"
                 app:title="Number reward channels"
@@ -45,6 +56,8 @@
                 app:fragment="mymou.preferences.PrefsFragCommon"
                 app:key="@string/preftag_bluetooth_strobes"
                 app:title="Choose strobe codes to send to arduino to switch on/off the reward delivery system"/>
+
+
 
     </PreferenceCategory>
 
