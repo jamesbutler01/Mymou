@@ -1,80 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                                      xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-            app:key="task_settings"
             android:layout="@layout/preferences_title"
+            app:key="task_settings"
             app:title="Task settings">
 
-       <ListPreference
-           app:key="@string/preftag_pr_cue_colour"
-           app:title="Colour of cue"
-           android:entries="@array/colournames"
-           android:entryValues="@array/colourvalues"
-           android:defaultValue="@integer/default_pr_cue_colour"/>
-
         <SwitchPreferenceCompat
+                app:defaultValue="@bool/default_pr_progress_bar"
                 app:key="@string/preftag_pr_progress_bar"
-                app:title="Show progress bar"
-                app:defaultValue="@bool/default_pr_progress_bar"/>
+                app:title="Show progress bar" />
 
-                   <mymou.preferences.SeekBarPreferenceCustom
-                app:key="@string/preftag_pr_animation_duration"
-                app:title="Duration (ms) of progress bar animation"
-                               app:isPreferenceVisible="false"
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_pr_animation_duration"
                 android:max="1000"
+                app:isPreferenceVisible="false"
+                app:key="@string/preftag_pr_animation_duration"
                 app:min="1"
-                android:defaultValue="@integer/default_pr_animation_duration"/>
-
-        <SwitchPreferenceCompat
-                app:key="@string/preftag_pr_move_cue"
-                app:title="Move the cue around the screen on each press"
-                app:defaultValue="@bool/default_pr_move_cue"/>
-
-        <mymou.preferences.SeekBarPreferenceCustom
-                app:key="@string/preftag_pr_cuex"
-                app:title="X position of cue (pixels)"
-                app:summary="This is only valid if cue is set to not move around the screen"
-                />
-        <mymou.preferences.SeekBarPreferenceCustom
-                app:key="@string/preftag_pr_cuey"
-                app:title="Y position of cue (pixels)"
-                app:summary="This is only valid if cue is set to not move around the screen"
-                />
+                app:title="Duration (ms) of progress bar animation" />
 
         <SwitchPreferenceCompat
                 app:defaultValue="@bool/default_pr_skip_go_cue"
                 app:key="@string/preftag_pr_skip_go_cue"
-                app:title="Start next trial automatically (no go cue displayed at start of each trial)"
-                app:summary="If enabled, task will automatically stop according to the below conditions "/>
+                app:summary="If enabled, task will automatically stop according to the below conditions "
+                app:title="Start next trial automatically (no go cue displayed at start of each trial)" />
 
         <mymou.preferences.SeekBarPreferenceCustom
-                app:key="@string/preftag_pr_timeout_length"
-                app:title="Maximum response time (s)"
-                app:isPreferenceVisible="false"
-                app:summary="If there is no screen press recorded for this duration, task will shut off and no longer be accessible until restarted."
+                android:defaultValue="@integer/default_pr_timeout_length"
                 android:max="1200"
-                app:min="1"
-                android:defaultValue="@integer/default_pr_timeout_length"/>
-
-        <mymou.preferences.SeekBarPreferenceCustom
-                app:key="@string/preftag_pr_sess_length"
-                app:title="Maximum session time (mins)"
                 app:isPreferenceVisible="false"
-                app:summary="After this duration task will shut off and no longer be accessible until restarted."
-                android:max="600"
+                app:key="@string/preftag_pr_timeout_length"
                 app:min="1"
-                android:defaultValue="@integer/default_pr_sess_length"/>
+                app:summary="If there is no screen press recorded for this duration, task will shut off and no longer be accessible until restarted."
+                app:title="Maximum response time (s)" />
 
         <mymou.preferences.SeekBarPreferenceCustom
-                app:key="@string/preftag_pr_iti"
-                app:title="Intertrial interval (ms)"
-                app:summary="Time between successfully completing a trial and the onset of the next trial. Tap to type number."
-                android:max="20000"
+                android:defaultValue="@integer/default_pr_sess_length"
+                android:max="600"
+                app:isPreferenceVisible="false"
+                app:key="@string/preftag_pr_sess_length"
                 app:min="1"
+                app:summary="After this duration task will shut off and no longer be accessible until restarted."
+                app:title="Maximum session time (mins)" />
+
+        <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_pr_iti"
-                />
+                android:max="20000"
+                app:key="@string/preftag_pr_iti"
+                app:min="1"
+                app:summary="Time between successfully completing a trial and the onset of the next trial. Tap to type number."
+                app:title="Intertrial interval (ms)" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:layout="@layout/preferences_title"
+            app:title="\nCue settings">
+
+        <ListPreference
+                android:defaultValue="@integer/default_pr_shape"
+                android:entries="@array/shapes"
+                android:entryValues="@array/shapevalues"
+                app:key="@string/preftag_pr_cue_shape"
+                app:title="Cue shape" />
+
+        <ListPreference
+                android:defaultValue="@integer/default_pr_cue_colour"
+                android:entries="@array/colournames"
+                android:entryValues="@array/colourvalues"
+                app:key="@string/preftag_pr_cue_colour"
+                app:title="Cue colour" />
+
+        <ListPreference
+                android:defaultValue="@integer/default_pr_bordercolour"
+                android:entries="@array/colournames"
+                android:entryValues="@array/colourvalues"
+                app:key="@string/preftag_pr_cue_border_colour"
+                app:title="Cue border colour" />
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_pr_cuesize"
+                android:max="600"
+                app:key="@string/preftag_pr_cue_size"
+                app:title="Cue size (pixels)" />
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_pr_bordersize"
+                android:max="80"
+                app:key="@string/preftag_pr_cue_border_size"
+                app:title="Border thickness" />
+
+        <SwitchPreferenceCompat
+                app:defaultValue="@bool/default_pr_move_cue"
+                app:key="@string/preftag_pr_move_cue"
+                app:title="Move the cue around the screen on each press" />
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                app:key="@string/preftag_pr_cuex"
+                app:summary="This is only valid if cue is set to not move around the screen"
+                app:title="X position of cue (pixels)" />
+        <mymou.preferences.SeekBarPreferenceCustom
+                app:key="@string/preftag_pr_cuey"
+                app:summary="This is only valid if cue is set to not move around the screen"
+                app:title="Y position of cue (pixels)" />
+
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

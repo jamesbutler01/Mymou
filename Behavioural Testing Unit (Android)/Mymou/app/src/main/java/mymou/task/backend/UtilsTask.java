@@ -72,6 +72,39 @@ public class UtilsTask {
         return button;
     }
 
+    // Add a mono-colour cue to the task
+    public static Button addColorCue(int id, int color, Context context, View.OnClickListener onClickListener, ConstraintLayout layout, int shape) {
+        PreferencesManager preferencesManager = new PreferencesManager(context);
+        Button button = new Button(context);
+        button.setWidth(preferencesManager.cue_size);
+        button.setHeight(preferencesManager.cue_size);
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setShape(shape);
+        drawable.setStroke(preferencesManager.border_size, preferencesManager.border_colour);
+        drawable.setColor(color);
+        button.setBackgroundDrawable(drawable);
+        button.setId(id);
+        button.setOnClickListener(onClickListener);
+        layout.addView(button);
+        return button;
+    }
+
+    // Add a mono-colour cue to the task
+    public static Button addColorCue(int id, int color, Context context, View.OnClickListener onClickListener, ConstraintLayout layout, int shape, int cue_size, int border_size, int border_colour) {
+        Button button = new Button(context);
+        button.setWidth(cue_size);
+        button.setHeight(cue_size);
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setShape(shape);
+        drawable.setStroke(border_size, border_colour);
+        drawable.setColor(color);
+        button.setBackgroundDrawable(drawable);
+        button.setId(id);
+        button.setOnClickListener(onClickListener);
+        layout.addView(button);
+        return button;
+    }
+
     // Add an image to the task
     public static ImageButton addImageCue(int id, Context context, ConstraintLayout layout) {
         PreferencesManager preferencesManager = new PreferencesManager(context);

@@ -51,13 +51,15 @@ public class PrefsFragTaskProgRatio extends PreferenceFragmentCompat implements 
         seekBar2.setValue(yval);
 
         // Set ontouchlisteners for the seekbars to allow users to manually input values
-        SeekBarPreferenceCustom[] seekBarPreferences = new SeekBarPreferenceCustom[6];
+        SeekBarPreferenceCustom[] seekBarPreferences = new SeekBarPreferenceCustom[8];
         seekBarPreferences[0] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_pr_cuex));
         seekBarPreferences[1] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_pr_cuey));
         seekBarPreferences[2] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_pr_animation_duration));
         seekBarPreferences[3] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_pr_timeout_length));
         seekBarPreferences[4] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_pr_sess_length));
         seekBarPreferences[5] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_pr_iti));
+        seekBarPreferences[6] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_pr_cue_size));
+        seekBarPreferences[7] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_pr_cue_border_size));
         for (int i = 0; i < seekBarPreferences.length; i++) {
             final int i_final = i;
             seekBarPreferences[i].setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

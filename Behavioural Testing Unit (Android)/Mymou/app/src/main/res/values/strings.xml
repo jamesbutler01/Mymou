@@ -212,6 +212,11 @@
     <string name="preftag_pr_cuey">preftag_pr_cuey</string>
     <string name="preftag_pr_animation_dur_actual">pr_anim_dur_actual</string>
     <string name="preftag_pr_skip_go_cue">preftag_pr_skip_go_cue</string>
+    <string name="preftag_pr_cue_shape">preftag_pr_cue_shape</string>
+    <string name="preftag_pr_cue_size">preftag_pr_cue_size</string>
+    <string name="preftag_pr_cue_spacing">preftag_pr_cue_spacing</string>
+    <string name="preftag_pr_cue_border_size">preftag_pr_cue_border_size</string>
+    <string name="preftag_pr_cue_border_colour">preftag_pr_cue_border_colour</string>
 
     <string name="preftag_ea_num_steps">preftag_ea_num_steps</string>
     <string name="preftag_ea_step_duration_off">ea_step_duration_off</string>
