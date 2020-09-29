@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
 import mymou.Utils.PermissionManager;
+import mymou.Utils.SoundManager;
 import mymou.Utils.UtilsSystem;
 import mymou.preferences.PreferencesManager;
 import mymou.preferences.PrefsActCamPicker;
