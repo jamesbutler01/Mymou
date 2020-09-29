@@ -67,6 +67,8 @@
 
     <integer name="default_pr_cue_colour">6</integer>
     <integer name="default_pr_animation_duration">450</integer>
+    <integer name="default_pr_timeout_length">180</integer>
+    <integer name="default_pr_sess_length">20</integer>
     <integer name="default_pr_iti">8000</integer>
 
     <integer name="default_ea_num_steps">8</integer>

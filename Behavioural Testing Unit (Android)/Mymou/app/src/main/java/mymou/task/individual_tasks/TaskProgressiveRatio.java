@@ -47,7 +47,9 @@ public class TaskProgressiveRatio extends Task {
     private ProgressBar pb1;
     private int pb_scalar = 1000;
     private static Button cue;
-    private Handler h0 = new Handler();
+    private Handler hNextTrial = new Handler();
+    private Handler hTrialTimer = new Handler();
+    private Handler hSessionTimer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,13 +59,24 @@ public class TaskProgressiveRatio extends Task {
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        logEvent(TAG+" started", callback);
-
         loadTrialParams();
 
         assignObjects();
 
-        logTaskEvent(prefManager.ec_trial_started);
+        logTaskEvent(prefManager.ec_trial_started+","+TAG+" started");
+
+        resetTimer();
+
+        if (hSessionTimer == null) {
+            Log.d(TAG, "starting session timer");
+            hSessionTimer = new Handler();
+            hSessionTimer.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    endOfSession();
+                }
+            }, prefManager.pr_sess_length * 1000 * 60); // Minutes
+        }
 
     }
 
@@ -91,6 +104,7 @@ public class TaskProgressiveRatio extends Task {
         randomlyPositionCue();
 
         UtilsTask.toggleCue(cue, true);
+        logTaskEvent("Cues toggled on");
 
     }
 
@@ -128,11 +142,16 @@ public class TaskProgressiveRatio extends Task {
         }
 
         // Calculate number of presses needed
-        num_presses_needed = (int) Math.pow(2, num_consecutive_corr);
+        if (num_consecutive_corr < 9) {
+            num_presses_needed = num_consecutive_corr + 1;
+        } else if (num_consecutive_corr < 17) {
+            num_presses_needed = 11 + ( (num_consecutive_corr - 9) * 2);
+        } else {
+            num_presses_needed = 29 + ( (num_consecutive_corr - 17) * 4);
+        }
 
         // Now save values, and they will be overwritten upon correct trial happening
         log_trial_outcome(false);
-        Log.d(TAG, "num_consecutive_corr=" + num_consecutive_corr + " " + prev_trial_correct);
 
         // Reset num presses
         num_presses = 0;
@@ -150,7 +169,7 @@ public class TaskProgressiveRatio extends Task {
     }
 
     private void configureProgressBar() {
-        logEvent("Progress bar enabled", callback);
+        logTaskEvent("Progress bar enabled");
         pb1.setMax(num_presses_needed * pb_scalar);
         pb1.setProgress(0);
     }
@@ -163,16 +182,43 @@ public class TaskProgressiveRatio extends Task {
         }
     }
 
+    private void resetTimer() {
+        hTrialTimer.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                endOfSession();
+            }
+        }, prefManager.pr_timeoutlength * 1000);
+    }
+
+    private void endOfSession() {
+        if (prefManager.pr_skip_go_cue) {
+
+            Log.d("TAG", "Stopping task");
+            callback.commitTrialDataFromTask_(prefManager.ec_trial_timeout);
+
+            hNextTrial.removeCallbacksAndMessages(null);
+            hTrialTimer.removeCallbacksAndMessages(null);
+            hSessionTimer.removeCallbacksAndMessages(null);
+
+            UtilsTask.toggleCue(cue, false);
+            if (prefManager.pr_progress_bar) {
+                pb1.setEnabled(false);
+                pb1.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            logTaskEvent("cue pressed,"+num_presses);
 
             // Always disable cues first
             UtilsTask.toggleCue(cue, false);
 
             // Reset timer for idle timeout on each press
             callback.resetTimer_();
+            resetTimer();
 
             // Increment number of steps
             num_presses += 1;
@@ -180,8 +226,8 @@ public class TaskProgressiveRatio extends Task {
             // Update progress bar
             updateProgressBar();
 
-            // Log outcome
-            logTaskEvent("-1");
+            // Log press
+            logTaskEvent("cue pressed ("+num_presses+")");
 
             if (num_presses >= num_presses_needed) {
 
@@ -193,11 +239,18 @@ public class TaskProgressiveRatio extends Task {
                 if (!prefManager.pr_skip_go_cue) {
                     endOfTrial(true, rew_scalar, callback, prefManager);
                 } else {
+
+                    callback.commitTrialDataFromTask_(prefManager.ec_correct_trial);
+
+                    hTrialTimer.removeCallbacksAndMessages(null);
+
                     callback.giveRewardFromTask_(prefManager.rewardduration);
-                    h0.postDelayed(new Runnable() {
+
+                    // Restart task after x delay
+                    hNextTrial.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                          onViewCreated(null, null);
+                            onViewCreated(null, null);
                         }
                     }, prefManager.pr_iti);
                 }
@@ -224,6 +277,9 @@ public class TaskProgressiveRatio extends Task {
     @Override
     public void onPause() {
         super.onPause();
-        h0.removeCallbacksAndMessages(null);
+        hNextTrial.removeCallbacksAndMessages(null);
+        hTrialTimer.removeCallbacksAndMessages(null);
+        hSessionTimer.removeCallbacksAndMessages(null);
+        log_trial_outcome(false);
     }
 }

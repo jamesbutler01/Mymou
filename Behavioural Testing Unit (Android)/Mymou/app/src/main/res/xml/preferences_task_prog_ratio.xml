@@ -19,6 +19,14 @@
                 app:title="Show progress bar"
                 app:defaultValue="@bool/default_pr_progress_bar"/>
 
+                   <mymou.preferences.SeekBarPreferenceCustom
+                app:key="@string/preftag_pr_animation_duration"
+                app:title="Duration (ms) of progress bar animation"
+                               app:isPreferenceVisible="false"
+                android:max="1000"
+                app:min="1"
+                android:defaultValue="@integer/default_pr_animation_duration"/>
+
         <SwitchPreferenceCompat
                 app:key="@string/preftag_pr_move_cue"
                 app:title="Move the cue around the screen on each press"
@@ -35,22 +43,34 @@
                 app:summary="This is only valid if cue is set to not move around the screen"
                 />
 
-           <mymou.preferences.SeekBarPreferenceCustom
-                app:key="@string/preftag_pr_animation_duration"
-                app:title="Duration (ms) of progress bar animation"
-                android:max="1000"
-                app:min="1"
-                android:defaultValue="@integer/default_pr_animation_duration"/>
-
         <SwitchPreferenceCompat
                 app:defaultValue="@bool/default_pr_skip_go_cue"
                 app:key="@string/preftag_pr_skip_go_cue"
-                app:title="Start next trial automatically (no go cue displayed at start of each trial)" />
+                app:title="Start next trial automatically (no go cue displayed at start of each trial)"
+                app:summary="If enabled, task will automatically stop according to the below conditions "/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                app:key="@string/preftag_pr_timeout_length"
+                app:title="Maximum response time (s)"
+                app:isPreferenceVisible="false"
+                app:summary="If there is no screen press recorded for this duration, task will shut off and no longer be accessible until restarted."
+                android:max="1200"
+                app:min="1"
+                android:defaultValue="@integer/default_pr_timeout_length"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                app:key="@string/preftag_pr_sess_length"
+                app:title="Maximum session time (mins)"
+                app:isPreferenceVisible="false"
+                app:summary="After this duration task will shut off and no longer be accessible until restarted."
+                android:max="600"
+                app:min="1"
+                android:defaultValue="@integer/default_pr_sess_length"/>
 
         <mymou.preferences.SeekBarPreferenceCustom
                 app:key="@string/preftag_pr_iti"
                 app:title="Intertrial interval (ms)"
-                app:summary="Only applies if next trial is set to start automatically"
+                app:summary="Time between successfully completing a trial and the onset of the next trial. Tap to type number."
                 android:max="20000"
                 app:min="1"
                 android:defaultValue="@integer/default_pr_iti"
