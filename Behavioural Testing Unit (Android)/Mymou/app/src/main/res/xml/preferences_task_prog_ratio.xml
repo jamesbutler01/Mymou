@@ -52,6 +52,13 @@
                 app:summary="Time between successfully completing a trial and the onset of the next trial. Tap to type number."
                 app:title="Intertrial interval (ms)" />
 
+        <ListPreference
+                android:defaultValue="@integer/default_taskbackgroundcolour"
+                android:entries="@array/colournames"
+                android:entryValues="@array/colourvalues"
+                app:key="@string/preftag_taskbackgroundcolour"
+                app:title="Task background colour" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
