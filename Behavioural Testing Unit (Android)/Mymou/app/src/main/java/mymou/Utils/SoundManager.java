@@ -26,9 +26,8 @@ import mymou.preferences.PreferencesManager;
 
 public class SoundManager {
 
-    private String TAG = "MymouToneGenerator";
+    private String TAG = "MymouSoundManager";
     private ToneGenerator toneGenerator;
-    private static int tone_duration = 200;
     private PreferencesManager preferencesManager;
     private final Handler stopThread = new Handler();
     private Resources r;
@@ -49,6 +48,8 @@ public class SoundManager {
         } else {
             tone_type = 2;
         }
+        Log.d(TAG, "Loaded tone_type "+ preferencesManager.tone_type);
+        Log.d(TAG, "Sound boolean = "+ preferencesManager.sound);
     }
 
     public void playTone() {
@@ -64,6 +65,7 @@ public class SoundManager {
     }
 
     private void playSavedTone() {
+        Log.d(TAG, "Playing saved tone: "+preferencesManager.tone_filename);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -117,11 +119,13 @@ public class SoundManager {
 
 
     private void playSystemTone() {
+        Log.d(TAG, "Playing system tone: "+preferencesManager.sound_to_play);
+
         try {
             if (toneGenerator == null) {
                 toneGenerator = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
             }
-            toneGenerator.startTone(preferencesManager.sound_to_play, tone_duration);
+            toneGenerator.startTone(preferencesManager.sound_to_play, 200);
             Handler handler = new Handler(Looper.getMainLooper());
             handler.postDelayed(new Runnable() {
                 @Override
@@ -132,7 +136,7 @@ public class SoundManager {
                     }
                 }
 
-            }, tone_duration);
+            }, 200);
         } catch (Exception e) {
             Log.d(TAG, "Exception while playing sound:" + e);
         }
@@ -141,6 +145,7 @@ public class SoundManager {
     private boolean isThreadRunning = false;
 
     private void playCustomTone() {
+        Log.d(TAG, "Playing custom tone: "+preferencesManager.tone_freq+" Hz, "+preferencesManager.tone_dur+" s");
         if (!isThreadRunning) {
 
             playToneThread = new PlayCustomTone(preferencesManager.tone_freq, preferencesManager.tone_dur);

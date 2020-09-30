@@ -57,9 +57,9 @@ public class PreferencesManager {
         autostop = sharedPrefs.getBoolean(r.getString(R.string.preftag_autostop), r.getBoolean(R.bool.default_autostop));
 
         camera_to_use = sharedPrefs.getInt(r.getString(R.string.preftag_camera_to_use), r.getInteger(R.integer.default_camera_to_use));
-        sound_to_play = sharedPrefs.getInt(r.getString(R.string.preftag_sound_to_play), 0);
-        tone_dur = sharedPrefs.getInt(r.getString(R.string.preftag_tone_dur), 0);
-        tone_freq = sharedPrefs.getInt(r.getString(R.string.preftag_tone_freq), 0);
+        sound_to_play = sharedPrefs.getInt(r.getString(R.string.preftag_sound_to_play), r.getInteger(R.integer.default_system_tone));
+        tone_dur = sharedPrefs.getInt(r.getString(R.string.preftag_tone_dur), r.getInteger(R.integer.default_tone_duration));
+        tone_freq = sharedPrefs.getInt(r.getString(R.string.preftag_tone_freq), r.getInteger(R.integer.default_tone_freq));
 
         dimscreenlevel = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_dimscreenlevel), "5"));
         dimscreentime = sharedPrefs.getInt(r.getString(R.string.preftag_dimscreentime),  r.getInteger(R.integer.default_dimscreentime));
@@ -115,7 +115,7 @@ public class PreferencesManager {
         ec_trial_started = sharedPrefs.getString(r.getString(R.string.preftag_eventcode_start_trial), r.getString(R.string.default_eventcode_start_trial));
         ec_trial_prepared = sharedPrefs.getString(r.getString(R.string.preftag_eventcode_trial_prepared), r.getString(R.string.default_eventcode_trial_prepared));
 
-        tone_type = sharedPrefs.getString(r.getString(R.string.preftag_tone_type), r.getString(R.string.preftag_custom_tone));
+        tone_type = sharedPrefs.getString(r.getString(R.string.preftag_tone_type), r.getString(R.string.preftag_system_tone));
         tone_filename = sharedPrefs.getString(r.getString(R.string.tone_filename),"");
 
         handle_feedback = true; // Default behaviour, individual tasks can adjust this parameter

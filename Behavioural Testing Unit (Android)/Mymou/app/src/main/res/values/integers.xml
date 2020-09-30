@@ -11,6 +11,10 @@
     <integer name="default_autostart_hour">7</integer>
     <integer name="default_autostop_hour">19</integer>
 
+    <integer name="default_system_tone">0</integer>
+    <integer name="default_tone_freq">500</integer>
+    <integer name="default_tone_duration">500</integer>
+
     <integer name="default_camera_to_use">0</integer>
     <integer name="TAG_CAMERA_FRONT">0</integer>
     <integer name="TAG_CAMERA_REAR">1</integer>

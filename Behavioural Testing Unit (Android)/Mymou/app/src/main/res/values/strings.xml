@@ -87,6 +87,7 @@
     <string name="preftag_autostarttimepicker">autostarttimepicker</string>
     <string name="preftag_autostop">autostop</string>
     <string name="preftag_custom_tone">preftag_custom_tone</string>
+    <string name="preftag_system_tone">preftag_system_tone</string>
     <string name="preftag_tone_type">preftag_tone_type</string>
     <string name="preftag_load_tone">preftag_load_tone</string>
     <string name="preftag_autostoptimepicker">autostoptimepicker</string>
