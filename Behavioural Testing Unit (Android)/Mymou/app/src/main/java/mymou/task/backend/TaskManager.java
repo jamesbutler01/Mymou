@@ -112,6 +112,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         loadAndApplySettings();
         loadtask();
 
+        // Write all settings to disk for users to be able to check later
+        new WriteSettingsToDisk(preferencesManager, taskId).run();
+
         // Now adjust UI elements depending on the settings
         disableExtraGoCues();
         disableExtraRewardCues();
@@ -541,7 +544,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 String s = trialData.get(i);
                 // Prefix variables that were constant throughout trial (trial result, which monkey, etc)
                 s = taskId + "," + trialCounter + "," + faceRecogPrediction + "," + overallTrialOutcome + "," + s;
-                logHandler.post(new WriteDataToFile(s, mContext));
+                logHandler.post(new WriteDataToFile(s, mContext, "default"));
             }
 
             // Place photo in correct monkey's folder

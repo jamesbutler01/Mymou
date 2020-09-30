@@ -33,9 +33,9 @@ public class PreferencesManager {
     public static String tone_type, tone_filename;
     public static String ec_correct_trial, ec_incorrect_trial, ec_trial_timeout, ec_wrong_gocue_pressed, ec_trial_started, ec_trial_prepared;
 
-    private SharedPreferences sharedPrefs;
+    public SharedPreferences sharedPrefs;
     private int[] colors;
-    private Resources r;
+    public Resources r;
     public Context mContext;
     public Activity activity;
 

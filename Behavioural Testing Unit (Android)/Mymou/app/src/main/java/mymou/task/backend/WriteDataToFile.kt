@@ -13,11 +13,15 @@ import java.io.FileWriter
  *
  * @property message - message to log
  */
-internal class WriteDataToFile(private val message: String, private val context: Context) : Runnable {
+internal class WriteDataToFile(private val message: String, private val context: Context, private val fileNameIn: String = "default") : Runnable {
+
     override fun run() {
         val folderManager = FolderManager(context)
         val appFolder = folderManager.getSessionFolder()
-        val fileName = "${folderManager.getBaseDate()}.txt"
+        var fileName = fileNameIn
+        if (fileName.equals("default")) {
+            fileName = "${folderManager.getBaseDate()}.txt"
+        }
         val saveFile = File(appFolder, fileName)
         try {
             FileWriter(saveFile, true).apply {
