@@ -31,6 +31,7 @@ import androidx.annotation.Nullable;
 import androidx.preference.PreferenceManager;
 
 import mymou.R;
+import mymou.preferences.PreferencesManager;
 
 import static android.os.Looper.getMainLooper;
 
@@ -60,7 +61,9 @@ public class CameraExternal extends Camera implements CameraDialog.CameraDialogP
     // Error handling
     public static boolean camera_error = false;
 
-    private UVCCameraHelper.OnMyDevConnectListener listener = new UVCCameraHelper.OnMyDevConnectListener() {
+    public CameraExternal() {}
+
+        private UVCCameraHelper.OnMyDevConnectListener listener = new UVCCameraHelper.OnMyDevConnectListener() {
 
         @Override
         public void onAttachDev(UsbDevice device) {
