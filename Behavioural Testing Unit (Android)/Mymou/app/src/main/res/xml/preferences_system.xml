@@ -9,7 +9,8 @@
 
         <SwitchPreferenceCompat
                 app:key="@string/preftag_debug"
-                app:title="Enable debug mode (for developers)"
+                app:title="Testing mode"
+                app:summary="App will be more user friendly. App will not be locked during tasks, and the back button can also be used."
                 app:defaultValue="@bool/default_debug"/>
         <SwitchPreferenceCompat
                 app:key="@string/preftag_bluetooth"
