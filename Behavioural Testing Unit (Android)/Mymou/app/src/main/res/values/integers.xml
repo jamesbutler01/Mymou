@@ -74,6 +74,7 @@
     <integer name="default_pr_timeout_length">180</integer>
     <integer name="default_pr_sess_length">20</integer>
     <integer name="default_pr_iti">8000</integer>
+    <integer name="default_pr_blink">300</integer>
     <integer name="default_pr_shape">1</integer>
     <integer name="default_pr_cuesize">300</integer>
     <integer name="default_pr_bordersize">1</integer>

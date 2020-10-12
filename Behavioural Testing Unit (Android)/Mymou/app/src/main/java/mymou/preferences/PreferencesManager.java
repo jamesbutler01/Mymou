@@ -276,7 +276,7 @@ public class PreferencesManager {
 
     }
 
-    public int pr_cue_colour, pr_animation_duration, pr_cuex, pr_cuey, pr_iti, pr_timeoutlength, pr_sess_length, pr_cue_shape, pr_cue_size, pr_border_size, pr_border_colour;
+    public int pr_cue_colour, pr_animation_duration, pr_cuex, pr_cuey, pr_iti, pr_blinklength, pr_timeoutlength, pr_sess_length, pr_cue_shape, pr_cue_size, pr_border_size, pr_border_colour;
     public boolean pr_progress_bar, pr_move_cue, pr_skip_go_cue;
 
     public void ProgressiveRatio() {
@@ -295,10 +295,10 @@ public class PreferencesManager {
 
         pr_cuex = sharedPrefs.getInt(r.getString(R.string.preftag_pr_cuex), 300);
         pr_cuey = sharedPrefs.getInt(r.getString(R.string.preftag_pr_cuey), 300);
-//        pr_cue_shape = sharedPrefs.getInt(r.getString(R.string.preftag_pr_cue_shape), r.getInteger(R.integer.default_pr_shape));
         pr_cue_shape = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_pr_cue_shape), Integer.toString(r.getInteger(R.integer.default_pr_shape))));
         pr_animation_duration = sharedPrefs.getInt(r.getString(R.string.preftag_pr_animation_duration), r.getInteger(R.integer.default_pr_animation_duration));
         pr_iti = sharedPrefs.getInt(r.getString(R.string.preftag_pr_iti), r.getInteger(R.integer.default_pr_iti));
+        pr_blinklength = sharedPrefs.getInt(r.getString(R.string.preftag_pr_blink), r.getInteger(R.integer.default_pr_blink));
         pr_timeoutlength = sharedPrefs.getInt(r.getString(R.string.preftag_pr_timeout_length), r.getInteger(R.integer.default_pr_timeout_length));
         pr_sess_length = sharedPrefs.getInt(r.getString(R.string.preftag_pr_sess_length), r.getInteger(R.integer.default_pr_sess_length));
 

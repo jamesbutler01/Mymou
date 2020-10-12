@@ -261,8 +261,15 @@ public class TaskProgressiveRatio extends Task {
                 randomlyPositionCue();
 
                 // Let them press again
-                UtilsTask.toggleCue(cue, true);
-                logTaskEvent("Cues toggled on");
+                // Restart task after x delay
+                hNextTrial.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        UtilsTask.toggleCue(cue, true);
+                        logTaskEvent("Cues toggled on");
+                        }
+                }, prefManager.pr_iti);
+
             }
         }
     };

@@ -215,6 +215,7 @@
     <string name="preftag_pr_timeout_length">preftag_pr_timeout_length</string>
     <string name="preftag_pr_sess_length">preftag_pr_sess_length</string>
     <string name="preftag_pr_iti">preftag_pr_iti</string>
+    <string name="preftag_pr_blink">preftag_pr_blink</string>
     <string name="preftag_pr_cuex">preftag_pr_cuex</string>
     <string name="preftag_pr_cuey">preftag_pr_cuey</string>
     <string name="preftag_pr_animation_dur_actual">pr_anim_dur_actual</string>

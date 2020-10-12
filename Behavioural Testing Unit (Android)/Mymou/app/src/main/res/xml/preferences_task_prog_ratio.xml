@@ -20,6 +20,14 @@
                 app:min="1"
                 app:title="Duration (ms) of progress bar animation" />
 
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_pr_blink"
+                android:max="10000"
+                app:key="@string/preftag_pr_blink"
+                app:min="1"
+                app:summary="After each press, the cue will disappear for this length of time. Tap to type number."
+                app:title="Interval between presses (ms)" />
+
         <SwitchPreferenceCompat
                 app:defaultValue="@bool/default_pr_skip_go_cue"
                 app:key="@string/preftag_pr_skip_go_cue"
