@@ -35,7 +35,7 @@ import mymou.task.backend.UtilsTask;
 public class TaskProgressiveRatio extends Task {
 
     // Debug
-    public static String TAG = "TaskProgressiveRatio";
+    public static String TAG = "MymouTaskProgressiveRatio";
 
     // Task objects
     private String preftag_successful_trial = "pr_successful_trial";
@@ -162,6 +162,7 @@ public class TaskProgressiveRatio extends Task {
     }
 
     private void log_trial_outcome(boolean outcome) {
+        Log.d(TAG, "log_trial_outcome: "+outcome+","+num_consecutive_corr);
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean(preftag_successful_trial, outcome);
         editor.putInt(preftag_num_consecutive_corr, num_consecutive_corr);
@@ -284,6 +285,7 @@ public class TaskProgressiveRatio extends Task {
     @Override
     public void onPause() {
         super.onPause();
+        Log.d(TAG, "onPause");
         hNextTrial.removeCallbacksAndMessages(null);
         hTrialTimer.removeCallbacksAndMessages(null);
         hSessionTimer.removeCallbacksAndMessages(null);

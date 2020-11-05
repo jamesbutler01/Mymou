@@ -55,6 +55,7 @@
         <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_pr_iti"
                 android:max="20000"
+                app:isPreferenceVisible="false"
                 app:key="@string/preftag_pr_iti"
                 app:min="1"
                 app:summary="Time between successfully completing a trial and the onset of the next trial. Tap to type number."
