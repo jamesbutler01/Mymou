@@ -268,7 +268,7 @@ public class TaskProgressiveRatio extends Task {
                         UtilsTask.toggleCue(cue, true);
                         logTaskEvent("Cues toggled on");
                         }
-                }, prefManager.pr_iti);
+                }, prefManager.pr_blinklength);
 
             }
         }
