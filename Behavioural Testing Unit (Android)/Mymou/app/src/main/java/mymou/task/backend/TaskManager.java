@@ -228,6 +228,10 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 break;
             case 9:
                 preferencesManager.ProgressiveRatio();
+                // Reset numpresses needed
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
+                editor.putBoolean(preferencesManager.r.getString(R.string.pr_successful_trial), false);
+                editor.commit();
                 break;
             case 10:
                 preferencesManager.EvidenceAccum();
