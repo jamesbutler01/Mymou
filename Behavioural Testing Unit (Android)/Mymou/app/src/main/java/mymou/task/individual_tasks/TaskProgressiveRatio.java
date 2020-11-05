@@ -86,6 +86,8 @@ public class TaskProgressiveRatio extends Task {
     }
 
     private void assignObjects() {
+        preftag_successful_trial = getResources().getString(R.string.pr_successful_trial);
+        preftag_num_consecutive_corr = getResources().getString(R.string.pr_num_consecutive_corr);
 
         // Progress bar
         pb1 = (ProgressBar) getView().findViewById(R.id.boosterBar);
@@ -285,10 +287,8 @@ public class TaskProgressiveRatio extends Task {
     @Override
     public void onPause() {
         super.onPause();
-        Log.d(TAG, "onPause");
         hNextTrial.removeCallbacksAndMessages(null);
         hTrialTimer.removeCallbacksAndMessages(null);
         hSessionTimer.removeCallbacksAndMessages(null);
-        log_trial_outcome(false);
     }
 }

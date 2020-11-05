@@ -254,6 +254,9 @@
     <string name="preftag_rdm_colour_choice">preftag_rdm_colour_choice</string>
     <string name="preftag_rdm_colour_dots">preftag_rdm_colour_dots</string>
 
+    <string name="pr_successful_trial">pr_successful_trial</string>
+    <string name="pr_num_consecutive_corr">pr_num_consecutive_corr</string>
+
     <string-array name="error_messages">
         <item>Bluetooth couldn\'t connect to reward system (to run task without reward system, disable the reward system
             option in system settings)\n
