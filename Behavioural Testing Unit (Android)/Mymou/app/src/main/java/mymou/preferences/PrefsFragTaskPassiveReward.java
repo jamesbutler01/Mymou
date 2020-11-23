@@ -27,7 +27,7 @@ public class PrefsFragTaskPassiveReward extends PreferenceFragmentCompat impleme
 
     @Override
     public void onCreatePreferences(Bundle bundle, String rootKey) {
-        setPreferencesFromResource(R.xml.preferences_task_prog_ratio, rootKey);
+        setPreferencesFromResource(R.xml.preferences_task_passivereward, rootKey);
         r = getContext().getResources();
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());

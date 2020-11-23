@@ -16,12 +16,14 @@
     <string name="task_mode">task_mode</string>
 
     <string-array name="available_tasks">
+        <item>Passive reward</item>
         <item>Training 1: Full screen cue</item>
         <item>Training 2: Shrinking central cue</item>
         <item>Training 3: Shrinking moving cue</item>
-        <item>Training 4: Small Moving cue</item>
-        <item>Training 5: Two step</item>
+        <item>Training 4: Static cue</item>
+        <item>Training 5: Small Moving cue</item>
         <item>Example task</item>
+        <item>Two step task</item>
         <item>Discrete Maze</item>
         <item>Object discrimination (colours)</item>
         <item>Object discrimination (images)</item>
@@ -34,12 +36,14 @@
     </string-array>
 
     <string-array name="task_descriptions">
+        <item>Blank screen that automatically gives out reward at specified intervals.</item>
         <item>Displays a cue that takes up the entire screen. Subjects can then press anywhere on the screen to trigger reward.</item>
         <item>Displays a cue that initially takes up the entire screen. On each press the cue gets smaller and smaller to encourage accurate screen presses. The size of the cue resets to the full screen size if no touches are received for a short period. </item>
         <item>Displays a cue that initially takes up the entire screen. On each press the cue shrinks in size and moves around the screen. The size of the cue resets to the full screen size if no touches are received for a short period. </item>
+        <item>Displays a cue in a fixed position that delivers reward upon press. In settings, can be specified to randomly alternate between two predetermined locations after each press.</item>
         <item>Displays 1 normal sized cue that randomly moves around the screen on each press. </item>
-        <item>Implementation of the reduced two step task described in Akam et al. (2017).</item>
         <item>This task showcases the full features of the Mymou system, including facial recognition, and multiple reward channels. </item>
+        <item>Implementation of the reduced two step task described in Akam et al. (2017).</item>
         <item>Associative learning of large networks of stimuli, as seen in Butler and Kennerley (2018). Subjects are shown a target stimuli at the top of the screen. Their current location and neighbouring stimuli are displayed in the lower part of the screen. Subjects then have to learn to navigate to the different locations in the maze.</item>
         <item>Subjects are shown multiple CS- and CS+ stimuli which they must learn to differentiate. Stimuli are limited to single colours </item>
         <item>Subjects are shown multiple CS- and CS+ stimuli which they must learn to differentiate. Stimuli are photos of images taken from the database kindly provided in Brady et al. (2008) PNAS </item>

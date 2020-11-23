@@ -27,7 +27,7 @@ public class PrefsFragTaskStaticCue extends PreferenceFragmentCompat implements 
 
     @Override
     public void onCreatePreferences(Bundle bundle, String rootKey) {
-        setPreferencesFromResource(R.xml.preferences_task_prog_ratio, rootKey);
+        setPreferencesFromResource(R.xml.preferences_task_trainingstaticcue, rootKey);
         r = getContext().getResources();
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());

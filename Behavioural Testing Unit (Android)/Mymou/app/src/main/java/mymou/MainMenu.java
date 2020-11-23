@@ -111,7 +111,7 @@ public class MainMenu extends Activity {
     }
 
     private void updateRewardText() {
-        Log.d(TAG, "Updating reward controller "+rewardSystem.status);
+        Log.d(TAG, "Updating reward controller " + rewardSystem.status);
         TextView tv1 = findViewById(R.id.tvBluetooth);
         tv1.setText(rewardSystem.status);
         Button connectToBt = findViewById(R.id.buttConnectToBt);
@@ -141,7 +141,6 @@ public class MainMenu extends Activity {
 
         // Set up UI for currently selected task
         spinner.setSelection(taskSelected);
-        checkTaskHasSettings();
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -150,9 +149,6 @@ public class MainMenu extends Activity {
 
                 // Update task selected
                 taskSelected = position;
-
-                // Activate settings button if valid
-                checkTaskHasSettings();
 
                 // Store for future reference
                 SharedPreferences.Editor editor = settings.edit();
@@ -167,11 +163,6 @@ public class MainMenu extends Activity {
 
     }
 
-    private void checkTaskHasSettings() {
-        TypedArray tasks_has_settings = getResources().obtainTypedArray(R.array.task_has_settings);
-        boolean has_settings = Boolean.valueOf(tasks_has_settings.getBoolean(taskSelected, false));
-        UtilsTask.toggleCue((Button) findViewById(R.id.buttonTaskSettings), has_settings);
-    }
 
     private void checkIfCrashed() {
         Bundle extras = getIntent().getExtras();
@@ -206,7 +197,7 @@ public class MainMenu extends Activity {
         radioButtons[3] = findViewById(R.id.rb_chan3);
         radioButtons[reward_chan].setChecked(true);
 
-        for (int i=0; i<preferencesManager.max_reward_channels; i++) {
+        for (int i = 0; i < preferencesManager.max_reward_channels; i++) {
             boolean active = i >= preferencesManager.num_reward_chans ? false : true;
             UtilsTask.toggleView(radioButtons[i], active);
         }
@@ -263,11 +254,10 @@ public class MainMenu extends Activity {
     };
 
 
-
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Log.d(TAG, "onClick: "+view.getId());
+            Log.d(TAG, "onClick: " + view.getId());
 
             checkPermissions();
             if (!permissions_granted) {
@@ -289,29 +279,53 @@ public class MainMenu extends Activity {
                     Intent intent2 = new Intent(context, PrefsActSystem.class);
 
                     // Load task specific settings
-                    if (taskSelected < 5) {
-                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_t_one_settings));
-                    } else if (taskSelected == 6) {
-                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_disc_maze_settings));
-                    } else if (taskSelected == 7) {
-                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_odc_settings));
-                    } else if (taskSelected == 8) {
-                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_od_settings));
-                    } else if (taskSelected == 9) {
-                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_pr_settings));
-                    } else if (taskSelected == 10) {
-                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_ea_settings));
-                    } else if (taskSelected == 11) {
-                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_sr_settings));
-                    } else if (taskSelected == 12) {
-                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_sl_settings));
-                    } else if (taskSelected == 13) {
-                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_rdm_settings));
-                    } else if (taskSelected == 14) {
-                        intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_dvs_settings));
+                    boolean validsettings = true;
+                    switch (taskSelected) {
+                        case 0:
+                            intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_pass_settings));
+                            break;
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 5:
+                            intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_t_one_settings));
+                            break;
+                        case 4:
+                            intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_t_sc_settings));
+                            break;
+                        case 8:
+                            intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_disc_maze_settings));
+                            break;
+                        case 9:
+                            intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_odc_settings));
+                            break;
+                        case 10:
+                            intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_od_settings));
+                            break;
+                        case 11:
+                            intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_pr_settings));
+                            break;
+                        case 12:
+                            intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_ea_settings));
+                            break;
+                        case 13:
+                            intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_sr_settings));
+                            break;
+                        case 14:
+                            intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_sl_settings));
+                            break;
+                        case 15:
+                            intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_rdm_settings));
+                            break;
+                        case 16:
+                            intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_dvs_settings));
+                            break;
+                        default:
+                            validsettings = false;
+                            Toast.makeText(getApplicationContext(), "Sorry, this task has no configurable settings", Toast.LENGTH_LONG).show();
                     }
+                    if (validsettings) { startActivity(intent2); }
 
-                    startActivity(intent2);
                     break;
                 case R.id.buttonViewData:
                     Intent intent3 = new Intent(context, DataViewer.class);

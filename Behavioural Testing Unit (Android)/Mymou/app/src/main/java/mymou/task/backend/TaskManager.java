@@ -329,52 +329,58 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         bundle.putInt("numTrials", trialCounter);
         switch (taskId) {
             case 0:
-                task = new TaskTrainingOneFullScreen();
+                task = new TaskPassiveReward();
                 break;
             case 1:
-                task = new TaskTrainingTwoShrinkingCue();
+                task = new TaskTrainingOneFullScreen();
                 break;
             case 2:
-                task = new TaskTrainingThreeMovingCue();
+                task = new TaskTrainingTwoShrinkingCue();
                 break;
             case 3:
-                task = new TaskTrainingFourSmallMovingCue();
+                task = new TaskTrainingThreeMovingCue();
                 break;
             case 4:
-                task = new TaskTrainingFiveTwoStep();
+                task = new TaskTrainingStaticCue();
                 break;
             case 5:
-                task = new TaskExample();
+                task = new TaskTrainingFourSmallMovingCue();
                 break;
             case 6:
-                task = new TaskDiscreteMaze();
+                task = new TaskExample();
                 break;
             case 7:
+                task = new TaskTrainingFiveTwoStep();
+                break;
+            case 8:
+                task = new TaskDiscreteMaze();
+                break;
+            case 9:
                 task = new TaskObjectDiscrimCol();
 
                 // Check settings correct
                 valid_configuration = preferencesManager.objectdiscrim_valid_config;
 
                 break;
-            case 8:
+            case 10:
                 task = new TaskObjectDiscrim();
                 break;
-            case 9:
+            case 11:
                 task = new TaskProgressiveRatio();
                 break;
-            case 10:
+            case 12:
                 task = new TaskEvidenceAccum();
                 break;
-            case 11:
+            case 13:
                 task = new TaskSpatialResponse();
                 break;
-            case 12:
+            case 14:
                 task = new TaskSequentialLearning();
                 break;
-            case 13:
+            case 15:
                 task = new TaskRandomDotMotion();
                 break;
-            case 14:
+            case 16:
                 task = new TaskDiscreteValueSpace();
                 break;
             default:
