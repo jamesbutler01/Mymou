@@ -122,6 +122,8 @@
     <integer name="default_t_sc_bordercolour">5</integer>
     <integer name="default_t_sc_bordersize">1</integer>
     <integer name="default_t_sc_shape">1</integer>
+    <integer name="default_t_sc_cuewidth">100</integer>
+    <integer name="default_t_sc_cueheight">100</integer>
 
 
 </resources>

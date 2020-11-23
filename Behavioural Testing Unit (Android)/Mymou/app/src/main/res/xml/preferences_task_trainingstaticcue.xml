@@ -99,10 +99,14 @@
 
         <mymou.preferences.SeekBarPreferenceCustom
                 app:key="@string/preftag_t_sc_cuewidth"
+                                android:defaultValue="@integer/default_t_sc_cuewidth"
+                android:max="2000"
                 app:title="Cue width (pixels)" />
 
         <mymou.preferences.SeekBarPreferenceCustom
                 app:key="@string/preftag_t_sc_cueheight"
+                android:defaultValue="@integer/default_t_sc_cueheight"
+                android:max="2000"
                 app:title="Cue height (pixels)" />
 
         <mymou.preferences.SeekBarPreferenceCustom
