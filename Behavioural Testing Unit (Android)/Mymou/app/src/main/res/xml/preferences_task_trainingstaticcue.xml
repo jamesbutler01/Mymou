@@ -62,6 +62,13 @@
                 app:key="@string/preftag_t_sc_togglecue"
                 app:title="Hide cue during reward delivery and ITI" />
 
+        <SwitchPreferenceCompat
+                app:defaultValue="@bool/default_t_sc_alternatecue"
+                app:key="@string/preftag_t_sc_alternatecue"
+                app:summary="Cue will randomly alternate (with replacement) between two fixed positions"
+                app:title="Randomly alternate cue position" />
+
+
     </PreferenceCategory>
 
 
@@ -91,6 +98,14 @@
                 app:title="Cue border colour" />
 
         <mymou.preferences.SeekBarPreferenceCustom
+                app:key="@string/preftag_t_sc_cuewidth"
+                app:title="Cue width (pixels)" />
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                app:key="@string/preftag_t_sc_cueheight"
+                app:title="Cue height (pixels)" />
+
+        <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_t_sc_bordersize"
                 android:max="80"
                 app:key="@string/preftag_t_sc_bordersize"
@@ -104,14 +119,13 @@
                 app:title="Y position of cue (pixels)" />
 
         <mymou.preferences.SeekBarPreferenceCustom
-                app:key="@string/preftag_t_sc_cuewidth"
-                app:title="Cue width (pixels)" />
-
+                app:key="@string/preftag_t_sc_cuextwo"
+                app:title="Second X position of cue (pixels)" />
         <mymou.preferences.SeekBarPreferenceCustom
-                app:key="@string/preftag_t_sc_cueheight"
-                app:title="Cue height (pixels)" />
+                app:key="@string/preftag_t_sc_cueytwo"
+                app:title="Second Y position of cue (pixels)" />
 
-                </PreferenceCategory>
+    </PreferenceCategory>
 
 
 </androidx.preference.PreferenceScreen>

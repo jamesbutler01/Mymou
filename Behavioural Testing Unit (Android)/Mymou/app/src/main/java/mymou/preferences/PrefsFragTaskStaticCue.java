@@ -43,14 +43,22 @@ public class PrefsFragTaskStaticCue extends PreferenceFragmentCompat implements 
         int xval = sharedPrefs.getInt(getString(R.string.preftag_t_sc_cuex), size.x / 2);
         seekBar.setValue(xval);
 
+        SeekBarPreferenceCustom seekBar3 = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_t_sc_cuextwo));
+        seekBar3.setMax(size.x);
+        seekBar3.setValue(xval);
+
         // Set y options based on screen height
         SeekBarPreferenceCustom seekBar2 = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_t_sc_cuey));
         seekBar2.setMax(size.y);
         int yval = sharedPrefs.getInt(getString(R.string.preftag_t_sc_cuey), size.y / 2);
         seekBar2.setValue(yval);
 
+        SeekBarPreferenceCustom seekBar4 = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_t_sc_cueytwo));
+        seekBar4.setMax(size.y);
+        seekBar4.setValue(yval);
+
         // Set ontouchlisteners for the seekbars to allow users to manually input values
-        SeekBarPreferenceCustom[] seekBarPreferences = new SeekBarPreferenceCustom[8];
+        SeekBarPreferenceCustom[] seekBarPreferences = new SeekBarPreferenceCustom[11];
         seekBarPreferences[0] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_t_sc_cuex));
         seekBarPreferences[1] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_t_sc_cuey));
         seekBarPreferences[2] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_t_sc_sess_length));
@@ -60,6 +68,8 @@ public class PrefsFragTaskStaticCue extends PreferenceFragmentCompat implements 
         seekBarPreferences[6] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_t_sc_miniti));
         seekBarPreferences[7] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_t_sc_maxiti));
         seekBarPreferences[8] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_t_sc_sess_length));
+        seekBarPreferences[9] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_t_sc_cuextwo));
+        seekBarPreferences[10] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_t_sc_cueytwo));
         for (int i = 0; i < seekBarPreferences.length; i++) {
             final int i_final = i;
             seekBarPreferences[i].setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -99,6 +109,10 @@ public class PrefsFragTaskStaticCue extends PreferenceFragmentCompat implements 
         if (sharedPrefs.getBoolean(getContext().getResources().getString(R.string.preftag_t_sc_stopsess), r.getBoolean(R.bool.default_t_sc_stopsess))) {
             findPreference(getContext().getResources().getString(R.string.preftag_t_sc_sess_length)).setVisible(true);
         }
+        if (sharedPrefs.getBoolean(getContext().getResources().getString(R.string.preftag_t_sc_alternatecue), r.getBoolean(R.bool.default_t_sc_alternatecue))) {
+            findPreference(getContext().getResources().getString(R.string.preftag_t_sc_cuextwo)).setVisible(true);
+            findPreference(getContext().getResources().getString(R.string.preftag_t_sc_cueytwo)).setVisible(true);
+        }
 
         // Set onchange listener
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
@@ -110,6 +124,10 @@ public class PrefsFragTaskStaticCue extends PreferenceFragmentCompat implements 
 
         if (key.equals(getContext().getResources().getString(R.string.preftag_t_sc_stopsess))) {
             findPreference(getContext().getResources().getString(R.string.preftag_t_sc_sess_length)).setVisible(sharedPreferences.getBoolean(key, r.getBoolean(R.bool.default_t_sc_stopsess)));
+        }
+        if (key.equals(getContext().getResources().getString(R.string.preftag_t_sc_alternatecue))) {
+            findPreference(getContext().getResources().getString(R.string.preftag_t_sc_cuextwo)).setVisible(sharedPreferences.getBoolean(key, r.getBoolean(R.bool.default_t_sc_alternatecue)));
+            findPreference(getContext().getResources().getString(R.string.preftag_t_sc_cueytwo)).setVisible(sharedPreferences.getBoolean(key, r.getBoolean(R.bool.default_t_sc_alternatecue)));
         }
 
     }

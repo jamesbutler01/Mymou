@@ -276,6 +276,8 @@
     <string name="preftag_t_sc_photo">preftag_t_sc_photo</string>
     <string name="preftag_t_sc_cuex">preftag_t_sc_cuex</string>
     <string name="preftag_t_sc_cuey">preftag_t_sc_cuey</string>
+    <string name="preftag_t_sc_cuextwo">preftag_t_sc_cuextwo</string>
+    <string name="preftag_t_sc_cueytwo">preftag_t_sc_cueytwo</string>
     <string name="preftag_t_sc_cueheight">preftag_t_sc_cueheight</string>
     <string name="preftag_t_sc_cuewidth">preftag_t_sc_cuewidth</string>
     <string name="preftag_t_sc_cue_colour">preftag_t_sc_cue_colour</string>
@@ -283,6 +285,7 @@
     <string name="preftag_t_sc_cue_shape">preftag_t_sc_cue_shape</string>
     <string name="preftag_t_sc_bordersize">preftag_t_sc_bordersize</string>
     <string name="preftag_t_sc_togglecue">preftag_t_sc_togglecue</string>
+    <string name="preftag_t_sc_alternatecue">preftag_t_sc_alternatecue</string>
 
 
     <string-array name="error_messages">

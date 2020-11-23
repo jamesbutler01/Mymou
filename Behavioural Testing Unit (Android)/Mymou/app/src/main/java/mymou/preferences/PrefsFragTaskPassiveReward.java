@@ -33,7 +33,7 @@ public class PrefsFragTaskPassiveReward extends PreferenceFragmentCompat impleme
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         // Set ontouchlisteners for the seekbars to allow users to manually input values
-        SeekBarPreferenceCustom[] seekBarPreferences = new SeekBarPreferenceCustom[8];
+        SeekBarPreferenceCustom[] seekBarPreferences = new SeekBarPreferenceCustom[5];
         seekBarPreferences[0] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_pass_minrew));
         seekBarPreferences[1] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_pass_maxrew));
         seekBarPreferences[2] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_pass_miniti));

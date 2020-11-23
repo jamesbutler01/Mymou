@@ -91,6 +91,8 @@ public class TaskTrainingStaticCue extends Task {
         cue.setWidth(prefManager.t_sc_cuewidth);
         cue.setHeight(prefManager.t_sc_cueheight);
 
+        moveCue();
+
         UtilsTask.toggleCue(cue, true);
         logTaskEvent("Cues toggled on");
 
@@ -118,6 +120,7 @@ public class TaskTrainingStaticCue extends Task {
            hNextTrial.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                        moveCue();
                         UtilsTask.toggleCue(cue, true);
                 }
             }, (rewardlength) + (timeuntilreward*1000)); // Minutes
@@ -125,6 +128,19 @@ public class TaskTrainingStaticCue extends Task {
 
         }
     };
+
+    private void moveCue() {
+
+        if (!prefManager.t_sc_movecue) { return;}
+
+        int[] xlocs = {prefManager.t_sc_cuex, prefManager.t_sc_cuextwo};
+        int[] ylocs = {prefManager.t_sc_cuey, prefManager.t_sc_cueytwo};
+
+        int pos = r.nextInt(2);
+        cue.setX(xlocs[pos]);
+        cue.setY(ylocs[pos]);
+
+    }
 
     // Implement interface and listener to enable communication up to TaskManager
     TaskInterface callback;

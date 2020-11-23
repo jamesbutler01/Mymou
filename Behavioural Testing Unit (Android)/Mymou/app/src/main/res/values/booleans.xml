@@ -37,5 +37,6 @@
     <bool name="default_t_sc_photo">false</bool>
     <bool name="default_t_sc_stopsess">false</bool>
     <bool name="default_t_sc_togglecue">true</bool>
+    <bool name="default_t_sc_alternatecue">false</bool>
 
 </resources>

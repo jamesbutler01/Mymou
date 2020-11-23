@@ -278,9 +278,9 @@ public class PreferencesManager {
     }
 
     public int t_sc_minrew, t_sc_maxrew, t_sc_miniti, t_sc_maxiti, t_sc_sesslength;
-    public int t_sc_cuex, t_sc_cuey, t_sc_cueheight, t_sc_cuewidth;
+    public int t_sc_cuex, t_sc_cuey, t_sc_cuextwo, t_sc_cueytwo, t_sc_cueheight, t_sc_cuewidth;
     public int t_sc_cue_colour, t_sc_border_colour, t_sc_cue_shape, t_sc_bordersize;
-    public boolean t_sc_photo, t_sc_stopsess, t_sc_togglecue;
+    public boolean t_sc_photo, t_sc_stopsess, t_sc_togglecue, t_sc_movecue;
 
     public void TrainingStaticCue() {
         t_sc_minrew = sharedPrefs.getInt(r.getString(R.string.preftag_t_sc_minrew), r.getInteger(R.integer.default_t_sc_minrew));
@@ -291,10 +291,13 @@ public class PreferencesManager {
         t_sc_photo = sharedPrefs.getBoolean(r.getString(R.string.preftag_t_sc_photo), r.getBoolean(R.bool.default_t_sc_photo));
         t_sc_stopsess = sharedPrefs.getBoolean(r.getString(R.string.preftag_t_sc_stopsess), r.getBoolean(R.bool.default_t_sc_stopsess));
         t_sc_togglecue = sharedPrefs.getBoolean(r.getString(R.string.preftag_t_sc_togglecue), r.getBoolean(R.bool.default_t_sc_togglecue));
+        t_sc_movecue = sharedPrefs.getBoolean(r.getString(R.string.preftag_t_sc_alternatecue), r.getBoolean(R.bool.default_t_sc_alternatecue));
 
         // Cue properties
         t_sc_cuex = sharedPrefs.getInt(r.getString(R.string.preftag_t_sc_cuex), 300);
         t_sc_cuey = sharedPrefs.getInt(r.getString(R.string.preftag_t_sc_cuey), 300);
+        t_sc_cuextwo = sharedPrefs.getInt(r.getString(R.string.preftag_t_sc_cuextwo), 300);
+        t_sc_cueytwo = sharedPrefs.getInt(r.getString(R.string.preftag_t_sc_cueytwo), 300);
         t_sc_cueheight = sharedPrefs.getInt(r.getString(R.string.preftag_t_sc_cueheight), 300);
         t_sc_cuewidth = sharedPrefs.getInt(r.getString(R.string.preftag_t_sc_cuewidth), 300);
         int cue_colour = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_t_sc_cue_colour), Integer.toString(r.getInteger(R.integer.default_t_sc_cue_colour))));
