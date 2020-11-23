@@ -69,17 +69,6 @@
 
     <integer name="default_dvs_feedback_duration">5000</integer>
 
-    <integer name="default_pr_cue_colour">6</integer>
-    <integer name="default_pr_animation_duration">450</integer>
-    <integer name="default_pr_timeout_length">180</integer>
-    <integer name="default_pr_sess_length">20</integer>
-    <integer name="default_pr_iti">8000</integer>
-    <integer name="default_pr_blink">300</integer>
-    <integer name="default_pr_shape">1</integer>
-    <integer name="default_pr_cuesize">300</integer>
-    <integer name="default_pr_bordersize">1</integer>
-    <integer name="default_pr_bordercolour">5</integer>
-
     <integer name="default_ea_num_steps">8</integer>
     <integer name="default_ea_step_duration_on">600</integer>
     <integer name="default_ea_step_duration_off">500</integer>
@@ -90,7 +79,7 @@
     <integer name="default_sr_locations">2</integer>
     <integer name="default_sr_duration_on">800</integer>
     <integer name="default_sr_duration_off">1500</integer>
-    
+
     <integer name="default_od_num_distractors">3</integer>
     <integer name="default_od_duration_on">750</integer>
     <integer name="default_od_duration_off">1500</integer>
@@ -106,6 +95,33 @@
     <integer name="default_rdm_color_bg">1</integer>
     <integer name="default_rdm_color_dots">0</integer>
     <integer name="default_rdm_color_choice">1</integer>
+
+    <integer name="default_pass_minrew">1000</integer>
+    <integer name="default_pass_maxrew">3000</integer>
+    <integer name="default_pass_miniti">8</integer>
+    <integer name="default_pass_maxiti">16</integer>
+    <integer name="default_pass_sess_length">20</integer>
+
+    <integer name="default_pr_cue_colour">6</integer>
+    <integer name="default_pr_animation_duration">450</integer>
+    <integer name="default_pr_timeout_length">180</integer>
+    <integer name="default_pr_sess_length">20</integer>
+    <integer name="default_pr_iti">8000</integer>
+    <integer name="default_pr_blink">300</integer>
+    <integer name="default_pr_shape">1</integer>
+    <integer name="default_pr_cuesize">300</integer>
+    <integer name="default_pr_bordersize">1</integer>
+    <integer name="default_pr_bordercolour">5</integer>
+
+    <integer name="default_t_sc_minrew">1000</integer>
+    <integer name="default_t_sc_maxrew">3000</integer>
+    <integer name="default_t_sc_miniti">8</integer>
+    <integer name="default_t_sc_maxiti">16</integer>
+    <integer name="default_t_sc_sess_length">20</integer>
+    <integer name="default_t_sc_cue_colour">6</integer>
+    <integer name="default_t_sc_bordercolour">5</integer>
+    <integer name="default_t_sc_bordersize">1</integer>
+    <integer name="default_t_sc_shape">1</integer>
 
 
 </resources>

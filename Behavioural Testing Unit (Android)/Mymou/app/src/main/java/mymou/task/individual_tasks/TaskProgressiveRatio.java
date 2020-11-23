@@ -70,13 +70,16 @@ public class TaskProgressiveRatio extends Task {
         if (hSessionTimer == null) {
             Log.d(TAG, "starting session timer");
             hSessionTimer = new Handler();
-            hSessionTimer.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    endOfSession();
-                }
-            }, prefManager.pr_sess_length * 1000 * 60); // Minutes
+        } else {
+            hSessionTimer.removeCallbacksAndMessages(null);
         }
+
+        hSessionTimer.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                endOfSession();
+            }
+        }, prefManager.pr_sess_length * 1000 * 60); // Minutes
 
     }
 

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+            android:layout="@layout/preferences_title"
+            app:key="task_settings"
+            app:title="Task settings">
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_pass_minrew"
+                android:max="20000"
+                app:key="@string/preftag_pass_minrew"
+                app:min="200"
+                app:title="Minimum reward duration (ms). Tap to enter value" />
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_pass_maxrew"
+                android:max="20000"
+                app:key="@string/preftag_pass_maxrew"
+                app:min="1"
+                app:title="Maximum reward duration (ms). Tap to enter value" />
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_pass_miniti"
+                android:max="1000"
+                app:key="@string/preftag_pass_miniti"
+                app:min="1"
+                app:summary="A random ITI between the minimum and maximum inter-reward interval will be chosen each time. Tap to type number."
+                app:title="Minimum inter-reward interval (s)" />
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_pass_maxiti"
+                android:max="1000"
+                app:key="@string/preftag_pass_maxiti"
+                app:min="1"
+                app:summary="A random ITI between the minimum and maximum inter-reward interval will be chosen each time. Tap to type number."
+                app:title="Maximum inter-reward interval (s)" />
+
+        <SwitchPreferenceCompat
+                app:defaultValue="@bool/default_pass_stopsess"
+                app:key="@string/preftag_pass_stopsess"
+                app:summary="If enabled, session will be halted after the specified length"
+                app:title="End session after a certain duration" />
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_pass_sess_length"
+                android:max="600"
+                app:isPreferenceVisible="false"
+                app:key="@string/preftag_pass_sess_length"
+                app:min="1"
+                app:summary="After this duration task will shut off and no longer be accessible until restarted."
+                app:title="Maximum session time (mins)" />
+
+        <SwitchPreferenceCompat
+                app:defaultValue="@bool/default_pass_photo"
+                app:key="@string/preftag_pass_photo"
+                app:title="Take photos during reward delivery" />
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

@@ -149,6 +149,8 @@
     <string name="preftag_task_disc_maze_settings">preftag_task_disc_maze_settings</string>
     <string name="preftag_task_t_one_settings">preftag_task_t_one_settings</string>
     <string name="preftag_task_pr_settings">preftag_task_pr_settings</string>
+    <string name="preftag_task_t_sc_settings">preftag_task_t_sc_settings</string>
+    <string name="preftag_task_pass_settings">preftag_task_pass_settings</string>
     <string name="preftag_task_ea_settings">preftag_task_ea_settings</string>
     <string name="preftag_task_sr_settings">preftag_task_sr_settings</string>
     <string name="preftag_task_sl_settings">preftag_task_sl_settings</string>
@@ -256,6 +258,32 @@
 
     <string name="pr_successful_trial">pr_successful_trial</string>
     <string name="pr_num_consecutive_corr">pr_num_consecutive_corr</string>
+
+    <string name="preftag_pass_minrew">default_pass_minrew</string>
+    <string name="preftag_pass_maxrew">preftag_pass_maxrew</string>
+    <string name="preftag_pass_miniti">default_pass_miniti</string>
+    <string name="preftag_pass_maxiti">default_pass_maxiti</string>
+    <string name="preftag_pass_sess_length">preftag_pass_sess_length</string>
+    <string name="preftag_pass_stopsess">preftag_pass_stopsess</string>
+    <string name="preftag_pass_photo">preftag_pass_photo</string>
+
+    <string name="preftag_t_sc_minrew">default_t_sc_minrew</string>
+    <string name="preftag_t_sc_maxrew">preftag_t_sc_maxrew</string>
+    <string name="preftag_t_sc_miniti">default_t_sc_miniti</string>
+    <string name="preftag_t_sc_maxiti">default_t_sc_maxiti</string>
+    <string name="preftag_t_sc_sess_length">preftag_t_sc_sess_length</string>
+    <string name="preftag_t_sc_stopsess">preftag_t_sc_stopsess</string>
+    <string name="preftag_t_sc_photo">preftag_t_sc_photo</string>
+    <string name="preftag_t_sc_cuex">preftag_t_sc_cuex</string>
+    <string name="preftag_t_sc_cuey">preftag_t_sc_cuey</string>
+    <string name="preftag_t_sc_cueheight">preftag_t_sc_cueheight</string>
+    <string name="preftag_t_sc_cuewidth">preftag_t_sc_cuewidth</string>
+    <string name="preftag_t_sc_cue_colour">preftag_t_sc_cue_colour</string>
+    <string name="preftag_t_sc_cue_border_colour">preftag_t_sc_cue_border_colour</string>
+    <string name="preftag_t_sc_cue_shape">preftag_t_sc_cue_shape</string>
+    <string name="preftag_t_sc_bordersize">preftag_t_sc_bordersize</string>
+    <string name="preftag_t_sc_togglecue">preftag_t_sc_togglecue</string>
+
 
     <string-array name="error_messages">
         <item>Bluetooth couldn\'t connect to reward system (to run task without reward system, disable the reward system
