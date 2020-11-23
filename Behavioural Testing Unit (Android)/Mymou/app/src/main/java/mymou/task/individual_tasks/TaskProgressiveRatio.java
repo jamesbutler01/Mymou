@@ -24,13 +24,13 @@ import mymou.task.backend.UtilsTask;
 
 /**
  * Progressive Ratio task
- *
+ * <p>
  * After each successful press, you need 2^(successful presses) for reward
  * On idle timeout will then reset number of successful presses needed to 1
  *
  * @param num_consecutive_corr the current number of consecutive successful trials
- * @param num_presses_needed this trial's presses needed for reward
- * @param num_presses the current number of presses made in this trial
+ * @param num_presses_needed   this trial's presses needed for reward
+ * @param num_presses          the current number of presses made in this trial
  */
 public class TaskProgressiveRatio extends Task {
 
@@ -63,7 +63,7 @@ public class TaskProgressiveRatio extends Task {
 
         assignObjects();
 
-        logTaskEvent(prefManager.ec_trial_started+","+TAG+" started");
+        logTaskEvent(prefManager.ec_trial_started + "," + TAG + " started");
 
         resetTimer();
 
@@ -116,7 +116,9 @@ public class TaskProgressiveRatio extends Task {
     private void randomlyPositionCue() {
 
         // Only move cue if user specified
-        if (!prefManager.pr_move_cue) { return; }
+        if (!prefManager.pr_move_cue) {
+            return;
+        }
 
         // Get size of screen
         Display display = getActivity().getWindowManager().getDefaultDisplay();
@@ -133,7 +135,7 @@ public class TaskProgressiveRatio extends Task {
         Random r = new Random();
         cue.setX(xlocs[r.nextInt(xlocs.length)]);
         cue.setY(ylocs[r.nextInt(ylocs.length)] + 300);
-        logTaskEvent("cue moved to "+cue.getX()+" "+cue.getY());
+        logTaskEvent("cue moved to " + cue.getX() + " " + cue.getY());
     }
 
 
@@ -150,9 +152,9 @@ public class TaskProgressiveRatio extends Task {
         if (num_consecutive_corr < 9) {
             num_presses_needed = num_consecutive_corr + 1;
         } else if (num_consecutive_corr < 17) {
-            num_presses_needed = 11 + ( (num_consecutive_corr - 9) * 2);
+            num_presses_needed = 11 + ((num_consecutive_corr - 9) * 2);
         } else {
-            num_presses_needed = 29 + ( (num_consecutive_corr - 17) * 4);
+            num_presses_needed = 29 + ((num_consecutive_corr - 17) * 4);
         }
 
         // Now save values, and they will be overwritten upon correct trial happening
@@ -164,10 +166,15 @@ public class TaskProgressiveRatio extends Task {
         // Load preferences
         prefManager = new PreferencesManager(getContext());
         prefManager.ProgressiveRatio();
+
+        if (prefManager.pr_skip_go_cue) {
+            // Stop TaskManager doing idle timeout
+            callback.disableTrialTimeout();
+        }
     }
 
     private void log_trial_outcome(boolean outcome) {
-        Log.d(TAG, "log_trial_outcome: "+outcome+","+num_consecutive_corr);
+        Log.d(TAG, "log_trial_outcome: " + outcome + "," + num_consecutive_corr);
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean(preftag_successful_trial, outcome);
         editor.putInt(preftag_num_consecutive_corr, num_consecutive_corr);
@@ -233,7 +240,7 @@ public class TaskProgressiveRatio extends Task {
             updateProgressBar();
 
             // Log press
-            logTaskEvent("cue pressed ("+num_presses+")");
+            logTaskEvent("cue pressed (" + num_presses + ")");
 
             if (num_presses >= num_presses_needed) {
 
@@ -273,7 +280,7 @@ public class TaskProgressiveRatio extends Task {
                     public void run() {
                         UtilsTask.toggleCue(cue, true);
                         logTaskEvent("Cues toggled on");
-                        }
+                    }
                 }, prefManager.pr_blinklength);
 
             }

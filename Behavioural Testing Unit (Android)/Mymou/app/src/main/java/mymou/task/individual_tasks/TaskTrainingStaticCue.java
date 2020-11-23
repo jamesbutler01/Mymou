@@ -33,18 +33,17 @@ public class TaskTrainingStaticCue extends Task {
     public static String TAG = "MymouTaskTrainingStaticCue";
 
     // Task objects
-      private Random r = new Random();
+    private Random r = new Random();
 
     private static PreferencesManager prefManager;
     private static Button cue;
     private Handler hNextTrial = new Handler();
-    private Handler hTrialTimer = new Handler();
     private Handler hSessionTimer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_task_prog_ratio, container, false);
+        return inflater.inflate(R.layout.activity_task_empty, container, false);
     }
 
     @Override
@@ -53,6 +52,9 @@ public class TaskTrainingStaticCue extends Task {
         // Load preferences
         prefManager = new PreferencesManager(getContext());
         prefManager.TrainingStaticCue();
+
+        // Stop TaskManager doing idle timeout
+        callback.disableTrialTimeout();
 
         assignObjects();
 
@@ -65,13 +67,14 @@ public class TaskTrainingStaticCue extends Task {
         }
 
         // Start sess timer
-        if (prefManager.pass_stopsess) {
+        if (prefManager.t_sc_stopsess) {
             hSessionTimer.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    hSessionTimer.removeCallbacksAndMessages(null);
+                    hNextTrial.removeCallbacksAndMessages(null);
+                    UtilsTask.toggleCue(cue, false);
                 }
-            }, prefManager.pr_sess_length * 1000 * 60); // Minutes
+            }, prefManager.t_sc_sesslength * 1000 * 60); // Minutes
         }
 
     }
@@ -85,7 +88,7 @@ public class TaskTrainingStaticCue extends Task {
 
         // Create and position cue
         cue = UtilsTask.addColorCue(0, prefManager.t_sc_cue_colour,
-                getContext(), buttonClickListener, getView().findViewById(R.id.parent_prog_ratio), prefManager.t_sc_cue_shape, 100, prefManager.t_sc_bordersize, prefManager.t_sc_border_colour);
+                getContext(), buttonClickListener, getView().findViewById(R.id.parent_task_empty), prefManager.t_sc_cue_shape, 100, prefManager.t_sc_bordersize, prefManager.t_sc_border_colour);
         cue.setX(prefManager.t_sc_cuex);
         cue.setY(prefManager.t_sc_cuey);
         cue.setWidth(prefManager.t_sc_cuewidth);
@@ -111,19 +114,29 @@ public class TaskTrainingStaticCue extends Task {
             }
 
             // Pick reward length
-            int rewardlength = r.nextInt(prefManager.t_sc_maxrew - prefManager.t_sc_minrew) + prefManager.t_sc_minrew;
+            int amount = prefManager.t_sc_maxrew - prefManager.t_sc_minrew;
+            if (amount < 1) {
+                amount = 1;
+            }
+            int rewardlength = r.nextInt(amount) + prefManager.t_sc_minrew;
             callback.giveRewardFromTask_(rewardlength);
+            logEvent("Giving "+rewardlength+" ms reward", callback);
 
             // Reactivate cue after reward finished and ITI occurred
-            int timeuntilreward = r.nextInt(prefManager.t_sc_maxiti - prefManager.t_sc_miniti) + prefManager.t_sc_miniti;
+            int amount2 = prefManager.t_sc_maxiti - prefManager.t_sc_miniti;
+            if (amount2 < 1) {
+                amount2 = 1;
+            }
+            int timeuntilreward = r.nextInt(amount2) + prefManager.t_sc_miniti;
 
-           hNextTrial.postDelayed(new Runnable() {
+            hNextTrial.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                        moveCue();
-                        UtilsTask.toggleCue(cue, true);
+                    moveCue();
+                    UtilsTask.toggleCue(cue, true);
+                    logEvent("Cue activated", callback);
                 }
-            }, (rewardlength) + (timeuntilreward*1000)); // Minutes
+            }, (rewardlength) + (timeuntilreward * 1000)); // Minutes
 
 
         }
@@ -131,7 +144,9 @@ public class TaskTrainingStaticCue extends Task {
 
     private void moveCue() {
 
-        if (!prefManager.t_sc_movecue) { return;}
+        if (!prefManager.t_sc_movecue) {
+            return;
+        }
 
         int[] xlocs = {prefManager.t_sc_cuex, prefManager.t_sc_cuextwo};
         int[] ylocs = {prefManager.t_sc_cuey, prefManager.t_sc_cueytwo};
@@ -139,6 +154,7 @@ public class TaskTrainingStaticCue extends Task {
         int pos = r.nextInt(2);
         cue.setX(xlocs[pos]);
         cue.setY(ylocs[pos]);
+        logEvent("Cue moved to position "+pos, callback);
 
     }
 
@@ -152,8 +168,9 @@ public class TaskTrainingStaticCue extends Task {
     @Override
     public void onPause() {
         super.onPause();
+        logEvent("Task paused/stopped", callback);
+        callback.commitTrialDataFromTask_(prefManager.ec_trial_timeout);
         hNextTrial.removeCallbacksAndMessages(null);
-        hTrialTimer.removeCallbacksAndMessages(null);
         hSessionTimer.removeCallbacksAndMessages(null);
     }
 }

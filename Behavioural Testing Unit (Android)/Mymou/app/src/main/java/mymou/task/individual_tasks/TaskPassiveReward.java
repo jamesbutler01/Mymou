@@ -52,6 +52,9 @@ public class TaskPassiveReward extends Task {
         prefManager = new PreferencesManager(getContext());
         prefManager.PassiveReward();
 
+        // Stop TaskManager doing idle timeout
+        callback.disableTrialTimeout();
+
         // Define length of session
         if (hSessionTimer == null) {
             hSessionTimer = new Handler();
@@ -63,9 +66,10 @@ public class TaskPassiveReward extends Task {
             hSessionTimer.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    hSessionTimer.removeCallbacksAndMessages(null);
+                    hNextIti.removeCallbacksAndMessages(null);
+                    hNextReward.removeCallbacksAndMessages(null);
                 }
-            }, prefManager.pr_sess_length * 1000 * 60); // Minutes
+            }, prefManager.pass_sesslength * 1000 * 60); // Minutes
         }
 
         //Start task
@@ -76,7 +80,11 @@ public class TaskPassiveReward extends Task {
     private void startTimer() {
 
         // Pick length until reward
-        int timeuntilreward = r.nextInt(prefManager.pass_maxiti - prefManager.pass_miniti) + prefManager.pass_miniti;
+        int amount = prefManager.pass_maxiti - prefManager.pass_miniti;
+        if (amount < 1) {
+            amount = 1;
+        }
+        int timeuntilreward = r.nextInt(amount) + prefManager.pass_miniti;
 
         // Set handler
         hNextReward.postDelayed(new Runnable() {
@@ -91,8 +99,14 @@ public class TaskPassiveReward extends Task {
     private void giveReward() {
 
         // Pick reward length
-        int rewardlength = r.nextInt(prefManager.pass_maxrew - prefManager.pass_minrew) + prefManager.pass_minrew;
+        int amount = prefManager.pass_maxrew - prefManager.pass_minrew;
+        if (amount < 1) {
+            amount = 1;
+        }
+
+        int rewardlength = r.nextInt(amount) + prefManager.pass_minrew;
         callback.giveRewardFromTask_(rewardlength);
+        logEvent("Giving "+rewardlength+" ms reward", callback);
 
         // Set handler
         hNextIti.postDelayed(new Runnable() {
@@ -116,6 +130,8 @@ public class TaskPassiveReward extends Task {
     @Override
     public void onPause() {
         super.onPause();
+        logEvent("Task paused/stopped", callback);
+        callback.commitTrialDataFromTask_(prefManager.ec_trial_timeout);
         hNextReward.removeCallbacksAndMessages(null);
         hNextIti.removeCallbacksAndMessages(null);
         hSessionTimer.removeCallbacksAndMessages(null);

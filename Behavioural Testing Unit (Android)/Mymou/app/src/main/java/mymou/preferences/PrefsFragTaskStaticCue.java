@@ -45,7 +45,8 @@ public class PrefsFragTaskStaticCue extends PreferenceFragmentCompat implements 
 
         SeekBarPreferenceCustom seekBar3 = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_t_sc_cuextwo));
         seekBar3.setMax(size.x);
-        seekBar3.setValue(xval);
+        int xval2 = sharedPrefs.getInt(getString(R.string.preftag_t_sc_cuextwo), size.x / 2);
+        seekBar3.setValue(xval2);
 
         // Set y options based on screen height
         SeekBarPreferenceCustom seekBar2 = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_t_sc_cuey));
@@ -55,7 +56,8 @@ public class PrefsFragTaskStaticCue extends PreferenceFragmentCompat implements 
 
         SeekBarPreferenceCustom seekBar4 = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_t_sc_cueytwo));
         seekBar4.setMax(size.y);
-        seekBar4.setValue(yval);
+        int yval2 = sharedPrefs.getInt(getString(R.string.preftag_t_sc_cueytwo), size.y / 2);
+        seekBar4.setValue(yval2);
 
         // Set ontouchlisteners for the seekbars to allow users to manually input values
         SeekBarPreferenceCustom[] seekBarPreferences = new SeekBarPreferenceCustom[11];

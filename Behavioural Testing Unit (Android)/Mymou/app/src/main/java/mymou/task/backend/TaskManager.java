@@ -424,6 +424,11 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 commitTrialData(overallTrialOutcome);
             }
 
+            @Override
+            public void disableTrialTimeout() {
+                h0.removeCallbacksAndMessages(null);
+                timerRunning = false;
+            }
         });
 
         task.setArguments(bundle);
@@ -473,7 +478,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             return;
         }
         Log.d(TAG, "Loading camera fragment");
-        if ( preferencesManager.camera_to_use != mContext.getResources().getInteger(R.integer.TAG_CAMERA_EXTERNAL)) {
+        if (preferencesManager.camera_to_use != mContext.getResources().getInteger(R.integer.TAG_CAMERA_EXTERNAL)) {
             camera = new CameraMain();
         } else {
             camera = new CameraExternal();
@@ -986,8 +991,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             try {
                 fragmentTransaction.remove(fragmentManager.findFragmentByTag(TAG_FRAGMENT_TASK));
             } catch (NullPointerException e) {
-              Log.d(TAG, "No Task loaded");
-            };
+                Log.d(TAG, "No Task loaded");
+            }
+            ;
             commitFragment();
             h0.removeCallbacksAndMessages(null);
             timerRunning = false;
