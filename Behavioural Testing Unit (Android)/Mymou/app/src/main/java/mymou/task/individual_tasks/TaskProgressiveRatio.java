@@ -200,6 +200,7 @@ public class TaskProgressiveRatio extends Task {
         hTrialTimer.postDelayed(new Runnable() {
             @Override
             public void run() {
+                Log.d(TAG, "Timer expired");
                 endOfSession();
             }
         }, prefManager.pr_timeoutlength * 1000);
