@@ -196,6 +196,7 @@ public class TaskProgressiveRatio extends Task {
     }
 
     private void resetTimer() {
+        hTrialTimer.removeCallbacksAndMessages(null);
         hTrialTimer.postDelayed(new Runnable() {
             @Override
             public void run() {
