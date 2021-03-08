@@ -118,6 +118,8 @@
     <integer name="default_t_sc_miniti">8</integer>
     <integer name="default_t_sc_maxiti">16</integer>
     <integer name="default_t_sc_sess_length">20</integer>
+    <integer name="default_t_sc_npn">1</integer>
+    <integer name="default_t_sc_npniti">1</integer>
     <integer name="default_t_sc_cue_colour">6</integer>
     <integer name="default_t_sc_bordercolour">5</integer>
     <integer name="default_t_sc_bordersize">1</integer>

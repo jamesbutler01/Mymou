@@ -276,6 +276,8 @@
     <string name="preftag_t_sc_miniti">default_t_sc_miniti</string>
     <string name="preftag_t_sc_maxiti">default_t_sc_maxiti</string>
     <string name="preftag_t_sc_sess_length">preftag_t_sc_sess_length</string>
+    <string name="preftag_t_sc_npn">preftag_t_sc_npn</string>
+    <string name="preftag_t_sc_npniti">preftag_t_sc_npniti</string>
     <string name="preftag_t_sc_stopsess">preftag_t_sc_stopsess</string>
     <string name="preftag_t_sc_photo">preftag_t_sc_photo</string>
     <string name="preftag_t_sc_cuex">preftag_t_sc_cuex</string>

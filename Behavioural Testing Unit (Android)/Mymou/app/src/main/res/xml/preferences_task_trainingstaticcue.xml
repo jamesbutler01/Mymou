@@ -12,14 +12,16 @@
                 android:max="20000"
                 app:key="@string/preftag_t_sc_minrew"
                 app:min="200"
-                app:title="Minimum reward duration (ms). Tap to enter value" />
+                app:title="Minimum reward duration (ms)"
+                app:summary="Tap to enter value" />
 
         <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_t_sc_maxrew"
                 android:max="20000"
                 app:key="@string/preftag_t_sc_maxrew"
                 app:min="1"
-                app:title="Maximum reward duration (ms). Tap to enter value" />
+                app:title="Maximum reward duration (ms)"
+                app:summary="Tap to enter value"/>
 
         <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_t_sc_miniti"
@@ -36,6 +38,22 @@
                 app:min="1"
                 app:summary="A random ITI between the minimum and maximum inter-reward interval will be chosen each time. Tap to type number."
                 app:title="Maximum inter-reward interval (s)" />
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_t_sc_npn"
+                android:max="20"
+                app:key="@string/preftag_t_sc_npn"
+                app:min="1"
+                app:title="Number presses needed for reward"
+                app:summary="Subject will need to press cue this number of times to be rewarded. Tap to enter value"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_t_sc_npniti"
+                android:max="20"
+                app:key="@string/preftag_t_sc_npniti"
+                app:min="1"
+                app:title="Inter-press interval (s)"
+                app:summary="If Number Presses Needed For Reward > 1, the cue will switch off for this duration in between each press. Tap to enter value"/>
 
         <SwitchPreferenceCompat
                 app:defaultValue="@bool/default_t_sc_stopsess"

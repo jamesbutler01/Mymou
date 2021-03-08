@@ -127,6 +127,7 @@ public class TaskTrainingFiveTwoStep extends Task {
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+
             callback.logEvent_("17," + view.getId() + ",,,, cue clicked");
 
             // Always disable cues first

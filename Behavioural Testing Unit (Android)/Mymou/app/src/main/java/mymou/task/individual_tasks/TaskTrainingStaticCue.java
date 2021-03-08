@@ -34,7 +34,7 @@ public class TaskTrainingStaticCue extends Task {
 
     // Task objects
     private Random r = new Random();
-
+    private int num_presses = 0;
     private static PreferencesManager prefManager;
     private static Button cue;
     private Handler hNextTrial = new Handler();
@@ -79,11 +79,6 @@ public class TaskTrainingStaticCue extends Task {
 
     }
 
-    private void logTaskEvent(String event) {
-        String msg = "" + event;
-        logEvent(msg, callback);
-    }
-
     private void assignObjects() {
 
         // Create and position cue
@@ -97,7 +92,7 @@ public class TaskTrainingStaticCue extends Task {
         moveCue();
 
         UtilsTask.toggleCue(cue, true);
-        logTaskEvent("Cues toggled on");
+        logEvent("Cues toggled on", callback);
 
     }
 
@@ -105,6 +100,7 @@ public class TaskTrainingStaticCue extends Task {
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            logEvent("Cue pressed"+num_presses+" "+prefManager.t_sc_numpressesneeded, callback);
 
             // Always disable cues first
             if (prefManager.t_sc_togglecue) {
@@ -112,38 +108,54 @@ public class TaskTrainingStaticCue extends Task {
             } else {
                 cue.setClickable(false);
             }
+            logEvent("Cues toggled off", callback);
 
-            // Pick reward length
-            int amount = prefManager.t_sc_maxrew - prefManager.t_sc_minrew;
-            if (amount < 1) {
-                amount = 1;
-            }
-            int rewardlength = r.nextInt(amount) + prefManager.t_sc_minrew;
-            callback.giveRewardFromTask_(rewardlength);
-            logEvent("Giving "+rewardlength+" ms reward", callback);
+            // Check they have pressed the cue enough times
+            num_presses = num_presses + 1;
+            if (num_presses >= prefManager.t_sc_numpressesneeded) {
 
-            // Reactivate cue after reward finished and ITI occurred
-            int amount2 = prefManager.t_sc_maxiti - prefManager.t_sc_miniti;
-            if (amount2 < 1) {
-                amount2 = 1;
-            }
-            int timeuntilreward = r.nextInt(amount2) + prefManager.t_sc_miniti;
-
-            hNextTrial.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    moveCue();
-                    UtilsTask.toggleCue(cue, true);
-                    logEvent("Cue activated", callback);
+                // Pick reward length
+                int amount = prefManager.t_sc_maxrew - prefManager.t_sc_minrew;
+                if (amount < 1) {
+                    amount = 1;
                 }
-            }, (rewardlength) + (timeuntilreward * 1000)); // Minutes
+                int rewardlength = r.nextInt(amount) + prefManager.t_sc_minrew;
+                callback.giveRewardFromTask_(rewardlength);
+                logEvent("Giving " + rewardlength + " ms reward", callback);
 
+                // Reactivate cue after reward finished and ITI occurred
+                int amount2 = prefManager.t_sc_maxiti - prefManager.t_sc_miniti;
+                if (amount2 < 1) {
+                    amount2 = 1;
+                }
+                int timeuntilreward = r.nextInt(amount2) + prefManager.t_sc_miniti;
 
+                hNextTrial.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        moveCue();
+                        UtilsTask.toggleCue(cue, true);
+                        logEvent("Cue activated", callback);
+                    }
+                }, (rewardlength) + (timeuntilreward * 1000)); // Minutes
+
+                num_presses = 0;
+
+            } else {
+                hNextTrial.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        UtilsTask.toggleCue(cue, true);
+                        logEvent("Cue re-activated", callback);
+                    }
+                }, (prefManager.t_sc_numpressesneedediti * 1000)); // Minutes
+            }
         }
     };
 
     private void moveCue() {
 
+        // Only move cue if specified
         if (!prefManager.t_sc_movecue) {
             return;
         }
