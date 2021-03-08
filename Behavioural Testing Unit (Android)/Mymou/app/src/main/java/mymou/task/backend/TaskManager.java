@@ -702,6 +702,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     public static void logEvent(String data, boolean from_task) {
         Log.d(TAG, "logEvent: " + data);
+        tvExplanation.setText(data);
 
         // Seperate task logs and manager logs into different columns
         String column = "";
