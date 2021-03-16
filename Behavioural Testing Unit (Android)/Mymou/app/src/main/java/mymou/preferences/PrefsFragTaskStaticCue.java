@@ -71,7 +71,8 @@ public class PrefsFragTaskStaticCue extends PreferenceFragmentCompat implements 
         seekBarPreferences[7] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_t_sc_maxiti));
         seekBarPreferences[8] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_t_sc_sess_length));
         seekBarPreferences[9] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_t_sc_cuextwo));
-        seekBarPreferences[10] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_t_sc_cueytwo));
+        seekBarPreferences[10] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_t_sc_npn));
+        seekBarPreferences[10] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_t_sc_npniti));
         for (int i = 0; i < seekBarPreferences.length; i++) {
             final int i_final = i;
             seekBarPreferences[i].setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

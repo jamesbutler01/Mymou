@@ -29,7 +29,7 @@
                 app:key="@string/preftag_t_sc_miniti"
                 app:min="1"
                 app:summary="A random ITI between the minimum and maximum inter-reward interval will be chosen each time. Tap to type number."
-                app:title="Minimum inter-reward interval (s)" />
+                app:title="Minimum inter-reward interval (ms)" />
 
         <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_t_sc_maxiti"
@@ -49,10 +49,10 @@
 
         <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_t_sc_npniti"
-                android:max="20"
+                android:max="20000"
                 app:key="@string/preftag_t_sc_npniti"
-                app:min="1"
-                app:title="Inter-press interval (s)"
+                app:min="100"
+                app:title="Inter-press interval (ms)"
                 app:summary="If Number Presses Needed For Reward > 1, the cue will switch off for this duration in between each press. Tap to enter value"/>
 
         <SwitchPreferenceCompat

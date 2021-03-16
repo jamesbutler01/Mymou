@@ -833,7 +833,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     private void assignObjects() {
         // Global variables
         activity = this;
-        mContext = getApplicationContext();
+        mContext = this;
         preferencesManager = new PreferencesManager(this);
         possible_cue_locs = new UtilsTask().getPossibleCueLocs(this);
         trialData = new ArrayList<String>();

@@ -137,7 +137,7 @@ public class TaskTrainingStaticCue extends Task {
                         UtilsTask.toggleCue(cue, true);
                         logEvent("Cue activated", callback);
                     }
-                }, (rewardlength) + (timeuntilreward * 1000)); // Minutes
+                }, (rewardlength) + (timeuntilreward * 1000));
 
                 num_presses = 0;
 
@@ -148,7 +148,7 @@ public class TaskTrainingStaticCue extends Task {
                         UtilsTask.toggleCue(cue, true);
                         logEvent("Cue re-activated", callback);
                     }
-                }, (prefManager.t_sc_numpressesneedediti * 1000)); // Minutes
+                }, (prefManager.t_sc_numpressesneedediti));
             }
         }
     };
