@@ -185,7 +185,7 @@ public class RewardSystem {
 
         // Don't allow multiple calls to the reward system
         if (!active) {
-            Log.d(TAG,"Giving reward "+amount+" ms on channel "+Ch);
+            Log.d(TAG," "+amount+" ms reward given (on channel "+Ch+")");
             active = true;
 
             startChannel(Ch);

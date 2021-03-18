@@ -1,5 +1,7 @@
 package mymou.database;
 import android.text.format.Time;
+
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -9,44 +11,22 @@ import java.util.Date;
 
 @Entity
 public class Session {
-    @PrimaryKey(autoGenerate=true)
-    public int uid;
-//
-//    @ColumnInfo
-//    public Task task;
-//
-//    @ColumnInfo
-//    public Monkey monkey;
-//
-//    @ColumnInfo
-//    public Date date;
-//
-//    @ColumnInfo
-//    public Date startTime;
-//
-//    @ColumnInfo
-//    public SimpleDateFormat stopTime;
+
+    @PrimaryKey  // We only want one entry per date, so use this as primary key
+    @NonNull
+    public String date;
 
     @ColumnInfo
-    public int total_reward_given;
+    public int ms_reward_given;
 
     @ColumnInfo
-    public int total_corr_trials;
+    public int num_corr_trials;
 
     @ColumnInfo
-    public int total_incorr_trials;
+    public int num_trials;
 
     @ColumnInfo
-    public int num_incorr_trials;
-//
-//    @ColumnInfo
-//    public int[] reward_by_type;
-//
-//    @ColumnInfo
-//    public int[] corr_trials_over_time;
-//
-//    @ColumnInfo
-//    public int[] incorr_trials_over_time;
+    public int task;
 
 
 }

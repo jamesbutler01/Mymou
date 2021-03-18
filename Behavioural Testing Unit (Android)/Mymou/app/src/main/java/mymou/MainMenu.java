@@ -186,7 +186,7 @@ public class MainMenu extends Activity {
         findViewById(R.id.buttConnectToBt).setOnClickListener(buttonClickListener);
 
         // Disabled as in development
-        findViewById(R.id.buttonViewData).setEnabled(false);
+//        findViewById(R.id.buttonViewData).setEnabled(false);
 
         // Radio groups (reward system controller)
         reward_chan = preferencesManager.default_rew_chan;

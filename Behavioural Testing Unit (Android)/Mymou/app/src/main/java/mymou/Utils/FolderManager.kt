@@ -64,7 +64,6 @@ class FolderManager(private val context: Context, private val num_monkeys: Int =
 
     fun getBaseDate(): String {
         return SimpleDateFormat("yyyyMMdd", Locale.ENGLISH).format(System.currentTimeMillis()) //API < 26
-        //return DateTimeFormatter.BASIC_ISO_DATE.format(LocalDate.now()) //API > 25
     }
 
     fun getTimestamp(): String {
