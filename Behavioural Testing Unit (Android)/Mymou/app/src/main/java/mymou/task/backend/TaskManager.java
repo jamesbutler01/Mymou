@@ -248,6 +248,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             case 14:
                 preferencesManager.DiscreteValueSpace();
                 break;
+            case 15:
+                preferencesManager.ContextSequenceLearning();
+                break;
             default:
                 Log.d(TAG, "No task specified");
                 new Exception("No task specified");
@@ -382,6 +385,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 break;
             case 16:
                 task = new TaskDiscreteValueSpace();
+                break;
+            case 17:
+                task = new TaskContextSequenceLearning();
                 break;
             default:
                 new Exception("No valid task specified");
@@ -1044,6 +1050,12 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         endOfTrial(preferencesManager.ec_correct_trial, preferencesManager.rewardduration + 5);
     }
 
+    private static void colorChange(String outcome, int newTrialDelay) {
+
+        commitTrialData(outcome);
+
+        PrepareForNewTrial(newTrialDelay);
+    }
 
     private static void endOfTrial(String outcome, int newTrialDelay) {
         logEvent(outcome, false);

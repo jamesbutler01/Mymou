@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="libs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Mymou/app/libs/opencsv-3.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Mymou/app/libs/activation.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Mymou/app/libs/commons-lang3-3.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Mymou/app/libs/commons-beanutils-1.9.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Mymou/app/libs/mail.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Mymou/app/libs/additional.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

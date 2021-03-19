@@ -1,0 +1,120 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.jbutler.mymou"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="24"
+8-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="28" />
+9-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:6:5-66
+11-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:6:22-64
+12    <uses-permission android:name="android.permission.CAMERA" />
+12-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:7:5-64
+12-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:7:22-62
+13    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+13-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:8:5-80
+13-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:8:22-78
+14    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+14-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:9:5-72
+14-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:9:22-70
+15
+16    <uses-feature android:name="android.hardware.camera" />
+16-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:11:5-59
+16-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:11:19-57
+17    <uses-feature android:name="android.hardware.camera.autofocus" />
+17-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:12:5-69
+17-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:12:19-67
+18    <uses-feature android:name="android.hardware.usb.host" />
+18-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:13:5-61
+18-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:13:19-59
+19
+20    <uses-permission android:name="android.permission.BLUETOOTH" />
+20-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:15:5-67
+20-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:15:22-65
+21    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+21-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:16:5-73
+21-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:16:22-71
+22    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+22-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:17:5-80
+22-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:17:22-78
+23
+24    <application
+24-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:19:5-57:19
+25        android:allowBackup="true"
+25-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:20:13-39
+26        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+26-->[androidx.core:core:1.5.0-beta02] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\8f4e578515388b4ed1aa97f3c363dbcf\core-1.5.0-beta02\AndroidManifest.xml:24:18-86
+27        android:debuggable="true"
+28        android:extractNativeLibs="false"
+29        android:icon="@drawable/ic_launcher"
+29-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:21:13-49
+30        android:label="Mymou"
+30-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:22:13-34
+31        android:supportsRtl="true"
+31-->[:libusbcamera] C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\libusbcamera\build\intermediates\library_manifest\debug\AndroidManifest.xml:14:9-35
+32        android:testOnly="true"
+33        android:theme="@android:style/Theme.Black.NoTitleBar" >
+33-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:24:13-66
+34        <activity
+34-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:25:9-34:20
+35            android:name="mymou.MainMenu"
+35-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:26:17-41
+36            android:launchMode="singleTop"
+36-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:27:17-47
+37            android:screenOrientation="portrait" >
+37-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:28:17-53
+38            <intent-filter>
+38-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:29:13-33:29
+39                <action android:name="android.intent.action.MAIN" />
+39-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:30:17-68
+39-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:30:25-66
+40
+41                <category android:name="android.intent.category.LAUNCHER" />
+41-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:32:17-76
+41-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:32:27-74
+42            </intent-filter>
+43        </activity>
+44        <activity android:name="mymou.task.backend.DataViewer" >
+44-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:36:9-37:20
+44-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:36:19-58
+45        </activity>
+46        <activity
+46-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:39:9-42:20
+47            android:name="mymou.preferences.PrefsActSystem"
+47-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:40:17-59
+48            android:theme="@style/MainAppTheme" >
+48-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:41:17-52
+49        </activity>
+50        <activity
+50-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:44:9-46:55
+51            android:name="mymou.task.backend.TaskManager"
+51-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:45:17-57
+52            android:screenOrientation="portrait" />
+52-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:46:17-53
+53        <activity android:name="mymou.preferences.PrefsActCropPicker" />
+53-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:47:9-67
+53-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:47:19-65
+54        <activity android:name="mymou.preferences.PrefsActCamPicker" />
+54-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:48:9-66
+54-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:48:19-64
+55        <activity
+55-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:50:9-55:20
+56            android:name="mymou.task.backend.CameraExternal"
+56-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:50:19-62
+57            android:screenOrientation="portrait" >
+57-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:51:17-53
+58            <intent-filter>
+58-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:52:13-54:29
+59                <action android:name="android.intent.action.VIEW" />
+59-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:53:17-68
+59-->C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:53:25-66
+60            </intent-filter>
+61        </activity>
+62    </application>
+63
+64</manifest>

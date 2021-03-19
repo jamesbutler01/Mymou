@@ -1,0 +1,292 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:2:1-59:12
+INJECTED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:2:1-59:12
+INJECTED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:2:1-59:12
+INJECTED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:2:1-59:12
+MERGED from [androidx.constraintlayout:constraintlayout:2.1.0-alpha2] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\fcfabd45050fbc25f29323ebb2c1a2f4\constraintlayout-2.1.0-alpha2\AndroidManifest.xml:2:1-11:12
+MERGED from [:libusbcamera] C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\libusbcamera\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-17:12
+MERGED from [com.serenegiant:common:4.1.1] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\3fd48cb0beb4288646cb3139bf8e657a\jetified-common-4.1.1\AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.preference:preference:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\3a91b22c28d17341a7b5f9f556f3247a\preference-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.appcompat:appcompat:1.3.0-beta01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\e161d6994aaedac762504def3c634483\appcompat-1.3.0-beta01\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.legacy:legacy-support-v13:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\bca737b9b117f6f2d7cf5671ee385151\legacy-support-v13-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\5d68c74a03714adc5930c4e059d59a5f\jetified-graphview-4.2.2\AndroidManifest.xml:2:1-14:12
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\4845807cee3b55d138b0344e36c394da\legacy-support-v4-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.fragment:fragment:1.3.0-rc01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\825787630fff7930948be232ef4533cf\fragment-1.3.0-rc01\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.activity:activity:1.2.0-rc01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\624a05fbccb34f3e36af63b3d448aaea\jetified-activity-1.2.0-rc01\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.appcompat:appcompat-resources:1.3.0-beta01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\56a1a0f480de532dd511703cae26f57b\jetified-appcompat-resources-1.3.0-beta01\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.recyclerview:recyclerview:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\baccc2f1fa93476dc752da82719eefbd\recyclerview-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\36c6b99cc7f3ad0c385e88181b986f73\legacy-support-core-ui-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\2ee75febf66738fdae0c1d8bd5e42faa\drawerlayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\c0b94dfae5aa7eedfdf2718153490919\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.room:room-runtime:2.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\21de804b2688041740dd94f5c0cf5ccc\room-runtime-2.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\ae24edd62dab3f7bb229af8eb5d57ffe\legacy-support-core-utils-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\473c1dcb823720d5304561938a7c6760\loader-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\10ff901f65339f01b1cb5d6c6dd70820\vectordrawable-animated-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\9ceee0a6341d3a7df6b34dcea00180f4\vectordrawable-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\c6ee7bd934fbb5d820e20dae3f36ba0a\coordinatorlayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\2377ebf00e008741dfc569badc57c705\slidingpanelayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\d50482e0904b2ddea47c9db610411bf5\customview-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.media:media:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\47b3e5f375d3a47cce4d20025bcb36b5\media-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\ddb1dabf5454ab11eda7d142f7858def\swiperefreshlayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\d043d256a9b9651f269c7a993e8b5c28\asynclayoutinflater-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core:1.5.0-beta02] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\8f4e578515388b4ed1aa97f3c363dbcf\core-1.5.0-beta02\AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\68c76498116faa3bcbb4d1c941090ab7\versionedparcelable-1.1.1\AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.3.0-rc01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\19977c27b3b4c5359ea1f0f8ea695839\lifecycle-runtime-2.3.0-rc01\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\ab6ee8cf23baaf1c7ad1a4dff34afe50\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.0-rc01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\233a3e99b43e869d8442ca7fdceecfb5\jetified-lifecycle-viewmodel-savedstate-2.3.0-rc01\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.savedstate:savedstate:1.1.0-rc01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\64f43601916b533265fcfe9ed38e8d7e\jetified-savedstate-1.1.0-rc01\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.3.0-rc01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\de3c1392c6a04bfc9df733fcc8c0231e\lifecycle-viewmodel-2.3.0-rc01\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.sqlite:sqlite-framework:2.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\0d9352ca4c5e6034f52432ffad2176b7\sqlite-framework-2.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.sqlite:sqlite:2.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\547377a647c9162abdd4fde12ac55928\sqlite-2.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\dfa692f14f49542d9257af11682a0e58\lifecycle-livedata-2.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.0-rc01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\88f15d4e2049b10ed2f5b0d2d7f5e03a\lifecycle-livedata-core-2.3.0-rc01\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\a2fd89365ba4844f919eeb93733722c9\core-runtime-2.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\b37ea2868c26afe34b4f0953b2f05f2d\jetified-tracing-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\036cf665aa8f4cef60798387171cb87f\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\694a1b1faef3831b6df545525b6094fd\documentfile-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\b5935b17e66c94324946f244cc26d6e6\localbroadcastmanager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\48d89498ee20bc254f8b5f91b9e4951b\print-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.annotation:annotation-experimental:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\da27d83b2a4b3efa2f0eaf560b6129d4\jetified-annotation-experimental-1.0.0\AndroidManifest.xml:17:1-24:12
+INJECTED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:2:1-59:12
+INJECTED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:2:1-59:12
+INJECTED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:2:1-59:12
+	package
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:4:9-24
+		INJECTED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:2:1-59:12
+		INJECTED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml
+	xmlns:tools
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:3:9-55
+	android:versionCode
+		INJECTED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:2:1-59:12
+		INJECTED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.INTERNET
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:6:5-66
+	android:name
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:6:22-64
+uses-permission#android.permission.CAMERA
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:7:5-64
+	android:name
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:7:22-62
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:8:5-80
+	android:name
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:8:22-78
+uses-permission#android.permission.WRITE_SETTINGS
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:9:5-72
+	android:name
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:9:22-70
+uses-feature#android.hardware.camera
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:11:5-59
+	android:name
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:11:19-57
+uses-feature#android.hardware.camera.autofocus
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:12:5-69
+	android:name
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:12:19-67
+uses-feature#android.hardware.usb.host
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:13:5-61
+	android:name
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:13:19-59
+uses-permission#android.permission.BLUETOOTH
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:15:5-67
+	android:name
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:15:22-65
+uses-permission#android.permission.BLUETOOTH_ADMIN
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:16:5-73
+	android:name
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:16:22-71
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:17:5-80
+	android:name
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:17:22-78
+application
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:19:5-57:19
+MERGED from [androidx.constraintlayout:constraintlayout:2.1.0-alpha2] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\fcfabd45050fbc25f29323ebb2c1a2f4\constraintlayout-2.1.0-alpha2\AndroidManifest.xml:9:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:2.1.0-alpha2] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\fcfabd45050fbc25f29323ebb2c1a2f4\constraintlayout-2.1.0-alpha2\AndroidManifest.xml:9:5-20
+MERGED from [:libusbcamera] C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\libusbcamera\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-15:19
+MERGED from [:libusbcamera] C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\libusbcamera\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-15:19
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\5d68c74a03714adc5930c4e059d59a5f\jetified-graphview-4.2.2\AndroidManifest.xml:11:5-12:19
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\5d68c74a03714adc5930c4e059d59a5f\jetified-graphview-4.2.2\AndroidManifest.xml:11:5-12:19
+MERGED from [androidx.core:core:1.5.0-beta02] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\8f4e578515388b4ed1aa97f3c363dbcf\core-1.5.0-beta02\AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.5.0-beta02] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\8f4e578515388b4ed1aa97f3c363dbcf\core-1.5.0-beta02\AndroidManifest.xml:24:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\68c76498116faa3bcbb4d1c941090ab7\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\68c76498116faa3bcbb4d1c941090ab7\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.5.0-beta02] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\8f4e578515388b4ed1aa97f3c363dbcf\core-1.5.0-beta02\AndroidManifest.xml:24:18-86
+	android:supportsRtl
+		ADDED from [:libusbcamera] C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\libusbcamera\build\intermediates\library_manifest\debug\AndroidManifest.xml:14:9-35
+	android:label
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:22:13-34
+		REJECTED from [:libusbcamera] C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\libusbcamera\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:9-41
+	android:icon
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:21:13-49
+	android:allowBackup
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:20:13-39
+	android:theme
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:24:13-66
+	tools:replace
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:23:13-42
+activity#mymou.MainMenu
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:25:9-34:20
+	android:screenOrientation
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:28:17-53
+	android:launchMode
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:27:17-47
+	android:name
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:26:17-41
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:29:13-33:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:30:17-68
+	android:name
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:30:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:32:17-76
+	android:name
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:32:27-74
+activity#mymou.task.backend.DataViewer
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:36:9-37:20
+	android:name
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:36:19-58
+activity#mymou.preferences.PrefsActSystem
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:39:9-42:20
+	android:theme
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:41:17-52
+	android:name
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:40:17-59
+activity#mymou.task.backend.TaskManager
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:44:9-46:55
+	android:screenOrientation
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:46:17-53
+	android:name
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:45:17-57
+activity#mymou.preferences.PrefsActCropPicker
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:47:9-67
+	android:name
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:47:19-65
+activity#mymou.preferences.PrefsActCamPicker
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:48:9-66
+	android:name
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:48:19-64
+activity#mymou.task.backend.CameraExternal
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:50:9-55:20
+	android:screenOrientation
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:51:17-53
+	android:name
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:50:19-62
+intent-filter#action:name:android.intent.action.VIEW
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:52:13-54:29
+action#android.intent.action.VIEW
+ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:53:17-68
+	android:name
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml:53:25-66
+uses-sdk
+INJECTED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml
+MERGED from [androidx.constraintlayout:constraintlayout:2.1.0-alpha2] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\fcfabd45050fbc25f29323ebb2c1a2f4\constraintlayout-2.1.0-alpha2\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:2.1.0-alpha2] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\fcfabd45050fbc25f29323ebb2c1a2f4\constraintlayout-2.1.0-alpha2\AndroidManifest.xml:5:5-7:41
+MERGED from [:libusbcamera] C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\libusbcamera\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:libusbcamera] C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\libusbcamera\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [com.serenegiant:common:4.1.1] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\3fd48cb0beb4288646cb3139bf8e657a\jetified-common-4.1.1\AndroidManifest.xml:7:5-9:41
+MERGED from [com.serenegiant:common:4.1.1] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\3fd48cb0beb4288646cb3139bf8e657a\jetified-common-4.1.1\AndroidManifest.xml:7:5-9:41
+MERGED from [androidx.preference:preference:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\3a91b22c28d17341a7b5f9f556f3247a\preference-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.preference:preference:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\3a91b22c28d17341a7b5f9f556f3247a\preference-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.3.0-beta01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\e161d6994aaedac762504def3c634483\appcompat-1.3.0-beta01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat:1.3.0-beta01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\e161d6994aaedac762504def3c634483\appcompat-1.3.0-beta01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.legacy:legacy-support-v13:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\bca737b9b117f6f2d7cf5671ee385151\legacy-support-v13-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v13:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\bca737b9b117f6f2d7cf5671ee385151\legacy-support-v13-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\5d68c74a03714adc5930c4e059d59a5f\jetified-graphview-4.2.2\AndroidManifest.xml:7:5-9:41
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\5d68c74a03714adc5930c4e059d59a5f\jetified-graphview-4.2.2\AndroidManifest.xml:7:5-9:41
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\4845807cee3b55d138b0344e36c394da\legacy-support-v4-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\4845807cee3b55d138b0344e36c394da\legacy-support-v4-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.3.0-rc01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\825787630fff7930948be232ef4533cf\fragment-1.3.0-rc01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.3.0-rc01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\825787630fff7930948be232ef4533cf\fragment-1.3.0-rc01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.2.0-rc01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\624a05fbccb34f3e36af63b3d448aaea\jetified-activity-1.2.0-rc01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.2.0-rc01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\624a05fbccb34f3e36af63b3d448aaea\jetified-activity-1.2.0-rc01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.3.0-beta01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\56a1a0f480de532dd511703cae26f57b\jetified-appcompat-resources-1.3.0-beta01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.3.0-beta01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\56a1a0f480de532dd511703cae26f57b\jetified-appcompat-resources-1.3.0-beta01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\baccc2f1fa93476dc752da82719eefbd\recyclerview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\baccc2f1fa93476dc752da82719eefbd\recyclerview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\36c6b99cc7f3ad0c385e88181b986f73\legacy-support-core-ui-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\36c6b99cc7f3ad0c385e88181b986f73\legacy-support-core-ui-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\2ee75febf66738fdae0c1d8bd5e42faa\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\2ee75febf66738fdae0c1d8bd5e42faa\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\c0b94dfae5aa7eedfdf2718153490919\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\c0b94dfae5aa7eedfdf2718153490919\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.room:room-runtime:2.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\21de804b2688041740dd94f5c0cf5ccc\room-runtime-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.room:room-runtime:2.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\21de804b2688041740dd94f5c0cf5ccc\room-runtime-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\ae24edd62dab3f7bb229af8eb5d57ffe\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\ae24edd62dab3f7bb229af8eb5d57ffe\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\473c1dcb823720d5304561938a7c6760\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\473c1dcb823720d5304561938a7c6760\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\10ff901f65339f01b1cb5d6c6dd70820\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\10ff901f65339f01b1cb5d6c6dd70820\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\9ceee0a6341d3a7df6b34dcea00180f4\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\9ceee0a6341d3a7df6b34dcea00180f4\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\c6ee7bd934fbb5d820e20dae3f36ba0a\coordinatorlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\c6ee7bd934fbb5d820e20dae3f36ba0a\coordinatorlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\2377ebf00e008741dfc569badc57c705\slidingpanelayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\2377ebf00e008741dfc569badc57c705\slidingpanelayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\d50482e0904b2ddea47c9db610411bf5\customview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\d50482e0904b2ddea47c9db610411bf5\customview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\47b3e5f375d3a47cce4d20025bcb36b5\media-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\47b3e5f375d3a47cce4d20025bcb36b5\media-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\ddb1dabf5454ab11eda7d142f7858def\swiperefreshlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\ddb1dabf5454ab11eda7d142f7858def\swiperefreshlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\d043d256a9b9651f269c7a993e8b5c28\asynclayoutinflater-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\d043d256a9b9651f269c7a993e8b5c28\asynclayoutinflater-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.5.0-beta02] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\8f4e578515388b4ed1aa97f3c363dbcf\core-1.5.0-beta02\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.5.0-beta02] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\8f4e578515388b4ed1aa97f3c363dbcf\core-1.5.0-beta02\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\68c76498116faa3bcbb4d1c941090ab7\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\68c76498116faa3bcbb4d1c941090ab7\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.3.0-rc01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\19977c27b3b4c5359ea1f0f8ea695839\lifecycle-runtime-2.3.0-rc01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.3.0-rc01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\19977c27b3b4c5359ea1f0f8ea695839\lifecycle-runtime-2.3.0-rc01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\ab6ee8cf23baaf1c7ad1a4dff34afe50\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\ab6ee8cf23baaf1c7ad1a4dff34afe50\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.0-rc01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\233a3e99b43e869d8442ca7fdceecfb5\jetified-lifecycle-viewmodel-savedstate-2.3.0-rc01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.0-rc01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\233a3e99b43e869d8442ca7fdceecfb5\jetified-lifecycle-viewmodel-savedstate-2.3.0-rc01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate:1.1.0-rc01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\64f43601916b533265fcfe9ed38e8d7e\jetified-savedstate-1.1.0-rc01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate:1.1.0-rc01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\64f43601916b533265fcfe9ed38e8d7e\jetified-savedstate-1.1.0-rc01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.3.0-rc01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\de3c1392c6a04bfc9df733fcc8c0231e\lifecycle-viewmodel-2.3.0-rc01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.3.0-rc01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\de3c1392c6a04bfc9df733fcc8c0231e\lifecycle-viewmodel-2.3.0-rc01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.sqlite:sqlite-framework:2.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\0d9352ca4c5e6034f52432ffad2176b7\sqlite-framework-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite-framework:2.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\0d9352ca4c5e6034f52432ffad2176b7\sqlite-framework-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite:2.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\547377a647c9162abdd4fde12ac55928\sqlite-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite:2.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\547377a647c9162abdd4fde12ac55928\sqlite-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\dfa692f14f49542d9257af11682a0e58\lifecycle-livedata-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\dfa692f14f49542d9257af11682a0e58\lifecycle-livedata-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.0-rc01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\88f15d4e2049b10ed2f5b0d2d7f5e03a\lifecycle-livedata-core-2.3.0-rc01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.0-rc01] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\88f15d4e2049b10ed2f5b0d2d7f5e03a\lifecycle-livedata-core-2.3.0-rc01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\a2fd89365ba4844f919eeb93733722c9\core-runtime-2.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\a2fd89365ba4844f919eeb93733722c9\core-runtime-2.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\b37ea2868c26afe34b4f0953b2f05f2d\jetified-tracing-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\b37ea2868c26afe34b4f0953b2f05f2d\jetified-tracing-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\036cf665aa8f4cef60798387171cb87f\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\036cf665aa8f4cef60798387171cb87f\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\694a1b1faef3831b6df545525b6094fd\documentfile-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\694a1b1faef3831b6df545525b6094fd\documentfile-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\b5935b17e66c94324946f244cc26d6e6\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\b5935b17e66c94324946f244cc26d6e6\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\48d89498ee20bc254f8b5f91b9e4951b\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\48d89498ee20bc254f8b5f91b9e4951b\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\da27d83b2a4b3efa2f0eaf560b6129d4\jetified-annotation-experimental-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.annotation:annotation-experimental:1.0.0] C:\Users\sebas\.gradle\caches\transforms-2\files-2.1\da27d83b2a4b3efa2f0eaf560b6129d4\jetified-annotation-experimental-1.0.0\AndroidManifest.xml:20:5-22:41
+INJECTED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\sebas\OneDrive - University College London\Sebastijan\MymouNew\Behavioural Testing Unit (Android)\Mymou\app\src\main\AndroidManifest.xml

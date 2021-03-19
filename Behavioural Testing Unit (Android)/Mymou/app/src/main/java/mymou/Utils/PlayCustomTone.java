@@ -54,7 +54,7 @@ class PlayCustomTone extends Thread {
 
             for (i = 0; i < numSamples - ramp; ++i) {
                 // scale to maximum amplitude
-                final short val = (short) (sample[i] * 32767);
+                final short val = (short) (sample[i] * 32767); // vol multiplied
                 // in 16 bit wav PCM, first byte is the low order byte
                 generatedSnd[idx++] = (byte) (val & 0x00ff);
                 generatedSnd[idx++] = (byte) ((val & 0xff00) >>> 8);

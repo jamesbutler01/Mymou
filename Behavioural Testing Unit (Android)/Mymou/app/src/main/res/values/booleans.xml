@@ -14,6 +14,7 @@
 
     <bool name="default_objdisc_repeaterror">false</bool>
     <bool name="default_objdisc_previouserror">false</bool>
+
     <bool name="default_dm_errors_allowed">false</bool>
     <bool name="default_dm_static_reward">false</bool>
     <bool name="default_dm_extra_step_timout">false</bool>
