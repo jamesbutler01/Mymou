@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.*;
 import android.graphics.Point;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -20,13 +19,9 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
-import androidx.room.Room;
 
 import mymou.*;
 import mymou.Utils.*;
-import mymou.database.MymouDatabase;
-import mymou.database.Session;
-import mymou.database.User;
 import mymou.preferences.PreferencesManager;
 import mymou.preferences.PrefsActSystem;
 import mymou.task.individual_tasks.*;
@@ -99,9 +94,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     // Boolean to signal whether a trial is currently active on screen
     private static boolean trial_running = false;
-
-    // Loggers to track session variables
-    private static int l_rewgiven, l_numcorr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -256,6 +248,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             case 14:
                 preferencesManager.DiscreteValueSpace();
                 break;
+            case 15:
+                preferencesManager.ContextSequenceLearning();
+                break;
             default:
                 Log.d(TAG, "No task specified");
                 new Exception("No task specified");
@@ -391,6 +386,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             case 16:
                 task = new TaskDiscreteValueSpace();
                 break;
+            case 17:
+                task = new TaskContextSequenceLearning();
+                break;
             default:
                 new Exception("No valid task specified");
                 break;
@@ -443,7 +441,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         fragmentTransaction.add(R.id.task_container, task, TAG_FRAGMENT_TASK);
 
         if (!valid_configuration) {
-            // TODO: This is specific to a single task
+
             tvErrors.setText(preferencesManager.base_error_message + preferencesManager.objectdiscrim_errormessage);
 
         } else {
@@ -551,40 +549,14 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         faceRecogRunning = false;
     }
 
-    private static void writeSessionToDatabase() {
-        Log.d(TAG, "Writing session to database");
-        // Insert new entry into database
-        Session session = new Session();
-        session.ms_reward_given = l_rewgiven;
-        session.num_corr_trials = l_numcorr;
-        session.num_trials = trialCounter;
-        session.date = folderManager.getBaseDate();
-        MymouDatabase db = Room.databaseBuilder(mContext,
-                MymouDatabase.class, "MymouDatabase").build();
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-
-                long id = db.userDao().insertSession(session);
-                if (id == -1) {  // If sess already existed, then update the entry instead
-                    Log.d(TAG, "Updated preexisting session");
-                    db.userDao().updateSession(session);
-                } else {
-                    Log.d(TAG, "Created new session");
-                }
-            }
-        });
-    }
-
     public static void commitTrialData(String overallTrialOutcome) {
         if (trialData != null) {
 
             // Reset trial counter if we passed midnight
             if (dateHasChanged()) {
-                writeSessionToDatabase();
+
                 trialCounter = 0;
-                l_rewgiven = 0;
-                l_numcorr = 0;
+
             }
 
             // Append all static variables to each line of trial data and write to file
@@ -736,7 +708,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     public static void logEvent(String data, boolean from_task) {
         Log.d(TAG, "logEvent: " + data);
-        tvExplanation.setText(data);
 
         // Seperate task logs and manager logs into different columns
         String column = "";
@@ -814,10 +785,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     public void onDestroy() {
         Log.d(TAG, "onDestroy() called");
         super.onDestroy();
-
-        writeSessionToDatabase();
-
-        // Shutdown handlers
         cancelHandlers();
         rewardSystem.quitBt();
         quitThreads();
@@ -871,7 +838,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     private void assignObjects() {
         // Global variables
         activity = this;
-        mContext = this;
+        mContext = getApplicationContext();
         preferencesManager = new PreferencesManager(this);
         possible_cue_locs = new UtilsTask().getPossibleCueLocs(this);
         trialData = new ArrayList<String>();
@@ -1014,16 +981,11 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
         killTask();
 
-        if (result == preferencesManager.ec_correct_trial) {
-            l_numcorr = l_numcorr + 1;
-        }
-
         if (!handle_feedback) {
             endOfTrial(result, 0);
         } else {
             if (result == preferencesManager.ec_correct_trial) {
                 correctTrial(rew_scalar);
-                l_numcorr = l_numcorr + 1;
             } else {
                 incorrectTrial(result);
             }
@@ -1069,7 +1031,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     private static void giveRewardFromTask(int reward_duration) {
         new SoundManager(preferencesManager).playTone();
         rewardSystem.activateChannel(latestRewardChannel, reward_duration);
-        l_rewgiven = l_rewgiven + reward_duration;
     }
 
 
@@ -1089,6 +1050,12 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         endOfTrial(preferencesManager.ec_correct_trial, preferencesManager.rewardduration + 5);
     }
 
+    private static void colorChange(String outcome, int newTrialDelay) {
+
+        commitTrialData(outcome);
+
+        PrepareForNewTrial(newTrialDelay);
+    }
 
     private static void endOfTrial(String outcome, int newTrialDelay) {
         logEvent(outcome, false);

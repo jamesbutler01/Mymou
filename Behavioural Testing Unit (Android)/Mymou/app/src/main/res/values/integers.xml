@@ -14,6 +14,7 @@
     <integer name="default_system_tone">0</integer>
     <integer name="default_tone_freq">500</integer>
     <integer name="default_tone_duration">500</integer>
+    <integer name="default_tone_strength">100</integer>
 
     <integer name="default_camera_to_use">0</integer>
     <integer name="TAG_CAMERA_FRONT">0</integer>
@@ -75,6 +76,19 @@
     <integer name="default_ea_distance">3</integer>
     <integer name="default_ea_variance">1</integer>
 
+    <integer name="default_csl_tone_type">500</integer>
+
+    <integer name="default_csl_onset_delay">1500</integer>  <!-- delay between press and first sound -->
+    <integer name="default_csl_tone_delay">500</integer> <!-- delay between 1-2 -->
+    <integer name="default_csl_iti_delay">1500</integer> <!-- iti delay -->
+
+    <integer name="default_csl_tone_strength">100</integer>
+    <integer name="default_csl_tone_dur">100</integer>
+    <integer name="default_csl_tone_freqA">250</integer>
+    <integer name="default_csl_tone_freqB">350</integer>
+    <integer name="default_csl_tone_freqC">450</integer>
+    <integer name="default_csl_tone_freqD">550</integer>
+
     <integer name="default_sr_num_stimuli">1</integer>
     <integer name="default_sr_locations">2</integer>
     <integer name="default_sr_duration_on">800</integer>
@@ -118,8 +132,6 @@
     <integer name="default_t_sc_miniti">8</integer>
     <integer name="default_t_sc_maxiti">16</integer>
     <integer name="default_t_sc_sess_length">20</integer>
-    <integer name="default_t_sc_npn">1</integer>
-    <integer name="default_t_sc_npniti">2000</integer>
     <integer name="default_t_sc_cue_colour">6</integer>
     <integer name="default_t_sc_bordercolour">5</integer>
     <integer name="default_t_sc_bordersize">1</integer>
