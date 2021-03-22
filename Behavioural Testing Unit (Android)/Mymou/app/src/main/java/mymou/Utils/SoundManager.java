@@ -36,6 +36,7 @@ public class SoundManager {
     public SoundManager(PreferencesManager preferencesManagerInit) {
         preferencesManager = preferencesManagerInit;
         if (preferencesManager.sound) {
+
             toneGenerator = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, preferencesManager.tone_strength);
         }
 
