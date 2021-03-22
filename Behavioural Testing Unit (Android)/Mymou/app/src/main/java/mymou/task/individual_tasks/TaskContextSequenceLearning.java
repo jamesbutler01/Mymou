@@ -4,6 +4,8 @@ import android.graphics.Point;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +39,7 @@ public class TaskContextSequenceLearning extends Task {
     private static Handler h0 = new Handler();  // Show object handler
     private static Handler h1 = new Handler();  // Hide object handler
     private long startTime, rtTime;
-
+    private ToneGenerator toneGenerator;
     private static Button cue1, cue2, choice_cue_i, choice_cue_a;
 
     private int sound_1, sound_2;
@@ -187,8 +189,6 @@ public class TaskContextSequenceLearning extends Task {
         cue1 = UtilsTask.addColorCue(3, prefManager.csl_col_context_1, getContext(), startClickListener, getView().findViewById(R.id.parent_task_csl));
         cue2 = UtilsTask.addColorCue(4, prefManager.csl_col_context_2, getContext(), startClickListener, getView().findViewById(R.id.parent_task_csl));
 
-
-
         // Figure out how big to make the cue
 //        Display display = getActivity().getWindowManager().getDefaultDisplay();
 //        Point screen_size = new Point();
@@ -238,25 +238,25 @@ public class TaskContextSequenceLearning extends Task {
     private int[] soundMap(int soundNr)
 
     {
-        int tone_dur = 1000;
+        int tone_dur = 200;
         int tone_freq = 200;
 
         switch (soundNr)
         {
             case 1:
-                tone_dur = 1000;
+                tone_dur = 200;
                 tone_freq = prefManager.csl_tone_freqA; // these should probably be set as variables they can tweak
                 break;
             case 2:
-                tone_dur = 1000;
+                tone_dur = 200;
                 tone_freq = prefManager.csl_tone_freqB;
                 break;
             case 3:
-                tone_dur = 1000;
+                tone_dur = 200;
                 tone_freq = prefManager.csl_tone_freqC;
                 break;
             case 4:
-                tone_dur = 1000;
+                tone_dur = 200;
                 tone_freq = prefManager.csl_tone_freqD;
                 break;
         };
@@ -276,7 +276,7 @@ public class TaskContextSequenceLearning extends Task {
         // modify first sound
         int[] out = soundMap(sound_1);
 //        prefManager.tone_freq = out[1];
-        new SoundManager(prefManager).playTone();
+        playSystemTone(out[0], out[1]);
 
         h0.postDelayed(new Runnable() {
             @Override
@@ -284,7 +284,7 @@ public class TaskContextSequenceLearning extends Task {
                 // modify second sound
                 int[] out = soundMap(sound_2);
 //                prefManager.tone_freq = out[1];
-                new SoundManager(prefManager).playTone();
+                playSystemTone(out[0], out[1]);
             }
         }, prefManager.csl_tone_delay); // delay between sound 1 and 2
 
@@ -338,6 +338,31 @@ public class TaskContextSequenceLearning extends Task {
             }, prefManager.csl_onset_delay); // this is delay between context turning on and tones playing
         }
     };
+
+    private void playSystemTone(int length, int tone) {
+        Log.d(TAG, "Playing system tone: "+tone);
+
+        try {
+            if (toneGenerator == null) {
+                toneGenerator = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+            }
+            toneGenerator.startTone(tone, length);
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (toneGenerator != null) {
+                        toneGenerator.release();
+                        toneGenerator = null;
+                    }
+                }
+
+            }, 200);
+        } catch (Exception e) {
+            Log.d(TAG, "Exception while playing sound:" + e);
+        }
+    }
+
     // this is our listened for the response that computes the reaction time and dictates strength of sound that comes out
     private View.OnClickListener responseClickListener = new View.OnClickListener() {
         @Override
