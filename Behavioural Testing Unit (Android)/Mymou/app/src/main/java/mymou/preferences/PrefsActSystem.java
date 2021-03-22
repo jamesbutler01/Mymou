@@ -47,6 +47,8 @@ public class PrefsActSystem extends AppCompatActivity implements
             preferenceFragment = new PrefsFragTaskPassiveReward();
         } else if (settings_to_load.equals(getString(R.string.preftag_task_ea_settings))) {
             preferenceFragment = new PrefsFragTaskEvidenceAccum();
+        }else if (settings_to_load.equals(getString(R.string.preftag_task_csl_settings))) {
+            preferenceFragment = new PrefsFragTaskContextSequenceLearning();
         } else {
             // Default behaviour
             preferenceFragment = new PrefsFragCommon();

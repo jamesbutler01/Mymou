@@ -9,7 +9,7 @@ import android.util.Log;
 /**
  * The type Play tone thread.
  */
-class PlayCustomTone extends Thread {
+public class PlayCustomTone extends Thread {
 
     private boolean isPlaying = false;
     private final int freqOfTone;
@@ -87,7 +87,7 @@ class PlayCustomTone extends Thread {
     /**
      * Stop tone.
      */
-    void stopTone() {
+    public void stopTone() {
         if (audioTrack != null && audioTrack.getState() == AudioTrack.PLAYSTATE_PLAYING) {
             audioTrack.stop();
             audioTrack.release();

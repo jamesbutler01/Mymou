@@ -1,46 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-            android:layout="@layout/preferences_title"
-            app:key="task_settings"
-            app:title="Settings for Context Sequence Learning">
+        android:layout="@layout/preferences_title"
+        app:key="task_settings"
+        app:title="Settings for Context Sequence Learning">
 
         <mymou.preferences.SeekBarPreferenceCustom
-                android:defaultValue="@integer/default_csl_tone_delay"
-                app:key="@string/preftag_csl_tone_delay"
-                app:title="Time between sounds 1-2, 3-4 (ms)" />
+            android:defaultValue="@integer/default_csl_tone_delay"
+            app:key="@string/preftag_csl_tone_delay"
+            app:title="Time between sounds 1-2, 3-4 (ms)" />
 
         <mymou.preferences.SeekBarPreferenceCustom
-                android:defaultValue="@integer/default_csl_onset_delay"
-                app:key="@string/preftag_csl_onset_delay"
-                app:title="Delay between cue press and first tone (ms)" />
+            android:defaultValue="@integer/default_csl_onset_delay"
+            app:key="@string/preftag_csl_onset_delay"
+            app:title="Delay between cue press and first tone (ms)" />
 
         <mymou.preferences.SeekBarPreferenceCustom
-                android:defaultValue="@integer/default_csl_iti_delay"
-                app:key="@string/preftag_csl_iti_delay"
-                app:title="Delay between trials (ms)" />
+            android:defaultValue="@integer/default_csl_iti_delay"
+            app:key="@string/preftag_csl_iti_delay"
+            app:title="Delay between trials (ms)" />
+    </PreferenceCategory>
+    <PreferenceCategory app:title="Tone A ">
 
         <mymou.preferences.SeekBarPreferenceCustom
-                android:defaultValue="@integer/default_csl_tone_freqA"
-                app:key="@string/preftag_csl_tone_freqA"
-                app:title="Tone frequency - A (Hz)" />
+            android:defaultValue="@integer/default_csl_tone_freqA"
+            android:max="13000"
+            app:key="@string/preftag_csl_tone_freqA"
+            app:min="500"
+            app:title="Tone frequency - A (Hz) (tap to enter value)" />
 
         <mymou.preferences.SeekBarPreferenceCustom
-                android:defaultValue="@integer/default_csl_tone_freqB"
-                app:key="@string/preftag_csl_tone_freqB"
-                app:title="Tone frequency - B (Hz)" />
+            android:defaultValue="@integer/default_csl_tone_durA"
+            android:max="2000"
+            app:key="@string/preftag_csl_tone_durA"
+            app:min="50"
+            app:title="Tone duration - A (ms) (tap to enter value)" />
+
+        <Preference
+            android:key="playtonea"
+            android:title="Play Tone A" />
+    </PreferenceCategory>
+    <PreferenceCategory app:title="Tone B ">
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_csl_tone_freqB"
+            android:max="13000"
+            app:key="@string/preftag_csl_tone_freqB"
+            app:min="500"
+            app:title="Tone frequency - B (Hz) (tap to enter value)" />
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_csl_tone_durB"
+            android:max="2000"
+            app:key="@string/preftag_csl_tone_durB"
+            app:min="50"
+            app:title="Tone duration - B (ms) (tap to enter value)" />
+        <Preference
+            android:key="playtoneb"
+            android:title="Play Tone B" />
+    </PreferenceCategory>
+    <PreferenceCategory app:title="Tone C ">
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_csl_tone_freqC"
+            android:max="13000"
+            app:key="@string/preftag_csl_tone_freqC"
+            app:min="500"
+            app:title="Tone frequency - C (Hz) (tap to enter value)" />
 
         <mymou.preferences.SeekBarPreferenceCustom
-                android:defaultValue="@integer/default_csl_tone_freqC"
-                app:key="@string/preftag_csl_tone_freqC"
-                app:title="Tone frequency - C (Hz)" />
+            android:defaultValue="@integer/default_csl_tone_durC"
+            android:max="2000"
+            app:key="@string/preftag_csl_tone_durC"
+            app:min="50"
+            app:title="Tone duration - C (ms) (tap to enter value)" />
+
+        <Preference
+            android:key="playtonec"
+            android:title="Play Tone C" />
+    </PreferenceCategory>
+    <PreferenceCategory app:title="Tone D">
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_csl_tone_freqD"
+            android:max="13000"
+            app:key="@string/preftag_csl_tone_freqD"
+            app:min="500"
+            app:title="Tone frequency - D (Hz) (tap to enter value)" />
+
 
         <mymou.preferences.SeekBarPreferenceCustom
-                android:defaultValue="@integer/default_csl_tone_freqD"
-                app:key="@string/preftag_csl_tone_freqD"
-                app:title="Tone frequency - D (Hz)" />
+            android:defaultValue="@integer/default_csl_tone_durD"
+            android:max="2000"
+            app:key="@string/preftag_csl_tone_durD"
+            app:min="50"
+            app:title="Tone duration - D (ms) (tap to enter value)" />
+        <Preference
+            android:key="playtoned"
+            android:title="Play Tone D" />
 
     </PreferenceCategory>
 

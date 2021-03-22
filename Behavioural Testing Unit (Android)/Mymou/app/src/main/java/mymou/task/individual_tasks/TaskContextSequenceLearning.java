@@ -21,6 +21,7 @@ import java.util.Random;
 
 import mymou.R;
 //import mymou.Utils.PlayCustomTone;
+import mymou.Utils.PlayCustomTone;
 import mymou.Utils.SoundManager;
 import mymou.preferences.PreferencesManager;
 import mymou.task.backend.TaskInterface;
@@ -244,19 +245,19 @@ public class TaskContextSequenceLearning extends Task {
         switch (soundNr)
         {
             case 1:
-                tone_dur = 200;
+                tone_dur = prefManager.csl_tone_durA;
                 tone_freq = prefManager.csl_tone_freqA;
                 break;
             case 2:
-                tone_dur = 200;
+                tone_dur = prefManager.csl_tone_durB;
                 tone_freq = prefManager.csl_tone_freqB;
                 break;
             case 3:
-                tone_dur = 200;
+                tone_dur = prefManager.csl_tone_durC;
                 tone_freq = prefManager.csl_tone_freqC;
                 break;
             case 4:
-                tone_dur = 200;
+                tone_dur = prefManager.csl_tone_durD;
                 tone_freq = prefManager.csl_tone_freqD;
                 break;
         };
@@ -276,15 +277,14 @@ public class TaskContextSequenceLearning extends Task {
         // modify first sound
         int[] out = soundMap(sound_1);
 //        prefManager.tone_freq = out[1];
-        playSystemTone(out[0], out[1]);
+        playCustomTone(out[0], out[1]);
 
         h0.postDelayed(new Runnable() {
             @Override
             public void run() {
                 // modify second sound
                 int[] out = soundMap(sound_2);
-//                prefManager.tone_freq = out[1];
-                playSystemTone(out[0], out[1]);
+                playCustomTone(out[0], out[1]);
             }
         }, prefManager.csl_tone_delay); // delay between sound 1 and 2
 
@@ -338,30 +338,6 @@ public class TaskContextSequenceLearning extends Task {
             }, prefManager.csl_onset_delay); // this is delay between context turning on and tones playing
         }
     };
-
-    private void playSystemTone(int length, int tone) {
-        Log.d(TAG, "Playing system tone: "+tone);
-
-        try {
-            if (toneGenerator == null) {
-                toneGenerator = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
-            }
-            toneGenerator.startTone(tone, length);
-            Handler handler = new Handler(Looper.getMainLooper());
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (toneGenerator != null) {
-                        toneGenerator.release();
-                        toneGenerator = null;
-                    }
-                }
-
-            }, 200);
-        } catch (Exception e) {
-            Log.d(TAG, "Exception while playing sound:" + e);
-        }
-    }
 
     // this is our listened for the response that computes the reaction time and dictates strength of sound that comes out
     private View.OnClickListener responseClickListener = new View.OnClickListener() {
@@ -457,6 +433,34 @@ public class TaskContextSequenceLearning extends Task {
         super.onDestroy();
         h0.removeCallbacksAndMessages(null);
         h1.removeCallbacksAndMessages(null);
+    }
+
+    private PlayCustomTone playToneThread;
+    private boolean isThreadRunning = false;
+    private final Handler stopThread = new Handler();
+
+    private void playCustomTone(int length, int freq) {
+        Log.d(TAG, "Playing custom tone: " + freq + " Hz, " + length + " s");
+        if (!isThreadRunning) {
+
+            playToneThread = new PlayCustomTone(freq, length);
+            playToneThread.start();
+            isThreadRunning = true;
+
+            stopThread.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    // Have to stop tone early to avoid clicking sound at end
+                    if (playToneThread != null) {
+                        playToneThread.stopTone();
+                        playToneThread.interrupt();
+                        playToneThread = null;
+                        isThreadRunning = false;
+                    }
+                }
+            }, length);
+        }
     }
 
     /**

@@ -129,13 +129,17 @@
 
     <integer name="default_csl_tone_type">500</integer>
     <integer name="default_csl_onset_delay">1500</integer>  <!-- delay between press and first sound -->
-    <integer name="default_csl_tone_delay">500</integer> <!-- delay between 1-2 -->
+    <integer name="default_csl_tone_delay">1000</integer> <!-- delay between 1-2 -->
     <integer name="default_csl_iti_delay">1500</integer> <!-- iti delay -->
     <integer name="default_csl_tone_strength">100</integer>
     <integer name="default_csl_tone_dur">100</integer>
-    <integer name="default_csl_tone_freqA">90</integer>
-    <integer name="default_csl_tone_freqB">93</integer>
-    <integer name="default_csl_tone_freqC">17</integer>
-    <integer name="default_csl_tone_freqD">26</integer>
+    <integer name="default_csl_tone_freqA">1000</integer>
+    <integer name="default_csl_tone_freqB">6000</integer>
+    <integer name="default_csl_tone_freqC">2000</integer>
+    <integer name="default_csl_tone_freqD">8000</integer>
+    <integer name="default_csl_tone_durA">200</integer>
+    <integer name="default_csl_tone_durB">300</integer>
+    <integer name="default_csl_tone_durC">700</integer>
+    <integer name="default_csl_tone_durD">700</integer>
 
 </resources>

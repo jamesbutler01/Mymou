@@ -286,6 +286,10 @@
     <string name="preftag_csl_tone_freqB">csl_tone_freqB</string>
     <string name="preftag_csl_tone_freqC">csl_tone_freqC</string>
     <string name="preftag_csl_tone_freqD">csl_tone_freqD</string>
+    <string name="preftag_csl_tone_durA">csl_tone_durA</string>
+    <string name="preftag_csl_tone_durB">csl_tone_durB</string>
+    <string name="preftag_csl_tone_durC">csl_tone_durC</string>
+    <string name="preftag_csl_tone_durD">csl_tone_durD</string>
 
     <string name="preftag_t_sc_minrew">default_t_sc_minrew</string>
     <string name="preftag_t_sc_maxrew">preftag_t_sc_maxrew</string>
