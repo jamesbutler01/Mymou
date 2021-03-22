@@ -1,6 +1,7 @@
 package mymou.task.individual_tasks;
 
 import android.graphics.Point;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Display;
@@ -179,12 +180,14 @@ public class TaskContextSequenceLearning extends Task {
 
         // generate the stuff
 
-        choice_cue_i = UtilsTask.addColorCue(1, prefManager.csl_choice_col_i, getContext(), voidClickListener, getView().findViewById(R.id.parent_task_csl));
-        choice_cue_a = UtilsTask.addColorCue(2, prefManager.csl_choice_col_a, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_csl));
+        choice_cue_i = UtilsTask.addColorCue(1, prefManager.csl_choice_col_i, getContext(), voidClickListener, getView().findViewById(R.id.parent_task_csl), GradientDrawable.OVAL);
+        choice_cue_a = UtilsTask.addColorCue(2, prefManager.csl_choice_col_a, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_csl), GradientDrawable.OVAL);
 
         // Create cue
         cue1 = UtilsTask.addColorCue(3, prefManager.csl_col_context_1, getContext(), startClickListener, getView().findViewById(R.id.parent_task_csl));
         cue2 = UtilsTask.addColorCue(4, prefManager.csl_col_context_2, getContext(), startClickListener, getView().findViewById(R.id.parent_task_csl));
+
+
 
         // Figure out how big to make the cue
 //        Display display = getActivity().getWindowManager().getDefaultDisplay();
@@ -375,7 +378,7 @@ public class TaskContextSequenceLearning extends Task {
 
             prefManager.tone_strength = 0; // turn off for default sound from givereward from task and then turn back on for sound manager play tone
             callback.giveRewardFromTask_(rewardSizeN); // needs to be modified to reflect sound strength
-            getActivity().findViewById(R.id.background_main).setBackgroundColor(prefManager.taskbackground);
+//            getActivity().findViewById(R.id.background_main).setBackgroundColor(prefManager.taskbackground);
             prefManager.tone_strength= maxVolume;
 
             // now sort out sound - we multiply everything by 100 such that no decimals get lost and we can convert between int / double etc.

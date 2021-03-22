@@ -55,7 +55,7 @@ public class UtilsTask {
 
     }
 
-    // Add a mono-colour cue to the task
+    // Add a colour cue to the task
     public static Button addColorCue(int id, int color, Context context, View.OnClickListener onClickListener, ConstraintLayout layout) {
         PreferencesManager preferencesManager = new PreferencesManager(context);
         Button button = new Button(context);
@@ -72,7 +72,7 @@ public class UtilsTask {
         return button;
     }
 
-    // Add a mono-colour cue to the task
+    // Add a colour cue of a particular SHAPE to the task
     public static Button addColorCue(int id, int color, Context context, View.OnClickListener onClickListener, ConstraintLayout layout, int shape) {
         PreferencesManager preferencesManager = new PreferencesManager(context);
         Button button = new Button(context);

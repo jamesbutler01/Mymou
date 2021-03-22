@@ -418,12 +418,13 @@ public class PreferencesManager {
     public void ContextSequenceLearning() {
 
         colors = r.getIntArray(R.array.colorarray);
-
-        csl_col_context_1 = colors[9]; // this is stupid because it's hardcoded to be the the color in the current array set. will work fine if subsequent colors are only appended at the end
+        // this is stupid because it's hardcoded to be the the color in the current array set. will work fine if subsequent colors are only appended at the end
+        // TODO: Implement this in preferences
+        csl_col_context_1 = colors[9];
         csl_col_context_2 = colors[16];
 
-        csl_choice_col_i = colors[2]; // inactive
-        csl_choice_col_a = colors[12]; // active
+        csl_choice_col_i = colors[0]; // inactive while listening to tone
+        csl_choice_col_a = colors[12]; // active, subject can press cue
 
         csl_tone_type = 0;
         csl_tone_strength = 100;
