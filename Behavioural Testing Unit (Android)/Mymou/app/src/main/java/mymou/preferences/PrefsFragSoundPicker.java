@@ -26,7 +26,7 @@ import mymou.Utils.SoundManager;
 
 public class PrefsFragSoundPicker extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private String TAG = "MymouColourPicker";
+    private String TAG = "MymouSoundPicker";
     private Context mContext;
     private SoundManager soundManager;
     private static int num_sounds = 98;

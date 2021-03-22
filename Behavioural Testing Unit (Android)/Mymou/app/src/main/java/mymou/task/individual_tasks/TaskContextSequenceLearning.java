@@ -245,7 +245,7 @@ public class TaskContextSequenceLearning extends Task {
         {
             case 1:
                 tone_dur = 200;
-                tone_freq = prefManager.csl_tone_freqA; // these should probably be set as variables they can tweak
+                tone_freq = prefManager.csl_tone_freqA;
                 break;
             case 2:
                 tone_dur = 200;

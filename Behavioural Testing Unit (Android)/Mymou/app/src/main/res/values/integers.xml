@@ -133,9 +133,9 @@
     <integer name="default_csl_iti_delay">1500</integer> <!-- iti delay -->
     <integer name="default_csl_tone_strength">100</integer>
     <integer name="default_csl_tone_dur">100</integer>
-    <integer name="default_csl_tone_freqA">250</integer>
-    <integer name="default_csl_tone_freqB">350</integer>
-    <integer name="default_csl_tone_freqC">450</integer>
-    <integer name="default_csl_tone_freqD">550</integer>
+    <integer name="default_csl_tone_freqA">90</integer>
+    <integer name="default_csl_tone_freqB">93</integer>
+    <integer name="default_csl_tone_freqC">17</integer>
+    <integer name="default_csl_tone_freqD">26</integer>
 
 </resources>

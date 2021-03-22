@@ -412,7 +412,6 @@ public class PreferencesManager {
 
     public static int csl_tone_freqA, csl_tone_freqB, csl_tone_freqC, csl_tone_freqD;
     public static int csl_tone_delay, csl_iti_delay, csl_onset_delay;
-    public static int csl_tone_dur, csl_tone_type, csl_tone_strength;
 
     public void ContextSequenceLearning() {
 
@@ -425,18 +424,14 @@ public class PreferencesManager {
         csl_choice_col_i = colors[0]; // inactive while listening to tone
         csl_choice_col_a = colors[12]; // active, subject can press cue
 
-        csl_tone_type = 0;
-        csl_tone_strength = 100;
-        csl_tone_dur = 500;
+        csl_tone_freqA = sharedPrefs.getInt(r.getString(R.string.preftag_csl_tone_freqA), r.getInteger(R.integer.default_csl_tone_freqA));
+        csl_tone_freqB = sharedPrefs.getInt(r.getString(R.string.preftag_csl_tone_freqB), r.getInteger(R.integer.default_csl_tone_freqB));
+        csl_tone_freqC = sharedPrefs.getInt(r.getString(R.string.preftag_csl_tone_freqC), r.getInteger(R.integer.default_csl_tone_freqC));
+        csl_tone_freqD = sharedPrefs.getInt(r.getString(R.string.preftag_csl_tone_freqD), r.getInteger(R.integer.default_csl_tone_freqD));
 
-        csl_tone_freqA = sharedPrefs.getInt("default_csl_tone_freqA", 90);
-        csl_tone_freqB = sharedPrefs.getInt("default_csl_tone_freqB", 93);
-        csl_tone_freqC = sharedPrefs.getInt("default_csl_tone_freqC", 17);
-        csl_tone_freqD = sharedPrefs.getInt("default_csl_tone_freqD", 26);
-
-        csl_tone_delay = sharedPrefs.getInt("default_csl_tone_delay", 500);
-        csl_onset_delay = sharedPrefs.getInt("default_csl_onset_delay", 1500);
-        csl_iti_delay = sharedPrefs.getInt("default_csl_iti_delay", 2500);
+        csl_tone_delay = sharedPrefs.getInt(r.getString(R.string.preftag_csl_tone_delay), r.getInteger(R.integer.default_csl_tone_delay));
+        csl_onset_delay = sharedPrefs.getInt(r.getString(R.string.preftag_csl_onset_delay), r.getInteger(R.integer.default_csl_onset_delay));
+        csl_iti_delay = sharedPrefs.getInt(r.getString(R.string.preftag_csl_iti_delay), r.getInteger(R.integer.default_csl_iti_delay));
 
     }
 }
