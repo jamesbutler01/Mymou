@@ -127,5 +127,15 @@
     <integer name="default_t_sc_cuewidth">100</integer>
     <integer name="default_t_sc_cueheight">100</integer>
 
+    <integer name="default_csl_tone_type">500</integer>
+    <integer name="default_csl_onset_delay">1500</integer>  <!-- delay between press and first sound -->
+    <integer name="default_csl_tone_delay">500</integer> <!-- delay between 1-2 -->
+    <integer name="default_csl_iti_delay">1500</integer> <!-- iti delay -->
+    <integer name="default_csl_tone_strength">100</integer>
+    <integer name="default_csl_tone_dur">100</integer>
+    <integer name="default_csl_tone_freqA">250</integer>
+    <integer name="default_csl_tone_freqB">350</integer>
+    <integer name="default_csl_tone_freqC">450</integer>
+    <integer name="default_csl_tone_freqD">550</integer>
 
 </resources>

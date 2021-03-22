@@ -21,7 +21,7 @@ public class PreferencesManager {
 
     public static boolean debug, bluetooth, camera, facerecog, savefacerecogarrays, restartoncrash,
             sound, autostart, autostop, skip_go_cue = false, dimscreen, handle_feedback, run_timer = true;
-    public static int sound_to_play, tone_dur, tone_freq;
+    public static int sound_to_play, tone_dur, tone_freq, tone_strength;
     public static int dimscreenlevel, dimscreentime;
     public static int num_reward_chans, default_rew_chan, max_reward_channels;
     public static int rewardduration, responseduration, timeoutduration;
@@ -61,6 +61,7 @@ public class PreferencesManager {
         sound_to_play = sharedPrefs.getInt(r.getString(R.string.preftag_sound_to_play), r.getInteger(R.integer.default_system_tone));
         tone_dur = sharedPrefs.getInt(r.getString(R.string.preftag_tone_dur), r.getInteger(R.integer.default_tone_duration));
         tone_freq = sharedPrefs.getInt(r.getString(R.string.preftag_tone_freq), r.getInteger(R.integer.default_tone_freq));
+        tone_strength =  sharedPrefs.getInt("preftag_tone_strength", 100);
 
         dimscreenlevel = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_dimscreenlevel), "5"));
         dimscreentime = sharedPrefs.getInt(r.getString(R.string.preftag_dimscreentime), r.getInteger(R.integer.default_dimscreentime));
