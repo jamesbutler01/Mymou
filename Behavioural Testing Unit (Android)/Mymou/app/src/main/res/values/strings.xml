@@ -33,6 +33,7 @@
         <item>Sequential Learning</item>
         <item>Random dot motion</item>
         <item>Discrete value space</item>
+        <item>Context Sequence Learning</item>
     </string-array>
 
     <string-array name="task_descriptions">
@@ -53,6 +54,7 @@
         <item>A sequence of images in shown, each image must be pressed to progress to the next image. On the second lap of the sequence, at a random point a choice will be given between the next valid image in the sequence vs one of the other images from the sequence</item>
         <item>A movie is played consisting of dots moving in different directions, for which a specified proportion of dots all move towards either the left or right of the screen. Subjects must then select which side of the screen the dots were moving towards.</item>
         <item>Subjects are given choices between two cues that lie on a 10x10 value grid made up of probability and magnitude dimensions. For example, the cue at (1, 1) will give 10% reward 10% of the time. They can then pick either cue are given the corresponding reward along with a secondary reinforcer to indicate whether it was better or worse than the counterfactual option.</item>
+        <item>Two sounds are displayed followed by a go cue. This is followed by two further sounds and another go cue. Sounds in the first and second sequence can be within the same context or in different contexts.</item>
     </string-array>
 
     <string name="default_startuptime">0700</string>
@@ -237,6 +239,21 @@
     <string name="preftag_ea_step_duration_on">ea_step_duration_on</string>
     <string name="preftag_ea_distance">preftag_ea_distance</string>
     <string name="preftag_ea_variance">preftag_ea_variance</string>
+
+
+    <string name="preftag_csl_cue_context_1">csl_cue_context_1</string>
+    <string name="preftag_csl_cue_context_2">csl_cue_context_2</string>
+    <string name="preftag_csl_tone_type">csl_tone_type</string>
+    <string name="preftag_csl_onset_delay">csl_onset_delay</string>  <!-- delay between press and first sound -->
+    <string name="preftag_csl_tone_delay">csl_tone_delay</string> <!-- delay between 1-2 -->
+    <string name="preftag_csl_iti_delay">csl_iti_delay</string> <!-- iti delay -->
+    <string name="preftag_csl_tone_strength">csl_tone_strength</string>
+    <string name="preftag_csl_tone_dur">csl_tone_dur</string>
+    <string name="preftag_csl_tone_freqA">csl_tone_freqA</string>
+    <string name="preftag_csl_tone_freqB">csl_tone_freqB</string>
+    <string name="preftag_csl_tone_freqC">csl_tone_freqC</string>
+    <string name="preftag_csl_tone_freqD">csl_tone_freqD</string>
+
 
     <string name="preftag_sr_duration_off">sr_duration_off</string>
     <string name="preftag_sr_duration_on">sr_duration_on</string>

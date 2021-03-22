@@ -21,7 +21,7 @@ public class PreferencesManager {
 
     public static boolean debug, bluetooth, camera, facerecog, savefacerecogarrays, restartoncrash,
             sound, autostart, autostop, skip_go_cue = false, dimscreen, handle_feedback, run_timer = true;
-    public static int sound_to_play, tone_dur, tone_freq;
+    public static int sound_to_play, tone_dur, tone_freq, tone_strength;
     public static int dimscreenlevel, dimscreentime;
     public static int num_reward_chans, default_rew_chan, max_reward_channels;
     public static int rewardduration, responseduration, timeoutduration;
@@ -61,6 +61,7 @@ public class PreferencesManager {
         sound_to_play = sharedPrefs.getInt(r.getString(R.string.preftag_sound_to_play), r.getInteger(R.integer.default_system_tone));
         tone_dur = sharedPrefs.getInt(r.getString(R.string.preftag_tone_dur), r.getInteger(R.integer.default_tone_duration));
         tone_freq = sharedPrefs.getInt(r.getString(R.string.preftag_tone_freq), r.getInteger(R.integer.default_tone_freq));
+        tone_strength =  sharedPrefs.getInt("preftag_tone_strength", 100);
 
         dimscreenlevel = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_dimscreenlevel), "5"));
         dimscreentime = sharedPrefs.getInt(r.getString(R.string.preftag_dimscreentime), r.getInteger(R.integer.default_dimscreentime));
@@ -405,6 +406,38 @@ public class PreferencesManager {
         rdm_colour_dots = colors[dot_colour];
         int choice_colour = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_rdm_colour_choice), Integer.toString(r.getInteger(R.integer.default_rdm_color_choice))));
         rdm_colour_choice = colors[choice_colour];
+    }
+
+    public static int csl_col_context_1, csl_col_context_2;
+    public static int csl_choice_col_i, csl_choice_col_a;
+
+    public static int csl_tone_freqA, csl_tone_freqB, csl_tone_freqC, csl_tone_freqD;
+    public static int csl_tone_delay, csl_iti_delay, csl_onset_delay;
+    public static int csl_tone_dur, csl_tone_type, csl_tone_strength;
+
+    public void ContextSequenceLearning() {
+
+        colors = r.getIntArray(R.array.colorarray);
+
+        csl_col_context_1 = colors[9]; // this is stupid because it's hardcoded to be the the color in the current array set. will work fine if subsequent colors are only appended at the end
+        csl_col_context_2 = colors[16];
+
+        csl_choice_col_i = colors[2]; // inactive
+        csl_choice_col_a = colors[13]; // active
+
+        csl_tone_type = 0;
+        csl_tone_strength = 100;
+        csl_tone_dur = 500;
+
+        csl_tone_freqA = sharedPrefs.getInt("default_csl_tone_freqA", 250);
+        csl_tone_freqB = sharedPrefs.getInt("default_csl_tone_freqB", 350);
+        csl_tone_freqC = sharedPrefs.getInt("default_csl_tone_freqC", 450);
+        csl_tone_freqD = sharedPrefs.getInt("default_csl_tone_freqD", 550);
+
+        csl_tone_delay = sharedPrefs.getInt("default_csl_tone_delay", 500);
+        csl_onset_delay = sharedPrefs.getInt("default_csl_onset_delay", 1500);
+        csl_iti_delay = sharedPrefs.getInt("default_csl_iti_delay", 2500);
+
     }
 
 }
