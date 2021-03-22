@@ -256,9 +256,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             case 14:
                 preferencesManager.DiscreteValueSpace();
                 break;
-            case 15:
-                preferencesManager.ContextSequenceLearning();
-                break;
             default:
                 Log.d(TAG, "No task specified");
                 new Exception("No task specified");
@@ -393,9 +390,6 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 break;
             case 16:
                 task = new TaskDiscreteValueSpace();
-                break;
-            case 17:
-                task = new TaskContextSequenceLearning();
                 break;
             default:
                 new Exception("No valid task specified");

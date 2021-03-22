@@ -68,10 +68,6 @@ public class PrefsFragCommon extends PreferenceFragmentCompat {
 
             setPreferencesFromResource(R.xml.preferences_task_discrete_value_space, rootKey);
 
-        } else if (prefTag.equals(getString(R.string.preftag_task_csl_settings))) {
-
-            setPreferencesFromResource(R.xml.preferences_task_contextsequencelearning, rootKey);
-
         } else if (prefTag.equals(getString(R.string.preftag_task_dvs_settings))) {
 
             Intent intent = new Intent(getActivity(), TaskManager.class);
