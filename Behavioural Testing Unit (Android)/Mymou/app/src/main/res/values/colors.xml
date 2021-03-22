@@ -41,6 +41,7 @@
         <item>@color/teal</item>
         <item>@color/green</item>
         <item>@color/navy</item>
+        <item>@color/orange</item>
     </array>
 
 </resources>

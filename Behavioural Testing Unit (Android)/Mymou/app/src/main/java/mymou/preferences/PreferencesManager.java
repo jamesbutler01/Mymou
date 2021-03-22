@@ -423,7 +423,7 @@ public class PreferencesManager {
         csl_col_context_2 = colors[16];
 
         csl_choice_col_i = colors[2]; // inactive
-        csl_choice_col_a = colors[13]; // active
+        csl_choice_col_a = colors[12]; // active
 
         csl_tone_type = 0;
         csl_tone_strength = 100;
