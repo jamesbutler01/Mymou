@@ -429,10 +429,10 @@ public class PreferencesManager {
         csl_tone_strength = 100;
         csl_tone_dur = 500;
 
-        csl_tone_freqA = sharedPrefs.getInt("default_csl_tone_freqA", 250);
-        csl_tone_freqB = sharedPrefs.getInt("default_csl_tone_freqB", 350);
-        csl_tone_freqC = sharedPrefs.getInt("default_csl_tone_freqC", 450);
-        csl_tone_freqD = sharedPrefs.getInt("default_csl_tone_freqD", 550);
+        csl_tone_freqA = sharedPrefs.getInt("default_csl_tone_freqA", 90);
+        csl_tone_freqB = sharedPrefs.getInt("default_csl_tone_freqB", 93);
+        csl_tone_freqC = sharedPrefs.getInt("default_csl_tone_freqC", 17);
+        csl_tone_freqD = sharedPrefs.getInt("default_csl_tone_freqD", 26);
 
         csl_tone_delay = sharedPrefs.getInt("default_csl_tone_delay", 500);
         csl_onset_delay = sharedPrefs.getInt("default_csl_onset_delay", 1500);
