@@ -224,39 +224,45 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 preferencesManager.TrainingTasks();
                 break;
             case 5:
+                preferencesManager.TrainingTasks();
                 break;
             case 6:
-                preferencesManager.DiscreteMaze();
                 break;
             case 7:
-                preferencesManager.ObjectDiscriminationCol();
+                preferencesManager.TrainingFiveTwoStep();
                 break;
             case 8:
-                preferencesManager.ObjectDiscrim();
+                preferencesManager.DiscreteMaze();
                 break;
             case 9:
+                preferencesManager.ObjectDiscriminationCol();
+                break;
+            case 10:
+                preferencesManager.ObjectDiscrim();
+                break;
+            case 11:
                 preferencesManager.ProgressiveRatio();
                 // Reset numpresses needed
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
                 editor.putBoolean(preferencesManager.r.getString(R.string.pr_successful_trial), false);
                 editor.commit();
                 break;
-            case 10:
+            case 12:
                 preferencesManager.EvidenceAccum();
                 break;
-            case 11:
+            case 13:
                 preferencesManager.SpatialResponse();
                 break;
-            case 12:
+            case 14:
                 preferencesManager.SequentialLearning();
                 break;
-            case 13:
+            case 15:
                 preferencesManager.RandomDotMotion();
                 break;
-            case 14:
+            case 16:
                 preferencesManager.DiscreteValueSpace();
                 break;
-            case 15:
+            case 17:
                 preferencesManager.ContextSequenceLearning();
                 break;
             default:
