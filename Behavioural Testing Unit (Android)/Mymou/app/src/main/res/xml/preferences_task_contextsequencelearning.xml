@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+            android:layout="@layout/preferences_title"
+            app:key="task_settings"
+            app:title="Settings for Context Sequence Learning">
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_csl_onset_delay"
+                app:key="@string/preftag_csl_tone_delay"
+                app:title="Time between sounds 1-2 3-4 (ms)" />
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_csl_onset_delay"
+                app:key="@string/preftag_csl_onset_delay"
+                app:title="Delay between cue press and first tone (ms)" />
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_csl_iti_delay"
+                app:key="@string/preftag_csl_iti_delay"
+                app:title="Delay between trials  (ms)" />
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_csl_tone_freqA"
+                app:key="@string/preftag_csl_tone_freqA"
+                app:title="Tone frequency - A (Hz)" />
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_csl_tone_freqB"
+                app:key="@string/preftag_csl_tone_freqB"
+                app:title="Tone frequency - B (Hz)" />
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_csl_tone_freqC"
+                app:key="@string/preftag_csl_tone_freqC"
+                app:title="Tone frequency - C (Hz)" />
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_csl_tone_freqD"
+                app:key="@string/preftag_csl_tone_freqD"
+                app:title="Tone frequency - D (Hz)" />
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>
