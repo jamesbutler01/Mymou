@@ -1,26 +1,30 @@
 package mymou.task.individual_tasks;
 
-import android.graphics.Point;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import android.media.MediaPlayer;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.media.ToneGenerator;
+import android.widget.Toast;
 
+import android.widget.VideoView;
+import android.widget.MediaController;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Random;
 
 import mymou.R;
-//import mymou.Utils.PlayCustomTone;
 import mymou.Utils.PlayCustomTone;
 import mymou.Utils.SoundManager;
 import mymou.preferences.PreferencesManager;
@@ -40,7 +44,6 @@ public class TaskContextSequenceLearning extends Task {
     private static Handler h0 = new Handler();  // Show object handler
     private static Handler h1 = new Handler();  // Hide object handler
     private long startTime, rtTime;
-    private ToneGenerator toneGenerator;
     private static Button cue1, cue2, choice_cue_i, choice_cue_a;
 
     private int sound_1, sound_2;
@@ -77,7 +80,7 @@ public class TaskContextSequenceLearning extends Task {
         currConfig = returnTrialConfiguration();
 
         // Instantiate task objects with curr config
-        assignObjects(currConfig);
+        assignObjects();
 
         // assign the whole thing here programatically
         startMovie();
@@ -110,14 +113,20 @@ public class TaskContextSequenceLearning extends Task {
         else {
 
             endOfTrial(false, callback, prefManager);} // successful trial is false becausae we want the trial to end but subject not get any reward as they have already received it
-            logEvent("This is the current configuration originally: " + currConfig[0] + currConfig[1], callback);
-            logEvent("This is the current configuration: " + curr_context + sound_1 + sound_2, callback);
+            logEvent("Trial information [sequence, context, sound1, sound2]: " +seqNr + ","  + curr_context + "," + sound_1 + "," + sound_2, callback);
 
             // now we play out the relevant parts of the trial in sequence
             // first 'door' comes on
+
             h0.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+
+//                    VideoView mVideoView  = (VideoView) getActivity().findViewById(R.id.videoview);
+//                    mVideoView.setMediaController(new MediaController(prefManager.mContext));
+//                    mVideoView.requestFocus();
+//                    mVideoView.start();
+
                     turnOnCue();
                 }
             }, 0);
@@ -133,9 +142,12 @@ public class TaskContextSequenceLearning extends Task {
         int trialType = rand.nextInt((max - min) + 1) + min;
 
         // depending on random number, we generate a number of relevant things: col context 1, col context 2, and individual sounds
+
+        // sound 1 = bik, sound 2 = fop, sound 3 = hig, sound 4 = tef
+
         // number convention is as follows. trialConfig = {context color 1, context color 2, sound 1, sound 2, sound 3, sound 4} - this removes any ambiguity
         // context color is either 1 (orange) or 2 (purple) - in line with the document
-        // sound 1 2 3 4 correspond to (A, B, C, D).
+        // sound 1 2 3 4 correspond to (A, B, C, D) | BIK, FOP, HIG, TEF
         // so trialConfig = [1, 1, 1, 2, 3, 4]; corresponds orange background repeated throughout the trial with (A B), (C D) being played out
         // so trialConfig = [2, 1, 4, 1, 2, 3]; corresponds purple played for first chain and orange for second chain, with (D A), (B C) being played out
 
@@ -174,7 +186,7 @@ public class TaskContextSequenceLearning extends Task {
         return trialConfig;
     }
 
-    private void assignObjects(int[] trialConfig)
+    private void assignObjects()
     {
         prefManager = new PreferencesManager(getContext());
         prefManager.ContextSequenceLearning();
@@ -189,11 +201,6 @@ public class TaskContextSequenceLearning extends Task {
         // Create cue
         cue1 = UtilsTask.addColorCue(3, prefManager.csl_col_context_1, getContext(), startClickListener, getView().findViewById(R.id.parent_task_csl));
         cue2 = UtilsTask.addColorCue(4, prefManager.csl_col_context_2, getContext(), startClickListener, getView().findViewById(R.id.parent_task_csl));
-
-        // Figure out how big to make the cue
-//        Display display = getActivity().getWindowManager().getDefaultDisplay();
-//        Point screen_size = new Point();
-//        display.getSize(screen_size);
 
         cue1.setX(600);
         cue1.setY(940);
@@ -219,12 +226,10 @@ public class TaskContextSequenceLearning extends Task {
     { // turn on the cue here
 
         if (curr_context == 1) {
-            logEvent("we are in case1 of cueon" + curr_context, callback);
             UtilsTask.toggleCue(cue1, true);
         }
 
         else if (curr_context == 2) {
-            logEvent("we are in case2 of cueon" + curr_context, callback);
             UtilsTask.toggleCue(cue2, true);
         }
     }
@@ -236,37 +241,43 @@ public class TaskContextSequenceLearning extends Task {
         UtilsTask.toggleCue(cue2, false);
     }
 
-    private int[] soundMap(int soundNr)
+    private int soundMap(int soundNr)
 
     {
-        int tone_dur = 200;
-        int tone_freq = 200;
+//      int tone_dur  = 200;
+//      int tone_freq = 250;
+
+        // this is a random ID for now
+        int tone_id = 10;
 
         switch (soundNr)
         {
             case 1:
-                tone_dur = prefManager.csl_tone_durA;
-                tone_freq = prefManager.csl_tone_freqA;
+                tone_id = R.raw.bik;
                 break;
             case 2:
-                tone_dur = prefManager.csl_tone_durB;
-                tone_freq = prefManager.csl_tone_freqB;
+                tone_id = R.raw.fop;
                 break;
             case 3:
-                tone_dur = prefManager.csl_tone_durC;
-                tone_freq = prefManager.csl_tone_freqC;
+                tone_id = R.raw.hig;
                 break;
             case 4:
-                tone_dur = prefManager.csl_tone_durD;
-                tone_freq = prefManager.csl_tone_freqD;
+                tone_id = R.raw.tef;
                 break;
         };
 
-        // just return an array with 2 vec
-        int[] soundConfig = {tone_dur, tone_freq};
+//        tone_dur = prefManager.csl_tone_durA;
+//        tone_dur = prefManager.csl_tone_durB;
+//        tone_dur = prefManager.csl_tone_durC;
+//        tone_dur = prefManager.csl_tone_durD;
 
+//        tone_freq = prefManager.csl_tone_freqA;
+//        tone_freq = prefManager.csl_tone_freqB;
+//        tone_freq = prefManager.csl_tone_freqD;
+//        tone_freq = prefManager.csl_tone_freqC;
+
+        int soundConfig = tone_id;
         return soundConfig;
-
     }
 
     private void turnOnSound()
@@ -275,16 +286,23 @@ public class TaskContextSequenceLearning extends Task {
         // sound2 corresponds to second sound in sequence
 
         // modify first sound
-        int[] out = soundMap(sound_1);
+        int out = soundMap(sound_1);
+        MediaPlayer mediaPlayer = MediaPlayer.create(prefManager.mContext, out);
+        mediaPlayer.start();
+
 //        prefManager.tone_freq = out[1];
-        playCustomTone(out[0], out[1]);
+//        playCustomTone(out[0], out[1]);
 
         h0.postDelayed(new Runnable() {
             @Override
             public void run() {
                 // modify second sound
-                int[] out = soundMap(sound_2);
-                playCustomTone(out[0], out[1]);
+                int out = soundMap(sound_2);
+                MediaPlayer mediaPlayer = MediaPlayer.create(prefManager.mContext, out);
+                mediaPlayer.start();
+
+//              prefManager.tone_freq = out[1];
+//              playSavedTone(out);
             }
         }, prefManager.csl_tone_delay); // delay between sound 1 and 2
 
@@ -292,13 +310,11 @@ public class TaskContextSequenceLearning extends Task {
             @Override
             public void run() {
                 UtilsTask.toggleCue(choice_cue_i, false);
-
-                logEvent("Choice phase enabled", callback);
-                startTime = System.currentTimeMillis(); // this should be once the last tone is played
                 UtilsTask.toggleCue(choice_cue_a, true);
+                startTime = System.currentTimeMillis(); // this should be once the last tone is played
 
             }
-        }, prefManager.csl_tone_delay+100); // this delay denotes the differences when sound 2 stops playing and go cue turning green
+        }, prefManager.csl_tone_delay + 1000); // this delay denotes the differences when sound 2 stops playing and go cue turning green
     }
 
 
@@ -345,7 +361,7 @@ public class TaskContextSequenceLearning extends Task {
         public void onClick(View view) {
 
             rtTime = System.currentTimeMillis() - startTime;
-            logEvent("This is the RT: " + rtTime + "ms", callback);
+            logEvent("RT: " + rtTime + "ms", callback);
 
             // we need some rtTime that we subtract it from
             long rtBase = 450; // this is base reaction time; this should be a setting in prefmanager probably
@@ -364,15 +380,13 @@ public class TaskContextSequenceLearning extends Task {
             if (modifier > 0.99) {modifier = (double) bound;} // this is a temporary solution until they specify the exact equation they want for controlling the reward and sound strength
             else {modifier = tmp;};
 
-            logEvent("This is modifier: " + modifier, callback);
-
             float rewardSize;
 
             rewardSize = 500 * (float) modifier; // reward size should be a setting in prefmanager as well
             int rewardSizeN = (int) rewardSize;
 
-            // give reward
-            logEvent("This is the reward size: " + rewardSizeN + "ml", callback);
+            // log main bits
+            logEvent("Behavior information [Reward, modifier, RT]: " + rewardSizeN + "," + modifier + "," + rtTime, callback);
 
             // this should have reward sound turned off; if the go cue for 2nd stage is pressed too quickly, 2nd two sounds dont appear yet because juice is still coming.
             // this will be fixed by proper timing
@@ -417,13 +431,14 @@ public class TaskContextSequenceLearning extends Task {
             }, (long) tmp + 1000); // this will be delay between reward delivery and next door coming on
 
 
+            // log additional bits
+            logEvent("Secondary information [onset_delay, tone_delay, tone_strength, tmp]: " + prefManager.csl_onset_delay + "," + prefManager.csl_tone_delay + "," + prefManager.tone_strength + "," + tmp, callback);
         }
     };
 
 
     /**
      * onPause called whenever a task is paused, interrupted, or cancelled
-     *
      * If task aborted for some reason (e.g. they did not respond quick enough), then cancel the handlers to stop the movie playing
      * This prevents task objects being loaded AFTER a trial has finished
      */
@@ -435,6 +450,7 @@ public class TaskContextSequenceLearning extends Task {
         h1.removeCallbacksAndMessages(null);
     }
 
+/**
     private PlayCustomTone playToneThread;
     private boolean isThreadRunning = false;
     private final Handler stopThread = new Handler();
@@ -462,12 +478,14 @@ public class TaskContextSequenceLearning extends Task {
             }, length);
         }
     }
+*/
 
     /**
      * This is static code repeated in each task that enables communication between the individual
      * task and the parent TaskManager.java which handles the backend utilities (reward delivery,
      * selfie processing, intertrial intervals, etc etc)
      */
+
     TaskInterface callback;
     public void setFragInterfaceListener(TaskInterface callback) {this.callback = callback;}
 
