@@ -65,6 +65,10 @@ public class MainMenu extends Activity {
 
         UtilsSystem.setBrightness(true, this, preferencesManager);
 
+        Intent intent = new Intent(this, TaskManager.class);
+        intent.putExtra("tasktoload", 17);
+
+        startActivity(intent);
     }
 
     private void checkPermissions() {

@@ -1,6 +1,7 @@
 package mymou.task.individual_tasks;
 
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -102,34 +103,62 @@ public class TaskContextSequenceLearning extends Task {
 
             curr_context = currConfig[0];
             sound_1 = currConfig[2];
-            sound_2 = currConfig[3];}
-
-        else if (seqNr == 1){
-
-            curr_context = currConfig[1];
-            sound_1 = currConfig[4]; // 1 becomes 3
-            sound_2 = currConfig[5];} // 2 becomes 4}
-
-        else {
-
-            endOfTrial(false, callback, prefManager);} // successful trial is false becausae we want the trial to end but subject not get any reward as they have already received it
-            logEvent("Trial information [sequence, context, sound1, sound2]: " +seqNr + ","  + curr_context + "," + sound_1 + "," + sound_2, callback);
+            sound_2 = currConfig[3];
 
             // now we play out the relevant parts of the trial in sequence
             // first 'door' comes on
-
+            VideoView mVideoView  = (VideoView) getActivity().findViewById(R.id.videoview);
+            int movie_length = 2000;
             h0.postDelayed(new Runnable() {
                 @Override
                 public void run() {
 
-//                    VideoView mVideoView  = (VideoView) getActivity().findViewById(R.id.videoview);
-//                    mVideoView.setMediaController(new MediaController(prefManager.mContext));
-//                    mVideoView.requestFocus();
-//                    mVideoView.start();
+                    mVideoView.setVisibility(View.INVISIBLE);
 
-                    turnOnCue();
+                    if (curr_context == 1) {
+                        getActivity().findViewById(R.id.background_main).setBackgroundColor(prefManager.csl_col_context_1);
+                    } else if (curr_context == 2) {
+                        getActivity().findViewById(R.id.background_main).setBackgroundColor(prefManager.csl_col_context_2);
+                    }
+
+                    UtilsTask.toggleCue(choice_cue_i, true);
+                    turnOnSound();
+
                 }
-            }, 0);
+            }, movie_length);
+
+            Uri stringUri=null;
+            if (curr_context == 1) {
+                stringUri= Uri.parse("android.resource://" + getActivity().getPackageName() + "/" +
+                        R.raw.purple_door);
+            } else if (curr_context == 2) {
+                stringUri= Uri.parse("android.resource://" + getActivity().getPackageName() + "/" +
+                        R.raw.orange_door);
+            }
+            // Lets stop the movie from being stretched
+            getActivity().findViewById(R.id.background_main).setBackgroundColor(getActivity().getResources().getColor(R.color.black));
+            mVideoView.setMediaController(null); // Disable controls so monkeys can't stop the movie!
+            mVideoView.setVideoURI(stringUri);
+            mVideoView.start();
+
+        } else if (seqNr == 1){
+
+            curr_context = currConfig[1];
+            sound_1 = currConfig[4]; // 1 becomes 3
+            sound_2 = currConfig[5];// 2 becomes 4}
+            UtilsTask.toggleCue(choice_cue_i, true);
+            turnOnSound();
+
+        } else {
+
+            // successful trial is false because we want the trial to end but subject not get any reward as they have already received it
+            endOfTrial(false, callback, prefManager);
+            return;
+
+        }
+
+        logEvent("Trial information [sequence, context, sound1, sound2]: " +seqNr + ","  + curr_context + "," + sound_1 + "," + sound_2, callback);
+
     }
 
     private int[] returnTrialConfiguration()
@@ -194,19 +223,8 @@ public class TaskContextSequenceLearning extends Task {
         seqNr = 0;
 
         // generate the stuff
-
         choice_cue_i = UtilsTask.addColorCue(1, prefManager.csl_choice_col_i, getContext(), voidClickListener, getView().findViewById(R.id.parent_task_csl), GradientDrawable.OVAL);
         choice_cue_a = UtilsTask.addColorCue(2, prefManager.csl_choice_col_a, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_csl), GradientDrawable.OVAL);
-
-        // Create cue
-        cue1 = UtilsTask.addColorCue(3, prefManager.csl_col_context_1, getContext(), startClickListener, getView().findViewById(R.id.parent_task_csl));
-        cue2 = UtilsTask.addColorCue(4, prefManager.csl_col_context_2, getContext(), startClickListener, getView().findViewById(R.id.parent_task_csl));
-
-        cue1.setX(600);
-        cue1.setY(940);
-
-        cue2.setX(600);
-        cue2.setY(940);
 
         choice_cue_i.setX(600);
         choice_cue_i.setY(940);
@@ -215,31 +233,11 @@ public class TaskContextSequenceLearning extends Task {
         choice_cue_a.setY(940);
 
         // turn off all cues
-        UtilsTask.toggleCue(cue1, false);
-        UtilsTask.toggleCue(cue2, false);
         UtilsTask.toggleCue(choice_cue_i, false);
         UtilsTask.toggleCue(choice_cue_a, false);
 
     }
 
-    private void turnOnCue()
-    { // turn on the cue here
-
-        if (curr_context == 1) {
-            UtilsTask.toggleCue(cue1, true);
-        }
-
-        else if (curr_context == 2) {
-            UtilsTask.toggleCue(cue2, true);
-        }
-    }
-
-    private void turnOffCue()
-    {
-
-        UtilsTask.toggleCue(cue1, false);
-        UtilsTask.toggleCue(cue2, false);
-    }
 
     private int soundMap(int soundNr)
 
@@ -330,30 +328,6 @@ public class TaskContextSequenceLearning extends Task {
         };
     };
 
-    private View.OnClickListener startClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-
-            // removes cue and puts context color on
-            turnOffCue();
-
-            if (curr_context == 1) {
-                getActivity().findViewById(R.id.background_main).setBackgroundColor(prefManager.csl_col_context_1);
-            }
-            else if (curr_context == 2) {
-                getActivity().findViewById(R.id.background_main).setBackgroundColor(prefManager.csl_col_context_2);
-            }
-
-            // play sound 12
-            h0.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    UtilsTask.toggleCue(choice_cue_i, true);
-                    turnOnSound();
-                }
-            }, prefManager.csl_onset_delay); // this is delay between context turning on and tones playing
-        }
-    };
 
     // this is our listened for the response that computes the reaction time and dictates strength of sound that comes out
     private View.OnClickListener responseClickListener = new View.OnClickListener() {
@@ -432,7 +406,7 @@ public class TaskContextSequenceLearning extends Task {
 
 
             // log additional bits
-            logEvent("Secondary information [onset_delay, tone_delay, tone_strength, tmp]: " + prefManager.csl_onset_delay + "," + prefManager.csl_tone_delay + "," + prefManager.tone_strength + "," + tmp, callback);
+            logEvent("Secondary information [tone_delay, tone_strength, tmp]: " + prefManager.csl_tone_delay + "," + prefManager.tone_strength + "," + tmp, callback);
         }
     };
 

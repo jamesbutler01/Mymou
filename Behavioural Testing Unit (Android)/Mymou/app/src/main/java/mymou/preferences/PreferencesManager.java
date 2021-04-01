@@ -412,7 +412,7 @@ public class PreferencesManager {
 
     public static int csl_tone_freqA, csl_tone_freqB, csl_tone_freqC, csl_tone_freqD;
     public static int csl_tone_durA, csl_tone_durB, csl_tone_durC, csl_tone_durD;
-    public static int csl_tone_delay, csl_iti_delay, csl_onset_delay;
+    public static int csl_tone_delay, csl_iti_delay;
 
     public void ContextSequenceLearning() {
 
@@ -436,7 +436,6 @@ public class PreferencesManager {
         csl_tone_freqD = sharedPrefs.getInt(r.getString(R.string.preftag_csl_tone_freqD), r.getInteger(R.integer.default_csl_tone_freqD));
 
         csl_tone_delay = sharedPrefs.getInt(r.getString(R.string.preftag_csl_tone_delay), r.getInteger(R.integer.default_csl_tone_delay));
-        csl_onset_delay = sharedPrefs.getInt(r.getString(R.string.preftag_csl_onset_delay), r.getInteger(R.integer.default_csl_onset_delay));
         csl_iti_delay = sharedPrefs.getInt(r.getString(R.string.preftag_csl_iti_delay), r.getInteger(R.integer.default_csl_iti_delay));
 
     }
