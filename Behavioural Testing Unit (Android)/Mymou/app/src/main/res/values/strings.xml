@@ -274,22 +274,7 @@
     <string name="preftag_pass_stopsess">preftag_pass_stopsess</string>
     <string name="preftag_pass_photo">preftag_pass_photo</string>
 
-    <string name="preftag_csl_cue_context_1">csl_cue_context_1</string>
-    <string name="preftag_csl_cue_context_2">csl_cue_context_2</string>
-    <string name="preftag_csl_tone_type">csl_tone_type</string>
-    <string name="preftag_csl_onset_delay">csl_onset_delay</string>  <!-- delay between press and first sound -->
     <string name="preftag_csl_tone_delay">csl_tone_delay</string> <!-- delay between 1-2 -->
-    <string name="preftag_csl_iti_delay">csl_iti_delay</string> <!-- iti delay -->
-    <string name="preftag_csl_tone_strength">csl_tone_strength</string>
-    <string name="preftag_csl_tone_dur">csl_tone_dur</string>
-    <string name="preftag_csl_tone_freqA">csl_tone_freqA</string>
-    <string name="preftag_csl_tone_freqB">csl_tone_freqB</string>
-    <string name="preftag_csl_tone_freqC">csl_tone_freqC</string>
-    <string name="preftag_csl_tone_freqD">csl_tone_freqD</string>
-    <string name="preftag_csl_tone_durA">csl_tone_durA</string>
-    <string name="preftag_csl_tone_durB">csl_tone_durB</string>
-    <string name="preftag_csl_tone_durC">csl_tone_durC</string>
-    <string name="preftag_csl_tone_durD">csl_tone_durD</string>
 
     <string name="preftag_t_sc_minrew">default_t_sc_minrew</string>
     <string name="preftag_t_sc_maxrew">preftag_t_sc_maxrew</string>

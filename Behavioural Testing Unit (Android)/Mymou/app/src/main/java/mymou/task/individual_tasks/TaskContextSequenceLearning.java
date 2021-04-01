@@ -242,8 +242,6 @@ public class TaskContextSequenceLearning extends Task {
     private int soundMap(int soundNr)
 
     {
-//      int tone_dur  = 200;
-//      int tone_freq = 250;
 
         // this is a random ID for now
         int tone_id = 10;
@@ -264,16 +262,6 @@ public class TaskContextSequenceLearning extends Task {
                 break;
         };
 
-//        tone_dur = prefManager.csl_tone_durA;
-//        tone_dur = prefManager.csl_tone_durB;
-//        tone_dur = prefManager.csl_tone_durC;
-//        tone_dur = prefManager.csl_tone_durD;
-
-//        tone_freq = prefManager.csl_tone_freqA;
-//        tone_freq = prefManager.csl_tone_freqB;
-//        tone_freq = prefManager.csl_tone_freqD;
-//        tone_freq = prefManager.csl_tone_freqC;
-
         int soundConfig = tone_id;
         return soundConfig;
     }
@@ -288,9 +276,6 @@ public class TaskContextSequenceLearning extends Task {
         MediaPlayer mediaPlayer = MediaPlayer.create(prefManager.mContext, out);
         mediaPlayer.start();
 
-//        prefManager.tone_freq = out[1];
-//        playCustomTone(out[0], out[1]);
-
         h0.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -299,8 +284,6 @@ public class TaskContextSequenceLearning extends Task {
                 MediaPlayer mediaPlayer = MediaPlayer.create(prefManager.mContext, out);
                 mediaPlayer.start();
 
-//              prefManager.tone_freq = out[1];
-//              playSavedTone(out);
             }
         }, prefManager.csl_tone_delay); // delay between sound 1 and 2
 
@@ -368,7 +351,6 @@ public class TaskContextSequenceLearning extends Task {
             prefManager.tone_strength = 0; // turn off for default sound from givereward from task and then turn back on for sound manager play tone
             callback.giveRewardFromTask_(rewardSizeN); // needs to be modified to reflect sound strength
 //            getActivity().findViewById(R.id.background_main).setBackgroundColor(prefManager.taskbackground);
-            prefManager.tone_strength= maxVolume;
 
             // now sort out sound - we multiply everything by 100 such that no decimals get lost and we can convert between int / double etc.
             tmp = modifier*100;
@@ -379,9 +361,6 @@ public class TaskContextSequenceLearning extends Task {
 
             // we now change the strength of the tone depending on the soundTmp
             // we will also want to change the sound of the correct sound here.
-//            prefManager.tone_strength = (int) soundTmp;
-//            prefManager.tone_freq = 50000;
-
             prefManager.tone_strength = maxVolume; // leave it like this for now
             new SoundManager(prefManager).playTone();
 
@@ -406,7 +385,7 @@ public class TaskContextSequenceLearning extends Task {
 
 
             // log additional bits
-            logEvent("Secondary information [tone_delay, tone_strength, tmp]: " + prefManager.csl_tone_delay + "," + prefManager.tone_strength + "," + tmp, callback);
+            logEvent("Secondary information [tone_delay, reward]: " + prefManager.csl_tone_delay + ","+ rewardSizeN, callback);
         }
     };
 
@@ -424,35 +403,6 @@ public class TaskContextSequenceLearning extends Task {
         h1.removeCallbacksAndMessages(null);
     }
 
-/**
-    private PlayCustomTone playToneThread;
-    private boolean isThreadRunning = false;
-    private final Handler stopThread = new Handler();
-
-    private void playCustomTone(int length, int freq) {
-        Log.d(TAG, "Playing custom tone: " + freq + " Hz, " + length + " s");
-        if (!isThreadRunning) {
-
-            playToneThread = new PlayCustomTone(freq, length);
-            playToneThread.start();
-            isThreadRunning = true;
-
-            stopThread.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-                    // Have to stop tone early to avoid clicking sound at end
-                    if (playToneThread != null) {
-                        playToneThread.stopTone();
-                        playToneThread.interrupt();
-                        playToneThread = null;
-                        isThreadRunning = false;
-                    }
-                }
-            }, length);
-        }
-    }
-*/
 
     /**
      * This is static code repeated in each task that enables communication between the individual
