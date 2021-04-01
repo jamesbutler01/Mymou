@@ -259,7 +259,7 @@ public class TaskProgressiveRatio extends Task {
 
                     hTrialTimer.removeCallbacksAndMessages(null);
 
-                    callback.giveRewardFromTask_(prefManager.rewardduration);
+                    callback.giveRewardFromTask_(prefManager.rewardduration, true);
 
                     // Restart task after x delay
                     hNextTrial.postDelayed(new Runnable() {

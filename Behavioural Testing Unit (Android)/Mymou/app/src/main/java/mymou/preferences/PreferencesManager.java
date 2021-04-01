@@ -413,7 +413,7 @@ public class PreferencesManager {
     public static int csl_tone_delay;
 
     public void ContextSequenceLearning() {
-
+        handle_feedback = false;
         colors = r.getIntArray(R.array.colorarray);
         // this is stupid because it's hardcoded to be the the color in the current array set. will work fine if subsequent colors are only appended at the end
         // TODO: Implement this in preferences

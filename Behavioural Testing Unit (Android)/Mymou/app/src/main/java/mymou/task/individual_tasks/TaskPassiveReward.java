@@ -105,7 +105,7 @@ public class TaskPassiveReward extends Task {
         }
 
         int rewardlength = r.nextInt(amount) + prefManager.pass_minrew;
-        callback.giveRewardFromTask_(rewardlength);
+        callback.giveRewardFromTask_(rewardlength, true);
         logEvent(" "+rewardlength+" ms reward given", callback);
 
         // Set handler

@@ -4,7 +4,7 @@ public interface TaskInterface {
     void resetTimer_();
     void trialEnded_(String outcome, double rew_scalar);
     void logEvent_(String event);
-    void giveRewardFromTask_(int amount);
+    void giveRewardFromTask_(int amount, boolean sound);
     void disableTrialTimeout();
     void takePhotoFromTask_();
     void commitTrialDataFromTask_(String overallTrialOutcome);

@@ -425,8 +425,8 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             }
 
             @Override
-            public void giveRewardFromTask_(int amount) {
-                giveRewardFromTask(amount);
+            public void giveRewardFromTask_(int amount, boolean sound) {
+                giveRewardFromTask(amount, sound);
             }
 
             @Override
@@ -1064,6 +1064,10 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     private static void correctTrial(double rew_scalar) {
 
+        if (rew_scalar == 0) {
+            return;
+        }
+
         activity.findViewById(R.id.background_main).setBackgroundColor(preferencesManager.rewardbackground);
 
         // If only one reward channel, skip reward selection stage
@@ -1078,8 +1082,10 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         }
     }
 
-    private static void giveRewardFromTask(int reward_duration) {
-        new SoundManager(preferencesManager).playTone();
+    private static void giveRewardFromTask(int reward_duration, boolean sound) {
+        if (sound) {
+            new SoundManager(preferencesManager).playTone();
+        }
         rewardSystem.activateChannel(latestRewardChannel, reward_duration);
         l_rewgiven = l_rewgiven + reward_duration;
     }

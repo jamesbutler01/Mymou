@@ -151,8 +151,7 @@ public class TaskContextSequenceLearning extends Task {
 
         } else {
 
-            // successful trial is false because we want the trial to end but subject not get any reward as they have already received it
-            endOfTrial(false, callback, prefManager);
+            endOfTrial(true, callback, prefManager);
             return;
 
         }
@@ -223,7 +222,7 @@ public class TaskContextSequenceLearning extends Task {
         seqNr = 0;
 
         // generate the stuff
-        choice_cue_i = UtilsTask.addColorCue(1, prefManager.csl_choice_col_i, getContext(), voidClickListener, getView().findViewById(R.id.parent_task_csl), GradientDrawable.OVAL);
+        choice_cue_i = UtilsTask.addColorCue(1, prefManager.csl_choice_col_i, getContext(), null, getView().findViewById(R.id.parent_task_csl), GradientDrawable.OVAL);
         choice_cue_a = UtilsTask.addColorCue(2, prefManager.csl_choice_col_a, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_csl), GradientDrawable.OVAL);
 
         choice_cue_i.setX(600);
@@ -298,20 +297,6 @@ public class TaskContextSequenceLearning extends Task {
         }, prefManager.csl_tone_delay + 1000); // this delay denotes the differences when sound 2 stops playing and go cue turning green
     }
 
-
-    /**
-     * Called whenever a cue is pressed by a subject
-     * So then loads the next appropriate stage of the task depending on what cue was selected
-     */
-
-    private View.OnClickListener voidClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            // does nothing
-        };
-    };
-
-
     // this is our listened for the response that computes the reaction time and dictates strength of sound that comes out
     private View.OnClickListener responseClickListener = new View.OnClickListener() {
         @Override
@@ -349,7 +334,7 @@ public class TaskContextSequenceLearning extends Task {
             // this will be fixed by proper timing
 
             prefManager.tone_strength = 0; // turn off for default sound from givereward from task and then turn back on for sound manager play tone
-            callback.giveRewardFromTask_(rewardSizeN); // needs to be modified to reflect sound strength
+            callback.giveRewardFromTask_(rewardSizeN, false); // needs to be modified to reflect sound strength
 //            getActivity().findViewById(R.id.background_main).setBackgroundColor(prefManager.taskbackground);
 
             // now sort out sound - we multiply everything by 100 such that no decimals get lost and we can convert between int / double etc.

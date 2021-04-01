@@ -120,7 +120,7 @@ public class TaskTrainingStaticCue extends Task {
                     amount = 1;
                 }
                 int rewardlength = r.nextInt(amount) + prefManager.t_sc_minrew;
-                callback.giveRewardFromTask_(rewardlength);
+                callback.giveRewardFromTask_(rewardlength, true);
                 logEvent("Giving " + rewardlength + " ms reward", callback);
 
                 // Reactivate cue after reward finished and ITI occurred

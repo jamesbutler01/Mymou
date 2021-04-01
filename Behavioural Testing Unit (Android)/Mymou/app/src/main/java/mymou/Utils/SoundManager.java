@@ -35,10 +35,6 @@ public class SoundManager {
 
     public SoundManager(PreferencesManager preferencesManagerInit) {
         preferencesManager = preferencesManagerInit;
-        if (preferencesManager.sound) {
-
-            toneGenerator = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, preferencesManager.tone_strength);
-        }
 
         // Predefine this so we're not querying preferences each time we play the tone
         r = preferencesManager.mContext.getResources();
@@ -124,7 +120,7 @@ public class SoundManager {
 
         try {
             if (toneGenerator == null) {
-                toneGenerator = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+                    toneGenerator = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, preferencesManager.tone_strength);
             }
             toneGenerator.startTone(preferencesManager.sound_to_play, 200);
             Handler handler = new Handler(Looper.getMainLooper());

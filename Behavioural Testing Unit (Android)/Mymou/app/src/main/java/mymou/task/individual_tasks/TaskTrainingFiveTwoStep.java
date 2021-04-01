@@ -153,7 +153,7 @@ public class TaskTrainingFiveTwoStep extends Task {
                     callback.takePhotoFromTask_();
 
                     // Reward subject
-                    callback.giveRewardFromTask_(prefManager.ts_go_cue_reward_amount);
+                    callback.giveRewardFromTask_(prefManager.ts_go_cue_reward_amount, true);
 
                     // Log press
                     callback.logEvent_(prefManager.ec_trial_started + ",,,,, trial started");
@@ -301,7 +301,7 @@ public class TaskTrainingFiveTwoStep extends Task {
         if (roll < percent_needed) {
 
             callback.logEvent_("19, 1, ,,, pump activated");
-            callback.giveRewardFromTask_(prefManager.ts_trial_reward_amount);
+            callback.giveRewardFromTask_(prefManager.ts_trial_reward_amount, true);
             background.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.blue));
             endOfTrial(prefManager.ec_correct_trial, prefManager.ts_trial_reward_amount);
 
@@ -387,7 +387,7 @@ public class TaskTrainingFiveTwoStep extends Task {
                 if (r.nextInt(20) < 1) {
                     callback.takePhotoFromTask_();
                 }
-                callback.giveRewardFromTask_(prefManager.ts_go_cue_reward_amount * 2);
+                callback.giveRewardFromTask_(prefManager.ts_go_cue_reward_amount * 2, true);
                 endOfTrial(prefManager.ec_trial_timeout, prefManager.ts_go_cue_reward_amount);
 
                 // Dim screen as well

@@ -282,7 +282,7 @@ public class TaskDiscreteMaze extends Task {
 
                     // Give small reward
                     if (preferencesManager.dm_booster_amount > 0) {
-                        callback.giveRewardFromTask_(preferencesManager.dm_booster_amount);
+                        callback.giveRewardFromTask_(preferencesManager.dm_booster_amount, true);
                     }
 
                     // Update UI

@@ -317,7 +317,7 @@ public class TaskDiscreteValueSpace extends Task {
             } else {
                 getActivity().findViewById(R.id.background_main).setBackgroundColor(preferencesManager.rewardbackground);
             }
-            callback.giveRewardFromTask_(reward_amount);
+            callback.giveRewardFromTask_(reward_amount, true);
 
             // End trial a consistent amount of time after feedback
             // This time is set quite long to encourage learning about the correct choices
