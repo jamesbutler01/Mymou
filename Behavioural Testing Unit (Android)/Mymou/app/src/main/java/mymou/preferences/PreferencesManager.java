@@ -410,7 +410,7 @@ public class PreferencesManager {
     public static int csl_col_context_1, csl_col_context_2;
     public static int csl_choice_col_i, csl_choice_col_a;
 
-    public static int csl_tone_delay;
+    public static int csl_tone_delay, csl_pair_tone_delay, csl_rtBase, csl_maxrew;
 
     public void ContextSequenceLearning() {
         handle_feedback = false;
@@ -424,6 +424,8 @@ public class PreferencesManager {
         csl_choice_col_a = colors[12]; // active, subject can press cue
 
         csl_tone_delay = sharedPrefs.getInt(r.getString(R.string.preftag_csl_tone_delay), r.getInteger(R.integer.default_csl_tone_delay));
+        csl_pair_tone_delay = sharedPrefs.getInt(r.getString(R.string.preftag_csl_pair_tone_delay), r.getInteger(R.integer.default_csl_pair_tone_delay));
+        csl_rtBase = sharedPrefs.getInt(r.getString(R.string.preftag_csl_rtbase), r.getInteger(R.integer.default_csl_rtbase));
 
     }
 }

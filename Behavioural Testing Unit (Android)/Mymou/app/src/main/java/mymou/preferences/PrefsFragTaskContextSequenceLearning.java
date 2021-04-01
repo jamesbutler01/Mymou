@@ -28,8 +28,10 @@ public class PrefsFragTaskContextSequenceLearning extends PreferenceFragmentComp
         setPreferencesFromResource(R.xml.preferences_task_contextsequencelearning, rootKey);
 
         // Set ontouchlisteners for the seekbars to allow users to manually input values
-        SeekBarPreferenceCustom[] seekBarPreferences = new SeekBarPreferenceCustom[1];
+        SeekBarPreferenceCustom[] seekBarPreferences = new SeekBarPreferenceCustom[3];
         seekBarPreferences[0] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_csl_tone_delay));
+        seekBarPreferences[1] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_csl_pair_tone_delay));
+        seekBarPreferences[2] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_csl_rtbase));
         for (int i = 0; i < seekBarPreferences.length; i++) {
             final int i_final = i;
             Log.d("asd", "setting seekbar"+i_final);

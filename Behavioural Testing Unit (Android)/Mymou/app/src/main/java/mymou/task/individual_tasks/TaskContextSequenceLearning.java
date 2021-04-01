@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,16 +45,14 @@ public class TaskContextSequenceLearning extends Task {
     private static PreferencesManager prefManager;  // Load settings specified by experimenter
     private static Handler h0 = new Handler();  // Show object handler
     private static Handler h1 = new Handler();  // Hide object handler
-    private long startTime, rtTime;
+    private long startTime;
     private static Button cue1, cue2, choice_cue_i, choice_cue_a;
-
+    private ToneGenerator toneGenerator;
     private int sound_1, sound_2;
     private int[] currConfig;
 
     private int seqNr = 0;
     private int curr_context;
-
-    private int maxVolume = 100;
 
     /**
      * Function called when task first loaded (before the UI is loaded)
@@ -150,7 +149,7 @@ public class TaskContextSequenceLearning extends Task {
             turnOnSound();
 
         } else {
-
+            getActivity().findViewById(R.id.background_main).setBackgroundColor(prefManager.taskbackground);
             endOfTrial(true, callback, prefManager);
             return;
 
@@ -302,57 +301,44 @@ public class TaskContextSequenceLearning extends Task {
         @Override
         public void onClick(View view) {
 
-            rtTime = System.currentTimeMillis() - startTime;
-            logEvent("RT: " + rtTime + "ms", callback);
-
-            // we need some rtTime that we subtract it from
-            long rtBase = 450; // this is base reaction time; this should be a setting in prefmanager probably
+            long rtTime = System.currentTimeMillis() - startTime;
 
             // turn off cue
             UtilsTask.toggleCue(choice_cue_a, false);
 
-            // dictate sound strength
-            double modifier;
+            // we need some rtTime that we subtract it from
+            int rewAmount = (int) (prefManager.csl_rtBase - rtTime);
 
-            modifier = (rtTime - rtBase);
+            logEvent("Behavior information [Reward, RT]: " + rewAmount + "," + rtTime, callback);
+            if (rewAmount > 0) {
+                callback.giveRewardFromTask_(rewAmount, false); // needs to be modified to reflect sound strength
+                // Play sound depending on amount of reward
+                float maxVolume = 100;
+                float ratio = ((float) rewAmount / (float) prefManager.csl_rtBase);
+                float soundVol = (maxVolume * ratio);
+                logEvent("Behavior information [reward, sound strength]: " +rewAmount+","+ soundVol, callback);
+                try {
+                    toneGenerator = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, (int) soundVol);
+                    toneGenerator.startTone(1, 200);
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (toneGenerator != null) {
+                                toneGenerator.release();
+                                toneGenerator = null;
+                            }
+                        }
+                    }, 200);
+                } catch (Exception e) {
+                    Log.d(TAG, "Exception while playing sound:" + e);
+                }
+            } else {
+                logEvent("No reward as RT ("+rtTime+") > max allowed ("+prefManager.csl_rtBase+")", callback);
+                rewAmount = 0;
+            }
 
-            double tmp = (double) modifier/ (double) rtBase;;
-
-            double bound = 0.99;
-            if (modifier > 0.99) {modifier = (double) bound;} // this is a temporary solution until they specify the exact equation they want for controlling the reward and sound strength
-            else {modifier = tmp;};
-
-            float rewardSize;
-
-            rewardSize = 500 * (float) modifier; // reward size should be a setting in prefmanager as well
-            int rewardSizeN = (int) rewardSize;
-
-            // log main bits
-            logEvent("Behavior information [Reward, modifier, RT]: " + rewardSizeN + "," + modifier + "," + rtTime, callback);
-
-            // this should have reward sound turned off; if the go cue for 2nd stage is pressed too quickly, 2nd two sounds dont appear yet because juice is still coming.
-            // this will be fixed by proper timing
-
-            prefManager.tone_strength = 0; // turn off for default sound from givereward from task and then turn back on for sound manager play tone
-            callback.giveRewardFromTask_(rewardSizeN, false); // needs to be modified to reflect sound strength
-//            getActivity().findViewById(R.id.background_main).setBackgroundColor(prefManager.taskbackground);
-
-            // now sort out sound - we multiply everything by 100 such that no decimals get lost and we can convert between int / double etc.
-            tmp = modifier*100;
-            tmp = (int) tmp;
-            int soundStrength = maxVolume*100 * (int) tmp; // multiplty max sound strength by tmp
-            double soundTmp;
-            soundTmp = (double) soundStrength / 100.0; // back to max 100
-
-            // we now change the strength of the tone depending on the soundTmp
-            // we will also want to change the sound of the correct sound here.
-            prefManager.tone_strength = maxVolume; // leave it like this for now
-            new SoundManager(prefManager).playTone();
-
-            // set back to max volume for sounds 1-4
-//            prefManager.tone_strength = maxVolume;
-
-            // play sound 12
+            // After reward start next phase of task
             h0.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -362,15 +348,9 @@ public class TaskContextSequenceLearning extends Task {
 
                     startMovie();
 
-                    if (seqNr == 2) { // iti period
-                        getActivity().findViewById(R.id.background_main).setBackgroundColor(prefManager.taskbackground);
-                    };
                 }
-            }, (long) tmp + 1000); // this will be delay between reward delivery and next door coming on
+            }, rewAmount + prefManager.csl_pair_tone_delay); // this will be delay between reward delivery and next door coming on
 
-
-            // log additional bits
-            logEvent("Secondary information [tone_delay, reward]: " + prefManager.csl_tone_delay + ","+ rewardSizeN, callback);
         }
     };
 

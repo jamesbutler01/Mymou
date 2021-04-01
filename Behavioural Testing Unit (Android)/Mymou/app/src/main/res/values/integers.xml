@@ -127,7 +127,9 @@
     <integer name="default_t_sc_cuewidth">100</integer>
     <integer name="default_t_sc_cueheight">100</integer>
 
-    <integer name="default_csl_tone_delay">1000</integer> <!-- delay between 1-2 -->
+    <integer name="default_csl_tone_delay">1000</integer>
+    <integer name="default_csl_pair_tone_delay">1000</integer>
+    <integer name="default_csl_rtbase">1500</integer>
 
 
 </resources>
