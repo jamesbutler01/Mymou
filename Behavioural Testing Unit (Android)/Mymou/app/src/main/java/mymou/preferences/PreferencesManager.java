@@ -410,7 +410,8 @@ public class PreferencesManager {
     public static int csl_col_context_1, csl_col_context_2;
     public static int csl_choice_col_i, csl_choice_col_a;
 
-    public static int csl_tone_delay, csl_pair_tone_delay, csl_rtBase, csl_maxrew;
+    public static int csl_tone_delay, csl_pair_tone_delay, csl_rtBase;
+    public static int csl_waitcuex, csl_waitcuey, csl_presscuex, csl_presscuey;
 
     public void ContextSequenceLearning() {
         handle_feedback = false;
@@ -426,6 +427,11 @@ public class PreferencesManager {
         csl_tone_delay = sharedPrefs.getInt(r.getString(R.string.preftag_csl_tone_delay), r.getInteger(R.integer.default_csl_tone_delay));
         csl_pair_tone_delay = sharedPrefs.getInt(r.getString(R.string.preftag_csl_pair_tone_delay), r.getInteger(R.integer.default_csl_pair_tone_delay));
         csl_rtBase = sharedPrefs.getInt(r.getString(R.string.preftag_csl_rtbase), r.getInteger(R.integer.default_csl_rtbase));
+
+        csl_waitcuex = sharedPrefs.getInt(r.getString(R.string.preftag_csl_waitcuex), r.getInteger(R.integer.default_csl_waitcuex));
+        csl_waitcuey = sharedPrefs.getInt(r.getString(R.string.preftag_csl_waitcuey), r.getInteger(R.integer.default_csl_waitcuey));
+        csl_presscuex = sharedPrefs.getInt(r.getString(R.string.preftag_csl_presscuex), r.getInteger(R.integer.default_csl_presscuex));
+        csl_presscuey = sharedPrefs.getInt(r.getString(R.string.preftag_csl_presscuey), r.getInteger(R.integer.default_csl_presscuey));
 
     }
 }

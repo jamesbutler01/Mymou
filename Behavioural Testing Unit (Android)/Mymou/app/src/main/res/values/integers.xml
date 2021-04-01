@@ -130,6 +130,10 @@
     <integer name="default_csl_tone_delay">1000</integer>
     <integer name="default_csl_pair_tone_delay">1000</integer>
     <integer name="default_csl_rtbase">1500</integer>
+    <integer name="default_csl_waitcuex">600</integer>
+    <integer name="default_csl_waitcuey">940</integer>
+    <integer name="default_csl_presscuex">600</integer>
+    <integer name="default_csl_presscuey">940</integer>
 
 
 </resources>

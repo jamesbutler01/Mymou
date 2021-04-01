@@ -3,7 +3,6 @@ package mymou.task.individual_tasks;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -13,22 +12,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import android.media.MediaPlayer;
-import android.media.AudioFormat;
 import android.media.AudioManager;
-import android.media.AudioTrack;
 import android.media.ToneGenerator;
-import android.widget.Toast;
 
 import android.widget.VideoView;
-import android.widget.MediaController;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+
 import java.util.Random;
 
 import mymou.R;
-import mymou.Utils.PlayCustomTone;
-import mymou.Utils.SoundManager;
 import mymou.preferences.PreferencesManager;
 import mymou.task.backend.TaskInterface;
 import mymou.task.backend.UtilsTask;
@@ -46,7 +37,7 @@ public class TaskContextSequenceLearning extends Task {
     private static Handler h0 = new Handler();  // Show object handler
     private static Handler h1 = new Handler();  // Hide object handler
     private long startTime;
-    private static Button cue1, cue2, choice_cue_i, choice_cue_a;
+    private static Button cue1, cue2, waitcue, gocue;
     private ToneGenerator toneGenerator;
     private int sound_1, sound_2;
     private int[] currConfig;
@@ -120,7 +111,7 @@ public class TaskContextSequenceLearning extends Task {
                         getActivity().findViewById(R.id.background_main).setBackgroundColor(prefManager.csl_col_context_2);
                     }
 
-                    UtilsTask.toggleCue(choice_cue_i, true);
+                    UtilsTask.toggleCue(waitcue, true);
                     turnOnSound();
 
                 }
@@ -145,7 +136,7 @@ public class TaskContextSequenceLearning extends Task {
             curr_context = currConfig[1];
             sound_1 = currConfig[4]; // 1 becomes 3
             sound_2 = currConfig[5];// 2 becomes 4}
-            UtilsTask.toggleCue(choice_cue_i, true);
+            UtilsTask.toggleCue(waitcue, true);
             turnOnSound();
 
         } else {
@@ -221,18 +212,18 @@ public class TaskContextSequenceLearning extends Task {
         seqNr = 0;
 
         // generate the stuff
-        choice_cue_i = UtilsTask.addColorCue(1, prefManager.csl_choice_col_i, getContext(), null, getView().findViewById(R.id.parent_task_csl), GradientDrawable.OVAL);
-        choice_cue_a = UtilsTask.addColorCue(2, prefManager.csl_choice_col_a, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_csl), GradientDrawable.OVAL);
+        waitcue = UtilsTask.addColorCue(1, prefManager.csl_choice_col_i, getContext(), null, getView().findViewById(R.id.parent_task_csl), GradientDrawable.OVAL);
+        gocue = UtilsTask.addColorCue(2, prefManager.csl_choice_col_a, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_csl), GradientDrawable.OVAL);
 
-        choice_cue_i.setX(600);
-        choice_cue_i.setY(940);
+        waitcue.setX(prefManager.csl_waitcuex);
+        waitcue.setY(prefManager.csl_waitcuey);
 
-        choice_cue_a.setX(600);
-        choice_cue_a.setY(940);
+        gocue.setX(prefManager.csl_presscuex);
+        gocue.setY(prefManager.csl_presscuey);
 
         // turn off all cues
-        UtilsTask.toggleCue(choice_cue_i, false);
-        UtilsTask.toggleCue(choice_cue_a, false);
+        UtilsTask.toggleCue(waitcue, false);
+        UtilsTask.toggleCue(gocue, false);
 
     }
 
@@ -288,8 +279,8 @@ public class TaskContextSequenceLearning extends Task {
         h0.postDelayed(new Runnable() {
             @Override
             public void run() {
-                UtilsTask.toggleCue(choice_cue_i, false);
-                UtilsTask.toggleCue(choice_cue_a, true);
+                UtilsTask.toggleCue(waitcue, false);
+                UtilsTask.toggleCue(gocue, true);
                 startTime = System.currentTimeMillis(); // this should be once the last tone is played
 
             }
@@ -304,7 +295,7 @@ public class TaskContextSequenceLearning extends Task {
             long rtTime = System.currentTimeMillis() - startTime;
 
             // turn off cue
-            UtilsTask.toggleCue(choice_cue_a, false);
+            UtilsTask.toggleCue(gocue, false);
 
             // we need some rtTime that we subtract it from
             int rewAmount = (int) (prefManager.csl_rtBase - rtTime);

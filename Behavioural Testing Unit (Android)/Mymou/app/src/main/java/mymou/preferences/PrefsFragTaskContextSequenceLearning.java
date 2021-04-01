@@ -28,18 +28,21 @@ public class PrefsFragTaskContextSequenceLearning extends PreferenceFragmentComp
         setPreferencesFromResource(R.xml.preferences_task_contextsequencelearning, rootKey);
 
         // Set ontouchlisteners for the seekbars to allow users to manually input values
-        SeekBarPreferenceCustom[] seekBarPreferences = new SeekBarPreferenceCustom[3];
+        SeekBarPreferenceCustom[] seekBarPreferences = new SeekBarPreferenceCustom[7];
         seekBarPreferences[0] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_csl_tone_delay));
         seekBarPreferences[1] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_csl_pair_tone_delay));
         seekBarPreferences[2] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_csl_rtbase));
+        seekBarPreferences[3] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_csl_waitcuex));
+        seekBarPreferences[4] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_csl_waitcuey));
+        seekBarPreferences[5] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_csl_presscuex));
+        seekBarPreferences[6] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_csl_presscuey));
         for (int i = 0; i < seekBarPreferences.length; i++) {
             final int i_final = i;
-            Log.d("asd", "setting seekbar"+i_final);
             seekBarPreferences[i].setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     // Number dialog
-                    Log.d("asd", "setting seekbar"+i_final);
+                    Log.d(TAG, "setting seekbar"+i_final);
                     AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
                     alert.setTitle("Input number");
                     final EditText input = new EditText(getContext());

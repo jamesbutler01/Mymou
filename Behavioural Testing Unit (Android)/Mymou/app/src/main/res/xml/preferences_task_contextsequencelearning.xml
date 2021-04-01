@@ -27,6 +27,33 @@
 
 
     </PreferenceCategory>
+    <PreferenceCategory
+        android:layout="@layout/preferences_title"
+        app:key="task_settings"
+        app:title="Layout settings">
 
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_csl_waitcuex"
+            app:key="@string/preftag_csl_waitcuex"
+            app:title="Wait cue x position (pixels)"
+            android:max="1200"/>
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_csl_waitcuey"
+            app:key="@string/preftag_csl_waitcuey"
+            app:title="Wait cue y position (pixels)"
+            android:max="1800"/>
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_csl_presscuex"
+            app:key="@string/preftag_csl_presscuex"
+            app:title="Go cue x position (pixels)"
+            android:max="1200"/>
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_csl_presscuey"
+            app:key="@string/preftag_csl_presscuey"
+            app:title="Go cue y position (pixels)"
+            android:max="1800"/>
+
+
+    </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

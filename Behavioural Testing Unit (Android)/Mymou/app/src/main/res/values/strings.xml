@@ -277,6 +277,10 @@
     <string name="preftag_csl_tone_delay">csl_tone_delay</string>
     <string name="preftag_csl_pair_tone_delay">csl_pair_tone_delay</string>
     <string name="preftag_csl_rtbase">preftag_csl_rtbase</string>
+    <string name="preftag_csl_waitcuex">preftag_csl_waitcuex</string>
+    <string name="preftag_csl_waitcuey">preftag_csl_waitcuey</string>
+    <string name="preftag_csl_presscuex">preftag_csl_presscuex</string>
+    <string name="preftag_csl_presscuey">preftag_csl_presscuey</string>
 
     <string name="preftag_t_sc_minrew">default_t_sc_minrew</string>
     <string name="preftag_t_sc_maxrew">preftag_t_sc_maxrew</string>
