@@ -34,6 +34,7 @@
         <item>Random dot motion</item>
         <item>Discrete value space</item>
         <item>Context Sequence Learning</item>
+        <item>Wald\'s Sequential Probability RatioLearning</item>
     </string-array>
 
     <string-array name="task_descriptions">
@@ -55,6 +56,7 @@
         <item>A movie is played consisting of dots moving in different directions, for which a specified proportion of dots all move towards either the left or right of the screen. Subjects must then select which side of the screen the dots were moving towards.</item>
         <item>Subjects are given choices between two cues that lie on a 10x10 value grid made up of probability and magnitude dimensions. For example, the cue at (1, 1) will give 10% reward 10% of the time. They can then pick either cue are given the corresponding reward along with a secondary reinforcer to indicate whether it was better or worse than the counterfactual option.</item>
         <item>Two sounds are displayed followed by a go cue. This is followed by two further sounds and another go cue. Sounds in the first and second sequence can be within the same context or in different contexts.</item>
+        <item>Implementation of Wald's Sequential Probability Ratio test as described in Kira, Yang, Shadlen (2015) Neuron.</item>
     </string-array>
 
     <string name="default_startuptime">0700</string>
