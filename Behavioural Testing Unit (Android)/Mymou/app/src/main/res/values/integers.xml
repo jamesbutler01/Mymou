@@ -135,5 +135,14 @@
     <integer name="default_csl_presscuex">600</integer>
     <integer name="default_csl_presscuey">940</integer>
 
+    <integer name="default_w_startdelay">400</integer>
+    <integer name="default_w_probcuesdelay_low">500</integer>
+    <integer name="default_w_probcuesdelay_high">900</integer>
+    <integer name="default_w_gocuesize">30</integer>
+    <integer name="default_w_probcueyloc1">550</integer>
+    <integer name="default_w_probcuexloc1">250</integer>
+    <integer name="default_w_probcueyloc2">1000</integer>
+    <integer name="default_w_probcuexloc2">650</integer>
+
 
 </resources>

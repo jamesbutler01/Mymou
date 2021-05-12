@@ -1,12 +1,8 @@
 package mymou.task.individual_tasks;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.graphics.Path;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +11,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 
 import java.util.Random;
 
@@ -38,21 +33,35 @@ public class TaskWalds extends Task {
     // Debug
     public static String TAG = "TaskWalds";
 
-    private static PreferencesManager prefManager;
-
     // Task objects
-    private static Button go_cue;
-    private static ImageButton[] choice_cues;
-    private final static int id_go = 4, id_c1_1 = 0, id_c1_2 = 1, id_c2_1 = 2, id_c2_2 = 3;
-    private static int trial_counter;
-    private static int c2_1_rew_percent, c2_2_rew_percent, next_rew_change;
+    private static PreferencesManager prefManager;
+    private ImageButton cue1, cue2;
+    private Button gocue;
+    private ImageButton[] probcues;
+    private int[] probcueinds;
+    private final static int id_cue1 = 0, id_cue2 = 1;
+    private static int num_cues, rewardthresh, numsteps=0;
     private Float x_range, y_range;
-    private View background;
     private Random r;
     private static Handler h0 = new Handler();  // Task trial_timer
     private static Handler h1 = new Handler();  // Inter-trial interval timer
     private static Handler h2 = new Handler();  // Dim brightness timer
 
+    // Images to be used as probability cues
+    int[] allprobcues = {
+            R.drawable.aaaaa,
+            R.drawable.aaaab,
+            R.drawable.aaaac,
+            R.drawable.aaaad,
+            R.drawable.aaaae,
+            R.drawable.aaaaf,
+            R.drawable.aaaag,
+            R.drawable.aaaah,
+            R.drawable.aaaai,
+            R.drawable.aaaaj,
+    };
+
+    double[] allprobweights = {-1, -0.9, -0.7, -0.5, -0.3, 0.3, 0.5, 0.7, 0.9, 1};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,69 +75,128 @@ public class TaskWalds extends Task {
 
         assignObjects();
 
-        // Randomly decide which state starts out high when task first started
-        if (r.nextBoolean()) {
-            updateRewardamounts();
-        }
+        nextStep(0);
 
-        prepareForNewTrial(0);
+    }
+
+    private void nextStep(int numsteps) {
+
+        int randomduration;
+        if (numsteps==0) {
+            // Find variable duration of prob cues showing
+            randomduration = r.nextInt(prefManager.w_probcuesdelay_high - prefManager.w_probcuesdelay_low) + prefManager.w_probcuesdelay_low;
+        } else {
+            randomduration = prefManager.w_startdelay;
+        }
+        callback.logEvent_("Showing step "+numsteps+" after "+randomduration);
+
+        h1.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (numsteps > num_cues){
+                    UtilsTask.toggleCue(gocue, false);
+                    cue1.setClickable(true);
+                    cue2.setClickable(true);
+
+                } else {
+                    UtilsTask.toggleView(probcues[numsteps], true);
+                    callback.logEvent_("Showing step "+numsteps);
+                    nextStep(numsteps + 1);
+                }
+
+            }
+        }, randomduration);
 
     }
 
     private void assignObjects() {
         // Load preferences
         prefManager = new PreferencesManager(getContext());
-        prefManager.TrainingTasks();
-        prefManager.TrainingFiveTwoStep();
-
-        background = getView().findViewById(R.id.parent_task_empty);
-
-        // Create go_cue
-        ConstraintLayout layout = getView().findViewById(R.id.parent_task_empty);
-
-        go_cue = UtilsTask.addColorCue(id_go, ContextCompat.getColor(getContext(), R.color.green),
-                getContext(), buttonClickListener, layout);
-
-        // Create choice 1 and choice 2 cues
-        choice_cues = new ImageButton[4];
-        choice_cues[id_c1_1] = UtilsTask.addImageCue(id_c1_1, getContext(), layout, buttonClickListener);
-        choice_cues[id_c1_1].setImageResource(R.drawable.tstc11);
-
-        choice_cues[id_c1_2] = UtilsTask.addImageCue(id_c1_2, getContext(), layout, buttonClickListener);
-        choice_cues[id_c1_2].setImageResource(R.drawable.tstc12);
-
-        choice_cues[id_c2_1] = UtilsTask.addImageCue(id_c2_1, getContext(), layout, buttonClickListener);
-        choice_cues[id_c2_1].setImageResource(R.drawable.tstc21);
-
-        choice_cues[id_c2_2] = UtilsTask.addImageCue(id_c2_2, getContext(), layout, buttonClickListener);
-        choice_cues[id_c2_2].setImageResource(R.drawable.tstc22);
-
-        // Centre static Choice 2 cues and secondary reinforcer
-        choice_cues[id_c2_1].setX(450);
-        choice_cues[id_c2_1].setY(750);
-        choice_cues[id_c2_2].setX(450);
-        choice_cues[id_c2_2].setY(750);
+        prefManager.Walds();
 
         // Random number generator
         r = new Random();
 
-        // Locations for go cue
+        // Locations for choice cues
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point screen_size = new Point();
         display.getSize(screen_size);
         x_range = (float) (screen_size.x - prefManager.cue_size);
         y_range = (float) (screen_size.y - prefManager.cue_size);
 
-        next_rew_change = 0;
+        ConstraintLayout layout = getView().findViewById(R.id.parent_task_empty);
 
-        disableCues();
+        // Create go cue
+        gocue = UtilsTask.addColorCue(-1,  0, getContext(), null, layout, 1);
+        gocue.setWidth(prefManager.w_gocuesize);
+        gocue.setHeight(prefManager.w_gocuesize);
+        float halfx = (float) (screen_size.x - prefManager.w_gocuesize) / 2;
+        gocue.setX(halfx);
+        float halfy = (float) (screen_size.y - prefManager.w_gocuesize) / 2;
+        gocue.setY(halfy);
+
+        // Create choice 1 and choice 2 cues
+        cue1 = UtilsTask.addImageCue(id_cue1, getContext(), layout, buttonClickListener);
+        cue1.setImageResource(R.drawable.tstc11);
+        int x_loc = (int) (r.nextFloat() * x_range);
+        cue1.setX(x_loc);
+        cue1.setY(1550);
+        cue1.setClickable(false);
+        cue2 = UtilsTask.addImageCue(id_cue2, getContext(), layout, buttonClickListener);
+        cue2.setImageResource(R.drawable.tstc12);
+        x_loc = (int) (r.nextFloat() * x_range);
+        cue2.setX(x_loc);
+        cue2.setY(100);
+        cue2.setClickable(false);
+
+        // TODO: Implement later stages
+        num_cues = 4;
+        probcues = new ImageButton[num_cues];
+        probcueinds = new int[num_cues];
+        int summedcueval = 0;
+        int[] chosenpositions = {0, 0, 0, 0};
+        int[] xpositions = {prefManager.w_probcuexloc1, prefManager.w_probcuexloc2, prefManager.w_probcuexloc1, prefManager.w_probcuexloc2};
+        int[] ypositions = {prefManager.w_probcueyloc1, prefManager.w_probcueyloc1, prefManager.w_probcueyloc2, prefManager.w_probcueyloc2};
+
+        int pos = -1;
+        for (int i=0; i<num_cues; i++) {
+            probcues[i] = UtilsTask.addImageCue(num_cues+2, getContext(), layout, buttonClickListener);
+
+            // Randomly pick cue value
+            probcueinds[i] = r.nextInt(allprobcues.length);
+            summedcueval += allprobweights[probcueinds[i]];
+            probcues[i].setImageResource(allprobcues[probcueinds[i]]);
+            callback.logEvent_("Prob. cue "+i+" set to "+probcueinds[i]+" (weight="+ allprobweights[probcueinds[i]]+")");
+            callback.logEvent_("Current summed weight = "+summedcueval);
+
+            // Randomly position cue
+            pos = r.nextInt(chosenpositions.length);
+            while (chosenpositions[pos]==1) {
+                pos = r.nextInt(chosenpositions.length);
+            }
+            chosenpositions[pos] = 1;
+            probcues[i].setX(xpositions[pos]);
+            probcues[i].setY(ypositions[pos]);
+            callback.logEvent_("Prob. cue "+i+" set to position"+pos+"(x="+xpositions[pos]+", y="+ypositions[pos]+")");
+
+            UtilsTask.toggleCue(probcues[i], false);
+        }
+
+        double thresh = Math.pow(10, summedcueval);
+        double rewardthreshd = thresh / (1 + thresh);
+        rewardthreshd = rewardthreshd * 100;
+        rewardthresh = (int) rewardthreshd;
+
+        callback.logEvent_("Reward probability of A set to "+rewardthresh);
+
+        numsteps = 0;
     }
 
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
 
-            callback.logEvent_("17," + view.getId() + ",,,, cue clicked");
+            callback.logEvent_("Cue clicked, id = " + view.getId());
 
             // Always disable cues first
             disableCues();
@@ -143,289 +211,35 @@ public class TaskWalds extends Task {
 
             // Reset timer for idle timeout on each press
             callback.resetTimer_();
-            randomRewardTimer();
 
             switch (view.getId()) {
-                case id_go:
-                    trial_counter += 1;
-
-                    // Take photo of subject
-                    callback.takePhotoFromTask_();
-
-                    // Reward subject
-                    callback.giveRewardFromTask_(prefManager.ts_go_cue_reward_amount, true);
-
-                    // Log press
-                    callback.logEvent_(prefManager.ec_trial_started + ",,,,, trial started");
-
-                    // Enable choice 1 after reward finished
-                    h1.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            toggleC1();
-                        }
-                    }, prefManager.ts_go_cue_reward_amount);
-
-                    break;
-
-                case id_c1_1:
-                    toggleC2(id_c1_1);
-                    break;
-                case id_c1_2:
-                    toggleC2(id_c1_2);
-                    break;
-                case id_c2_1:
-                    outcomeStage(id_c2_1);
-                    break;
-                case id_c2_2:
-                    outcomeStage(id_c2_2);
+                // If pressed B then flip the probability
+                case id_cue2:
+                    rewardthresh = 100 - rewardthresh;
+                    callback.logEvent_("Reward probability of B set to "+rewardthresh);
                     break;
             }
+
+            int roll = r.nextInt(100);
+            boolean correct = false;
+            if (roll > rewardthresh) {
+                correct = true;
+            }
+            callback.logEvent_("Rolled "+roll+" so correct trial = "+correct);
+            endOfTrial(correct, callback, prefManager);
+
         }
     };
 
 
-    private void prepareForNewTrial(int delay) {
-        // Move cues
-        positionCues();
-
-        // Determine reward amounts
-        updateRewardamounts();
-
-        // Re-enable go_cue and start idle timer after specified delay
-        h1.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                callback.resetTimer_();
-                callback.logEvent_("18," + prefManager.ec_trial_prepared + ",,,, trial prepared");
-
-                disableCues();
-
-                UtilsTask.toggleCue(go_cue, true);
-
-                randomRewardTimer();
-
-                background.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white));
-
-                // Disabled for now
-                // animateGoCue();
-
-            }
-        }, delay + prefManager.ts_intertrial_interval);
-    }
-
-    private void updateRewardamounts() {
-        if (next_rew_change <= trial_counter) {
-
-            if (c2_1_rew_percent == prefManager.ts_low_reward_percent) {
-                c2_1_rew_percent = prefManager.ts_high_reward_percent;
-                c2_2_rew_percent = prefManager.ts_low_reward_percent;
-            } else {
-                c2_1_rew_percent = prefManager.ts_low_reward_percent;
-                c2_2_rew_percent = prefManager.ts_high_reward_percent;
-            }
-
-            // Pick next reward update
-            next_rew_change = trial_counter + prefManager.ts_rew_change_interval;
-            callback.logEvent_("10," + c2_1_rew_percent + "," + c2_2_rew_percent + "," + (next_rew_change - trial_counter) + ",, rewards changed");
-        }
-    }
-
-    private void endOfTrial(String outcome, int delay) {
-        h0.removeCallbacksAndMessages(null);
-        callback.logEvent_("11," + outcome + ",,,, end of trial");
-
-        // We have to commit the event as well as the trial never actually ends
-        callback.commitTrialDataFromTask_(outcome);
-
-        prepareForNewTrial(delay);
-    }
-
-    private void toggleC1() {
-        callback.logEvent_("12,,,,, c1 toggled on,");
-
-        UtilsTask.toggleCue(choice_cues[id_c1_1], true);
-        UtilsTask.toggleCue(choice_cues[id_c1_2], true);
-    }
-
-    private void toggleC2(int c1_pressed) {
-
-        // Roll the dice
-        int roll = r.nextInt(100);
-
-        if (roll >= prefManager.ts_transition_prob) {
-
-            // If rare, flip c1_pressed
-            if (c1_pressed == id_c1_1) {
-                c1_pressed = id_c1_2;
-            } else {
-                c1_pressed = id_c1_1;
-            }
-
-            callback.logEvent_("13," + c1_pressed + "," + roll + ",,, rare transition");
-        } else {
-            callback.logEvent_("13," + c1_pressed + "," + roll + ",,, common transition");
-        }
-
-        if (c1_pressed == id_c1_1) {
-            background.setBackgroundColor(prefManager.ts_c2_1_col);
-        } else {
-            background.setBackgroundColor(prefManager.ts_c2_2_col);
-        }
-
-        final int c1_pressed_final = c1_pressed;
-
-        // Enable choice 1 after reward finished
-        h1.removeCallbacksAndMessages(null);
-        h1.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (c1_pressed_final == id_c1_1) {
-                    UtilsTask.toggleCue(choice_cues[id_c2_1], true);
-                } else {
-                    UtilsTask.toggleCue(choice_cues[id_c2_2], true);
-                }
-                callback.logEvent_("14," + c1_pressed_final + ",,,,c2 toggled on");
-            }
-        }, prefManager.ts_go_cue_reward_amount);
-
-    }
-
-    private void outcomeStage(int c2_pressed) {
-
-        int percent_needed = c2_pressed == id_c2_1 ? c2_1_rew_percent : c2_2_rew_percent;
-        int roll = r.nextInt(100);
-        callback.logEvent_("15," + c2_pressed + "," + percent_needed + "," + roll + ",, outcome");
-
-        if (roll < percent_needed) {
-
-            callback.logEvent_("19, 1, ,,, pump activated");
-            callback.giveRewardFromTask_(prefManager.ts_trial_reward_amount, true);
-            background.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.blue));
-            endOfTrial(prefManager.ec_correct_trial, prefManager.ts_trial_reward_amount);
-
-        } else {
-
-            callback.logEvent_("19, 0, ,,, no pump");
-            background.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.fuchsia));
-            endOfTrial(prefManager.ec_incorrect_trial, prefManager.ts_trial_reward_amount);
-
-        }
-
-
-    }
-
     private void disableCues() {
-        UtilsTask.toggleCue(go_cue, false);
-        UtilsTask.toggleCues(choice_cues, false);
-    }
-
-    private void positionCues() {
-        int x_loc = (int) (r.nextFloat() * x_range);
-        int y_loc = (int) (r.nextFloat() * y_range);
-
-        go_cue.setX(x_loc);
-        go_cue.setY(y_loc);
-
-        callback.logEvent_("16,"+x_loc+","+y_loc+",,,go cue x and y position");
-
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        Point screen_size = new Point();
-        display.getSize(screen_size);
-
-        // Choice 1 cues
-        // Hardcoded as for some reason using Point's didn't work
-        if (r.nextBoolean()) {
-            if (r.nextBoolean()) {
-                callback.logEvent_("20,175,1200,725,300, choice 1 positions");
-                choice_cues[id_c1_1].setX(175);
-                choice_cues[id_c1_1].setY(1200);
-                choice_cues[id_c1_2].setX(725);
-                choice_cues[id_c1_2].setY(300);
-            } else {
-                callback.logEvent_("20,725,300,175,1200, choice 1 positions");
-                choice_cues[id_c1_1].setX(725);
-                choice_cues[id_c1_1].setY(300);
-                choice_cues[id_c1_2].setX(175);
-                choice_cues[id_c1_2].setY(1200);
-            }
-        } else {
-            if (r.nextBoolean()) {
-                callback.logEvent_("20,725,1200,175,300, choice 1 positions");
-                choice_cues[id_c1_1].setX(725);
-                choice_cues[id_c1_1].setY(1200);
-                choice_cues[id_c1_2].setX(175);
-                choice_cues[id_c1_2].setY(300);
-            } else {
-                callback.logEvent_("20,175,300,725,1200, choice 1 positions");
-                choice_cues[id_c1_1].setX(175);
-                choice_cues[id_c1_1].setY(300);
-                choice_cues[id_c1_2].setX(725);
-                choice_cues[id_c1_2].setY(1200);
-            }
-        }
-
-    }
-
-    private void randomRewardTimer() {
-
-        // Pick reward time
-        int random_reward_time = r.nextInt(prefManager.t_random_reward_stop_time - prefManager.t_random_reward_start_time);
-        random_reward_time += prefManager.t_random_reward_start_time;
-        Log.d(TAG, "Setting timer for " + random_reward_time);
-        callback.logEvent_("33," + random_reward_time + ",,,, idle timer set");
-
-        h0.removeCallbacksAndMessages(null);
-        h0.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                callback.logEvent_("25,,,,, random reward");
-                callback.setBrightnessFromTask_(true);
-                disableCues();
-                if (r.nextInt(20) < 1) {
-                    callback.takePhotoFromTask_();
-                }
-                callback.giveRewardFromTask_(prefManager.ts_go_cue_reward_amount * 2, true);
-                endOfTrial(prefManager.ec_trial_timeout, prefManager.ts_go_cue_reward_amount);
-
-                // Dim screen as well
-                h2.removeCallbacksAndMessages(null);
-                h2.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        callback.setBrightnessFromTask_(false);
-                    }
-                }, 20000);
-
-
-            }
-        }, random_reward_time * 1000);
-    }
-
-
-    public void animateGoCue() {
-            Path path = new Path();
-        path.moveTo(175, 1200);
-        path.lineTo(725, 300);
-        path.moveTo(725, 300);
-        path.lineTo(175, 300);
-        path.moveTo(175, 300);
-        path.lineTo(725, 1200);
-        path.moveTo(725, 1200);
-        path.lineTo(175, 1200);
-        path.moveTo(175, 1200);
-        ObjectAnimator mover = ObjectAnimator.ofFloat(go_cue, "x", "y", path);
-        mover.setDuration(10000);
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.play(mover);
-        animatorSet.start();
+        UtilsTask.toggleCue(cue1, false);
+        UtilsTask.toggleCue(cue2, false);
+        UtilsTask.toggleCues(probcues, false);
     }
 
     // Implement interface and listener to enable communication up to TaskManager
     TaskInterface callback;
-
     public void setFragInterfaceListener(TaskInterface callback) {
         this.callback = callback;
     }
@@ -437,7 +251,6 @@ public class TaskWalds extends Task {
         h0.removeCallbacksAndMessages(null);
         h1.removeCallbacksAndMessages(null);
         h2.removeCallbacksAndMessages(null);
-        callback.setBrightnessFromTask_(true);
     }
 
 

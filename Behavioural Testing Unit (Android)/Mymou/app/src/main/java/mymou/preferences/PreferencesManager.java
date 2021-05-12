@@ -434,4 +434,20 @@ public class PreferencesManager {
         csl_presscuey = sharedPrefs.getInt(r.getString(R.string.preftag_csl_presscuey), r.getInteger(R.integer.default_csl_presscuey));
 
     }
+
+    public int w_startdelay, w_probcuesdelay_low, w_probcuesdelay_high, w_gocuesize;
+    public int w_probcuexloc1, w_probcueyloc1, w_probcuexloc2, w_probcueyloc2;
+
+    public void Walds() {
+        w_startdelay = sharedPrefs.getInt(r.getString(R.string.preftag_w_startdelay), r.getInteger(R.integer.default_w_startdelay));
+        w_probcuesdelay_low = sharedPrefs.getInt(r.getString(R.string.preftag_w_probcuesdelay_low), r.getInteger(R.integer.default_w_probcuesdelay_low));
+        w_probcuesdelay_high = sharedPrefs.getInt(r.getString(R.string.preftag_w_probcuesdelay_high), r.getInteger(R.integer.default_w_probcuesdelay_high));
+        w_gocuesize = sharedPrefs.getInt(r.getString(R.string.preftag_w_gocuesize), r.getInteger(R.integer.default_w_gocuesize));
+        w_probcuexloc1 = sharedPrefs.getInt(r.getString(R.string.preftag_w_probcuexloc1), r.getInteger(R.integer.default_w_probcuexloc1));
+        w_probcueyloc1 = sharedPrefs.getInt(r.getString(R.string.preftag_w_probcueyloc1), r.getInteger(R.integer.default_w_probcueyloc1));
+        w_probcuexloc2 = sharedPrefs.getInt(r.getString(R.string.preftag_w_probcuexloc2), r.getInteger(R.integer.default_w_probcuexloc2));
+        w_probcueyloc2 = sharedPrefs.getInt(r.getString(R.string.preftag_w_probcueyloc2), r.getInteger(R.integer.default_w_probcueyloc2));
+
+
+    }
 }
