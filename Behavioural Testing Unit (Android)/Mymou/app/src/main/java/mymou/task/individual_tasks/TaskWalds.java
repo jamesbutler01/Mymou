@@ -41,7 +41,7 @@ public class TaskWalds extends Task {
     private ImageButton[] probcues;
     private int[] probcueinds;
     private final static int id_cue1 = 0, id_cue2 = 1;
-    private static int rewardthresh, numsteps=0;
+    private static int rewardthresh;
     private Float x_range, y_range;
     private Random r;
     private static Handler h0 = new Handler();
@@ -196,7 +196,6 @@ public class TaskWalds extends Task {
 
         callback.logEvent_("Reward probability of A set to "+rewardthresh);
 
-        numsteps = 0;
     }
 
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
