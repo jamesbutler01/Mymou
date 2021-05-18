@@ -158,6 +158,19 @@ public class UtilsTask {
         layout.addView(button);
         return button;
     }
+    // Add a _clickable_ image to the task of a certain size
+    public static ImageButton addImageCue(int id, Context context, ConstraintLayout layout, View.OnClickListener onClickListener, int size, int bordersize) {
+        PreferencesManager preferencesManager = new PreferencesManager(context);
+        ImageButton button = new ImageButton(context);
+        button.setLayoutParams(new LinearLayout.LayoutParams(size, size));
+        button.setId(id);
+        button.setScaleType(ImageView.ScaleType.FIT_XY);
+        int border = bordersize;
+        button.setPadding(border, border, border, border);
+        button.setOnClickListener(onClickListener);
+        layout.addView(button);
+        return button;
+    }
 
     // Switches on a particular monkeys cues, and switches off other monkey's cues
     public static void toggleMonkeyCues(int monkId, Button[][] all_cues) {

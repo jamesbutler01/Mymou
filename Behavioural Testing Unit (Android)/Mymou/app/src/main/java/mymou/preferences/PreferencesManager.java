@@ -435,18 +435,29 @@ public class PreferencesManager {
 
     }
 
-    public int w_startdelay, w_probcuesdelay_low, w_probcuesdelay_high, w_gocuesize;
+    public int w_gocuesize, w_choicecuesize, w_rewcuesize, w_numcues;
+    public int w_choicecuey1, w_choicecuey2, w_choicecuex1, w_choicecuex2;
+    public int w_startdelay, w_probcuesdelay_low, w_probcuesdelay_high;
     public int w_probcuexloc1, w_probcueyloc1, w_probcuexloc2, w_probcueyloc2;
+    public boolean w_randposchoicecues;
 
     public void Walds() {
+        w_numcues = sharedPrefs.getInt(r.getString(R.string.preftag_w_numcues), r.getInteger(R.integer.default_w_numcues));
         w_startdelay = sharedPrefs.getInt(r.getString(R.string.preftag_w_startdelay), r.getInteger(R.integer.default_w_startdelay));
         w_probcuesdelay_low = sharedPrefs.getInt(r.getString(R.string.preftag_w_probcuesdelay_low), r.getInteger(R.integer.default_w_probcuesdelay_low));
         w_probcuesdelay_high = sharedPrefs.getInt(r.getString(R.string.preftag_w_probcuesdelay_high), r.getInteger(R.integer.default_w_probcuesdelay_high));
         w_gocuesize = sharedPrefs.getInt(r.getString(R.string.preftag_w_gocuesize), r.getInteger(R.integer.default_w_gocuesize));
+        w_choicecuesize = sharedPrefs.getInt(r.getString(R.string.preftag_w_choicecuesize), r.getInteger(R.integer.default_w_choicecuesize));
+        w_rewcuesize = sharedPrefs.getInt(r.getString(R.string.preftag_w_rewcuesize), r.getInteger(R.integer.default_w_rewcuesize));
         w_probcuexloc1 = sharedPrefs.getInt(r.getString(R.string.preftag_w_probcuexloc1), r.getInteger(R.integer.default_w_probcuexloc1));
         w_probcueyloc1 = sharedPrefs.getInt(r.getString(R.string.preftag_w_probcueyloc1), r.getInteger(R.integer.default_w_probcueyloc1));
         w_probcuexloc2 = sharedPrefs.getInt(r.getString(R.string.preftag_w_probcuexloc2), r.getInteger(R.integer.default_w_probcuexloc2));
         w_probcueyloc2 = sharedPrefs.getInt(r.getString(R.string.preftag_w_probcueyloc2), r.getInteger(R.integer.default_w_probcueyloc2));
+        w_choicecuey1 = sharedPrefs.getInt(r.getString(R.string.preftag_w_choicecuey1), r.getInteger(R.integer.default_w_choicecuey1));
+        w_choicecuey2 = sharedPrefs.getInt(r.getString(R.string.preftag_w_choicecuey2), r.getInteger(R.integer.default_w_choicecuey2));
+        w_choicecuex1 = sharedPrefs.getInt(r.getString(R.string.preftag_w_choicecuex1), r.getInteger(R.integer.default_w_choicecuex1));
+        w_choicecuex2 = sharedPrefs.getInt(r.getString(R.string.preftag_w_choicecuex2), r.getInteger(R.integer.default_w_choicecuex2));
+        w_randposchoicecues = sharedPrefs.getBoolean(r.getString(R.string.preftag_w_randposchoicecues), r.getBoolean(R.bool.default_w_randposchoicecues));
 
 
     }

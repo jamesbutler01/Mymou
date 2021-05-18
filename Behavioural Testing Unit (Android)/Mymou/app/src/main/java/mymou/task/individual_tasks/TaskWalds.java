@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -40,7 +41,7 @@ public class TaskWalds extends Task {
     private ImageButton[] probcues;
     private int[] probcueinds;
     private final static int id_cue1 = 0, id_cue2 = 1;
-    private static int num_cues, rewardthresh, numsteps=0;
+    private static int rewardthresh, numsteps=0;
     private Float x_range, y_range;
     private Random r;
     private static Handler h0 = new Handler();  // Task trial_timer
@@ -93,7 +94,7 @@ public class TaskWalds extends Task {
         h1.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (numsteps >= num_cues){
+                if (numsteps >= prefManager.w_numcues){
                     UtilsTask.toggleCue(gocue, false);
                     cue1.setClickable(true);
                     cue2.setClickable(true);
@@ -129,35 +130,50 @@ public class TaskWalds extends Task {
         gocue = UtilsTask.addColorCue(-1,  0, getContext(), null, layout, 1);
         gocue.setWidth(prefManager.w_gocuesize);
         gocue.setHeight(prefManager.w_gocuesize);
+        callback.logEvent_("Setting go cue size to "+prefManager.w_gocuesize);
         float halfx = (float) (screen_size.x - prefManager.w_gocuesize) / 2;
         gocue.setX(halfx);
         float halfy = (float) (screen_size.y - prefManager.w_gocuesize) / 2;
         gocue.setY(halfy);
+        gocue.setClickable(false);
 
         // Create choice 1 and choice 2 cues
         cue1 = UtilsTask.addColorCue(id_cue1, R.color.yellow, getContext(), buttonClickListener, layout, 1, false);
-        int x_loc = (int) (r.nextFloat() * x_range);
-        cue1.setX(x_loc);
-        cue1.setY(1550);
+
+        cue1.setX(prefManager.w_choicecuex1);
+
+        cue1.setY(prefManager.w_choicecuey1);
         cue1.setClickable(false);
+        cue1.setWidth(prefManager.w_choicecuesize);
+        cue1.setHeight(prefManager.w_choicecuesize);
         cue2 = UtilsTask.addColorCue(id_cue2, R.color.blue, getContext(), buttonClickListener, layout, 1, false);
-        x_loc = (int) (r.nextFloat() * x_range);
-        cue2.setX(x_loc);
-        cue2.setY(100);
+
+        cue2.setX(prefManager.w_choicecuex2);
+
+        cue2.setY(prefManager.w_choicecuey2);
+        cue2.setWidth(prefManager.w_choicecuesize);
+        cue2.setHeight(prefManager.w_choicecuesize);
         cue2.setClickable(false);
 
+        // Randomly position x location of choice cues
+        if (prefManager.w_randposchoicecues) {
+            int x_loc = (int) (r.nextFloat() * x_range);
+            cue1.setX(x_loc);
+            x_loc = (int) (r.nextFloat() * x_range);
+            cue2.setX(x_loc);
+        }
+
         // TODO: Implement later stages
-        num_cues = 4;
-        probcues = new ImageButton[num_cues];
-        probcueinds = new int[num_cues];
+        probcues = new ImageButton[prefManager.w_numcues];
+        probcueinds = new int[prefManager.w_numcues];
         int summedcueval = 0;
         int[] chosenpositions = {0, 0, 0, 0};
         int[] xpositions = {prefManager.w_probcuexloc1, prefManager.w_probcuexloc2, prefManager.w_probcuexloc1, prefManager.w_probcuexloc2};
         int[] ypositions = {prefManager.w_probcueyloc1, prefManager.w_probcueyloc1, prefManager.w_probcueyloc2, prefManager.w_probcueyloc2};
 
         int pos = -1;
-        for (int i=0; i<num_cues; i++) {
-            probcues[i] = UtilsTask.addImageCue(num_cues+2, getContext(), layout, buttonClickListener);
+        for (int i=0; i<prefManager.w_numcues; i++) {
+            probcues[i] = UtilsTask.addImageCue(-1, getContext(), layout, buttonClickListener, prefManager.w_rewcuesize, 0);
 
             // Randomly pick cue value
             probcueinds[i] = r.nextInt(allprobcues.length);

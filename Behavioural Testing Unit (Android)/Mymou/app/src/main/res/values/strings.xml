@@ -34,7 +34,7 @@
         <item>Random dot motion</item>
         <item>Discrete value space</item>
         <item>Context Sequence Learning</item>
-        <item>Wald\'s Sequential Probability RatioLearning</item>
+        <item>Wald\'s Sequential Probability Ratio</item>
     </string-array>
 
     <string-array name="task_descriptions">
@@ -165,6 +165,7 @@
     <string name="preftag_task_rdm_settings">preftag_task_rdm_settings</string>
     <string name="preftag_task_dvs_settings">preftag_task_dvs_settings</string>
     <string name="preftag_task_csl_settings">preftag_task_csl_settings</string>
+    <string name="preftag_task_wald_settings">preftag_task_w_settings</string>
     <string name="preftag_task_od_settings">preftag_task_od_settings</string>
     <string name="preftag_bluetooth_strobes">preftag_bluetooth_strobes</string>
     <string name="preftag_settings_to_load">preftag_settings_to_load</string>
@@ -306,14 +307,22 @@
     <string name="preftag_t_sc_togglecue">preftag_t_sc_togglecue</string>
     <string name="preftag_t_sc_alternatecue">preftag_t_sc_alternatecue</string>
 
+    <string name="preftag_w_numcues">preftag_w_numcues</string>
     <string name="preftag_w_startdelay">preftag_w_startdelay</string>
     <string name="preftag_w_probcuesdelay_low">preftag_w_probcuesdelay_low</string>
     <string name="preftag_w_probcuesdelay_high">preftag_w_probcuesdelay_high</string>
     <string name="preftag_w_gocuesize">preftag_w_gocuesize</string>
+    <string name="preftag_w_choicecuesize">preftag_w_choicecuesize</string>
+    <string name="preftag_w_rewcuesize">preftag_w_rewcuesize</string>
     <string name="preftag_w_probcuexloc1">preftag_w_probcuexloc1</string>
     <string name="preftag_w_probcueyloc1">preftag_w_probcueyloc1</string>
     <string name="preftag_w_probcuexloc2">preftag_w_probcuexloc2</string>
     <string name="preftag_w_probcueyloc2">preftag_w_probcueyloc2</string>
+    <string name="preftag_w_choicecuex1">preftag_w_choicecuex1</string>
+    <string name="preftag_w_choicecuex2">preftag_w_choicecuex2</string>
+    <string name="preftag_w_choicecuey1">preftag_w_choicecuey1</string>
+    <string name="preftag_w_choicecuey2">preftag_w_choicecuey2</string>
+    <string name="preftag_w_randposchoicecues">preftag_w_randposchcues</string>
 
 
     <string-array name="error_messages">
