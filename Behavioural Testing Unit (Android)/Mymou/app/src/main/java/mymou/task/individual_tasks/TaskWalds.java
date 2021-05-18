@@ -20,13 +20,14 @@ import mymou.task.backend.TaskInterface;
 import mymou.task.backend.UtilsTask;
 
 /**
- * Training task five: Two step task
+ * Task: Sequential Probability Ratio Test
  *
- * Implementation of Thomas Akam's reduced two-step task (Akam et al. 2015)
+ * Implementation of Kira S, Yang T, Shadlen MN. 2015. A Neural Implementation of Wald’s
+ * Sequential Probability Ratio Test. Neuron 85:861–873.
  *
- * Stimuli are taken from Brady, T. F., Konkle, T., Alvarez, G. A. and Oliva, A. (2008). Visual
- *  long-term memory has a massive storage capacity for object details. Proceedings of the National
- *  Academy of Sciences, USA, 105 (38), 14325-14329.
+ * Briefly, two options are on the screen, and cues appear sequentially informing you of the value
+ * of each of the options. The value cues must be integrated to make the appropriate action
+ *
  */
 public class TaskWalds extends Task {
 
@@ -35,8 +36,7 @@ public class TaskWalds extends Task {
 
     // Task objects
     private static PreferencesManager prefManager;
-    private ImageButton cue1, cue2;
-    private Button gocue;
+    private Button gocue, cue1, cue2;
     private ImageButton[] probcues;
     private int[] probcueinds;
     private final static int id_cue1 = 0, id_cue2 = 1;
@@ -49,16 +49,16 @@ public class TaskWalds extends Task {
 
     // Images to be used as probability cues
     int[] allprobcues = {
-            R.drawable.aaaaa,
-            R.drawable.aaaab,
-            R.drawable.aaaac,
-            R.drawable.aaaad,
-            R.drawable.aaaae,
-            R.drawable.aaaaf,
-            R.drawable.aaaag,
-            R.drawable.aaaah,
-            R.drawable.aaaai,
-            R.drawable.aaaaj,
+            R.drawable.w_circle,
+            R.drawable.w_triangle,
+            R.drawable.w_pie,
+            R.drawable.w_star,
+            R.drawable.w_lettert,
+            R.drawable.w_vase,
+            R.drawable.w_pieslice,
+            R.drawable.w_hourglass,
+            R.drawable.w_hexagon,
+            R.drawable.w_rec,
     };
 
     double[] allprobweights = {-1, -0.9, -0.7, -0.5, -0.3, 0.3, 0.5, 0.7, 0.9, 1};
@@ -93,11 +93,10 @@ public class TaskWalds extends Task {
         h1.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (numsteps > num_cues){
+                if (numsteps >= num_cues){
                     UtilsTask.toggleCue(gocue, false);
                     cue1.setClickable(true);
                     cue2.setClickable(true);
-
                 } else {
                     UtilsTask.toggleView(probcues[numsteps], true);
                     callback.logEvent_("Showing step "+numsteps);
@@ -136,14 +135,12 @@ public class TaskWalds extends Task {
         gocue.setY(halfy);
 
         // Create choice 1 and choice 2 cues
-        cue1 = UtilsTask.addImageCue(id_cue1, getContext(), layout, buttonClickListener);
-        cue1.setImageResource(R.drawable.tstc11);
+        cue1 = UtilsTask.addColorCue(id_cue1, R.color.yellow, getContext(), buttonClickListener, layout, 1, false);
         int x_loc = (int) (r.nextFloat() * x_range);
         cue1.setX(x_loc);
         cue1.setY(1550);
         cue1.setClickable(false);
-        cue2 = UtilsTask.addImageCue(id_cue2, getContext(), layout, buttonClickListener);
-        cue2.setImageResource(R.drawable.tstc12);
+        cue2 = UtilsTask.addColorCue(id_cue2, R.color.blue, getContext(), buttonClickListener, layout, 1, false);
         x_loc = (int) (r.nextFloat() * x_range);
         cue2.setX(x_loc);
         cue2.setY(100);

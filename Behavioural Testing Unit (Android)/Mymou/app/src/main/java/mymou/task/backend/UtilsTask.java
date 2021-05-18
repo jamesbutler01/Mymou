@@ -2,7 +2,9 @@ package mymou.task.backend;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
 import android.view.Display;
@@ -13,7 +15,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 
+import mymou.R;
 import mymou.preferences.PreferencesManager;
 
 import java.util.Random;
@@ -88,6 +93,26 @@ public class UtilsTask {
         layout.addView(button);
         return button;
     }
+    // Add a colour cue of a particular SHAPE to the task with or without a border
+    public static Button addColorCue(int id, int color, Context context, View.OnClickListener onClickListener, ConstraintLayout layout, int shape, boolean border) {
+        PreferencesManager preferencesManager = new PreferencesManager(context);
+        Button button = new Button(context);
+        button.setWidth(preferencesManager.cue_size);
+        button.setHeight(preferencesManager.cue_size);
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setShape(shape);
+        if (border) {
+            drawable.setStroke(preferencesManager.border_size, preferencesManager.border_colour);
+        } else {
+            drawable.setStroke(0, preferencesManager.border_colour);
+        }
+        drawable.setColor(ContextCompat.getColor(context, color));
+        button.setBackgroundDrawable(drawable);
+        button.setId(id);
+        button.setOnClickListener(onClickListener);
+        layout.addView(button);
+        return button;
+    }
 
     // Add a mono-colour cue to the task
     public static Button addColorCue(int id, int color, Context context, View.OnClickListener onClickListener, ConstraintLayout layout, int shape, int cue_size, int border_size, int border_colour) {
@@ -97,6 +122,8 @@ public class UtilsTask {
         GradientDrawable drawable = new GradientDrawable();
         drawable.setShape(shape);
         drawable.setStroke(border_size, border_colour);
+
+
         drawable.setColor(color);
         button.setBackgroundDrawable(drawable);
         button.setId(id);
