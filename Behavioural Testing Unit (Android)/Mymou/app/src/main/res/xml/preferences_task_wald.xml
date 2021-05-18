@@ -5,7 +5,7 @@
     <PreferenceCategory
         android:layout="@layout/preferences_title"
         app:key="task_settings"
-        app:title="Settings for Walds Sequential Probability Ratio task">
+        app:title="Settings for Wald\'s Sequential Probability Ratio task">
 
         <mymou.preferences.SeekBarPreferenceCustom
             android:defaultValue="@integer/default_w_numcues"

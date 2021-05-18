@@ -44,9 +44,7 @@ public class TaskWalds extends Task {
     private static int rewardthresh, numsteps=0;
     private Float x_range, y_range;
     private Random r;
-    private static Handler h0 = new Handler();  // Task trial_timer
-    private static Handler h1 = new Handler();  // Inter-trial interval timer
-    private static Handler h2 = new Handler();  // Dim brightness timer
+    private static Handler h0 = new Handler();
 
     // Images to be used as probability cues
     int[] allprobcues = {
@@ -89,15 +87,16 @@ public class TaskWalds extends Task {
         } else {
             randomduration = prefManager.w_startdelay;
         }
-        callback.logEvent_("Showing step "+numsteps+" after "+randomduration);
+        callback.logEvent_("Setting step "+numsteps+" to start in "+randomduration+" ms");
 
-        h1.postDelayed(new Runnable() {
+        h0.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (numsteps >= prefManager.w_numcues){
                     UtilsTask.toggleCue(gocue, false);
                     cue1.setClickable(true);
                     cue2.setClickable(true);
+                    callback.logEvent_("Choice phase started");
                 } else {
                     UtilsTask.toggleView(probcues[numsteps], true);
                     callback.logEvent_("Showing step "+numsteps);
@@ -130,7 +129,6 @@ public class TaskWalds extends Task {
         gocue = UtilsTask.addColorCue(-1,  0, getContext(), null, layout, 1);
         gocue.setWidth(prefManager.w_gocuesize);
         gocue.setHeight(prefManager.w_gocuesize);
-        callback.logEvent_("Setting go cue size to "+prefManager.w_gocuesize);
         float halfx = (float) (screen_size.x - prefManager.w_gocuesize) / 2;
         gocue.setX(halfx);
         float halfy = (float) (screen_size.y - prefManager.w_gocuesize) / 2;
@@ -139,17 +137,14 @@ public class TaskWalds extends Task {
 
         // Create choice 1 and choice 2 cues
         cue1 = UtilsTask.addColorCue(id_cue1, R.color.yellow, getContext(), buttonClickListener, layout, 1, false);
-
         cue1.setX(prefManager.w_choicecuex1);
-
         cue1.setY(prefManager.w_choicecuey1);
         cue1.setClickable(false);
         cue1.setWidth(prefManager.w_choicecuesize);
         cue1.setHeight(prefManager.w_choicecuesize);
+
         cue2 = UtilsTask.addColorCue(id_cue2, R.color.blue, getContext(), buttonClickListener, layout, 1, false);
-
         cue2.setX(prefManager.w_choicecuex2);
-
         cue2.setY(prefManager.w_choicecuey2);
         cue2.setWidth(prefManager.w_choicecuesize);
         cue2.setHeight(prefManager.w_choicecuesize);
@@ -163,7 +158,6 @@ public class TaskWalds extends Task {
             cue2.setX(x_loc);
         }
 
-        // TODO: Implement later stages
         probcues = new ImageButton[prefManager.w_numcues];
         probcueinds = new int[prefManager.w_numcues];
         int summedcueval = 0;
@@ -214,13 +208,8 @@ public class TaskWalds extends Task {
             // Always disable cues first
             disableCues();
 
-            // Make sure screen bright
-            callback.setBrightnessFromTask_(true);
-
             // Cancel timers
             h0.removeCallbacksAndMessages(null);
-            h1.removeCallbacksAndMessages(null);
-            h2.removeCallbacksAndMessages(null);
 
             // Reset timer for idle timeout on each press
             callback.resetTimer_();
@@ -239,11 +228,11 @@ public class TaskWalds extends Task {
                 correct = true;
             }
             callback.logEvent_("Rolled "+roll+" so correct trial = "+correct);
+
             endOfTrial(correct, callback, prefManager);
 
         }
     };
-
 
     private void disableCues() {
         UtilsTask.toggleCue(cue1, false);
@@ -262,8 +251,6 @@ public class TaskWalds extends Task {
         super.onPause();
         super.onDestroy();
         h0.removeCallbacksAndMessages(null);
-        h1.removeCallbacksAndMessages(null);
-        h2.removeCallbacksAndMessages(null);
     }
 
 
