@@ -69,7 +69,7 @@ public class UtilsTask {
         GradientDrawable drawable = new GradientDrawable();
         drawable.setShape(GradientDrawable.RECTANGLE);
         drawable.setStroke(preferencesManager.border_size, preferencesManager.border_colour);
-        drawable.setColor(color);
+        drawable.setColor(ContextCompat.getColor(context, color));
         button.setBackgroundDrawable(drawable);
         button.setId(id);
         button.setOnClickListener(onClickListener);
@@ -86,7 +86,7 @@ public class UtilsTask {
         GradientDrawable drawable = new GradientDrawable();
         drawable.setShape(shape);
         drawable.setStroke(preferencesManager.border_size, preferencesManager.border_colour);
-        drawable.setColor(color);
+        drawable.setColor(ContextCompat.getColor(context, color));
         button.setBackgroundDrawable(drawable);
         button.setId(id);
         button.setOnClickListener(onClickListener);
@@ -122,9 +122,7 @@ public class UtilsTask {
         GradientDrawable drawable = new GradientDrawable();
         drawable.setShape(shape);
         drawable.setStroke(border_size, border_colour);
-
-
-        drawable.setColor(color);
+        drawable.setColor(ContextCompat.getColor(context, color));
         button.setBackgroundDrawable(drawable);
         button.setId(id);
         button.setOnClickListener(onClickListener);
