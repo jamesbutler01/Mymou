@@ -136,6 +136,7 @@
     <integer name="default_csl_presscuey">940</integer>
 
     <integer name="default_w_numcues">4</integer>
+    <integer name="default_w_numcuesused">2</integer>
     <integer name="default_w_startdelay">400</integer>
     <integer name="default_w_probcuesdelay_low">500</integer>
     <integer name="default_w_probcuesdelay_high">900</integer>

@@ -435,7 +435,7 @@ public class PreferencesManager {
 
     }
 
-    public int w_gocuesize, w_choicecuesize, w_rewcuesize, w_numcues;
+    public int w_gocuesize, w_choicecuesize, w_rewcuesize, w_numcues, w_numcuesused;
     public int w_choicecuey1, w_choicecuey2, w_choicecuex1, w_choicecuex2;
     public int w_startdelay, w_probcuesdelay_low, w_probcuesdelay_high;
     public int w_probcuexloc1, w_probcueyloc1, w_probcuexloc2, w_probcueyloc2;
@@ -443,6 +443,7 @@ public class PreferencesManager {
 
     public void Walds() {
         w_numcues = sharedPrefs.getInt(r.getString(R.string.preftag_w_numcues), r.getInteger(R.integer.default_w_numcues));
+        w_numcuesused = sharedPrefs.getInt(r.getString(R.string.preftag_w_numcuesused), r.getInteger(R.integer.default_w_numcuesused));
         w_startdelay = sharedPrefs.getInt(r.getString(R.string.preftag_w_startdelay), r.getInteger(R.integer.default_w_startdelay));
         w_probcuesdelay_low = sharedPrefs.getInt(r.getString(R.string.preftag_w_probcuesdelay_low), r.getInteger(R.integer.default_w_probcuesdelay_low));
         w_probcuesdelay_high = sharedPrefs.getInt(r.getString(R.string.preftag_w_probcuesdelay_high), r.getInteger(R.integer.default_w_probcuesdelay_high));

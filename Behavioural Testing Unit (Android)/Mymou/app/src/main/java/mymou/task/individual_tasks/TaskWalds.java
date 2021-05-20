@@ -49,18 +49,18 @@ public class TaskWalds extends Task {
     // Images to be used as probability cues
     int[] allprobcues = {
             R.drawable.w_circle,
+            R.drawable.w_rec,
             R.drawable.w_triangle,
+            R.drawable.w_hexagon,
             R.drawable.w_pie,
+            R.drawable.w_hourglass,
             R.drawable.w_star,
+            R.drawable.w_pieslice,
             R.drawable.w_lettert,
             R.drawable.w_vase,
-            R.drawable.w_pieslice,
-            R.drawable.w_hourglass,
-            R.drawable.w_hexagon,
-            R.drawable.w_rec,
     };
 
-    double[] allprobweights = {-1, -0.9, -0.7, -0.5, -0.3, 0.3, 0.5, 0.7, 0.9, 1};
+    double[] allprobweights = {-1, 1, -0.9, 0.9, -0.7, 0.7, -0.5, 0.5, -0.3, 0.3};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -166,25 +166,25 @@ public class TaskWalds extends Task {
         int[] ypositions = {prefManager.w_probcueyloc1, prefManager.w_probcueyloc1, prefManager.w_probcueyloc2, prefManager.w_probcueyloc2};
 
         int pos = -1;
-        for (int i=0; i<prefManager.w_numcues; i++) {
+        for (int i = 0; i < prefManager.w_numcues; i++) {
             probcues[i] = UtilsTask.addImageCue(-1, getContext(), layout, buttonClickListener, prefManager.w_rewcuesize, 0);
-
             // Randomly pick cue value
-            probcueinds[i] = r.nextInt(allprobcues.length);
-            summedcueval += allprobweights[probcueinds[i]];
+            probcueinds[i] = r.nextInt(prefManager.w_numcuesused);
+            callback.logEvent_("Prob. cue " + i + " set to " + probcueinds[i] + " (weight=" + allprobweights[probcueinds[i]] + ")");
             probcues[i].setImageResource(allprobcues[probcueinds[i]]);
-            callback.logEvent_("Prob. cue "+i+" set to "+probcueinds[i]+" (weight="+ allprobweights[probcueinds[i]]+")");
-            callback.logEvent_("Current summed weight = "+summedcueval);
+
+            summedcueval += allprobweights[probcueinds[i]];
+            callback.logEvent_("Current summed weight = " + summedcueval);
 
             // Randomly position cue
             pos = r.nextInt(chosenpositions.length);
-            while (chosenpositions[pos]==1) {
+            while (chosenpositions[pos] == 1) {
                 pos = r.nextInt(chosenpositions.length);
             }
             chosenpositions[pos] = 1;
             probcues[i].setX(xpositions[pos]);
             probcues[i].setY(ypositions[pos]);
-            callback.logEvent_("Prob. cue "+i+" set to position"+pos+"(x="+xpositions[pos]+", y="+ypositions[pos]+")");
+            callback.logEvent_("Prob. cue " + i + " set to position" + pos + "(x=" + xpositions[pos] + ", y=" + ypositions[pos] + ")");
 
             UtilsTask.toggleCue(probcues[i], false);
         }

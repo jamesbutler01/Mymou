@@ -10,10 +10,18 @@
         <mymou.preferences.SeekBarPreferenceCustom
             android:defaultValue="@integer/default_w_numcues"
             app:key="@string/preftag_w_numcues"
-            app:title="Number of reward cues shown"
+            app:title="Number of reward cues shown on the trial"
             android:max="4"
             app:min="1"
             app:summary="Tap to input number"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_w_numcuesused"
+            app:key="@string/preftag_w_numcuesused"
+            app:title="Number of reward cues used"
+            android:max="10"
+            app:min="1"
+            app:summary="Cues will be drawn from this number of possible cues, starting with the extreme probabilites (i.e. easiest cues) and working into the harder cues. Tap to input number"/>
 
         <mymou.preferences.SeekBarPreferenceCustom
             android:defaultValue="@integer/default_w_startdelay"

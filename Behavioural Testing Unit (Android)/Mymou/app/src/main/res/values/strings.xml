@@ -308,6 +308,7 @@
     <string name="preftag_t_sc_alternatecue">preftag_t_sc_alternatecue</string>
 
     <string name="preftag_w_numcues">preftag_w_numcues</string>
+    <string name="preftag_w_numcuesused">preftag_w_numcuesused</string>
     <string name="preftag_w_startdelay">preftag_w_startdelay</string>
     <string name="preftag_w_probcuesdelay_low">preftag_w_probcuesdelay_low</string>
     <string name="preftag_w_probcuesdelay_high">preftag_w_probcuesdelay_high</string>
