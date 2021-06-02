@@ -34,6 +34,7 @@
         <item>Random dot motion</item>
         <item>Discrete value space</item>
         <item>Context Sequence Learning</item>
+        <item>Wald\'s Sequential Probability Ratio</item>
         <item>Colored Grating Task</item>
     </string-array>
 
@@ -56,6 +57,7 @@
         <item>A movie is played consisting of dots moving in different directions, for which a specified proportion of dots all move towards either the left or right of the screen. Subjects must then select which side of the screen the dots were moving towards.</item>
         <item>Subjects are given choices between two cues that lie on a 10x10 value grid made up of probability and magnitude dimensions. For example, the cue at (1, 1) will give 10% reward 10% of the time. They can then pick either cue are given the corresponding reward along with a secondary reinforcer to indicate whether it was better or worse than the counterfactual option.</item>
         <item>Two sounds are displayed followed by a go cue. This is followed by two further sounds and another go cue. Sounds in the first and second sequence can be within the same context or in different contexts.</item>
+        <item>Implementation of Wald\'s Sequential Probability Ratio test as described in Kira, Yang, Shadlen (2015) Neuron.</item>
         <item>Colored grating task</item>
     </string-array>
 
@@ -165,6 +167,7 @@
     <string name="preftag_task_rdm_settings">preftag_task_rdm_settings</string>
     <string name="preftag_task_dvs_settings">preftag_task_dvs_settings</string>
     <string name="preftag_task_csl_settings">preftag_task_csl_settings</string>
+    <string name="preftag_task_wald_settings">preftag_task_w_settings</string>
     <string name="preftag_task_colgrat_settings">preftag_task_colgrat_settings</string>
     <string name="preftag_task_od_settings">preftag_task_od_settings</string>
     <string name="preftag_bluetooth_strobes">preftag_bluetooth_strobes</string>
@@ -333,6 +336,24 @@
     <string name="preftag_t_sc_bordersize">preftag_t_sc_bordersize</string>
     <string name="preftag_t_sc_togglecue">preftag_t_sc_togglecue</string>
     <string name="preftag_t_sc_alternatecue">preftag_t_sc_alternatecue</string>
+
+    <string name="preftag_w_numcues">preftag_w_numcues</string>
+    <string name="preftag_w_numcuesused">preftag_w_numcuesused</string>
+    <string name="preftag_w_startdelay">preftag_w_startdelay</string>
+    <string name="preftag_w_probcuesdelay_low">preftag_w_probcuesdelay_low</string>
+    <string name="preftag_w_probcuesdelay_high">preftag_w_probcuesdelay_high</string>
+    <string name="preftag_w_gocuesize">preftag_w_gocuesize</string>
+    <string name="preftag_w_choicecuesize">preftag_w_choicecuesize</string>
+    <string name="preftag_w_rewcuesize">preftag_w_rewcuesize</string>
+    <string name="preftag_w_probcuexloc1">preftag_w_probcuexloc1</string>
+    <string name="preftag_w_probcueyloc1">preftag_w_probcueyloc1</string>
+    <string name="preftag_w_probcuexloc2">preftag_w_probcuexloc2</string>
+    <string name="preftag_w_probcueyloc2">preftag_w_probcueyloc2</string>
+    <string name="preftag_w_choicecuex1">preftag_w_choicecuex1</string>
+    <string name="preftag_w_choicecuex2">preftag_w_choicecuex2</string>
+    <string name="preftag_w_choicecuey1">preftag_w_choicecuey1</string>
+    <string name="preftag_w_choicecuey2">preftag_w_choicecuey2</string>
+    <string name="preftag_w_randposchoicecues">preftag_w_randposchcues</string>
 
 
     <string-array name="error_messages">

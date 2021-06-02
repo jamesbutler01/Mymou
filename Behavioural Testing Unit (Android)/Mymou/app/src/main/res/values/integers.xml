@@ -135,6 +135,23 @@
     <integer name="default_csl_presscuex">600</integer>
     <integer name="default_csl_presscuey">940</integer>
 
+    <integer name="default_w_numcues">4</integer>
+    <integer name="default_w_numcuesused">2</integer>
+    <integer name="default_w_startdelay">400</integer>
+    <integer name="default_w_probcuesdelay_low">500</integer>
+    <integer name="default_w_probcuesdelay_high">900</integer>
+    <integer name="default_w_gocuesize">30</integer>
+    <integer name="default_w_choicecuesize">300</integer>
+    <integer name="default_w_rewcuesize">300</integer>
+    <integer name="default_w_probcueyloc1">550</integer>
+    <integer name="default_w_probcuexloc1">250</integer>
+    <integer name="default_w_probcueyloc2">1000</integer>
+    <integer name="default_w_probcuexloc2">650</integer>
+    <integer name="default_w_choicecuex1">100</integer>
+    <integer name="default_w_choicecuex2">850</integer>
+    <integer name="default_w_choicecuey1">1550</integer>
+    <integer name="default_w_choicecuey2">100</integer>
+
     <integer name="default_colgrat_initial_reward">500</integer>
     <integer name="default_colgrat_rt_limit">700</integer>
 
