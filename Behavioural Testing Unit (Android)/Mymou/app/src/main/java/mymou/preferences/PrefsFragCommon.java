@@ -72,6 +72,10 @@ public class PrefsFragCommon extends PreferenceFragmentCompat {
 
             setPreferencesFromResource(R.xml.preferences_task_contextsequencelearning, rootKey);
 
+        } else if (prefTag.equals(getString(R.string.preftag_task_colgrat_settings))) {
+
+            setPreferencesFromResource(R.xml.preferences_task_coloredgrating, rootKey);
+
         } else if (prefTag.equals(getString(R.string.preftag_task_dvs_settings))) {
 
             Intent intent = new Intent(getActivity(), TaskManager.class);

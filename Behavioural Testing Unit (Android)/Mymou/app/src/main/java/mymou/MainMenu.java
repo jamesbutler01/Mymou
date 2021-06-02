@@ -323,6 +323,9 @@ public class MainMenu extends Activity {
                         case 17:
                             intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_csl_settings));
                             break;
+                        case 18:
+                            intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_colgrat_settings));
+                            break;
                         default:
                             validsettings = false;
                             Toast.makeText(getApplicationContext(), "Sorry, this task has no configurable settings", Toast.LENGTH_LONG).show();

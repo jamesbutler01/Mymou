@@ -1,0 +1,285 @@
+mymou/preferences/PrefsFragCamera.java
+ mymou.preferences.PrefsFragCamera
+mymou/preferences/PrefsFragTaskEvidenceAccum.java
+ mymou.preferences.PrefsFragTaskEvidenceAccum
+mymou/preferences/PrefsFragTaskProgRatio.java
+ mymou.preferences.PrefsFragTaskProgRatio
+ mymou.preferences.PrefsFragTaskProgRatio$1
+ mymou.preferences.PrefsFragTaskProgRatio$1$1
+mymou/Utils/SoundManager.java
+ mymou.Utils.SoundManager
+ mymou.Utils.SoundManager$1
+ mymou.Utils.SoundManager$1$1
+ mymou.Utils.SoundManager$1$2
+ mymou.Utils.SoundManager$2
+ mymou.Utils.SoundManager$3
+mymou/task/individual_tasks/TaskRandomDotMotion.java
+ mymou.task.individual_tasks.TaskRandomDotMotion
+ mymou.task.individual_tasks.TaskRandomDotMotion$1
+ mymou.task.individual_tasks.TaskRandomDotMotion$2
+ mymou.task.individual_tasks.TaskRandomDotMotion$3
+ mymou.task.individual_tasks.TaskRandomDotMotion$4
+mymou/task/backend/CameraExternal.java
+ mymou.task.backend.CameraExternal
+ mymou.task.backend.CameraExternal$1
+ mymou.task.backend.CameraExternal$1$1
+ mymou.task.backend.CameraExternal$1$2
+ mymou.task.backend.CameraExternal$1$2$1
+ mymou.task.backend.CameraExternal$2
+ mymou.task.backend.CameraExternal$3
+ mymou.task.backend.CameraExternal$3$1
+mymou/task/individual_tasks/TaskTrainingFourSmallMovingCue.java
+ mymou.task.individual_tasks.TaskTrainingFourSmallMovingCue
+ mymou.task.individual_tasks.TaskTrainingFourSmallMovingCue$1
+ mymou.task.individual_tasks.TaskTrainingFourSmallMovingCue$2
+ mymou.task.individual_tasks.TaskTrainingFourSmallMovingCue$2$1
+mymou/preferences/PrefsFragTimePicker.java
+ mymou.preferences.PrefsFragTimePicker
+ mymou.preferences.PrefsFragTimePicker$1
+mymou/task/individual_tasks/TaskSequentialLearning.java
+ mymou.task.individual_tasks.TaskSequentialLearning
+ mymou.task.individual_tasks.TaskSequentialLearning$1
+mymou/task/individual_tasks/TaskTrainingStaticCue.java
+ mymou.task.individual_tasks.TaskTrainingStaticCue
+ mymou.task.individual_tasks.TaskTrainingStaticCue$1
+ mymou.task.individual_tasks.TaskTrainingStaticCue$2
+ mymou.task.individual_tasks.TaskTrainingStaticCue$2$1
+ mymou.task.individual_tasks.TaskTrainingStaticCue$2$2
+mymou/task/individual_tasks/TaskSpatialResponse.java
+ mymou.task.individual_tasks.TaskSpatialResponse
+ mymou.task.individual_tasks.TaskSpatialResponse$1
+ mymou.task.individual_tasks.TaskSpatialResponse$2
+ mymou.task.individual_tasks.TaskSpatialResponse$3
+ mymou.task.individual_tasks.TaskSpatialResponse$4
+mymou/task/individual_tasks/Task.java
+ mymou.task.individual_tasks.Task
+mymou/Utils/ProgressBarAnimation.java
+ mymou.Utils.ProgressBarAnimation
+mymou/preferences/PrefsFragCropPicker.java
+ mymou.preferences.PrefsFragCropPicker
+mymou/preferences/SeekBarPreferenceCustom.java
+ mymou.preferences.SeekBarPreferenceCustom
+ mymou.preferences.SeekBarPreferenceCustom$1
+ mymou.preferences.SeekBarPreferenceCustom$2
+ mymou.preferences.SeekBarPreferenceCustom$SavedState
+ mymou.preferences.SeekBarPreferenceCustom$SavedState$1
+mymou/task/backend/CameraSavePhoto.java
+ mymou.task.backend.CameraSavePhoto
+mymou/preferences/PrefsFragAutoStartStop.java
+ mymou.preferences.PrefsFragAutoStartStop
+mymou/preferences/PrefsFragCommon.java
+ mymou.preferences.PrefsFragCommon
+mymou/Utils/PlayCustomTone.java
+ mymou.Utils.PlayCustomTone
+mymou/task/individual_tasks/TaskTrainingTwoShrinkingCue.java
+ mymou.task.individual_tasks.TaskTrainingTwoShrinkingCue
+ mymou.task.individual_tasks.TaskTrainingTwoShrinkingCue$1
+mymou/database/Task.java
+ mymou.database.Task
+mymou/Utils/SendMail.java
+ mymou.Utils.SendMail
+ mymou.Utils.SendMail$1
+mymou/task/individual_tasks/TaskContextSequenceLearning.java
+ mymou.task.individual_tasks.TaskContextSequenceLearning
+ mymou.task.individual_tasks.TaskContextSequenceLearning$1
+ mymou.task.individual_tasks.TaskContextSequenceLearning$2
+ mymou.task.individual_tasks.TaskContextSequenceLearning$3
+ mymou.task.individual_tasks.TaskContextSequenceLearning$4
+ mymou.task.individual_tasks.TaskContextSequenceLearning$4$1
+ mymou.task.individual_tasks.TaskContextSequenceLearning$4$2
+mymou/Utils/PermissionManager.java
+ mymou.Utils.PermissionManager
+mymou/task/individual_tasks/TaskDiscreteMaze.java
+ mymou.task.individual_tasks.TaskDiscreteMaze
+ mymou.task.individual_tasks.TaskDiscreteMaze$1
+ mymou.task.individual_tasks.TaskDiscreteMaze$2
+ mymou.task.individual_tasks.TaskDiscreteMaze$3
+ mymou.task.individual_tasks.TaskDiscreteMaze$4
+ mymou.task.individual_tasks.TaskDiscreteMaze$5
+ mymou.task.individual_tasks.TaskDiscreteMaze$6
+ mymou.task.individual_tasks.TaskDiscreteMaze$7
+ mymou.task.individual_tasks.TaskDiscreteMaze$8
+ mymou.task.individual_tasks.TaskDiscreteMaze$9
+mymou/preferences/PrefsFragReward.java
+ mymou.preferences.PrefsFragReward
+ mymou.preferences.PrefsFragReward$1
+ mymou.preferences.PrefsFragReward$1$1
+mymou/task/individual_tasks/TaskDiscreteMazeMapParams.java
+ mymou.task.individual_tasks.TaskDiscreteMazeMapParams
+mymou/database/Converters.java
+ mymou.database.Converters
+mymou/task/backend/CameraInterface.java
+ mymou.task.backend.CameraInterface
+mymou/preferences/PrefsFragTaskPassiveReward.java
+ mymou.preferences.PrefsFragTaskPassiveReward
+ mymou.preferences.PrefsFragTaskPassiveReward$1
+ mymou.preferences.PrefsFragTaskPassiveReward$1$1
+mymou/task/backend/RewardSystem.java
+ mymou.task.backend.RewardSystem
+ mymou.task.backend.RewardSystem$1
+ mymou.task.backend.RewardSystem$2
+ mymou.task.backend.RewardSystem$3
+ mymou.task.backend.RewardSystem$MyCustomObjectListener
+mymou/preferences/PrefsFragColourPicker.java
+ mymou.preferences.PrefsFragColourPicker
+mymou/task/backend/MatrixMaths.java
+ mymou.task.backend.MatrixMaths
+mymou/MainMenu.java
+ mymou.MainMenu
+ mymou.MainMenu$1
+ mymou.MainMenu$2
+ mymou.MainMenu$3
+ mymou.MainMenu$4
+ mymou.MainMenu$5
+mymou/task/individual_tasks/TaskObjectDiscrim.java
+ mymou.task.individual_tasks.TaskObjectDiscrim
+ mymou.task.individual_tasks.TaskObjectDiscrim$1
+ mymou.task.individual_tasks.TaskObjectDiscrim$2
+ mymou.task.individual_tasks.TaskObjectDiscrim$3
+ mymou.task.individual_tasks.TaskObjectDiscrim$4
+mymou/task/backend/FaceRecog.java
+ mymou.task.backend.FaceRecog
+mymou/preferences/PrefsFragTaskTrainingOne.java
+ mymou.preferences.PrefsFragTaskTrainingOne
+mymou/task/individual_tasks/TaskTrainingOneFullScreen.java
+ mymou.task.individual_tasks.TaskTrainingOneFullScreen
+ mymou.task.individual_tasks.TaskTrainingOneFullScreen$1
+mymou/preferences/PrefsFragTaskAll.java
+ mymou.preferences.PrefsFragTaskAll
+ mymou.preferences.PrefsFragTaskAll$1
+ mymou.preferences.PrefsFragTaskAll$1$1
+mymou/preferences/PrefsFragTaskStaticCue.java
+ mymou.preferences.PrefsFragTaskStaticCue
+ mymou.preferences.PrefsFragTaskStaticCue$1
+ mymou.preferences.PrefsFragTaskStaticCue$1$1
+mymou/preferences/PrefsFragTaskDiscreteMaze.java
+ mymou.preferences.PrefsFragTaskDiscreteMaze
+mymou/task/backend/DataViewer.java
+ mymou.task.backend.DataViewer
+ mymou.task.backend.DataViewer$1
+ mymou.task.backend.DataViewer$2
+mymou/preferences/PrefsActCropPicker.java
+ mymou.preferences.PrefsActCropPicker
+ mymou.preferences.PrefsActCropPicker$1
+mymou/task/individual_tasks/TaskExample.java
+ mymou.task.individual_tasks.TaskExample
+mymou/database/Monkey.java
+ mymou.database.Monkey
+mymou/task/backend/CameraMain.java
+ mymou.task.backend.CameraMain
+ mymou.task.backend.CameraMain$1
+ mymou.task.backend.CameraMain$2
+ mymou.task.backend.CameraMain$3
+ mymou.task.backend.CameraMain$4
+ mymou.task.backend.CameraMain$5
+ mymou.task.backend.CameraMain$6
+mymou/database/Session.java
+ mymou.database.Session
+mymou/preferences/PrefsFragSoundPicker.java
+ mymou.preferences.PrefsFragSoundPicker
+ mymou.preferences.PrefsFragSoundPicker$1
+ mymou.preferences.PrefsFragSoundPicker$1$1
+ mymou.preferences.PrefsFragSoundPicker$2
+ mymou.preferences.PrefsFragSoundPicker$3
+ mymou.preferences.PrefsFragSoundPicker$3$1
+ mymou.preferences.PrefsFragSoundPicker$3$1$1
+mymou/task/individual_tasks/TaskDiscreteValueSpace.java
+ mymou.task.individual_tasks.TaskDiscreteValueSpace
+ mymou.task.individual_tasks.TaskDiscreteValueSpace$1
+ mymou.task.individual_tasks.TaskDiscreteValueSpace$1$1
+mymou/preferences/PrefsActSystem.java
+ mymou.preferences.PrefsActSystem
+mymou/task/backend/Camera.java
+ mymou.task.backend.Camera
+mymou/preferences/PrefsFragTaskContextSequenceLearning.java
+ mymou.preferences.PrefsFragTaskContextSequenceLearning
+ mymou.preferences.PrefsFragTaskContextSequenceLearning$1
+ mymou.preferences.PrefsFragTaskContextSequenceLearning$1$1
+mymou/task/backend/TaskManager.java
+ mymou.task.backend.TaskManager
+ mymou.task.backend.TaskManager$1
+ mymou.task.backend.TaskManager$10
+ mymou.task.backend.TaskManager$11
+ mymou.task.backend.TaskManager$12
+ mymou.task.backend.TaskManager$13
+ mymou.task.backend.TaskManager$14
+ mymou.task.backend.TaskManager$15
+ mymou.task.backend.TaskManager$2
+ mymou.task.backend.TaskManager$3
+ mymou.task.backend.TaskManager$4
+ mymou.task.backend.TaskManager$5
+ mymou.task.backend.TaskManager$6
+ mymou.task.backend.TaskManager$7
+ mymou.task.backend.TaskManager$8
+ mymou.task.backend.TaskManager$9
+mymou/task/individual_tasks/TaskTrainingFiveTwoStep.java
+ mymou.task.individual_tasks.TaskTrainingFiveTwoStep
+ mymou.task.individual_tasks.TaskTrainingFiveTwoStep$1
+ mymou.task.individual_tasks.TaskTrainingFiveTwoStep$1$1
+ mymou.task.individual_tasks.TaskTrainingFiveTwoStep$2
+ mymou.task.individual_tasks.TaskTrainingFiveTwoStep$3
+ mymou.task.individual_tasks.TaskTrainingFiveTwoStep$4
+ mymou.task.individual_tasks.TaskTrainingFiveTwoStep$4$1
+mymou/task/individual_tasks/TaskEvidenceAccum.java
+ mymou.task.individual_tasks.TaskEvidenceAccum
+ mymou.task.individual_tasks.TaskEvidenceAccum$1
+ mymou.task.individual_tasks.TaskEvidenceAccum$2
+ mymou.task.individual_tasks.TaskEvidenceAccum$3
+mymou/task/backend/TaskInterface.java
+ mymou.task.backend.TaskInterface
+mymou/preferences/PrefsFragTaskColoredGrating.java
+ mymou.preferences.PrefsFragTaskColoredGrating
+mymou/database/User.java
+ mymou.database.User
+mymou/task/individual_tasks/TaskPassiveReward.java
+ mymou.task.individual_tasks.TaskPassiveReward
+ mymou.task.individual_tasks.TaskPassiveReward$1
+ mymou.task.individual_tasks.TaskPassiveReward$2
+ mymou.task.individual_tasks.TaskPassiveReward$3
+mymou/preferences/PrefsFragMenu.java
+ mymou.preferences.PrefsFragMenu
+mymou/preferences/PrefsFragTaskObjectDiscrim.java
+ mymou.preferences.PrefsFragTaskObjectDiscrim
+mymou/task/individual_tasks/TaskColoredGrating.java
+ mymou.task.individual_tasks.TaskColoredGrating
+ mymou.task.individual_tasks.TaskColoredGrating$1
+ mymou.task.individual_tasks.TaskColoredGrating$2
+ mymou.task.individual_tasks.TaskColoredGrating$3
+ mymou.task.individual_tasks.TaskColoredGrating$4
+ mymou.task.individual_tasks.TaskColoredGrating$5
+ mymou.task.individual_tasks.TaskColoredGrating$6
+ mymou.task.individual_tasks.TaskColoredGrating$7
+mymou/preferences/PreferencesManager.java
+ mymou.preferences.PreferencesManager
+mymou/task/individual_tasks/TaskTrainingThreeMovingCue.java
+ mymou.task.individual_tasks.TaskTrainingThreeMovingCue
+ mymou.task.individual_tasks.TaskTrainingThreeMovingCue$1
+mymou/task/backend/WriteSettingsToDisk.java
+ mymou.task.backend.WriteSettingsToDisk
+mymou/BuildConfig.java
+ mymou.BuildConfig
+mymou/preferences/PrefsActCamPicker.java
+ mymou.preferences.PrefsActCamPicker
+ mymou.preferences.PrefsActCamPicker$1
+ mymou.preferences.PrefsActCamPicker$2
+ mymou.preferences.PrefsActCamPicker$3
+ mymou.preferences.PrefsActCamPicker$4
+ mymou.preferences.PrefsActCamPicker$5
+mymou/database/UserDao.java
+ mymou.database.UserDao
+mymou/Utils/UtilsSystem.java
+ mymou.Utils.UtilsSystem
+mymou/task/individual_tasks/TaskProgressiveRatio.java
+ mymou.task.individual_tasks.TaskProgressiveRatio
+ mymou.task.individual_tasks.TaskProgressiveRatio$1
+ mymou.task.individual_tasks.TaskProgressiveRatio$2
+ mymou.task.individual_tasks.TaskProgressiveRatio$3
+ mymou.task.individual_tasks.TaskProgressiveRatio$3$1
+ mymou.task.individual_tasks.TaskProgressiveRatio$3$2
+mymou/task/backend/UtilsTask.java
+ mymou.task.backend.UtilsTask
+mymou/database/MymouDatabase.java
+ mymou.database.MymouDatabase
+mymou/task/individual_tasks/TaskObjectDiscrimCol.java
+ mymou.task.individual_tasks.TaskObjectDiscrimCol
+ mymou.task.individual_tasks.TaskObjectDiscrimCol$1

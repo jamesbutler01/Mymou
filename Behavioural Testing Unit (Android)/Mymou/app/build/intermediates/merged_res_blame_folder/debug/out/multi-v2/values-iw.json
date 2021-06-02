@@ -1,0 +1,60 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\sebas\\OneDrive - University College London\\Sebastijan\\Github\\Projects\\Mymou\\Behavioural Testing Unit (Android)\\Mymou\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-iw\\values-iw.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\sebas\\.gradle\\caches\\transforms-2\\files-2.1\\7db0c3e7959d708d638e5a520adcdceb\\core-1.1.0\\res\\values-iw\\values-iw.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "31",
+                        "startColumns": "4",
+                        "startOffsets": "2926",
+                        "endColumns": "100",
+                        "endOffsets": "3022"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\sebas\\.gradle\\caches\\transforms-2\\files-2.1\\bc0a576cb6005689d33160e409d50fe7\\preference-1.0.0\\res\\values-iw\\values-iw.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "105,189,358,439",
+                        "endColumns": "83,168,80,78",
+                        "endOffsets": "184,353,434,513"
+                    },
+                    "to": {
+                        "startLines": "29,32,33,34",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "2761,3027,3196,3277",
+                        "endColumns": "83,168,80,78",
+                        "endOffsets": "2840,3191,3272,3351"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\sebas\\.gradle\\caches\\transforms-2\\files-2.1\\4016aebcfc413d8a0ef5140edeb914b6\\appcompat-1.1.0\\res\\values-iw\\values-iw.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,210,310,418,502,604,720,799,878,969,1062,1156,1250,1351,1444,1539,1632,1723,1815,1895,2000,2103,2201,2306,2408,2510,2664,2761",
+                        "endColumns": "104,99,107,83,101,115,78,78,90,92,93,93,100,92,94,92,90,91,79,104,102,97,104,101,101,153,96,80",
+                        "endOffsets": "205,305,413,497,599,715,794,873,964,1057,1151,1245,1346,1439,1534,1627,1718,1810,1890,1995,2098,2196,2301,2403,2505,2659,2756,2837"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,30",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,210,310,418,502,604,720,799,878,969,1062,1156,1250,1351,1444,1539,1632,1723,1815,1895,2000,2103,2201,2306,2408,2510,2664,2845",
+                        "endColumns": "104,99,107,83,101,115,78,78,90,92,93,93,100,92,94,92,90,91,79,104,102,97,104,101,101,153,96,80",
+                        "endOffsets": "205,305,413,497,599,715,794,873,964,1057,1151,1245,1346,1439,1534,1627,1718,1810,1890,1995,2098,2196,2301,2403,2505,2659,2756,2921"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -135,5 +135,33 @@
     <integer name="default_csl_presscuex">600</integer>
     <integer name="default_csl_presscuey">940</integer>
 
+    <integer name="default_colgrat_initial_reward">500</integer>
+    <integer name="default_colgrat_rt_limit">700</integer>
+
+    <integer name="default_colgrat_fixation_time_mi">400</integer>
+    <integer name="default_colgrat_stimulus_time_mi">600</integer>
+    <integer name="default_colgrat_cue_time_mi">1000</integer>
+    <integer name="default_colgrat_dim_time_mi">750</integer>
+
+    <integer name="default_colgrat_fixation_time_ma">650</integer>
+    <integer name="default_colgrat_stimulus_time_ma">1000</integer>
+    <integer name="default_colgrat_cue_time_ma">1800</integer>
+    <integer name="default_colgrat_dim_time_ma">1100</integer>
+
+    <integer name="default_colgrat_target_shape">1</integer>
+
+    <integer name="default_colgrat_start_dim">8</integer>
+    <integer name="default_colgrat_end_dim">2</integer>
+
+    <integer name="default_colgrat_red_x">250</integer>
+    <integer name="default_colgrat_red_y">650</integer>
+
+    <integer name="default_colgrat_green_x">750</integer>
+    <integer name="default_colgrat_green_y">750</integer>
+
+    <integer name="default_colgrat_blue_x">350</integer>
+    <integer name="default_colgrat_blue_y">150</integer>
+
+    <integer name="default_colgrat_position_rand">0</integer>
 
 </resources>
