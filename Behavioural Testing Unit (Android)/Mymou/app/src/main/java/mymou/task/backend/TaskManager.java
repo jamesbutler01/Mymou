@@ -412,9 +412,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             case 18:
                 task = new TaskWalds();
                 break;
-	    case 19:
+	        case 19:
                 task = new TaskColoredGrating();
-		break;
+                break;
             default:
                 new Exception("No valid task specified");
                 break;
