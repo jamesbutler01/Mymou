@@ -104,6 +104,10 @@
     <string name="preftag_skip_go_cue">skip_go_cue</string>
 
     <string name="preftag_gocuecolors">colours_gocues</string>
+    <string name="preftag_gocuecolorone">colours_gocuesone</string>
+    <string name="preftag_gocuecolortwo">colours_gocuestwo</string>
+    <string name="preftag_gocuecolorthree">colours_gocuesthree</string>
+    <string name="preftag_gocuecolorfour">colours_gocuesfour</string>
     <string name="preftag_cuebordercolors">colours_cueborders</string>
     <string name="preftag_task_all">preftag_task_all</string>
     <string name="preftag_camera_prefs">preftag_camera_prefs</string>
@@ -354,7 +358,9 @@
     <string name="preftag_w_choicecuey1">preftag_w_choicecuey1</string>
     <string name="preftag_w_choicecuey2">preftag_w_choicecuey2</string>
     <string name="preftag_w_randposchoicecues">preftag_w_randposchcues</string>
-
+    <string name="preftag_w_colfix">preftag_w_colfix</string>
+    <string name="preftag_w_colchone">preftag_w_colchone</string>
+    <string name="preftag_w_colchtwo">preftag_w_colchtwo</string>
 
     <string-array name="error_messages">
         <item>Bluetooth couldn\'t connect to reward system (to run task without reward system, disable the reward system

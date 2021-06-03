@@ -98,20 +98,4 @@ public class PrefsActSystem extends AppCompatActivity implements
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
     }
 
-
-    @Override
-    public void onBackPressed() {
-        boolean allowExit;
-        // Don't let user exit if in colour picker fragment
-        Fragment f = getSupportFragmentManager().findFragmentById(R.id.container_);
-        if (f instanceof PrefsFragColourPicker) {
-            PrefsFragColourPicker fragment = (PrefsFragColourPicker) getSupportFragmentManager().findFragmentById(R.id.container_);
-            allowExit = fragment.onBackPressed();
-        } else {
-            allowExit = true;
-        }
-        if (allowExit) {
-            super.onBackPressed();
-        }
-    }
 }

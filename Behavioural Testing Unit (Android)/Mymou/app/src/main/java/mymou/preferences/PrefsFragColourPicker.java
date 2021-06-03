@@ -32,8 +32,6 @@ public class PrefsFragColourPicker extends PreferenceFragmentCompat implements S
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         coloursChosen = UtilsSystem.loadIntArray(currPrefTag, sharedPrefs, mContext);
 
-        int[] goCueColours = UtilsSystem.loadIntArray(getString(R.string.preftag_gocuecolors), sharedPrefs, mContext);
-        // TODO handle this iteratively
         String TAG_othercues;
         if (currPrefTag == getString(R.string.preftag_od_corr_cols)) {
             TAG_othercues = getString(R.string.preftag_od_incorr_cols);
@@ -54,13 +52,6 @@ public class PrefsFragColourPicker extends PreferenceFragmentCompat implements S
 
         // Now iterate through colours and add them as checkboxes
         for (int i=0; i < num_colours; i++) {
-            // Exclude colours used by go cues
-            if (currPrefTag != getString(R.string.preftag_gocuecolors)) {
-                if (goCueColours[i] == 1 | otherCues[i] == 1) {
-                    coloursChosen[i] = 0;
-                    continue;
-                }
-            }
             CheckBoxPreference checkBoxPreference = new CheckBoxPreference(contextThemeWrapper);
             checkBoxPreference.setTitle(colornames[i]);
             checkBoxPreference.setKey(String.valueOf(i));
@@ -86,14 +77,6 @@ public class PrefsFragColourPicker extends PreferenceFragmentCompat implements S
              return false;
          }
 
-        // Only let them exit if they have selected enough colours for the number of monkeys specified
-        if (currPrefTag == getString(R.string.preftag_gocuecolors)) {
-            if (IntStream.of(coloursChosen).sum() != new PreferencesManager(mContext).num_monkeys) {
-                Toast.makeText(mContext, "Please select one cue for each monkey \n(To select fewer Go cues you first need to decrease the number of monkeys setting)", Toast.LENGTH_LONG).show();
-                return false;
-            }
-        }
-
         // On exit unregister shared preference change listener
         getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
 
@@ -116,35 +99,6 @@ public class PrefsFragColourPicker extends PreferenceFragmentCompat implements S
         Log.d(TAG, "Writing "+UtilsSystem.convertIntArrayToString(coloursChosen)+"to ID: "+currPrefTag);
         sharedPreferences.edit().putString(currPrefTag, UtilsSystem.convertIntArrayToString(coloursChosen)).commit();
 
-        // Go cues have special behaviour:
-        // 1: Can only select as many go cues as there are number of monkey using the device
-        // 2: Must remove chosen option from the cues used in the task
-        if (currPrefTag == mContext.getString(R.string.preftag_gocuecolors)) {
-
-            // Can only select option if they have specified enough monkeys using the device
-            int num_selected = IntStream.of(coloursChosen).sum();
-            if (num_selected > new PreferencesManager(mContext).num_monkeys) {
-                sharedPreferences.edit().putBoolean(key, false).commit();
-                CheckBoxPreference editTextPreference = (CheckBoxPreference) findPreference(key);
-                editTextPreference.setChecked(false);
-                Toast.makeText(mContext, "Too many options chosen - please increase number of monkeys setting if you wish to select more go cues", Toast.LENGTH_LONG).show();
-            }
-
-            // List of other options to remove the colour from
-            String[] otherColorChoices = {mContext.getString(R.string.preftag_od_corr_cols),
-                    mContext.getString(R.string.preftag_od_incorr_cols)};
-
-            for (String other_tag : otherColorChoices) {
-                // Load the other options
-                int[] coloursTemp = UtilsSystem.loadIntArray(other_tag, sharedPreferences, mContext);
-
-                // Set to 0
-                coloursTemp[Integer.valueOf(key)] = 0;
-
-                // Save array
-                sharedPreferences.edit().putString(other_tag, UtilsSystem.convertIntArrayToString(coloursTemp)).commit();
-            }
-        }
     }
 
     @Override

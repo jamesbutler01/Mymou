@@ -4,13 +4,7 @@
     <PreferenceCategory
             android:layout="@layout/preferences_title"
             app:key="cue_settings_"
-            app:title="Cue settings (applied to both go cues and task cues)">
-
-        <Preference
-                android:summary="Choose colours of the go/start cue for each monkey here"
-                app:fragment="mymou.preferences.PrefsFragColourPicker"
-                app:key="@string/preftag_gocuecolors"
-                app:title="Go cue colours" />
+            app:title="Go Cue settings">
 
         <ListPreference
                 android:defaultValue="@integer/default_bordercolour"
@@ -37,6 +31,43 @@
                 android:summary="Minimum spacing between cues on screen (pixels)"
                 app:key="cue_spacing"
                 app:title="Cue spacing" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preferences_title"
+        app:key="gocuecolors"
+        app:title="Go cue colors"
+        app:summary="If facial recognition is enabled, each monkey will have a different coloured cue. Otherwise just the 'main' cue color is used.">
+
+    <ListPreference
+            android:defaultValue="@integer/default_gocuecolone"
+            android:entries="@array/colournames"
+            android:entryValues="@array/colourvalues"
+            app:key="@string/preftag_gocuecolorone"
+            app:title="Main go cue color"
+            app:summary="This will be the go cue for monkey 1 if using face recognition"/>
+    <ListPreference
+            android:defaultValue="@integer/default_gocuecoltwo"
+            android:entries="@array/colournames"
+            android:entryValues="@array/colourvalues"
+            app:key="@string/preftag_gocuecolortwo"
+            app:title="Go cue 2 color"
+            app:summary="This will be the go cue for monkey 2 if using face recognition"/>
+    <ListPreference
+            android:defaultValue="@integer/default_gocuecolthree"
+            android:entries="@array/colournames"
+            android:entryValues="@array/colourvalues"
+            app:key="@string/preftag_gocuecolorthree"
+            app:title="Go cue 3 color"
+            app:summary="This will be the go cue for monkey 3 if using face recognition"/>
+    <ListPreference
+            android:defaultValue="@integer/default_gocuecolfour"
+            android:entries="@array/colournames"
+            android:entryValues="@array/colourvalues"
+            app:key="@string/preftag_gocuecolorfour"
+            app:title="Go cue 4 color"
+            app:summary="This will be the go cue for monkey 4 if using face recognition"/>
 
     </PreferenceCategory>
 

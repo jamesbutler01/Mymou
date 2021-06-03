@@ -126,7 +126,7 @@ public class TaskWalds extends Task {
         ConstraintLayout layout = getView().findViewById(R.id.parent_task_empty);
 
         // Create go cue
-        gocue = UtilsTask.addColorCue(-1,  0, getContext(), null, layout, 1);
+        gocue = UtilsTask.addColorCue(-1,  prefManager.w_fixcol, getContext(), null, layout, 1, false);
         gocue.setWidth(prefManager.w_gocuesize);
         gocue.setHeight(prefManager.w_gocuesize);
         float halfx = (float) (screen_size.x - prefManager.w_gocuesize) / 2;
@@ -136,14 +136,14 @@ public class TaskWalds extends Task {
         gocue.setClickable(false);
 
         // Create choice 1 and choice 2 cues
-        cue1 = UtilsTask.addColorCue(id_cue1, R.color.yellow, getContext(), buttonClickListener, layout, 1, false);
+        cue1 = UtilsTask.addColorCue(id_cue1, prefManager.w_chcol1, getContext(), buttonClickListener, layout, 1, false);
         cue1.setX(prefManager.w_choicecuex1);
         cue1.setY(prefManager.w_choicecuey1);
         cue1.setClickable(false);
         cue1.setWidth(prefManager.w_choicecuesize);
         cue1.setHeight(prefManager.w_choicecuesize);
 
-        cue2 = UtilsTask.addColorCue(id_cue2, R.color.blue, getContext(), buttonClickListener, layout, 1, false);
+        cue2 = UtilsTask.addColorCue(id_cue2, prefManager.w_chcol2, getContext(), buttonClickListener, layout, 1, false);
         cue2.setX(prefManager.w_choicecuex2);
         cue2.setY(prefManager.w_choicecuey2);
         cue2.setWidth(prefManager.w_choicecuesize);

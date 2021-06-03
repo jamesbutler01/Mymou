@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
@@ -99,16 +100,15 @@ public class PreferencesManager {
         border_colour = colors[bordercolour];
 
         // Cue colour settings
-        String tag = context.getString(R.string.preftag_gocuecolors);
-        int[] gocue_colors = UtilsSystem.loadIntArray(tag, sharedPrefs, context);
-        colours_gocues = new int[8];
-        int i_monk = 0;
-        for (int i = 0; i < gocue_colors.length; i++) {
-            if (gocue_colors[i] == 1) {
-                colours_gocues[i_monk] = colors[i];
-                i_monk += 1;
-            }
-        }
+        colours_gocues = new int[4];
+        int cue_colour = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_gocuecolorone), Integer.toString(r.getInteger(R.integer.default_gocuecolone))));
+        colours_gocues[0] = colors[cue_colour];
+        cue_colour = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_gocuecolortwo), Integer.toString(r.getInteger(R.integer.default_gocuecoltwo))));
+        colours_gocues[1] = colors[cue_colour];
+        cue_colour = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_gocuecolorthree), Integer.toString(r.getInteger(R.integer.default_gocuecolthree))));
+        colours_gocues[2] = colors[cue_colour];
+        cue_colour = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_gocuecolorfour), Integer.toString(r.getInteger(R.integer.default_gocuecolfour))));
+        colours_gocues[3] = colors[cue_colour];
 
         ec_incorrect_trial = sharedPrefs.getString(r.getString(R.string.preftag_eventcode_error_trial), r.getString(R.string.default_eventcode_error_trial));
         ec_correct_trial = sharedPrefs.getString(r.getString(R.string.preftag_eventcode_correct_trial), r.getString(R.string.default_eventcode_correct_trial));
@@ -439,6 +439,7 @@ public class PreferencesManager {
     public int w_choicecuey1, w_choicecuey2, w_choicecuex1, w_choicecuex2;
     public int w_startdelay, w_probcuesdelay_low, w_probcuesdelay_high;
     public int w_probcuexloc1, w_probcueyloc1, w_probcuexloc2, w_probcueyloc2;
+    public int w_fixcol, w_chcol1, w_chcol2;
     public boolean w_randposchoicecues;
 
     public void Walds() {
@@ -458,6 +459,12 @@ public class PreferencesManager {
         w_choicecuey2 = sharedPrefs.getInt(r.getString(R.string.preftag_w_choicecuey2), r.getInteger(R.integer.default_w_choicecuey2));
         w_choicecuex1 = sharedPrefs.getInt(r.getString(R.string.preftag_w_choicecuex1), r.getInteger(R.integer.default_w_choicecuex1));
         w_choicecuex2 = sharedPrefs.getInt(r.getString(R.string.preftag_w_choicecuex2), r.getInteger(R.integer.default_w_choicecuex2));
+        w_fixcol = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_w_colfix), Integer.toString(r.getInteger(R.integer.default_w_colfix))));
+        w_fixcol = colors[w_fixcol];
+        w_chcol1 = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_w_colchone), Integer.toString(r.getInteger(R.integer.default_w_colchone))));
+        w_chcol1 = colors[w_chcol1];
+        w_chcol2 = Integer.valueOf(sharedPrefs.getString(r.getString(R.string.preftag_w_colchtwo), Integer.toString(r.getInteger(R.integer.default_w_colchtwo))));
+        w_chcol2 = colors[w_chcol2];
         w_randposchoicecues = sharedPrefs.getBoolean(r.getString(R.string.preftag_w_randposchoicecues), r.getBoolean(R.bool.default_w_randposchoicecues));
 
 

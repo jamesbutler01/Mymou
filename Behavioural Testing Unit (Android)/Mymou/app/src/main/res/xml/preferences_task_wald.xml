@@ -51,6 +51,35 @@
     <PreferenceCategory
         android:layout="@layout/preferences_title"
         app:key="task_settings"
+        app:title="Colors">
+        <ListPreference
+            android:defaultValue="@integer/default_w_colfix"
+            android:entries="@array/colournames"
+            android:entryValues="@array/colourvalues"
+            app:key="@string/preftag_w_colfix"
+            app:title="Fixation cue colour"
+            app:summary="The small central cue telling subjects when they can make their choice"/>
+
+        <ListPreference
+            android:defaultValue="@integer/default_w_colchone"
+            android:entries="@array/colournames"
+            android:entryValues="@array/colourvalues"
+            app:key="@string/preftag_w_colchone"
+            app:title="Choice cue 1 color"/>
+
+        <ListPreference
+            android:defaultValue="@integer/default_w_colchtwo"
+            android:entries="@array/colournames"
+            android:entryValues="@array/colourvalues"
+            app:key="@string/preftag_w_colchtwo"
+            app:title="Choice cue 2 color"/>
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preferences_title"
+        app:key="task_settings"
         app:title="Layout settings">
 
         <mymou.preferences.SeekBarPreferenceCustom

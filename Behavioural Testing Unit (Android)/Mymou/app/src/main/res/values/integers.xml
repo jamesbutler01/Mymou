@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="default_num_monkeys">1</integer>
-    <integer name="max_num_monkeys">8</integer>
+    <integer name="max_num_monkeys">4</integer>
     <integer name="min_num_monkeys">1</integer>
 
     <integer name="num_error_messages">10</integer>
     <integer name="i_bt_couldnt_connect">0</integer>
     <integer name="i_bt_disabled">1</integer>
+
+    <integer name="default_gocuecolone">1</integer>
+    <integer name="default_gocuecoltwo">3</integer>
+    <integer name="default_gocuecolthree">4</integer>
+    <integer name="default_gocuecolfour">5</integer>
 
     <integer name="default_autostart_hour">7</integer>
     <integer name="default_autostop_hour">19</integer>
@@ -151,6 +156,9 @@
     <integer name="default_w_choicecuex2">850</integer>
     <integer name="default_w_choicecuey1">1550</integer>
     <integer name="default_w_choicecuey2">100</integer>
+    <integer name="default_w_colfix">1</integer>
+    <integer name="default_w_colchone">3</integer>
+    <integer name="default_w_colchtwo">4</integer>
 
     <integer name="default_colgrat_initial_reward">500</integer>
     <integer name="default_colgrat_rt_limit">700</integer>
