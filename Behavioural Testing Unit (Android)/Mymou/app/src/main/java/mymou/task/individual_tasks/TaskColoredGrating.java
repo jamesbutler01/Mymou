@@ -149,12 +149,12 @@ public class TaskColoredGrating extends Task {
         target_shape = prefManager.colgrat_target_shape;
 
         // generate the stuff
-        red_cue = UtilsTask.addColorCue(1, R.color.red, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.OVAL);
-        green_cue = UtilsTask.addColorCue(2, R.color.green, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.OVAL);
-        blue_cue = UtilsTask.addColorCue(3, R.color.blue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.OVAL);
-        fix_cue = UtilsTask.addColorCue(5, R.color.white, getContext(), nullListener, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.OVAL);
+        red_cue = UtilsTask.addColorCue(1, prefManager.colgrat_red_cue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.OVAL);
+        green_cue = UtilsTask.addColorCue(2, prefManager.colgrat_green_cue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.OVAL);
+        blue_cue = UtilsTask.addColorCue(3, prefManager.colgrat_blue_cue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.OVAL);
+        fix_cue = UtilsTask.addColorCue(5, prefManager.colgrat_fix_cue, getContext(), nullListener, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.OVAL);
 
-        hold_cue = UtilsTask.addColorCue(6, R.color.white, getContext(), nullListener, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.RECTANGLE);
+        hold_cue = UtilsTask.addColorCue(6, prefManager.colgrat_fix_cue, getContext(), nullListener, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.RECTANGLE);
 
         // initialize time information - these need to be sampled from a distribution between those bounds
         int t1, t2, t3, t4;
@@ -185,13 +185,13 @@ public class TaskColoredGrating extends Task {
 
         switch (target_cue_val) {
             case 1:
-                targ_cue = UtilsTask.addColorCue(4, R.color.red, getContext(), nullListener, getView().findViewById(R.id.parent_task_colgrat), target_shape);
+                targ_cue = UtilsTask.addColorCue(4, prefManager.colgrat_red_cue, getContext(), nullListener, getView().findViewById(R.id.parent_task_colgrat), target_shape);
                 break;
             case 2:
-                targ_cue = UtilsTask.addColorCue(4, R.color.green, getContext(), nullListener, getView().findViewById(R.id.parent_task_colgrat), target_shape);
+                targ_cue = UtilsTask.addColorCue(4, prefManager.colgrat_green_cue, getContext(), nullListener, getView().findViewById(R.id.parent_task_colgrat), target_shape);
                 break;
             case 3:
-                targ_cue = UtilsTask.addColorCue(4, R.color.blue, getContext(), nullListener, getView().findViewById(R.id.parent_task_colgrat), target_shape);
+                targ_cue = UtilsTask.addColorCue(4, prefManager.colgrat_blue_cue, getContext(), nullListener, getView().findViewById(R.id.parent_task_colgrat), target_shape);
                 break;
         }
 
