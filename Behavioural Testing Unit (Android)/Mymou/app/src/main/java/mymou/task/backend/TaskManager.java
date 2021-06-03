@@ -91,7 +91,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     private static boolean timerRunning;  // Signals if trial_timer currently active
 
     // Task objects
-    private static Button[] cues_Go = new Button[8]; // Go cues to start a trial
+    private static Button[] cues_Go = new Button[4]; // Go cues to start a trial
     private static Button[] cues_Reward = new Button[4];  // Reward cues for the different reward options
 
     // Boolean to signal if task should be active or not (e.g. overnight it is set to true)
@@ -901,14 +901,17 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         for (int i = 0; i < cues_Go.length; i++) {
             cues_Go[i] = UtilsTask.addColorCue(i, preferencesManager.colours_gocues[i], this, this, findViewById(R.id.task_container));
         }
+
         try {
             cues_Reward[0] = findViewById(R.id.buttonRewardZero);
             cues_Reward[1] = findViewById(R.id.buttonRewardOne);
             cues_Reward[2] = findViewById(R.id.buttonRewardTwo);
             cues_Reward[3] = findViewById(R.id.buttonRewardThree);
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.exit(0);
+            //TODO This should not happen
+            Log.d(TAG, "TODO: Debug this behaviour");
         }
+
         tvExplanation = findViewById(R.id.tvLog);
         tvErrors = findViewById(R.id.tvError);
         UtilsTask.toggleView(tvExplanation, preferencesManager.debug);

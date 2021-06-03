@@ -69,7 +69,9 @@ public class UtilsTask {
         GradientDrawable drawable = new GradientDrawable();
         drawable.setShape(GradientDrawable.RECTANGLE);
         drawable.setStroke(preferencesManager.border_size, preferencesManager.border_colour);
-        drawable.setColor(ContextCompat.getColor(context, color));
+        Log.d(TAG, "adding coloR"+color);
+//        drawable.setColor(ContextCompat.getColor(context, color));
+        drawable.setColor(color);
         button.setBackgroundDrawable(drawable);
         button.setId(id);
         button.setOnClickListener(onClickListener);
@@ -86,7 +88,8 @@ public class UtilsTask {
         GradientDrawable drawable = new GradientDrawable();
         drawable.setShape(shape);
         drawable.setStroke(preferencesManager.border_size, preferencesManager.border_colour);
-        drawable.setColor(ContextCompat.getColor(context, color));
+//        drawable.setColor(ContextCompat.getColor(context, color));
+        drawable.setColor(color);
         button.setBackgroundDrawable(drawable);
         button.setId(id);
         button.setOnClickListener(onClickListener);
@@ -106,7 +109,8 @@ public class UtilsTask {
         } else {
             drawable.setStroke(0, preferencesManager.border_colour);
         }
-        drawable.setColor(ContextCompat.getColor(context, color));
+//        drawable.setColor(ContextCompat.getColor(context, color));
+        drawable.setColor(color);
         button.setBackgroundDrawable(drawable);
         button.setId(id);
         button.setOnClickListener(onClickListener);
@@ -122,7 +126,8 @@ public class UtilsTask {
         GradientDrawable drawable = new GradientDrawable();
         drawable.setShape(shape);
         drawable.setStroke(border_size, border_colour);
-        drawable.setColor(ContextCompat.getColor(context, color));
+//        drawable.setColor(ContextCompat.getColor(context, color));
+        drawable.setColor(color);
         button.setBackgroundDrawable(drawable);
         button.setId(id);
         button.setOnClickListener(onClickListener);
