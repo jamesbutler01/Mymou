@@ -61,7 +61,7 @@ public class TaskColoredGrating extends Task {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_task_colored_grating, container, false);
+        return inflater.inflate(R.layout.activity_task_empty, container, false);
     }
 
     /**
@@ -71,7 +71,7 @@ public class TaskColoredGrating extends Task {
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         logEvent(TAG + " started", callback);
-        getActivity().findViewById(R.id.background_main).setBackgroundColor(prefManager.colgrat_background_color);
+        getActivity().findViewById(R.id.parent_task_empty).setBackgroundColor(prefManager.colgrat_background_color);
 
         // Instantiate task objects with curr config
         assignObjects();
@@ -134,9 +134,9 @@ public class TaskColoredGrating extends Task {
         target_shape = prefManager.colgrat_target_shape;
 
         // generate the stuff
-        red_cue = UtilsTask.addColorCue(1, prefManager.colgrat_red_cue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.OVAL);
-        green_cue = UtilsTask.addColorCue(2, prefManager.colgrat_green_cue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.OVAL);
-        blue_cue = UtilsTask.addColorCue(3, prefManager.colgrat_blue_cue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.OVAL);
+        red_cue = UtilsTask.addColorCue(1, prefManager.colgrat_red_cue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_empty), GradientDrawable.OVAL, false);
+        green_cue = UtilsTask.addColorCue(2, prefManager.colgrat_green_cue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_empty), GradientDrawable.OVAL, false);
+        blue_cue = UtilsTask.addColorCue(3, prefManager.colgrat_blue_cue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_empty), GradientDrawable.OVAL, false);
 
 //        hold_cue = UtilsTask.addColorCue(6, prefManager.colgrat_fix_cue, getContext(), null, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.RECTANGLE);
 
@@ -160,18 +160,18 @@ public class TaskColoredGrating extends Task {
 
         switch (target_cue_val) {
             case 1:
-                targ_cue = UtilsTask.addColorCue(4, prefManager.colgrat_red_cue, getContext(), null, getView().findViewById(R.id.parent_task_colgrat), target_shape);
+                targ_cue = UtilsTask.addColorCue(4, prefManager.colgrat_red_cue, getContext(), null, getView().findViewById(R.id.parent_task_empty), target_shape);
                 break;
             case 2:
-                targ_cue = UtilsTask.addColorCue(4, prefManager.colgrat_green_cue, getContext(), null, getView().findViewById(R.id.parent_task_colgrat), target_shape);
+                targ_cue = UtilsTask.addColorCue(4, prefManager.colgrat_green_cue, getContext(), null, getView().findViewById(R.id.parent_task_empty), target_shape);
                 break;
             case 3:
-                targ_cue = UtilsTask.addColorCue(4, prefManager.colgrat_blue_cue, getContext(), null, getView().findViewById(R.id.parent_task_colgrat), target_shape);
+                targ_cue = UtilsTask.addColorCue(4, prefManager.colgrat_blue_cue, getContext(), null, getView().findViewById(R.id.parent_task_empty), target_shape);
                 break;
         }
 
         // Define this last so it is overlaid on targcue
-        fix_cue = UtilsTask.addColorCue(5, prefManager.colgrat_fix_cue, getContext(), null, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.OVAL);
+        fix_cue = UtilsTask.addColorCue(5, prefManager.colgrat_fix_cue, getContext(), null, getView().findViewById(R.id.parent_task_empty), GradientDrawable.OVAL);
 
 
         // new size

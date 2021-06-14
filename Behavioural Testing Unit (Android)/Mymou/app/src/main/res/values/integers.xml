@@ -44,7 +44,7 @@
     <integer name="default_dimscreentime">10</integer>
     <integer name="default_bordercolour">1</integer>
 
-    <integer name="default_bordersize">20</integer>
+    <integer name="default_bordersize">0</integer>
     <integer name="default_cuesize">300</integer>
     <integer name="default_cuespacing">30</integer>
 
