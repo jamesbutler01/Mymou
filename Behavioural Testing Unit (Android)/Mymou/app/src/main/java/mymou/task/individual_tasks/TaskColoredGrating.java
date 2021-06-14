@@ -4,7 +4,6 @@ package mymou.task.individual_tasks;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,9 +40,11 @@ public class TaskColoredGrating extends Task {
     private static Handler h0 = new Handler();  // Show object handler
     private static Handler h1 = new Handler();  // Hide object handler
     private int is_target, target_cue_val;
-    private static Button red_cue, green_cue, blue_cue, fix_cue, targ_cue, hold_cue;
+    private static Button red_cue, green_cue, blue_cue;
+//    private static Button hold_cue;  // Have to hold this for duration of trial
+    private static Button fix_cue;  // Central fixation spot
+    private static Button targ_cue;  // Overlaid cue indicating which cue to attend
     private long startTime;
-    private float startDimLevel, endDimLevel;
     private int fixation_time, stimulus_time, cue_time, dim_time;
     private int cumulative_reward, cumulative_reward_multiplier;
     private int rewAmount;
@@ -67,7 +68,6 @@ public class TaskColoredGrating extends Task {
      * Function called after the UI has been loaded
      * Once this is called you can then make any UI changes you want (moving cues around etc)
      */
-
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         logEvent(TAG + " started", callback);
@@ -80,13 +80,6 @@ public class TaskColoredGrating extends Task {
         startMovie();
 
     }
-
-    /**
-     * Recursive function that manages the timing of the task
-     * Flashes two bars onto the screen of different heights, then displays a blank screen, then
-     * repeats until the desired number of bars have been displayed, at which points it asks subjects
-     * to choose between the two options
-     */
 
     private void startMovie() {
 
@@ -112,14 +105,9 @@ public class TaskColoredGrating extends Task {
 
                 UtilsTask.toggleCue(targ_cue, true);
                 UtilsTask.toggleCue(fix_cue, true); // overlay again because it otherwise overwrites it
+
                 // here we start diming them pseudorandomly
-                onDim();
-
-                // once the target starts to dim
-                // subject has 700 msec to provide a response for a reward
-                // on 15 % trials the target does not dim
-
-                // grating should have pre-dimmming and post-dimming luminance levels
+                startDim();
 
             }
         }, fixation_time + stimulus_time);
@@ -153,27 +141,17 @@ public class TaskColoredGrating extends Task {
         red_cue = UtilsTask.addColorCue(1, prefManager.colgrat_red_cue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.OVAL);
         green_cue = UtilsTask.addColorCue(2, prefManager.colgrat_green_cue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.OVAL);
         blue_cue = UtilsTask.addColorCue(3, prefManager.colgrat_blue_cue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.OVAL);
-        fix_cue = UtilsTask.addColorCue(5, prefManager.colgrat_fix_cue, getContext(), null, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.OVAL);
 
-        hold_cue = UtilsTask.addColorCue(6, prefManager.colgrat_fix_cue, getContext(), null, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.RECTANGLE);
-
-        // initialize time information - these need to be sampled from a distribution between those bounds
-        int t1, t2, t3, t4;
+//        hold_cue = UtilsTask.addColorCue(6, prefManager.colgrat_fix_cue, getContext(), null, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.RECTANGLE);
 
         fixation_time = new Random().nextInt((prefManager.colgrat_fixation_time_ma - prefManager.colgrat_fixation_time_mi) + 1) + prefManager.colgrat_fixation_time_mi; // how long the fixation cues should be on for in the beginning
         stimulus_time = new Random().nextInt((prefManager.colgrat_stimulus_time_ma - prefManager.colgrat_stimulus_time_mi) + 1) + prefManager.colgrat_stimulus_time_mi; // indicates how long cues should be on the screen
         cue_time      = new Random().nextInt((300+prefManager.colgrat_cue_time_ma - prefManager.colgrat_cue_time_mi) + 1) + prefManager.colgrat_cue_time_mi; // indicates how long the target cue should be on the screen before dimming
         dim_time      = new Random().nextInt((prefManager.colgrat_dim_time_ma - prefManager.colgrat_dim_time_mi) + 1) + prefManager.colgrat_dim_time_mi; // indicates how long a cue should be dimmed for
 
-        startDimLevel = prefManager.colgrat_start_dim;
-        endDimLevel = prefManager.colgrat_end_dim;
-
-        // starting dimness
-        logEvent(TAG + " check starting dim level" + startDimLevel, callback);
-
-        red_cue.setAlpha(startDimLevel);
-        green_cue.setAlpha(startDimLevel);
-        blue_cue.setAlpha(startDimLevel);
+        red_cue.setAlpha(prefManager.colgrat_start_dim);
+        green_cue.setAlpha(prefManager.colgrat_start_dim);
+        blue_cue.setAlpha(prefManager.colgrat_start_dim);
 
         // determine which cue is the target cue on this trial
         int max = 3;
@@ -195,6 +173,10 @@ public class TaskColoredGrating extends Task {
                 targ_cue = UtilsTask.addColorCue(4, prefManager.colgrat_blue_cue, getContext(), null, getView().findViewById(R.id.parent_task_colgrat), target_shape);
                 break;
         }
+
+        // Define this last so it is overlaid on targcue
+        fix_cue = UtilsTask.addColorCue(5, prefManager.colgrat_fix_cue, getContext(), null, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.OVAL);
+
 
         // new size
         int center_x = (int) (prefManager.cue_size / 4.5);
@@ -226,16 +208,16 @@ public class TaskColoredGrating extends Task {
         float x_loc_hold = (screen_size.x / 2) - (center_x_target / 3);
         float y_loc_hold = 2000; //(screen_size.y / 2) - (center_y_target / 2);
 
-        hold_cue.setX(x_loc_hold);
-        hold_cue.setY(y_loc_hold);
+//        hold_cue.setX(x_loc_hold);
+//        hold_cue.setY(y_loc_hold);
 //        fix_cue.setX(x_loc_hold);
 //        fix_cue.setY(y_loc_hold);
 
         int hold_x_target = (int) (prefManager.cue_size);
         int hold_y_target = (int) (prefManager.cue_size);
 
-        hold_cue.setWidth(hold_x_target);
-        hold_cue.setHeight(hold_y_target);
+//        hold_cue.setWidth(hold_x_target);
+//        hold_cue.setHeight(hold_y_target);
 //        fix_cue.setWidth(hold_x_target);
 //        fix_cue.setHeight(hold_y_target);
 
@@ -281,7 +263,7 @@ public class TaskColoredGrating extends Task {
         blue_cue.setY(y_locs[array_descr_y[2]]);
     }
 
-    private void onDim()
+    private void startDim()
     {
         // we need a vector of three cues which represents an arbitrary assignment / map to the task
         int[] cue_map;
@@ -296,27 +278,35 @@ public class TaskColoredGrating extends Task {
 
         logEvent(TAG + " check current dimming sequence" + c1 + c2 + c3, callback);
 
-        int currTrial; // is this a catch trial?
-        currTrial = isCatchTrial();
+        int catchTrial; // is this a catch trial?
+        catchTrial = isCatchTrial();
 
-        logEvent(TAG + " is current trial a catch trial?" + currTrial  + target_cue_val, callback);
-        executeDimSequence(currTrial, target_cue_val, c1);
+        logEvent(TAG + " is current trial a catch trial?" + catchTrial  + target_cue_val, callback);
+        executeDimSequence(catchTrial, target_cue_val, c1);
 
         logEvent(TAG + " after catch check, what is the dime tim?" + dim_time, callback);
 
         h0.postDelayed(new Runnable() {
             @Override
             public void run() {
-                executeDimSequence(currTrial, target_cue_val, c2);
+                executeDimSequence(catchTrial, target_cue_val, c2);
             }
         }, dim_time); // this will be delay between reward delivery and next door coming on
 
         h0.postDelayed(new Runnable() {
             @Override
             public void run() {
-                executeDimSequence(currTrial, target_cue_val, c3);
+                executeDimSequence(catchTrial, target_cue_val, c3);
             }
         }, dim_time*2); // this will be delay between reward delivery and next door coming on
+
+        // If dont press anything then end it as error trial
+        h0.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                endOfTrial(false, callback, prefManager);
+            }
+        }, dim_time*3+rt_limit); // After all dims + reaction time limit
 
     }
 
@@ -368,25 +358,25 @@ public class TaskColoredGrating extends Task {
         return catchTrial;
     }
 
-    private void executeDimSequence(int currTrial, int target_cue_val, int current_cue)
+    private void executeDimSequence(int catchTrial, int target_cue_val, int current_cue)
     {
-        if (currTrial == 1 & target_cue_val == current_cue) // don't dim because catch trial
+        if (catchTrial == 1 & target_cue_val == current_cue) // don't dim because catch trial
         {
             is_target = 1;
             logEvent(TAG + " no dimming because catch trial, this is the target cue " + is_target, callback);
         }
 
-        else if (currTrial == 1 & target_cue_val != current_cue)
+        else if (catchTrial == 1 & target_cue_val != current_cue)
         {
             is_target = 0;
             logEvent(TAG + " no dimming because catch trial, this is not the target cue " + is_target, callback);
         }
-        else if((currTrial == 0) & (target_cue_val == current_cue)) // dim it
+        else if((catchTrial == 0) & (target_cue_val == current_cue)) // dim it
         {
             logEvent(TAG + " we are dimming cue and its a target cue" + current_cue + target_cue_val, callback);
             is_target = selectDimCue(current_cue, target_cue_val);
         }
-        else if((currTrial == 0) & (target_cue_val != current_cue)) // dim it
+        else if((catchTrial == 0) & (target_cue_val != current_cue)) // dim it
         {
             logEvent(TAG + " we are dimming cue and its not a target cue" + current_cue + target_cue_val, callback);
             is_target = selectDimCue(current_cue, target_cue_val);
@@ -407,17 +397,17 @@ public class TaskColoredGrating extends Task {
         int target_found = 0;
 
         logEvent(TAG + " We are about to start dimming cue: " + cue_map, callback);
-        logEvent(TAG + "With following dim parameters (end dim level) and (dim time): " + endDimLevel + dim_time, callback);
+        logEvent(TAG + "With following dim parameters (end dim level) and (dim time): " + prefManager.colgrat_end_dim + dim_time, callback);
 
             switch (cue_map) {
                 case 1:
-                    red_cue.animate().alpha(endDimLevel).setDuration(dim_time).start();
+                    red_cue.animate().alpha(prefManager.colgrat_end_dim).setDuration(dim_time).start();
                     break;
                 case 2:
-                    green_cue.animate().alpha(endDimLevel).setDuration(dim_time).start();
+                    green_cue.animate().alpha(prefManager.colgrat_end_dim).setDuration(dim_time).start();
                     break;
                 case 3:
-                    blue_cue.animate().alpha(endDimLevel).setDuration(dim_time).start();
+                    blue_cue.animate().alpha(prefManager.colgrat_end_dim).setDuration(dim_time).start();
                     break;
         }
 
@@ -432,8 +422,6 @@ public class TaskColoredGrating extends Task {
 
         return target_found;
     }
-
-    // helper functions for saving trial responses
 
     // Load previous trial params
     private int loadTrialParams() {
