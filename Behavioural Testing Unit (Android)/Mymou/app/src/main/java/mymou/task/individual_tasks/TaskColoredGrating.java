@@ -4,6 +4,7 @@ package mymou.task.individual_tasks;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -49,7 +50,7 @@ public class TaskColoredGrating extends Task {
     private int rt_limit;
     private int target_shape;
     private SharedPreferences settings;
-    private String preftag_colgrat_cumulative_reward;
+    private String preftag_colgrat_cumulative_reward = "preftag_colgratcumrew";
 
     /**
      * Function called when task first loaded (before the UI is loaded)
@@ -152,9 +153,9 @@ public class TaskColoredGrating extends Task {
         red_cue = UtilsTask.addColorCue(1, prefManager.colgrat_red_cue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.OVAL);
         green_cue = UtilsTask.addColorCue(2, prefManager.colgrat_green_cue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.OVAL);
         blue_cue = UtilsTask.addColorCue(3, prefManager.colgrat_blue_cue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.OVAL);
-        fix_cue = UtilsTask.addColorCue(5, prefManager.colgrat_fix_cue, getContext(), nullListener, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.OVAL);
+        fix_cue = UtilsTask.addColorCue(5, prefManager.colgrat_fix_cue, getContext(), null, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.OVAL);
 
-        hold_cue = UtilsTask.addColorCue(6, prefManager.colgrat_fix_cue, getContext(), nullListener, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.RECTANGLE);
+        hold_cue = UtilsTask.addColorCue(6, prefManager.colgrat_fix_cue, getContext(), null, getView().findViewById(R.id.parent_task_colgrat), GradientDrawable.RECTANGLE);
 
         // initialize time information - these need to be sampled from a distribution between those bounds
         int t1, t2, t3, t4;
@@ -185,13 +186,13 @@ public class TaskColoredGrating extends Task {
 
         switch (target_cue_val) {
             case 1:
-                targ_cue = UtilsTask.addColorCue(4, prefManager.colgrat_red_cue, getContext(), nullListener, getView().findViewById(R.id.parent_task_colgrat), target_shape);
+                targ_cue = UtilsTask.addColorCue(4, prefManager.colgrat_red_cue, getContext(), null, getView().findViewById(R.id.parent_task_colgrat), target_shape);
                 break;
             case 2:
-                targ_cue = UtilsTask.addColorCue(4, prefManager.colgrat_green_cue, getContext(), nullListener, getView().findViewById(R.id.parent_task_colgrat), target_shape);
+                targ_cue = UtilsTask.addColorCue(4, prefManager.colgrat_green_cue, getContext(), null, getView().findViewById(R.id.parent_task_colgrat), target_shape);
                 break;
             case 3:
-                targ_cue = UtilsTask.addColorCue(4, prefManager.colgrat_blue_cue, getContext(), nullListener, getView().findViewById(R.id.parent_task_colgrat), target_shape);
+                targ_cue = UtilsTask.addColorCue(4, prefManager.colgrat_blue_cue, getContext(), null, getView().findViewById(R.id.parent_task_colgrat), target_shape);
                 break;
         }
 
@@ -227,13 +228,28 @@ public class TaskColoredGrating extends Task {
 
         hold_cue.setX(x_loc_hold);
         hold_cue.setY(y_loc_hold);
+//        fix_cue.setX(x_loc_hold);
+//        fix_cue.setY(y_loc_hold);
 
         int hold_x_target = (int) (prefManager.cue_size);
         int hold_y_target = (int) (prefManager.cue_size);
 
         hold_cue.setWidth(hold_x_target);
         hold_cue.setHeight(hold_y_target);
+//        fix_cue.setWidth(hold_x_target);
+//        fix_cue.setHeight(hold_y_target);
 
+        randomlyPositionCues();
+
+        // turn off all cues
+        UtilsTask.toggleCue(red_cue, false);
+        UtilsTask.toggleCue(green_cue, false);
+        UtilsTask.toggleCue(blue_cue, false);
+        UtilsTask.toggleCue(fix_cue, false);
+        UtilsTask.toggleCue(targ_cue, false);
+    }
+
+    private void randomlyPositionCues(){
         // create location vector to sample from
         int[] x_locs = new int[]{prefManager.colgrat_red_x, prefManager.colgrat_green_x, prefManager.colgrat_blue_x};
         int[] y_locs = new int[]{prefManager.colgrat_red_y, prefManager.colgrat_green_y, prefManager.colgrat_blue_y};
@@ -263,13 +279,6 @@ public class TaskColoredGrating extends Task {
 
         blue_cue.setX(x_locs[array_descr_x[2]]);
         blue_cue.setY(y_locs[array_descr_y[2]]);
-
-        // turn off all cues
-        UtilsTask.toggleCue(red_cue, false);
-        UtilsTask.toggleCue(green_cue, false);
-        UtilsTask.toggleCue(blue_cue, false);
-        UtilsTask.toggleCue(fix_cue, false);
-        UtilsTask.toggleCue(targ_cue, false);
     }
 
     private void onDim()
@@ -391,6 +400,7 @@ public class TaskColoredGrating extends Task {
         return target_found;
     };
 
+    // Dims relevant cue and toggles target_found if it's the target cue
     private int startCueDim(int cue_map, int curr_target)
     {
 
@@ -443,6 +453,7 @@ public class TaskColoredGrating extends Task {
         public void onClick(View view) {
 
             int rewarded_trial = 0;
+
             // if they clicked on the correct target within the interval, they will be rewarded
             logEvent(TAG + " what is the id of picked target " + view.getId(), callback);
             if ((is_target == 1) & (target_cue_val == view.getId())) // initialize the RT countdown
@@ -477,16 +488,11 @@ public class TaskColoredGrating extends Task {
             else if (rewarded_trial == 0)
             {
                 logEvent(TAG + " subject gets no reward " + rewarded_trial, callback);
-//                endOfTrial(false, callback, prefManager);
+                endOfTrial(false, callback, prefManager);
             }
         }
     };
 
-    private View.OnClickListener nullListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-        }
-    };
 
     private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         @Override
