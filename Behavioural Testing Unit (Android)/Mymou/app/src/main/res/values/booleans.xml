@@ -41,4 +41,6 @@
 
     <bool name="default_w_randposchoicecues">true</bool>
 
+    <bool name="default_colgrat_trainingmode">true</bool>
+
 </resources>
