@@ -44,10 +44,12 @@ public class TaskColoredGrating extends Task {
     //    private static Button hold_cue;  // Have to hold this for duration of trial
     private static Button fix_cue;  // Central fixation spot
     private static Button targ_cue;  // Overlaid cue indicating which cue to attend
+    private static Button bg_cue;  // Cue same colour as background so that dimming is visible
     private long startTime;
     private int fixation_time, stimulus_time, cue_time, dim_time;
     private int cumulative_reward;
     private int target_shape;
+    private int targ_size;
     private SharedPreferences settings;
     private String preftag_colgrat_cumulative_reward = "preftag_colgratcumrew";
 
@@ -152,7 +154,9 @@ public class TaskColoredGrating extends Task {
         }
         // Add another cue with same colour as background so can actually see it fade
         // Otherwise the targ_cue will be behind the coloured cues and so the fade would be inivisible
-        Button bgcue = UtilsTask.addColorCue(-1, prefManager.colgrat_background_color, getContext(), null, getView().findViewById(R.id.parent_task_empty), GradientDrawable.OVAL, false);
+        bg_cue = UtilsTask.addColorCue(-1, prefManager.colgrat_background_color, getContext(), null, getView().findViewById(R.id.parent_task_empty), GradientDrawable.OVAL, false);
+        bg_cue.setHeight(prefManager.colgrat_sizecolcue);
+        bg_cue.setWidth(prefManager.colgrat_sizecolcue);
 
         // generate col cues
         red_cue = UtilsTask.addColorCue(1, prefManager.colgrat_red_cue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_empty), GradientDrawable.OVAL, false);
@@ -174,14 +178,13 @@ public class TaskColoredGrating extends Task {
         green_cue.setAlpha(prefManager.colgrat_start_dim);
         blue_cue.setAlpha(prefManager.colgrat_start_dim);
 
-        int size;
         if (prefManager.colgrat_trainingmode) {
-            size = prefManager.colgrat_sizecolcue + prefManager.colgrat_sizeindicatorcue;
+            targ_size = prefManager.colgrat_sizecolcue + prefManager.colgrat_sizeindicatorcue;
         } else {
-            size = prefManager.colgrat_sizefixcue + prefManager.colgrat_sizeindicatorcue;
+            targ_size = prefManager.colgrat_sizefixcue + prefManager.colgrat_sizeindicatorcue;
         }
-        targ_cue.setHeight(size);
-        targ_cue.setWidth(size);
+        targ_cue.setHeight(targ_size);
+        targ_cue.setWidth(targ_size);
 
         fix_cue = UtilsTask.addColorCue(5, prefManager.colgrat_fix_cue, getContext(), null, getView().findViewById(R.id.parent_task_empty), GradientDrawable.OVAL, false);
         fix_cue.setHeight(prefManager.colgrat_sizefixcue);
@@ -193,8 +196,8 @@ public class TaskColoredGrating extends Task {
         fix_cue.setX(x_loc_fix);
         fix_cue.setY(y_loc_fix);
 
-        float x_loc_targ = (screen_size.x / 2) - (size / 2);
-        float y_loc_targ = (screen_size.y / 2) - (size / 2);
+        float x_loc_targ = (screen_size.x / 2) - (targ_size / 2);
+        float y_loc_targ = (screen_size.y / 2) - (targ_size / 2);
         targ_cue.setX(x_loc_targ);
         targ_cue.setY(y_loc_targ);
 
@@ -241,20 +244,15 @@ public class TaskColoredGrating extends Task {
         blue_cue.setY(y_locs[array_descr_y[2]]);
 
         if (prefManager.colgrat_trainingmode) {
-            switch (target_cue_val) {
-                case 1:
-                    targ_cue.setX(x_locs[array_descr_x[0]]);
-                    targ_cue.setY(y_locs[array_descr_y[0]]);
-                    break;
-                case 2:
-                    targ_cue.setX(x_locs[array_descr_x[1]]);
-                    targ_cue.setY(y_locs[array_descr_y[1]]);
-                    break;
-                case 3:
-                    targ_cue.setX(x_locs[array_descr_x[2]]);
-                    targ_cue.setY(y_locs[array_descr_y[2]]);
-                    break;
-            }
+                targ_cue.setX(x_locs[array_descr_x[target_cue_val-1]]- (prefManager.colgrat_sizeindicatorcue / 2));
+                targ_cue.setY(y_locs[array_descr_y[target_cue_val-1]]- (prefManager.colgrat_sizeindicatorcue / 2));
+                bg_cue.setX(x_locs[array_descr_x[target_cue_val-1]]);
+                bg_cue.setY(y_locs[array_descr_y[target_cue_val-1]]);
+
+            float xx = (targ_size / 2);
+            float x = x_locs[array_descr_x[2]]- (targ_size / 2);
+            logEvent(TAG + " x1=" + x_locs[array_descr_x[2]]+", x2="+x+", targsize="+targ_size+", targsizeover2="+xx, callback);
+
         }
 
     }
