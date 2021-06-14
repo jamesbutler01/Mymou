@@ -69,13 +69,17 @@
             android:defaultValue="@integer/default_colgrat_start_dim"
             app:key="@string/preftag_colgrat_start_dim"
             app:title="Starting dim (alpha)"
-            app:summary="What is the starting dimness level of the stimuli. Tap to input number"/>
+            android:max="100"
+            app:min="0"
+            app:summary="What is the starting dimness level of the stimuli. Expressed as a percentage where 0=transparent, 100=opaque. Tap to input number"/>
 
         <mymou.preferences.SeekBarPreferenceCustom
             android:defaultValue="@integer/default_colgrat_end_dim"
             app:key="@string/preftag_colgrat_end_dim"
             app:title="Ending dim (alpha)"
-            app:summary="What is the ending dimness level of the stimuli. Tap to input number"/>
+            android:max="100"
+            app:min="0"
+            app:summary="What is the ending dimness level of the stimuli. Expressed as a percentage where 0=transparent, 100=opaque. Tap to input number"/>
 
         <mymou.preferences.SeekBarPreferenceCustom
             android:defaultValue="@integer/default_colgrat_rt_limit"

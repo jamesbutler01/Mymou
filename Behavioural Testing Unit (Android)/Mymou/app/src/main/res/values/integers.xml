@@ -175,8 +175,8 @@
 
     <integer name="default_colgrat_target_shape">1</integer>
 
-    <integer name="default_colgrat_start_dim">8</integer>
-    <integer name="default_colgrat_end_dim">2</integer>
+    <integer name="default_colgrat_start_dim">80</integer>
+    <integer name="default_colgrat_end_dim">20</integer>
 
     <integer name="default_colgrat_red_x">250</integer>
     <integer name="default_colgrat_red_y">650</integer>

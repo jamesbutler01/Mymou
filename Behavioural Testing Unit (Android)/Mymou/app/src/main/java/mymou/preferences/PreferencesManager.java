@@ -505,8 +505,8 @@ public class PreferencesManager {
         // are blue/red/green always in the same position?
         colgrat_position_rand = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_position_rand), r.getInteger(R.integer.default_colgrat_position_rand));
 
-        colgrat_start_dim = (float) sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_start_dim), r.getInteger(R.integer.default_colgrat_start_dim)) / 10;
-        colgrat_end_dim   = (float) sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_end_dim),   r.getInteger(R.integer.default_colgrat_end_dim)) / 10;
+        colgrat_start_dim = (float) sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_start_dim), r.getInteger(R.integer.default_colgrat_start_dim)) / 100;
+        colgrat_end_dim   = (float) sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_end_dim),   r.getInteger(R.integer.default_colgrat_end_dim)) / 100;
 
         colgrat_rt_limit      = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_rt_limit), r.getInteger(R.integer.default_colgrat_rt_limit));
 
