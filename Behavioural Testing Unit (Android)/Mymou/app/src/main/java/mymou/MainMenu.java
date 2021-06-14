@@ -325,6 +325,9 @@ public class MainMenu extends Activity {
                             break;
                         case 18:
                             intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_wald_settings));
+			    break;
+			case 19:
+                            intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_colgrat_settings));
                             break;
                         default:
                             validsettings = false;

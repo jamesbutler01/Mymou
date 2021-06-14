@@ -469,4 +469,59 @@ public class PreferencesManager {
 
 
     }
+
+
+    public static int colgrat_green_cue, colgrat_red_cue, colgrat_blue_cue, colgrat_target_cue, colgrat_fix_cue;
+    public static int colgrat_red_x, colgrat_red_y, colgrat_green_x, colgrat_green_y, colgrat_blue_x, colgrat_blue_y;
+    public static int colgrat_starting_reward;
+    public static int colgrat_rt_limit;
+    public static int colgrat_fixation_time_mi, colgrat_stimulus_time_mi, colgrat_cue_time_mi, colgrat_dim_time_mi;
+    public static int colgrat_fixation_time_ma, colgrat_stimulus_time_ma, colgrat_cue_time_ma, colgrat_dim_time_ma;
+
+    public static int colgrat_position_rand;
+    public static int colgrat_background_color, colgrat_target_shape;
+    public static float colgrat_start_dim, colgrat_end_dim;
+
+    public void ColoredGrating() {
+
+        colors = r.getIntArray(R.array.colorarray); // not best because it directly takes from the color array
+
+        colgrat_green_cue = colors[14];
+        colgrat_red_cue  = colors[6];
+        colgrat_blue_cue = colors[3];
+        colgrat_target_cue = colors[6]; // not super important what color it is, just a placeholder for now
+        colgrat_fix_cue  = colors[0]; // not super important what color it is, just a placeholder for now
+        colgrat_background_color = colors[2];
+
+        colgrat_red_x = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_red_x), r.getInteger(R.integer.default_colgrat_red_x));
+        colgrat_red_y = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_red_y), r.getInteger(R.integer.default_colgrat_red_y));
+        colgrat_green_x = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_green_x), r.getInteger(R.integer.default_colgrat_green_x));
+        colgrat_green_y = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_green_y), r.getInteger(R.integer.default_colgrat_green_y));
+        colgrat_blue_x = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_blue_x), r.getInteger(R.integer.default_colgrat_blue_x));
+        colgrat_blue_y = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_blue_y), r.getInteger(R.integer.default_colgrat_blue_y));
+
+        colgrat_starting_reward = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_initial_reward), r.getInteger(R.integer.default_colgrat_initial_reward));
+
+        // are blue/red/green always in the same position?
+        colgrat_position_rand = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_position_rand), r.getInteger(R.integer.default_colgrat_position_rand));
+
+        colgrat_start_dim = (float) sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_start_dim), r.getInteger(R.integer.default_colgrat_start_dim)) / 10;
+        colgrat_end_dim   = (float) sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_end_dim),   r.getInteger(R.integer.default_colgrat_end_dim)) / 10;
+
+        colgrat_rt_limit      = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_rt_limit), r.getInteger(R.integer.default_colgrat_rt_limit));
+
+        colgrat_fixation_time_mi = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_fixation_time_mi), r.getInteger(R.integer.default_colgrat_fixation_time_mi));
+        colgrat_stimulus_time_mi = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_stimulus_time_mi), r.getInteger(R.integer.default_colgrat_stimulus_time_mi));
+        colgrat_cue_time_mi      = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_cue_time_mi), r.getInteger(R.integer.default_colgrat_cue_time_mi));
+        colgrat_dim_time_mi      = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_dim_time_mi), r.getInteger(R.integer.default_colgrat_dim_time_mi));
+
+        colgrat_fixation_time_ma = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_fixation_time_ma), r.getInteger(R.integer.default_colgrat_fixation_time_ma));
+        colgrat_stimulus_time_ma = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_stimulus_time_ma), r.getInteger(R.integer.default_colgrat_stimulus_time_ma));
+        colgrat_cue_time_ma      = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_cue_time_ma), r.getInteger(R.integer.default_colgrat_cue_time_ma));
+        colgrat_dim_time_ma      = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_dim_time_ma), r.getInteger(R.integer.default_colgrat_dim_time_ma));
+
+        colgrat_target_shape = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_target_shape), r.getInteger(R.integer.default_colgrat_target_shape));
+
+    }
 }
+

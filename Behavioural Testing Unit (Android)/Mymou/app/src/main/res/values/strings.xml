@@ -35,6 +35,7 @@
         <item>Discrete value space</item>
         <item>Context Sequence Learning</item>
         <item>Wald\'s Sequential Probability Ratio</item>
+        <item>Colored Grating Task</item>
     </string-array>
 
     <string-array name="task_descriptions">
@@ -57,6 +58,7 @@
         <item>Subjects are given choices between two cues that lie on a 10x10 value grid made up of probability and magnitude dimensions. For example, the cue at (1, 1) will give 10% reward 10% of the time. They can then pick either cue are given the corresponding reward along with a secondary reinforcer to indicate whether it was better or worse than the counterfactual option.</item>
         <item>Two sounds are displayed followed by a go cue. This is followed by two further sounds and another go cue. Sounds in the first and second sequence can be within the same context or in different contexts.</item>
         <item>Implementation of Wald\'s Sequential Probability Ratio test as described in Kira, Yang, Shadlen (2015) Neuron.</item>
+        <item>Colored grating task</item>
     </string-array>
 
     <string name="default_startuptime">0700</string>
@@ -170,6 +172,7 @@
     <string name="preftag_task_dvs_settings">preftag_task_dvs_settings</string>
     <string name="preftag_task_csl_settings">preftag_task_csl_settings</string>
     <string name="preftag_task_wald_settings">preftag_task_w_settings</string>
+    <string name="preftag_task_colgrat_settings">preftag_task_colgrat_settings</string>
     <string name="preftag_task_od_settings">preftag_task_od_settings</string>
     <string name="preftag_bluetooth_strobes">preftag_bluetooth_strobes</string>
     <string name="preftag_settings_to_load">preftag_settings_to_load</string>
@@ -288,6 +291,33 @@
     <string name="preftag_csl_waitcuey">preftag_csl_waitcuey</string>
     <string name="preftag_csl_presscuex">preftag_csl_presscuex</string>
     <string name="preftag_csl_presscuey">preftag_csl_presscuey</string>
+
+    <string name="preftag_colgrat_initial_reward">default_colgrat_initial_reward</string>
+    <string name="preftag_colgrat_start_dim">default_colgrat_start_dim</string>
+    <string name="preftag_colgrat_end_dim">default_colgrat_end_dim</string>
+    <string name="preftag_colgrat_position_rand">default_colgrat_position_rand</string>
+
+    <string name="preftag_colgrat_red_x">default_colgrat_red_x</string>
+    <string name="preftag_colgrat_red_y">default_colgrat_red_y</string>
+
+    <string name="preftag_colgrat_green_x">default_colgrat_green_x</string>
+    <string name="preftag_colgrat_green_y">default_colgrat_green_y</string>
+
+    <string name="preftag_colgrat_blue_x">default_colgrat_blue_x</string>
+    <string name="preftag_colgrat_blue_y">default_colgrat_blue_y</string>
+
+    <string name="preftag_colgrat_rt_limit">default_colgrat_rt_limit</string>
+    <string name="preftag_colgrat_target_shape">default_colgrat_target_shape</string>
+
+    <string name="preftag_colgrat_fixation_time_mi">default_colgrat_fixation_time_mi</string>
+    <string name="preftag_colgrat_stimulus_time_mi">default_colgrat_stimulus_time_mi</string>
+    <string name="preftag_colgrat_cue_time_mi">default_colgrat_cue_time_mi</string>
+    <string name="preftag_colgrat_dim_time_mi">default_colgrat_dim_time_mi</string>
+
+    <string name="preftag_colgrat_fixation_time_ma">default_colgrat_fixation_time_ma</string>
+    <string name="preftag_colgrat_stimulus_time_ma">default_colgrat_stimulus_time_ma</string>
+    <string name="preftag_colgrat_cue_time_ma">default_colgrat_cue_time_ma</string>
+    <string name="preftag_colgrat_dim_time_ma">default_colgrat_dim_time_ma</string>
 
     <string name="preftag_t_sc_minrew">default_t_sc_minrew</string>
     <string name="preftag_t_sc_maxrew">preftag_t_sc_maxrew</string>

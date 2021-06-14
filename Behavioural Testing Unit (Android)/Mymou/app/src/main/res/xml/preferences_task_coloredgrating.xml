@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:layout="@layout/preferences_title"
+        app:key="task_settings"
+        app:title="Settings for Colored grating task">
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_csl_rtbase"
+            app:key="@string/preftag_colgrat_initial_reward"
+            app:title="Size of initial reward for correct answer (ml)"
+            app:summary="What is the size of the initial reward for providing a correct answer. Tap to input number"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_colgrat_fixation_time_mi"
+            app:key="@string/preftag_colgrat_fixation_time_mi"
+            app:title="Minimum duration of fixation interval (msec)"
+            app:summary="What is minimum duration of the fixation interval. Tap to input number"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_colgrat_fixation_time_ma"
+            app:key="@string/preftag_colgrat_fixation_time_ma"
+            app:title="SMinimum duration of fixation interval (msec)"
+            app:summary="What is maxium duration of the fixation interval. Tap to input number"/>
+
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_colgrat_cue_time_mi"
+            app:key="@string/preftag_colgrat_cue_time_mi"
+            app:title="Minimum duration of target cue interval (msec)"
+            app:summary="What is minimum duration of the target cue interval. Tap to input number"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_colgrat_cue_time_ma"
+            app:key="@string/preftag_colgrat_cue_time_ma"
+            app:title="maximum duration of target cue interval (msec)"
+            app:summary="What is maximum  duration of the target cue interval. Tap to input number"/>
+
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_colgrat_stimulus_time_mi"
+            app:key="@string/preftag_colgrat_stimulus_time_mi"
+            app:title="Minimum duration of stimulus interval (msec)"
+            app:summary="What is minimum duration of the stimulus interval. Tap to input number"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_colgrat_stimulus_time_ma"
+            app:key="@string/preftag_colgrat_stimulus_time_ma"
+            app:title="maximum duration of stimulus interval (msec)"
+            app:summary="What is maximum duration of the stimulus interval. Tap to input number"/>
+
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_colgrat_dim_time_mi"
+            app:key="@string/preftag_colgrat_dim_time_mi"
+            app:title="Minimum duration of fixation interval (msec)"
+            app:summary="What is minimum duration of the fixation interval. Tap to input number"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_colgrat_dim_time_ma"
+            app:key="@string/preftag_colgrat_dim_time_ma"
+            app:title="maximum duration of dimming interval (msec)"
+            app:summary="What is maximum duration of the dimming interval. Tap to input number"/>
+
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_colgrat_start_dim"
+            app:key="@string/preftag_colgrat_start_dim"
+            app:title="Starting dim (alpha)"
+            app:summary="What is the starting dimness level of the stimuli. Tap to input number"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_colgrat_end_dim"
+            app:key="@string/preftag_colgrat_end_dim"
+            app:title="Ending dim (alpha)"
+            app:summary="What is the ending dimness level of the stimuli. Tap to input number"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_colgrat_rt_limit"
+            app:key="@string/preftag_colgrat_rt_limit"
+            app:title="Reaction time limit for correct response (msec)"
+            app:summary="What is the reaction time limit for a correct response. Tap to input number"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_colgrat_target_shape"
+            app:key="@string/preftag_colgrat_target_shape"
+            app:title="What is the target shape (0 - oval, 1 - rectangle)"
+            app:summary="What is the target shape. Tap to input number"/>
+
+
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:layout="@layout/preferences_title"
+        app:key="task_settings"
+        app:title="Layout settings">
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

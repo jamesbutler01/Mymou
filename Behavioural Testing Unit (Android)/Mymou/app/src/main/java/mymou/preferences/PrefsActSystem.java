@@ -51,6 +51,8 @@ public class PrefsActSystem extends AppCompatActivity implements
             preferenceFragment = new PrefsFragTaskContextSequenceLearning();
         }else if (settings_to_load.equals(getString(R.string.preftag_task_wald_settings))) {
             preferenceFragment = new PrefsFragTaskWald();
+        }else if (settings_to_load.equals(getString(R.string.preftag_task_colgrat_settings))) {
+            preferenceFragment = new PrefsFragTaskColoredGrating();
         } else {
             // Default behaviour
             preferenceFragment = new PrefsFragCommon();

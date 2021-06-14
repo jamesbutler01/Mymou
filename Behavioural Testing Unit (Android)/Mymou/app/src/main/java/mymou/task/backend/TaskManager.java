@@ -268,6 +268,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             case 18:
                 preferencesManager.Walds();
                 break;
+            case 19:
+                preferencesManager.ColoredGrating();
+                break;
             default:
                 Log.d(TAG, "No task specified");
                 new Exception("No task specified");
@@ -408,6 +411,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 break;
             case 18:
                 task = new TaskWalds();
+                break;
+	        case 19:
+                task = new TaskColoredGrating();
                 break;
             default:
                 new Exception("No valid task specified");
