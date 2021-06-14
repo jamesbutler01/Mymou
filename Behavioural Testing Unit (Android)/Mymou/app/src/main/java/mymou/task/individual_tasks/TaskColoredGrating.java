@@ -44,7 +44,6 @@ public class TaskColoredGrating extends Task {
     //    private static Button hold_cue;  // Have to hold this for duration of trial
     private static Button fix_cue;  // Central fixation spot
     private static Button targ_cue;  // Overlaid cue indicating which cue to attend
-    private static Button bg_cue;  // Cue same colour as background so that dimming is visible
     private long startTime;
     private int fixation_time, stimulus_time, cue_time, dim_time;
     private int cumulative_reward;
@@ -152,11 +151,6 @@ public class TaskColoredGrating extends Task {
                 targ_cue = UtilsTask.addColorCue(4, prefManager.colgrat_blue_cue, getContext(), null, getView().findViewById(R.id.parent_task_empty), target_shape, false);
                 break;
         }
-        // Add another cue with same colour as background so can actually see it fade
-        // Otherwise the targ_cue will be behind the coloured cues and so the fade would be inivisible
-        bg_cue = UtilsTask.addColorCue(-1, prefManager.colgrat_background_color, getContext(), null, getView().findViewById(R.id.parent_task_empty), GradientDrawable.OVAL, false);
-        bg_cue.setHeight(prefManager.colgrat_sizecolcue);
-        bg_cue.setWidth(prefManager.colgrat_sizecolcue);
 
         // generate col cues
         red_cue = UtilsTask.addColorCue(1, prefManager.colgrat_red_cue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_empty), GradientDrawable.OVAL, false);
@@ -179,6 +173,7 @@ public class TaskColoredGrating extends Task {
         blue_cue.setAlpha(prefManager.colgrat_start_dim);
 
         if (prefManager.colgrat_trainingmode) {
+            targ_cue.setAlpha(prefManager.colgrat_start_dim);
             targ_size = prefManager.colgrat_sizecolcue + prefManager.colgrat_sizeindicatorcue;
         } else {
             targ_size = prefManager.colgrat_sizefixcue + prefManager.colgrat_sizeindicatorcue;
@@ -246,8 +241,6 @@ public class TaskColoredGrating extends Task {
         if (prefManager.colgrat_trainingmode) {
                 targ_cue.setX(x_locs[array_descr_x[target_cue_val-1]]- (prefManager.colgrat_sizeindicatorcue / 2));
                 targ_cue.setY(y_locs[array_descr_y[target_cue_val-1]]- (prefManager.colgrat_sizeindicatorcue / 2));
-                bg_cue.setX(x_locs[array_descr_x[target_cue_val-1]]);
-                bg_cue.setY(y_locs[array_descr_y[target_cue_val-1]]);
 
             float xx = (targ_size / 2);
             float x = x_locs[array_descr_x[2]]- (targ_size / 2);
@@ -382,6 +375,11 @@ public class TaskColoredGrating extends Task {
         }
 
         if (curr_target == cue_map) {
+
+            if (prefManager.colgrat_trainingmode) {
+                targ_cue.animate().alpha(prefManager.colgrat_end_dim).setDuration(dim_time).start();
+            }
+
             dimmed_target = 1;
             startTime = System.currentTimeMillis(); // if this was the target then we start the countdown
             logEvent(TAG + " we are starting countdown because current dimming cue is target cue " + startTime, callback);
@@ -427,12 +425,13 @@ public class TaskColoredGrating extends Task {
         @Override
         public void onClick(View view) {
 
+            float rtTime = System.currentTimeMillis() - startTime;
+
             int correctTrial = 0;
 
             if ((dimmed_target == 1) & (target_cue_val == view.getId())) {
 
                 logEvent(TAG + " clicked correct target" + view.getId(), callback);
-                float rtTime = System.currentTimeMillis() - startTime;
 
                 if (rtTime <= prefManager.colgrat_rt_limit) {
                     logEvent(TAG + " reaction time quick enough! " + rtTime, callback);
