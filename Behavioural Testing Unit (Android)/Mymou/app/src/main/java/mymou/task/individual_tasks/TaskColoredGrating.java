@@ -41,12 +41,12 @@ public class TaskColoredGrating extends Task {
     private static Handler h1 = new Handler();  // Hide object handler
     private int is_target, target_cue_val;
     private static Button red_cue, green_cue, blue_cue;
-//    private static Button hold_cue;  // Have to hold this for duration of trial
+    //    private static Button hold_cue;  // Have to hold this for duration of trial
     private static Button fix_cue;  // Central fixation spot
     private static Button targ_cue;  // Overlaid cue indicating which cue to attend
     private long startTime;
     private int fixation_time, stimulus_time, cue_time, dim_time;
-    private int cumulative_reward, cumulative_reward_multiplier;
+    private int cumulative_reward;
     private int rewAmount;
     private int rt_limit;
     private int target_shape;
@@ -118,12 +118,8 @@ public class TaskColoredGrating extends Task {
         prefManager.ColoredGrating();
 
         // get the number of consecutive trials that were correct
-        cumulative_reward_multiplier = loadTrialParams();
-        if (cumulative_reward_multiplier == 0) { // if something went wrong set starting value
-            cumulative_reward_multiplier = 1;
-        }
-
-        logEvent(TAG + " current reward level" + cumulative_reward_multiplier, callback);
+        cumulative_reward = loadTrialHistory();
+        logEvent(TAG + " current reward level" + cumulative_reward, callback);
 
         // fetch the screen size to be able to center cues
         Display display = getActivity().getWindowManager().getDefaultDisplay();
@@ -132,7 +128,7 @@ public class TaskColoredGrating extends Task {
 
         // initialize the starting reward amount and rt limit
         rewAmount = (int) (prefManager.colgrat_starting_reward);
-        rt_limit  = (int) (prefManager.colgrat_rt_limit);
+        rt_limit = (int) (prefManager.colgrat_rt_limit);
 
         // cue shape type
         target_shape = prefManager.colgrat_target_shape;
@@ -146,8 +142,8 @@ public class TaskColoredGrating extends Task {
 
         fixation_time = new Random().nextInt((prefManager.colgrat_fixation_time_ma - prefManager.colgrat_fixation_time_mi) + 1) + prefManager.colgrat_fixation_time_mi; // how long the fixation cues should be on for in the beginning
         stimulus_time = new Random().nextInt((prefManager.colgrat_stimulus_time_ma - prefManager.colgrat_stimulus_time_mi) + 1) + prefManager.colgrat_stimulus_time_mi; // indicates how long cues should be on the screen
-        cue_time      = new Random().nextInt((300+prefManager.colgrat_cue_time_ma - prefManager.colgrat_cue_time_mi) + 1) + prefManager.colgrat_cue_time_mi; // indicates how long the target cue should be on the screen before dimming
-        dim_time      = new Random().nextInt((prefManager.colgrat_dim_time_ma - prefManager.colgrat_dim_time_mi) + 1) + prefManager.colgrat_dim_time_mi; // indicates how long a cue should be dimmed for
+        cue_time = new Random().nextInt((300 + prefManager.colgrat_cue_time_ma - prefManager.colgrat_cue_time_mi) + 1) + prefManager.colgrat_cue_time_mi; // indicates how long the target cue should be on the screen before dimming
+        dim_time = new Random().nextInt((prefManager.colgrat_dim_time_ma - prefManager.colgrat_dim_time_mi) + 1) + prefManager.colgrat_dim_time_mi; // indicates how long a cue should be dimmed for
 
         red_cue.setAlpha(prefManager.colgrat_start_dim);
         green_cue.setAlpha(prefManager.colgrat_start_dim);
@@ -231,7 +227,7 @@ public class TaskColoredGrating extends Task {
         UtilsTask.toggleCue(targ_cue, false);
     }
 
-    private void randomlyPositionCues(){
+    private void randomlyPositionCues() {
         // create location vector to sample from
         int[] x_locs = new int[]{prefManager.colgrat_red_x, prefManager.colgrat_green_x, prefManager.colgrat_blue_x};
         int[] y_locs = new int[]{prefManager.colgrat_red_y, prefManager.colgrat_green_y, prefManager.colgrat_blue_y};
@@ -263,8 +259,7 @@ public class TaskColoredGrating extends Task {
         blue_cue.setY(y_locs[array_descr_y[2]]);
     }
 
-    private void startDim()
-    {
+    private void startDim() {
         // we need a vector of three cues which represents an arbitrary assignment / map to the task
         int[] cue_map;
 
@@ -281,7 +276,7 @@ public class TaskColoredGrating extends Task {
         int catchTrial; // is this a catch trial?
         catchTrial = isCatchTrial();
 
-        logEvent(TAG + " is current trial a catch trial?" + catchTrial  + target_cue_val, callback);
+        logEvent(TAG + " is current trial a catch trial?" + catchTrial + target_cue_val, callback);
         executeDimSequence(catchTrial, target_cue_val, c1);
 
         logEvent(TAG + " after catch check, what is the dime tim?" + dim_time, callback);
@@ -298,15 +293,15 @@ public class TaskColoredGrating extends Task {
             public void run() {
                 executeDimSequence(catchTrial, target_cue_val, c3);
             }
-        }, dim_time*2); // this will be delay between reward delivery and next door coming on
+        }, dim_time * 2); // this will be delay between reward delivery and next door coming on
 
-        // If dont press anything then end it as error trial
+        // If dont press anything
         h0.postDelayed(new Runnable() {
             @Override
             public void run() {
-                endOfTrial(false, callback, prefManager);
+                trialEnded(catchTrial);  // Correct if catch trial, incorrect if not catch trial
             }
-        }, dim_time*3+rt_limit); // After all dims + reaction time limit
+        }, dim_time * 3 + rt_limit); // After all dims + reaction time limit
 
     }
 
@@ -358,65 +353,60 @@ public class TaskColoredGrating extends Task {
         return catchTrial;
     }
 
-    private void executeDimSequence(int catchTrial, int target_cue_val, int current_cue)
-    {
+    private void executeDimSequence(int catchTrial, int target_cue_val, int current_cue) {
         if (catchTrial == 1 & target_cue_val == current_cue) // don't dim because catch trial
         {
             is_target = 1;
             logEvent(TAG + " no dimming because catch trial, this is the target cue " + is_target, callback);
-        }
-
-        else if (catchTrial == 1 & target_cue_val != current_cue)
-        {
+        } else if (catchTrial == 1 & target_cue_val != current_cue) {
             is_target = 0;
             logEvent(TAG + " no dimming because catch trial, this is not the target cue " + is_target, callback);
-        }
-        else if((catchTrial == 0) & (target_cue_val == current_cue)) // dim it
+        } else if ((catchTrial == 0) & (target_cue_val == current_cue)) // dim it
         {
             logEvent(TAG + " we are dimming cue and its a target cue" + current_cue + target_cue_val, callback);
             is_target = selectDimCue(current_cue, target_cue_val);
-        }
-        else if((catchTrial == 0) & (target_cue_val != current_cue)) // dim it
+        } else if ((catchTrial == 0) & (target_cue_val != current_cue)) // dim it
         {
             logEvent(TAG + " we are dimming cue and its not a target cue" + current_cue + target_cue_val, callback);
             is_target = selectDimCue(current_cue, target_cue_val);
         }
-    };
+    }
 
-    private int selectDimCue(int cue_map, int curr_target)
-    {
+    ;
+
+    private int selectDimCue(int cue_map, int curr_target) {
         int target_found = 0;
         target_found = startCueDim(cue_map, curr_target);
         return target_found;
-    };
+    }
+
+    ;
 
     // Dims relevant cue and toggles target_found if it's the target cue
-    private int startCueDim(int cue_map, int curr_target)
-    {
+    private int startCueDim(int cue_map, int curr_target) {
 
         int target_found = 0;
 
         logEvent(TAG + " We are about to start dimming cue: " + cue_map, callback);
         logEvent(TAG + "With following dim parameters (end dim level) and (dim time): " + prefManager.colgrat_end_dim + dim_time, callback);
 
-            switch (cue_map) {
-                case 1:
-                    red_cue.animate().alpha(prefManager.colgrat_end_dim).setDuration(dim_time).start();
-                    break;
-                case 2:
-                    green_cue.animate().alpha(prefManager.colgrat_end_dim).setDuration(dim_time).start();
-                    break;
-                case 3:
-                    blue_cue.animate().alpha(prefManager.colgrat_end_dim).setDuration(dim_time).start();
-                    break;
+        switch (cue_map) {
+            case 1:
+                red_cue.animate().alpha(prefManager.colgrat_end_dim).setDuration(dim_time).start();
+                break;
+            case 2:
+                green_cue.animate().alpha(prefManager.colgrat_end_dim).setDuration(dim_time).start();
+                break;
+            case 3:
+                blue_cue.animate().alpha(prefManager.colgrat_end_dim).setDuration(dim_time).start();
+                break;
         }
 
         if (curr_target == cue_map) {
             target_found = 1;
             startTime = System.currentTimeMillis(); // if this was the target then we start the countdown
             logEvent(TAG + " we are starting countdown because current dimming cue is target cue " + startTime, callback);
-        }
-        else {
+        } else {
             target_found = 0;
         }
 
@@ -424,7 +414,7 @@ public class TaskColoredGrating extends Task {
     }
 
     // Load previous trial params
-    private int loadTrialParams() {
+    private int loadTrialHistory() {
         settings = PreferenceManager.getDefaultSharedPreferences(getContext());
         return settings.getInt(preftag_colgrat_cumulative_reward, 0); // load previous save
     }
@@ -435,49 +425,54 @@ public class TaskColoredGrating extends Task {
         editor.commit();
     }
 
+    private void trialEnded(int correctTrial) {
+        if (correctTrial == 1) {
+
+            cumulative_reward += 1;
+            log_trial_outcome(cumulative_reward); // save if it was correct
+
+            // they get the rewarded
+            logEvent(TAG + " subject is rewarded now " + rewAmount, callback);
+            endOfTrial(true, cumulative_reward, callback, prefManager);
+
+        } else if (correctTrial == 0) {
+            cumulative_reward = 0;
+            log_trial_outcome(cumulative_reward); // save if it was correct
+
+            logEvent(TAG + " subject gets no reward " + correctTrial, callback);
+            endOfTrial(false, callback, prefManager);
+
+        }
+
+    }
+
     // this is our listened for the response that computes the reaction time and dictates strength of sound that comes out
     private View.OnClickListener responseClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
 
-            int rewarded_trial = 0;
+            int correctTrial = 0;
 
             // if they clicked on the correct target within the interval, they will be rewarded
-            logEvent(TAG + " what is the id of picked target " + view.getId(), callback);
-            if ((is_target == 1) & (target_cue_val == view.getId())) // initialize the RT countdown
-            {
+
+            if ((is_target == 1) & (target_cue_val == view.getId())) {
+
+                logEvent(TAG + " clicked correct target at correct time " + view.getId(), callback);
                 float rtTime = System.currentTimeMillis() - startTime;
 
-                logEvent(TAG + " reaction time " + rtTime, callback);
+                if (rtTime <= rt_limit) {
+                    logEvent(TAG + " reaction time quick enough! " + rtTime, callback);
 
-                if (rtTime <= rt_limit)
-                {
-                    logEvent(TAG + " was the reaction time within bounds?  " + rtTime, callback);
+                    correctTrial = 1;
 
-                    rewarded_trial = 1;
-                    rewAmount = rewAmount + cumulative_reward_multiplier * 5; // 10x multiplier for each correct trial
-                    cumulative_reward += 1;
-
-                    log_trial_outcome(cumulative_reward); // save if it was correct
-
+                } else {
+                    logEvent(TAG + " rt too slow" + rtTime, callback);
                 }
-                else if (rtTime > rt_limit) 
-                {
-                    logEvent(TAG + " rt was higher than expected" + rtTime, callback);
-                    rewarded_trial = 0;
-                }
+            } else {
+                logEvent(TAG + " clicked target at wrong time " + view.getId(), callback);
             }
-            if (rewarded_trial == 1) {
-                // they get the rewarded
-                logEvent(TAG + " subject is rewarded now " + rewAmount, callback);
-                callback.giveRewardFromTask_(rewAmount, true);
-                endOfTrial(true, callback, prefManager);
-            }
-            else if (rewarded_trial == 0)
-            {
-                logEvent(TAG + " subject gets no reward " + rewarded_trial, callback);
-                endOfTrial(false, callback, prefManager);
-            }
+
+            trialEnded(correctTrial);
         }
     };
 
@@ -485,32 +480,6 @@ public class TaskColoredGrating extends Task {
     private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-
-            int rewarded_trial = 0;
-            // if they released within 700 msec of target cue starting to dim they will be rewarded
-            float rtTime = System.currentTimeMillis() - startTime;
-            logEvent(TAG + " reaction time " + rtTime, callback);
-
-            if (rtTime <= rt_limit) {
-                logEvent(TAG + " was the reaction time within bounds?  " + rtTime, callback);
-                rewarded_trial = 1;
-                rewAmount = rewAmount + cumulative_reward_multiplier * 5; // 10x multiplier for each correct trial
-                cumulative_reward += 1;
-                log_trial_outcome(cumulative_reward); // save if it was correct
-            } else if (rtTime > rt_limit) {
-                logEvent(TAG + " rt was higher than expected" + rtTime, callback);
-                rewarded_trial = 0;
-            }
-
-            if (rewarded_trial == 1) {
-                // they get the rewarded
-                logEvent(TAG + " subject is rewarded now " + rewAmount, callback);
-                callback.giveRewardFromTask_(rewAmount, true);
-                endOfTrial(true, callback, prefManager);
-            } else if (rewarded_trial == 0) {
-                logEvent(TAG + " subject gets no reward " + rewarded_trial, callback);
-//                endOfTrial(false, callback, prefManager);
-            }
 
             return false;
         }
@@ -530,7 +499,10 @@ public class TaskColoredGrating extends Task {
     }
 
     TaskInterface callback;
-  public void setFragInterfaceListener(TaskInterface callback) {this.callback = callback;}
+
+    public void setFragInterfaceListener(TaskInterface callback) {
+        this.callback = callback;
+    }
 
 }
 
