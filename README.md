@@ -1,6 +1,6 @@
 # Mymou: A standalone touchscreen in-cage testing device
 
-##### All files needed to run the system can be found in this repository:
+#### Download and install the latest Android release [here](https://github.com/jamesbutler01/Mymou/tree/master/Behavioural%20Testing%20Unit%20(Android)/Mymou/app/build/outputs/apk/debug)
 
 ### 1) Reward Delivery Interface (Arduino)
 - A simple script that runs on an Arduino Uno board
@@ -24,4 +24,4 @@
 ### 4) Tablet Holder (OpenSCAD)
 - A scale 3D model of the tablet holder used to mount the tablet to the side of the cage
 
-##### Detailed information for each of these parts of the system can be found in the respective folders
+#### Detailed information for each of these parts of the system can be found in the respective folders
