@@ -41,6 +41,7 @@ public class TaskColoredGrating extends Task {
     private static Handler h1 = new Handler();  // Hide object handler
     private int dimmed_target, target_cue_val;
     private static Button red_cue, green_cue, blue_cue;
+    private final int red_id=1, green_id=2, blue_id=3;
     //    private static Button hold_cue;  // Have to hold this for duration of trial
     private static Button fix_cue;  // Central fixation spot
     private static Button targ_cue;  // Overlaid cue indicating which cue to attend
@@ -153,9 +154,9 @@ public class TaskColoredGrating extends Task {
         }
 
         // generate col cues
-        red_cue = UtilsTask.addColorCue(1, prefManager.colgrat_red_cue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_empty), GradientDrawable.OVAL, false);
-        green_cue = UtilsTask.addColorCue(2, prefManager.colgrat_green_cue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_empty), GradientDrawable.OVAL, false);
-        blue_cue = UtilsTask.addColorCue(3, prefManager.colgrat_blue_cue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_empty), GradientDrawable.OVAL, false);
+        red_cue = UtilsTask.addColorCue(red_id, prefManager.colgrat_red_cue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_empty), GradientDrawable.OVAL, false);
+        green_cue = UtilsTask.addColorCue(green_id, prefManager.colgrat_green_cue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_empty), GradientDrawable.OVAL, false);
+        blue_cue = UtilsTask.addColorCue(blue_id, prefManager.colgrat_blue_cue, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_empty), GradientDrawable.OVAL, false);
         red_cue.setHeight(prefManager.colgrat_sizecolcue);
         red_cue.setWidth(prefManager.colgrat_sizecolcue);
         green_cue.setHeight(prefManager.colgrat_sizecolcue);
@@ -238,14 +239,28 @@ public class TaskColoredGrating extends Task {
         blue_cue.setX(x_locs[array_descr_x[2]]);
         blue_cue.setY(y_locs[array_descr_y[2]]);
 
+        // Now draw the stripes over the top of it
+        int[] ids = {red_id, green_id, blue_id};
+        for (int j=0; j<ids.length; j++) {
+            for (int i = 0; i < prefManager.colgrat_numstripes; i++) {
+                Button stripe = UtilsTask.addColorCue(ids[j], prefManager.colgrat_background_color, getContext(), responseClickListener, getView().findViewById(R.id.parent_task_empty), GradientDrawable.RECTANGLE, false);
+                stripe.setWidth(PreferencesManager.colgrat_sizestripes);
+                if (PreferencesManager.colgrat_trainingmode) {
+                    stripe.setHeight(targ_size);
+                    stripe.setX(x_locs[array_descr_x[j]] + (i * prefManager.colgrat_sizestripes * 2) + prefManager.colgrat_grateoffset - (prefManager.colgrat_sizeindicatorcue / 2));
+                    stripe.setY(y_locs[array_descr_x[j]] - (prefManager.colgrat_sizeindicatorcue / 2));
+                } else {
+                    stripe.setHeight(prefManager.colgrat_sizecolcue);
+                    stripe.setX(x_locs[array_descr_x[j]] + (i * prefManager.colgrat_sizestripes * 2) + prefManager.colgrat_grateoffset);
+                    stripe.setY(y_locs[array_descr_x[j]]);
+                }
+            }
+        }
+
+        // If training mode then we need to also move target cue over the relevant spatial cue
         if (prefManager.colgrat_trainingmode) {
                 targ_cue.setX(x_locs[array_descr_x[target_cue_val-1]]- (prefManager.colgrat_sizeindicatorcue / 2));
                 targ_cue.setY(y_locs[array_descr_y[target_cue_val-1]]- (prefManager.colgrat_sizeindicatorcue / 2));
-
-            float xx = (targ_size / 2);
-            float x = x_locs[array_descr_x[2]]- (targ_size / 2);
-            logEvent(TAG + " x1=" + x_locs[array_descr_x[2]]+", x2="+x+", targsize="+targ_size+", targsizeover2="+xx, callback);
-
         }
 
     }
@@ -335,8 +350,8 @@ public class TaskColoredGrating extends Task {
     private int isCatchTrial() {
         int catchTrial;
         double curr_prob;
-        curr_prob = 0 + Math.random() * (1);
-        if (curr_prob > .75) {
+        curr_prob = Math.random() * (100);
+        if (curr_prob < prefManager.colgrat_catchtrialfreq) {
             catchTrial = 1;
         } else {
             catchTrial = 0;

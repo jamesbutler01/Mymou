@@ -7,7 +7,6 @@
         app:key="task_settings"
         app:title="Settings for Colored grating task">
 
-
         <SwitchPreferenceCompat
             app:defaultValue="@bool/default_colgrat_trainingmode"
             app:key="@string/preftag_colgrat_trainingmode"
@@ -19,6 +18,14 @@
             app:key="@string/preftag_colgrat_rt_limit"
             app:title="Reaction time limit for correct response (msec)"
             app:summary="What is the reaction time limit for a correct response. Tap to input number"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_colgrat_catchtrialfreq"
+            app:key="@string/preftag_colgrat_catchtrialfreq"
+            app:title="Catch trial frequency (%)"
+            app:summary="What percentage of trials will be catch trials, where no target is dimmed. Tap to input number"
+            android:max="100"
+            app:min="0"/>
 
     </PreferenceCategory>
 
@@ -179,6 +186,38 @@
             android:max="2000"
             app:min="1"
             />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preferences_title"
+        app:key="task_settings"
+        app:title="Grating">
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_colgrat_sizestripes"
+            app:key="@string/preftag_colgrat_sizestripes"
+            app:title="Width of the grating"
+            android:max="500"
+            app:min="10"
+            app:summary="Tap to input number"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_colgrat_numstripes"
+            app:key="@string/preftag_colgrat_numstripes"
+            app:title="Number of gratings"
+            android:max="10"
+            app:min="0"
+            app:summary="Tap to input number"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_colgrat_grateoffset"
+            app:key="@string/preftag_colgrat_grateoffset"
+            app:title="Grating offset"
+            android:max="250"
+            app:min="0"
+            app:summary="Grating will start this many pixels from the left of the cue. Tap to input number"/>
+
 
     </PreferenceCategory>
 

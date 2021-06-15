@@ -473,8 +473,9 @@ public class PreferencesManager {
 
     public static int colgrat_green_cue, colgrat_red_cue, colgrat_blue_cue, colgrat_target_cue, colgrat_fix_cue;
     public static int colgrat_sizecolcue, colgrat_sizefixcue, colgrat_sizeindicatorcue;
+    public static int colgrat_sizestripes, colgrat_grateoffset, colgrat_numstripes;
     public static int colgrat_red_x, colgrat_red_y, colgrat_green_x, colgrat_green_y, colgrat_blue_x, colgrat_blue_y;
-    public static int colgrat_rt_limit;
+    public static int colgrat_rt_limit, colgrat_catchtrialfreq;
     public static int colgrat_fixation_time_mi, colgrat_stimulus_time_mi, colgrat_cue_time_mi, colgrat_dim_time_mi;
     public static int colgrat_fixation_time_ma, colgrat_stimulus_time_ma, colgrat_cue_time_ma, colgrat_dim_time_ma;
 
@@ -507,6 +508,10 @@ public class PreferencesManager {
         colgrat_sizefixcue = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_sizefixcue), r.getInteger(R.integer.default_colgrat_sizefixcue));
         colgrat_sizeindicatorcue = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_sizeindicatorcue), r.getInteger(R.integer.default_colgrat_sizeindicatorcue));
 
+        colgrat_sizestripes = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_sizestripes), r.getInteger(R.integer.default_colgrat_sizestripes));
+        colgrat_grateoffset = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_grateoffset), r.getInteger(R.integer.default_colgrat_grateoffset));
+        colgrat_numstripes = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_numstripes), r.getInteger(R.integer.default_colgrat_numstripes));
+
         // are blue/red/green always in the same position?
         colgrat_position_rand = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_position_rand), r.getInteger(R.integer.default_colgrat_position_rand));
 
@@ -514,6 +519,7 @@ public class PreferencesManager {
         colgrat_end_dim   = (float) sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_end_dim),   r.getInteger(R.integer.default_colgrat_end_dim)) / 100;
 
         colgrat_rt_limit      = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_rt_limit), r.getInteger(R.integer.default_colgrat_rt_limit));
+        colgrat_catchtrialfreq      = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_catchtrialfreq), r.getInteger(R.integer.default_colgrat_catchtrialfreq));
 
         colgrat_fixation_time_mi = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_fixation_time_mi), r.getInteger(R.integer.default_colgrat_fixation_time_mi));
         colgrat_stimulus_time_mi = sharedPrefs.getInt(r.getString(R.string.preftag_colgrat_stimulus_time_mi), r.getInteger(R.integer.default_colgrat_stimulus_time_mi));

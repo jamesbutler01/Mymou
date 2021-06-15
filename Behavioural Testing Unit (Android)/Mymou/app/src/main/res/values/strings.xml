@@ -303,6 +303,7 @@
     <string name="preftag_colgrat_blue_x">colgrat_blue_x</string>
     <string name="preftag_colgrat_blue_y">colgrat_blue_y</string>
     <string name="preftag_colgrat_rt_limit">colgrat_rt_limit</string>
+    <string name="preftag_colgrat_catchtrialfreq">preftag_colgrat_catchtrialfreq</string>
     <string name="preftag_colgrat_target_shape">colgrat_target_shape</string>
     <string name="preftag_colgrat_fixation_time_mi">colgrat_fixation_time_mi</string>
     <string name="preftag_colgrat_stimulus_time_mi">colgrat_stimulus_time_mi</string>
@@ -316,6 +317,9 @@
     <string name="preftag_colgrat_sizefixcue">colgrat_sizefixcue</string>
     <string name="preftag_colgrat_sizeindicatorcue">colgrat_sizeindicatorcue</string>
     <string name="preftag_colgrat_trainingmode">colgrat_trainingmode</string>
+    <string name="preftag_colgrat_sizestripes">preftag_colgrat_sizestripes</string>
+    <string name="preftag_colgrat_grateoffset">preftag_colgrat_grateoffset</string>
+    <string name="preftag_colgrat_numstripes">preftag_colgrat_numstripes</string>
 
     <string name="preftag_t_sc_minrew">default_t_sc_minrew</string>
     <string name="preftag_t_sc_maxrew">preftag_t_sc_maxrew</string>

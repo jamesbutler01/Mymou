@@ -162,6 +162,7 @@
 
     <integer name="default_colgrat_initial_reward">500</integer>
     <integer name="default_colgrat_rt_limit">1250</integer>
+    <integer name="default_colgrat_catchtrialfreq">25</integer>
     <integer name="default_colgrat_fixation_time_mi">400</integer>
     <integer name="default_colgrat_stimulus_time_mi">600</integer>
     <integer name="default_colgrat_cue_time_mi">1000</integer>
@@ -183,5 +184,8 @@
     <integer name="default_colgrat_sizecolcue">300</integer>
     <integer name="default_colgrat_sizefixcue">75</integer>
     <integer name="default_colgrat_sizeindicatorcue">75</integer>
+    <integer name="default_colgrat_sizestripes">50</integer>
+    <integer name="default_colgrat_grateoffset">60</integer>
+    <integer name="default_colgrat_numstripes">3</integer>
 
 </resources>
