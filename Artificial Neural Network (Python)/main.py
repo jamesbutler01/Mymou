@@ -183,7 +183,7 @@ if __name__ == '__main__':
     # Get data to start the training
     start = time.time()
     X = load_data(varNumSubjects)
-    inputLayerSize = X[0][0]  # Neurons in input layer (1 per pixel in image)
+    inputLayerSize = np.size(X[0][0])  # Neurons in input layer (1 per pixel in image)
 
     # Shuffle data and split into training and validation groups
     np.random.shuffle(X)
