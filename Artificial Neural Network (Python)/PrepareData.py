@@ -11,7 +11,7 @@ first two points of each row correspond to a 1-hot label for the identity of tha
 
 """
 
-mypath = "raw/"  # Location of files that contains one folder of all integer arrays, and one folder per subject
+mypath = "raw2/"  # Location of files that contains one folder of all integer arrays, and one folder per subject
 # containing the .jpg files for that subject
 folder1name = 'O'  # Name of folder containing images for subject1
 folder2name = 'V'  # Name of folder containing imges for subject2

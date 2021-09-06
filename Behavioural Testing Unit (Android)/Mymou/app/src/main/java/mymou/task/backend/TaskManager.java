@@ -188,19 +188,18 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     }
 
     private void initialiseAutoRestartHandler() {
-        if (!preferencesManager.debug) {
-            Log.d(TAG, "initialiseAutoRestartHandler");
-            Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-                @Override
-                public void uncaughtException(Thread thread, Throwable throwable) {
-                    Log.d(TAG, "Task crashed");
-                    new CrashReport(throwable, mContext);
+        Log.d(TAG, "initialiseAutoRestartHandler");
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread thread, Throwable throwable) {
+                Log.d(TAG, "Task crashed");
+                new CrashReport(throwable, mContext);
+                if (!preferencesManager.debug) {
                     rewardSystem.quitBt();
                     restartApp();
-
                 }
-            });
-        }
+            }
+        });
     }
 
     private void loadtask() {
@@ -639,11 +638,14 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                     copy_successful = false;
                     e.printStackTrace();
                 } finally {
-                    if (inputStream != null) {
+                    if (inputStream != null && outputStream != null) {
                         try {
                             inputStream.close();
                             outputStream.close();
                         } catch (IOException e) {
+                            copy_successful = false;
+                            e.printStackTrace();
+                        } catch (NullPointerException e) {
                             copy_successful = false;
                             e.printStackTrace();
                         }
@@ -933,6 +935,10 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         if (!task_enabled) {
             return;
         }
+        if (faceRecog == null || !faceRecog.instantiated_successfully) {
+            logEvent("Waiting for facial recog to instantiate", false);
+            return;
+        }
 
         // Always disable all cues after a press as monkeys love to bash repeatedly
         disableAllCues();
@@ -1018,7 +1024,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
     public static void MonkeyPressedWrongGoCue() {
 
         // Log the event
-        logEvent(preferencesManager.ec_wrong_gocue_pressed, false);
+        logEvent("Monkey pressed wrong cue", false);
         commitTrialData(preferencesManager.ec_wrong_gocue_pressed);
 
         // Switch on red background
@@ -1100,6 +1106,10 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         }
         rewardSystem.activateChannel(latestRewardChannel, reward_duration);
         l_rewgiven = l_rewgiven + reward_duration;
+    }
+
+    public static void FaceRecogFinishedLoading() {
+        logEvent("FaceRecog instantiated successfully", false);
     }
 
 

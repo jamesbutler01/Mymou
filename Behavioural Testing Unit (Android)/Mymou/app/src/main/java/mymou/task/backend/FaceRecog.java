@@ -49,12 +49,14 @@ final class FaceRecog {
             error_message = "Weights for neural network not found (\'meanAndVar.txt\'). Disable Facial recognition in settings to fix this error message, or supply weights for the network to use";
         }
         Log.d(TAG,"faceRecog instantiated.."+mean+" "+var);
+        TaskManager.FaceRecogFinishedLoading();
     }
 
     public final double[][] loadWeights(String fileName) {
         // Read all
         String path= Environment.getExternalStorageDirectory().getAbsolutePath() + "/Mymou/" +
                 fileName;
+        Log.d(TAG,"Opening "+path);
         try {
             CSVReader csvReader = new CSVReader(new FileReader(new File(path)));
             List<String[]> list = csvReader.readAll();
