@@ -344,6 +344,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         }  // Abort if task currently disabled
 
         boolean valid_configuration = true;
+        logEvent("Starting trial", false);
 
         Task task = null;
         Bundle bundle = new Bundle();
@@ -935,7 +936,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         if (!task_enabled) {
             return;
         }
-        if (faceRecog == null || !faceRecog.instantiated_successfully) {
+        if (preferencesManager.facerecog && (faceRecog == null || !faceRecog.instantiated_successfully)) {
             logEvent("Waiting for facial recog to instantiate", false);
             return;
         }

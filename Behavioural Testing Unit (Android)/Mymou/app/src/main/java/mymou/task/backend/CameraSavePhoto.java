@@ -114,9 +114,6 @@ public class CameraSavePhoto implements Runnable {
 
         }
 
-        // Check if user wants to save the integer array (expensive)
-        if (settings.getBoolean(mContext.getResources().getString(R.string.preftag_savefacerecogarrays),  mContext.getResources().getBoolean(R.bool.default_savefacerecogarrays))) {
-
             // Create integer array for facerecog
             int x = bitmapCropped.getWidth();
             int y = bitmapCropped.getHeight();
@@ -129,6 +126,9 @@ public class CameraSavePhoto implements Runnable {
             // Run image through faceRecog
             TaskManager.setFaceRecogPrediction(intArray);
             Log.d(TAG, "Face recog finished");
+
+        // Check if user wants to save the integer array (expensive)
+        if (settings.getBoolean(mContext.getResources().getString(R.string.preftag_savefacerecogarrays),  mContext.getResources().getBoolean(R.bool.default_savefacerecogarrays))) {
 
             //Save pixel values
             long startTime = System.currentTimeMillis();

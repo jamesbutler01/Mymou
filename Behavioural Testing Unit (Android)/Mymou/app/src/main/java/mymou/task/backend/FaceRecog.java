@@ -31,7 +31,7 @@ import java.util.List;
 final class FaceRecog {
 
     private String TAG = "FaceRecog";
-    public boolean instantiated_successfully = true;
+    public boolean instantiated_successfully = false;
     public String error_message;
     double[][] wi, wo;
     double mean, var;
@@ -44,8 +44,8 @@ final class FaceRecog {
             meanAndVar = loadWeights("meanAndVar.txt");
             mean = meanAndVar[0][0];
             var = meanAndVar[1][0];
+            instantiated_successfully = true;
         } catch (NullPointerException e){
-            instantiated_successfully = false;
             error_message = "Weights for neural network not found (\'meanAndVar.txt\'). Disable Facial recognition in settings to fix this error message, or supply weights for the network to use";
         }
         Log.d(TAG,"faceRecog instantiated.."+mean+" "+var);
