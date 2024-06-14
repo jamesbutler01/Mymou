@@ -80,6 +80,10 @@ public class PrefsFragCommon extends PreferenceFragmentCompat {
 
             setPreferencesFromResource(R.xml.preferences_task_coloredgrating, rootKey);
 
+        } else if (prefTag.equals(getString(R.string.preftag_task_social_video))) {
+
+            setPreferencesFromResource(R.xml.preferences_task_social_video, rootKey);
+
         } else if (prefTag.equals(getString(R.string.preftag_task_dvs_settings))) {
 
             Intent intent = new Intent(getActivity(), TaskManager.class);

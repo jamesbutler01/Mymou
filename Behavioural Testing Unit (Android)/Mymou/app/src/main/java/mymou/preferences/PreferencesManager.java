@@ -254,7 +254,6 @@ public class PreferencesManager {
     public void SocialVideo() {
         sv_rew_duration = sharedPrefs.getInt(r.getString(R.string.preftag_sv_rew_duration), r.getInteger(R.integer.default_sv_rew_duration));
         sv_iti = sharedPrefs.getInt(r.getString(R.string.preftag_sv_iti), r.getInteger(R.integer.default_sv_iti));
-        sv_iti = sharedPrefs.getInt(r.getString(R.string.preftag_sv_iti), r.getInteger(R.integer.default_sv_iti));
         sv_timeout_duration_mins = sharedPrefs.getInt(r.getString(R.string.preftag_sv_timeout_duration_mins), r.getInteger(R.integer.default_sv_timeout_duration_mins));
         sv_n_movie_repeats_allowed = sharedPrefs.getInt(r.getString(R.string.preftag_sv_n_movie_repeats_allowed), r.getInteger(R.integer.default_sv_n_movie_repeats_allowed));
     }

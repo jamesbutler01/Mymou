@@ -175,6 +175,7 @@
     <string name="preftag_task_csl_settings">preftag_task_csl_settings</string>
     <string name="preftag_task_wald_settings">preftag_task_w_settings</string>
     <string name="preftag_task_colgrat_settings">preftag_task_colgrat_settings</string>
+    <string name="preftag_task_social_video">preftag_task_social_video</string>
     <string name="preftag_task_od_settings">preftag_task_od_settings</string>
     <string name="preftag_bluetooth_strobes">preftag_bluetooth_strobes</string>
     <string name="preftag_settings_to_load">preftag_settings_to_load</string>

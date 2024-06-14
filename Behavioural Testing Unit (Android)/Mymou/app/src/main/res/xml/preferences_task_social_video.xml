@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:layout="@layout/preferences_title"
+        app:key="task_settings"
+        app:title="Settings for Social video task">
+
+        public int sv_rew_duration, sv_iti, sv_timeout_duration_mins, sv_n_movie_repeats_allowed;
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_sv_rew_duration"
+            app:key="@string/preftag_sv_rew_duration"
+            app:title="Reward duration (ms)"
+            android:max="8000"
+            app:min="1000"
+            app:summary="Tap to input number"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_sv_n_movie_repeats_allowed"
+            app:key="@string/preftag_sv_n_movie_repeats_allowed"
+            app:title="Number movie repeats allowed"
+            android:max="10"
+            app:min="1"
+            app:summary="The maximum amount of times that a movie can be repeated. Note, tracking is done within each category (e.g. if a nonsocial movie is played after the same social movie twice, the social movie cannot then be played for a third time if this value is set to 3). Tap to input number"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_sv_iti"
+            app:key="@string/preftag_sv_iti"
+            app:title="Intertrial interval (ms)"
+            android:max="10000"
+            app:min="1000"
+            app:summary="Time between the end of reward delivery and start of the next trial. Tap to input number"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_sv_timeout_duration_mins"
+            app:key="@string/preftag_sv_timeout_duration_mins"
+            app:title="Timeout duration (minutes)"
+            android:max="20"
+            app:min="1"
+            app:summary="Idle time after which the task will be disabled. Tap to input number"/>
+
+
+
+    </PreferenceCategory>
+
+
+</androidx.preference.PreferenceScreen>
