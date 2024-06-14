@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
@@ -248,6 +247,16 @@ public class PreferencesManager {
         sl_seq_length = sharedPrefs.getInt(r.getString(R.string.preftag_sl_seq_length), r.getInteger(R.integer.default_sl_seq_length));
         sl_map_selected = sharedPrefs.getInt(r.getString(R.string.preftag_sl_map_selected), r.getInteger(R.integer.default_sl_map_selected));
 
+    }
+
+    public int sv_rew_duration, sv_iti, sv_timeout_duration_mins, sv_n_movie_repeats_allowed;
+
+    public void SocialVideo() {
+        sv_rew_duration = sharedPrefs.getInt(r.getString(R.string.preftag_sv_rew_duration), r.getInteger(R.integer.default_sv_rew_duration));
+        sv_iti = sharedPrefs.getInt(r.getString(R.string.preftag_sv_iti), r.getInteger(R.integer.default_sv_iti));
+        sv_iti = sharedPrefs.getInt(r.getString(R.string.preftag_sv_iti), r.getInteger(R.integer.default_sv_iti));
+        sv_timeout_duration_mins = sharedPrefs.getInt(r.getString(R.string.preftag_sv_timeout_duration_mins), r.getInteger(R.integer.default_sv_timeout_duration_mins));
+        sv_n_movie_repeats_allowed = sharedPrefs.getInt(r.getString(R.string.preftag_sv_n_movie_repeats_allowed), r.getInteger(R.integer.default_sv_n_movie_repeats_allowed));
     }
 
     public int dvs_feedback_duration;

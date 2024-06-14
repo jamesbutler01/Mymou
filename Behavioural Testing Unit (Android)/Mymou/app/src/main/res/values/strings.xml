@@ -36,6 +36,7 @@
         <item>Context Sequence Learning</item>
         <item>Wald\'s Sequential Probability Ratio</item>
         <item>Colored Grating Task</item>
+        <item>Social Video Preference task</item>
     </string-array>
 
     <string-array name="task_descriptions">
@@ -59,6 +60,7 @@
         <item>Two sounds are displayed followed by a go cue. This is followed by two further sounds and another go cue. Sounds in the first and second sequence can be within the same context or in different contexts.</item>
         <item>Implementation of Wald\'s Sequential Probability Ratio test as described in Kira, Yang, Shadlen (2015) Neuron.</item>
         <item>Implementation of Coloured Grating task as described in van Kempen et al. (2021) Neuron</item>
+        <item>Two options lead to two different groups of videos (only one is played in each trial)</item>
     </string-array>
 
     <string name="default_startuptime">0700</string>
@@ -222,6 +224,11 @@
 
     <string name="preftag_sl_map_selected">preftag_sl_map_selected</string>
     <string name="preftag_sl_seq_length">preftag_sl_seq_length</string>
+
+    <string name="preftag_sv_rew_duration">preftag_sv_rew_duration</string>
+    <string name="preftag_sv_iti">preftag_sv_iti</string>
+    <string name="preftag_sv_timeout_duration_mins">preftag_sv_timeout_duration_mins</string>
+    <string name="preftag_sv_n_movie_repeats_allowed">preftag_sv_n_movie_repeats_allowed</string>
 
     <string name="preftag_dvs_feedback_duration">preftag_dvs_feedback_duration</string>
     <string name="preftag_dvs_randomly_place_options">preftag_dvs_randomly_p</string>
