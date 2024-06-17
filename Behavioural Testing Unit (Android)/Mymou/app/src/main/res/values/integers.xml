@@ -76,6 +76,10 @@
     <integer name="default_sv_iti">3000</integer>
     <integer name="default_sv_timeout_duration_mins">3</integer>
     <integer name="default_sv_n_movie_repeats_allowed">3</integer>
+    <integer name="default_sv_pos1_x">175</integer>
+    <integer name="default_sv_pos1_y">1200</integer>
+    <integer name="default_sv_pos2_x">725</integer>
+    <integer name="default_sv_pos2_y">300</integer>
 
     <integer name="default_dvs_feedback_duration">5000</integer>
 

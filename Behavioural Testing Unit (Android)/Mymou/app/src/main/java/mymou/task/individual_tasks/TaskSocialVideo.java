@@ -37,9 +37,8 @@ public class TaskSocialVideo extends Task {
 
     // Task objects
     private static ImageButton[] choice_cues;
-    private final static int id_c1_1 = 0, id_c1_2 = 1;
+    private final static int id_choice_social = 0, id_choice_nonsocial = 1;
     private final int[] previous_movie_played={-1,-1}, num_repeats_of_movie={0,0};
-    private View background;
     private Random r;
     private static Uri[] social_video_paths, nonsocial_video_paths;
     private static Handler handler_start_next_trial = new Handler();  // Task trial_timer
@@ -60,8 +59,6 @@ public class TaskSocialVideo extends Task {
         prefManager = new PreferencesManager(getContext());
         prefManager.SocialVideo();
 
-        background = getView().findViewById(R.id.parent_task_empty);
-
         social_video_paths = new Uri[2];
         nonsocial_video_paths = new Uri[2];
         social_video_paths[0] = Uri.parse("android.resource://" + getActivity().getPackageName() + "/" +
@@ -78,11 +75,11 @@ public class TaskSocialVideo extends Task {
 
         // Create choice cues
         choice_cues = new ImageButton[2];
-        choice_cues[id_c1_1] = UtilsTask.addImageCue(id_c1_1, getContext(), layout, buttonClickListener);
-        choice_cues[id_c1_1].setImageResource(R.drawable.sv_cue1);
+        choice_cues[id_choice_social] = UtilsTask.addImageCue(id_choice_social, getContext(), layout, buttonClickListener);
+        choice_cues[id_choice_social].setImageResource(R.drawable.sv_cue1);
 
-        choice_cues[id_c1_2] = UtilsTask.addImageCue(id_c1_2, getContext(), layout, buttonClickListener);
-        choice_cues[id_c1_2].setImageResource(R.drawable.sv_cue2);
+        choice_cues[id_choice_nonsocial] = UtilsTask.addImageCue(id_choice_nonsocial, getContext(), layout, buttonClickListener);
+        choice_cues[id_choice_nonsocial].setImageResource(R.drawable.sv_cue2);
 
         // Random number generator
         r = new Random();
@@ -97,17 +94,17 @@ public class TaskSocialVideo extends Task {
 
         // Position cues
         if (r.nextBoolean()) {
-            callback.logEvent_("02,175,1200,725,300, choice 1 positions");
-            choice_cues[id_c1_1].setX(175);
-            choice_cues[id_c1_1].setY(1200);
-            choice_cues[id_c1_2].setX(725);
-            choice_cues[id_c1_2].setY(300);
+            callback.logEvent_("02,0,,,, social cue in position 1");
+            choice_cues[id_choice_social].setX(prefManager.sv_pos1_x);
+            choice_cues[id_choice_social].setY(prefManager.sv_pos1_y);
+            choice_cues[id_choice_nonsocial].setX(prefManager.sv_pos2_x);
+            choice_cues[id_choice_nonsocial].setY(prefManager.sv_pos2_y);
         } else {
-            callback.logEvent_("02,725,300,175,1200, choice 1 positions");
-            choice_cues[id_c1_1].setX(725);
-            choice_cues[id_c1_1].setY(300);
-            choice_cues[id_c1_2].setX(175);
-            choice_cues[id_c1_2].setY(1200);
+            callback.logEvent_("02,1,,,, social cue in position 2");
+            choice_cues[id_choice_social].setX(prefManager.sv_pos2_x);
+            choice_cues[id_choice_social].setY(prefManager.sv_pos2_y);
+            choice_cues[id_choice_nonsocial].setX(prefManager.sv_pos1_x);
+            choice_cues[id_choice_nonsocial].setY(prefManager.sv_pos1_y);
         }
     }
 
@@ -133,11 +130,11 @@ public class TaskSocialVideo extends Task {
             callback.resetTimer_();
 
             switch (view.getId()) {
-                case id_c1_1:
-                    choice_made(id_c1_1);
+                case id_choice_social:
+                    choice_made(id_choice_social);
                     break;
-                case id_c1_2:
-                    choice_made(id_c1_2);
+                case id_choice_nonsocial:
+                    choice_made(id_choice_nonsocial);
                     break;
             }
         }
@@ -197,12 +194,12 @@ public class TaskSocialVideo extends Task {
 
         // Roll the dice
         Uri stringUri = null;
-        if (r.nextBoolean()) {
+        if (c1_pressed == id_choice_social) {
             int i_movie = select_movie(0, social_video_paths.length);
             stringUri = social_video_paths[i_movie];
             callback.logEvent_("04,0," + i_movie + ",,, social movie chosen");
         } else {
-            int i_movie = select_movie(0, nonsocial_video_paths.length);
+            int i_movie = select_movie(1, nonsocial_video_paths.length);
             stringUri = nonsocial_video_paths[i_movie];
             callback.logEvent_("04,1," + i_movie + ",,, nonsocial movie chosen");
         }

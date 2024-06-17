@@ -250,12 +250,17 @@ public class PreferencesManager {
     }
 
     public int sv_rew_duration, sv_iti, sv_timeout_duration_mins, sv_n_movie_repeats_allowed;
+    public int sv_pos1_x, sv_pos1_y, sv_pos2_x, sv_pos2_y;
 
     public void SocialVideo() {
         sv_rew_duration = sharedPrefs.getInt(r.getString(R.string.preftag_sv_rew_duration), r.getInteger(R.integer.default_sv_rew_duration));
         sv_iti = sharedPrefs.getInt(r.getString(R.string.preftag_sv_iti), r.getInteger(R.integer.default_sv_iti));
         sv_timeout_duration_mins = sharedPrefs.getInt(r.getString(R.string.preftag_sv_timeout_duration_mins), r.getInteger(R.integer.default_sv_timeout_duration_mins));
         sv_n_movie_repeats_allowed = sharedPrefs.getInt(r.getString(R.string.preftag_sv_n_movie_repeats_allowed), r.getInteger(R.integer.default_sv_n_movie_repeats_allowed));
+        sv_pos1_x = sharedPrefs.getInt(r.getString(R.string.preftag_sv_pos1_x), r.getInteger(R.integer.default_sv_pos1_x));
+        sv_pos1_y = sharedPrefs.getInt(r.getString(R.string.preftag_sv_pos1_y), r.getInteger(R.integer.default_sv_pos1_y));
+        sv_pos2_x = sharedPrefs.getInt(r.getString(R.string.preftag_sv_pos2_x), r.getInteger(R.integer.default_sv_pos2_x));
+        sv_pos2_y = sharedPrefs.getInt(r.getString(R.string.preftag_sv_pos2_y), r.getInteger(R.integer.default_sv_pos2_y));
     }
 
     public int dvs_feedback_duration;

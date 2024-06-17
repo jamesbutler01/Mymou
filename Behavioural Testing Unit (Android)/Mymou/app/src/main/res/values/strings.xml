@@ -230,6 +230,10 @@
     <string name="preftag_sv_iti">preftag_sv_iti</string>
     <string name="preftag_sv_timeout_duration_mins">preftag_sv_timeout_duration_mins</string>
     <string name="preftag_sv_n_movie_repeats_allowed">preftag_sv_n_movie_repeats_allowed</string>
+    <string name="preftag_sv_pos1_x">preftag_sv_pos1_x</string>
+    <string name="preftag_sv_pos1_y">preftag_sv_pos1_y</string>
+    <string name="preftag_sv_pos2_x">preftag_sv_pos2_x</string>
+    <string name="preftag_sv_pos2_y">preftag_sv_pos2_y</string>
 
     <string name="preftag_dvs_feedback_duration">preftag_dvs_feedback_duration</string>
     <string name="preftag_dvs_randomly_place_options">preftag_dvs_randomly_p</string>
