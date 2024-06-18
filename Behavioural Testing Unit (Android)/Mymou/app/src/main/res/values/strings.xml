@@ -234,6 +234,9 @@
     <string name="preftag_sv_pos1_y">preftag_sv_pos1_y</string>
     <string name="preftag_sv_pos2_x">preftag_sv_pos2_x</string>
     <string name="preftag_sv_pos2_y">preftag_sv_pos2_y</string>
+    <string name="preftag_sv_video_width">preftag_sv_video_width</string>
+    <string name="preftag_sv_video_height">preftag_sv_video_height</string>
+    <string name="preftag_sv_video_muted">preftag_sv_video_muted</string>
 
     <string name="preftag_dvs_feedback_duration">preftag_dvs_feedback_duration</string>
     <string name="preftag_dvs_randomly_place_options">preftag_dvs_randomly_p</string>

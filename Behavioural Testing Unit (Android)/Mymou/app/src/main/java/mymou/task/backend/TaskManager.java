@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.*;
+import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -108,6 +109,7 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_all_tasks);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
 
         // In case of crashes
         initialiseAutoRestartHandler();
@@ -189,17 +191,19 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
 
     private void initialiseAutoRestartHandler() {
         Log.d(TAG, "initialiseAutoRestartHandler");
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread thread, Throwable throwable) {
-                Log.d(TAG, "Task crashed");
-                new CrashReport(throwable, mContext);
-                if (!preferencesManager.debug) {
-                    rewardSystem.quitBt();
-                    restartApp();
+        if (!preferencesManager.debug) {
+            Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+                @Override
+                public void uncaughtException(Thread thread, Throwable throwable) {
+                    Log.d(TAG, "Task crashed");
+                    new CrashReport(throwable, mContext);
+                    if (!preferencesManager.debug) {
+                        rewardSystem.quitBt();
+                        restartApp();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     private void loadtask() {
@@ -269,6 +273,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 break;
             case 19:
                 preferencesManager.ColoredGrating();
+                break;
+            case 20:
+                preferencesManager.SocialVideo();
                 break;
             default:
                 Log.d(TAG, "No task specified");

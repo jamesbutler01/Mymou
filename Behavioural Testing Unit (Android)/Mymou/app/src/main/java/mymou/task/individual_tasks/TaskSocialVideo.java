@@ -56,8 +56,6 @@ public class TaskSocialVideo extends Task {
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         logEvent(TAG + " started", callback);
 
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
         // Load preferences
         prefManager = new PreferencesManager(getContext());
         prefManager.SocialVideo();
@@ -95,16 +93,16 @@ public class TaskSocialVideo extends Task {
         // Position cues
         if (r.nextBoolean()) {
             callback.logEvent_("02,0,,,, social cue in position 1");
-            choice_cues[id_choice_social].setX(prefManager.sv_pos1_x);
-            choice_cues[id_choice_social].setY(prefManager.sv_pos1_y);
-            choice_cues[id_choice_nonsocial].setX(prefManager.sv_pos2_x);
-            choice_cues[id_choice_nonsocial].setY(prefManager.sv_pos2_y);
+            choice_cues[id_choice_social].setY(prefManager.sv_pos1_x);
+            choice_cues[id_choice_social].setX(prefManager.sv_pos1_y);
+            choice_cues[id_choice_nonsocial].setY(prefManager.sv_pos2_x);
+            choice_cues[id_choice_nonsocial].setX(prefManager.sv_pos2_y);
         } else {
             callback.logEvent_("02,1,,,, social cue in position 2");
-            choice_cues[id_choice_social].setX(prefManager.sv_pos2_x);
-            choice_cues[id_choice_social].setY(prefManager.sv_pos2_y);
-            choice_cues[id_choice_nonsocial].setX(prefManager.sv_pos1_x);
-            choice_cues[id_choice_nonsocial].setY(prefManager.sv_pos1_y);
+            choice_cues[id_choice_social].setY(prefManager.sv_pos2_x);
+            choice_cues[id_choice_social].setX(prefManager.sv_pos2_y);
+            choice_cues[id_choice_nonsocial].setY(prefManager.sv_pos1_x);
+            choice_cues[id_choice_nonsocial].setX(prefManager.sv_pos1_y);
         }
     }
 
@@ -209,10 +207,22 @@ public class TaskSocialVideo extends Task {
         VideoView videoView = (VideoView) getView().findViewById(R.id.videoview_sv);
         videoView.setVisibility(View.VISIBLE);
 
+        ViewGroup.LayoutParams params=videoView.getLayoutParams();
+        params.height= prefManager.sv_video_height;
+        params.width=prefManager.sv_video_width;
+        videoView.setLayoutParams(params);
+        if (prefManager.sv_video_muted) {
+            videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mp.setVolume(0f, 0f);
+                }
+            });
+        }
         // Lets stop the movie from being stretched
         getActivity().findViewById(R.id.background_main).setBackgroundColor(getActivity().getResources().getColor(R.color.black));
-//        videoView.setMediaController(null); // Disable controls so monkeys can't stop the movie!
         videoView.setVideoURI(stringUri);
+
         videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
@@ -262,6 +272,7 @@ public class TaskSocialVideo extends Task {
         handler_loop_indefinitely.removeCallbacksAndMessages(null);
         callback.setBrightnessFromTask_(true);
     }
+
 
 
 }

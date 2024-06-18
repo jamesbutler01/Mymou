@@ -80,6 +80,8 @@
     <integer name="default_sv_pos1_y">1200</integer>
     <integer name="default_sv_pos2_x">725</integer>
     <integer name="default_sv_pos2_y">300</integer>
+    <integer name="default_sv_video_width">1400</integer>
+    <integer name="default_sv_video_height">800</integer>
 
     <integer name="default_dvs_feedback_duration">5000</integer>
 
