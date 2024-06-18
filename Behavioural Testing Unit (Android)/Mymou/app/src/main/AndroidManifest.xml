@@ -44,19 +44,9 @@
         <activity
                 android:name=".task.backend.TaskManager"
                 />
-        <activity
-                android:name=".task.individual_tasks.TaskSocialVideo"
-            android:screenOrientation="landscape"
-                />
         <activity android:name=".preferences.PrefsActCropPicker"/>
         <activity android:name=".preferences.PrefsActCamPicker"/>
 
-        <activity android:name=".task.backend.CameraExternal"
-                android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-            </intent-filter>
-        </activity>
 
     </application>
 
