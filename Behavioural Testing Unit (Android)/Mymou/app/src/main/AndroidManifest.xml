@@ -42,8 +42,7 @@
         </activity>
 
         <activity
-                android:name=".task.backend.TaskManager"
-                android:screenOrientation="portrait"/>
+                android:name=".task.backend.TaskManager" />
         <activity android:name=".preferences.PrefsActCropPicker"/>
         <activity android:name=".preferences.PrefsActCamPicker"/>
 

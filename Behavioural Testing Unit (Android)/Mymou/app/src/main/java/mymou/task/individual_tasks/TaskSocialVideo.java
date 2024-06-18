@@ -1,5 +1,6 @@
 package mymou.task.individual_tasks;
 
+import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -48,12 +49,14 @@ public class TaskSocialVideo extends Task {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_task_empty, container, false);
+        return inflater.inflate(R.layout.activity_task_social_video, container, false);
     }
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         logEvent(TAG + " started", callback);
+
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         // Load preferences
         prefManager = new PreferencesManager(getContext());
@@ -70,15 +73,12 @@ public class TaskSocialVideo extends Task {
         nonsocial_video_paths[1] = Uri.parse("android.resource://" + getActivity().getPackageName() + "/" +
                 R.raw.sv_nonsocial_2);
 
-        // Create go_cue
-        ConstraintLayout layout = getView().findViewById(R.id.parent_task_empty);
-
         // Create choice cues
         choice_cues = new ImageButton[2];
-        choice_cues[id_choice_social] = UtilsTask.addImageCue(id_choice_social, getContext(), layout, buttonClickListener);
+        choice_cues[id_choice_social] = UtilsTask.addImageCue(id_choice_social, getContext(), getView().findViewById(R.id.parent_task_sv), buttonClickListener);
         choice_cues[id_choice_social].setImageResource(R.drawable.sv_cue1);
 
-        choice_cues[id_choice_nonsocial] = UtilsTask.addImageCue(id_choice_nonsocial, getContext(), layout, buttonClickListener);
+        choice_cues[id_choice_nonsocial] = UtilsTask.addImageCue(id_choice_nonsocial, getContext(), getView().findViewById(R.id.parent_task_sv), buttonClickListener);
         choice_cues[id_choice_nonsocial].setImageResource(R.drawable.sv_cue2);
 
         // Random number generator
@@ -154,7 +154,7 @@ public class TaskSocialVideo extends Task {
                 callback.resetTimer_();
                 loop_indefinitely();
             }
-        }, 1000);
+        }, 10000);
     }
 
     private void start_task(){
@@ -187,6 +187,7 @@ public class TaskSocialVideo extends Task {
             roll = (roll + 1) % n_movies;
         }
         previous_movie_played[social_or_nonsocial] = roll;
+
         return roll;
     }
     private void choice_made(int c1_pressed) {
@@ -197,23 +198,26 @@ public class TaskSocialVideo extends Task {
         if (c1_pressed == id_choice_social) {
             int i_movie = select_movie(0, social_video_paths.length);
             stringUri = social_video_paths[i_movie];
-            callback.logEvent_("04,0," + i_movie + ",,, social movie chosen");
+            callback.logEvent_("04,0," + i_movie + ","+num_repeats_of_movie[0]+","+prefManager.sv_n_movie_repeats_allowed+", social movie chosen");
         } else {
             int i_movie = select_movie(1, nonsocial_video_paths.length);
             stringUri = nonsocial_video_paths[i_movie];
-            callback.logEvent_("04,1," + i_movie + ",,, nonsocial movie chosen");
+            callback.logEvent_("04,1," + i_movie + ","+num_repeats_of_movie[0]+","+prefManager.sv_n_movie_repeats_allowed+", nonsocial movie chosen");
         }
 
         // Play movie
-        VideoView videoView = (VideoView) getView().findViewById(R.id.parent_task_empty);
+        VideoView videoView = (VideoView) getView().findViewById(R.id.videoview_sv);
+        videoView.setVisibility(View.VISIBLE);
 
         // Lets stop the movie from being stretched
-        getActivity().findViewById(R.id.parent_task_empty).setBackgroundColor(getActivity().getResources().getColor(R.color.black));
-        videoView.setMediaController(null); // Disable controls so monkeys can't stop the movie!
+        getActivity().findViewById(R.id.background_main).setBackgroundColor(getActivity().getResources().getColor(R.color.black));
+//        videoView.setMediaController(null); // Disable controls so monkeys can't stop the movie!
         videoView.setVideoURI(stringUri);
         videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
+                videoView.setVisibility(View.INVISIBLE);
+
                 reward_stage();
             }
         });
