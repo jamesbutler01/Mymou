@@ -23,7 +23,7 @@ public class PrefsFragTaskSocialVideo extends PreferenceFragmentCompat  {
         setPreferencesFromResource(R.xml.preferences_task_social_video, rootKey);
 
         // Set ontouchlisteners for the seekbars to allow users to manually input values
-        SeekBarPreferenceCustom[] seekBarPreferences = new SeekBarPreferenceCustom[8];
+        SeekBarPreferenceCustom[] seekBarPreferences = new SeekBarPreferenceCustom[10];
         seekBarPreferences[0] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_sv_iti));
         seekBarPreferences[1] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_sv_rew_duration));
         seekBarPreferences[2] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_sv_n_movie_repeats_allowed));
@@ -32,6 +32,8 @@ public class PrefsFragTaskSocialVideo extends PreferenceFragmentCompat  {
         seekBarPreferences[5] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_sv_pos1_y));
         seekBarPreferences[6] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_sv_pos2_x));
         seekBarPreferences[7] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_sv_pos2_y));
+        seekBarPreferences[8] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_sv_video_height));
+        seekBarPreferences[9] = (SeekBarPreferenceCustom) findPreference(getString(R.string.preftag_sv_video_width));
 
         for (int i = 0; i < seekBarPreferences.length; i++) {
             final int i_final = i;

@@ -41,6 +41,32 @@
             app:min="1"
             app:summary="Idle time after which the task will be disabled. Tap to input number"/>
 
+        <SwitchPreferenceCompat
+            app:key="@string/preftag_sv_video_muted"
+            app:title="Mute videos"
+            app:defaultValue="@bool/default_sv_video_muted"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preferences_title"
+        app:key="sv_video_size"
+        app:title="Video size (pixels)">
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_sv_video_width"
+            app:key="@string/preftag_sv_video_width"
+            app:title="Video width"
+            android:max="1920"
+            app:min="1"/>
+
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_sv_video_height"
+            app:key="@string/preftag_sv_video_height"
+            app:title="Video height"
+            android:max="1200"
+            app:min="1"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -51,28 +77,28 @@
         <mymou.preferences.SeekBarPreferenceCustom
             android:defaultValue="@integer/default_sv_pos1_x"
             app:key="@string/preftag_sv_pos1_x"
-            app:title="Position 1 x position (pixels)"
+            app:title="Position 1 y position (pixels)"
             android:max="2000"
             app:min="1"/>
 
         <mymou.preferences.SeekBarPreferenceCustom
             android:defaultValue="@integer/default_sv_pos1_y"
             app:key="@string/preftag_sv_pos1_y"
-            app:title="Position 1 y position (pixels)"
+            app:title="Position 1 x position (pixels)"
             android:max="2000"
             app:min="1"/>
 
         <mymou.preferences.SeekBarPreferenceCustom
             android:defaultValue="@integer/default_sv_pos2_x"
             app:key="@string/preftag_sv_pos2_x"
-            app:title="Position 2 x position (pixels)"
+            app:title="Position 2 y position (pixels)"
             android:max="2000"
             app:min="1"/>
 
         <mymou.preferences.SeekBarPreferenceCustom
             android:defaultValue="@integer/default_sv_pos2_y"
             app:key="@string/preftag_sv_pos2_y"
-            app:title="Position 2 y position (pixels)"
+            app:title="Position 2 x position (pixels)"
             android:max="2000"
             app:min="1"/>
 
