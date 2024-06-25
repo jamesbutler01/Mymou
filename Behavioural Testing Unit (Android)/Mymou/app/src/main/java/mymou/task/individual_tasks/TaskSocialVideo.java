@@ -1,9 +1,13 @@
 package mymou.task.individual_tasks;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +17,14 @@ import android.widget.VideoView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import java.io.File;
 import java.util.Random;
 
 import mymou.R;
 import mymou.preferences.PreferencesManager;
+import mymou.preferences.PrefsActSystem;
 import mymou.task.backend.TaskInterface;
+import mymou.task.backend.TaskManager;
 import mymou.task.backend.UtilsTask;
 
 /**
@@ -60,6 +67,48 @@ public class TaskSocialVideo extends Task {
         prefManager = new PreferencesManager(getContext());
         prefManager.SocialVideo();
 
+        String social_path = Environment.getExternalStorageDirectory().toString() + "/Mymou/SocialVideo/social";
+        File social_directory = new File(social_path);
+        File[] social_video_files = social_directory.listFiles();
+        if (social_video_files == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setMessage("No social videos found. Please add some to the below directory to " +
+                            "use this task\n\n"+"/Mymou/SocialVideo/social/")
+                    .setTitle("FileNotFoundError: Social videos")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //Do nothing
+
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        } else {
+            for (File socialVideoFile : social_video_files) {
+                logEvent(TAG + " found video" + socialVideoFile.getName(), callback);
+            }
+        }
+        String nonsocial_path = Environment.getExternalStorageDirectory().toString() + "/Mymou/SocialVideo/nonsocial";
+        File nonsocial_directory = new File(nonsocial_path);
+        File[] nonsocial_video_files = nonsocial_directory.listFiles();
+        if (nonsocial_video_files == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setMessage("No non-social videos found. Please add some to the below directory to " +
+                                    "use this task\n\n"+"/Mymou/SocialVideo/nonsocial/")
+                    .setTitle("FileNotFoundError: Non-Social videos")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //Do nothing
+
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        } else {
+            for (int i = 0; i < nonsocial_video_files.length; i++) {
+                logEvent(TAG + " found video" + nonsocial_video_files[i].getName(), callback);
+            }
+        }
         social_video_paths = new Uri[2];
         nonsocial_video_paths = new Uri[2];
         social_video_paths[0] = Uri.parse("android.resource://" + getActivity().getPackageName() + "/" +

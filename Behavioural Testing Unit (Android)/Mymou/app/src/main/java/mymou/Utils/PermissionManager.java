@@ -29,6 +29,7 @@ public class PermissionManager {
     String[] permissionCodes = {
         Manifest.permission.CAMERA,
         Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_EXTERNAL_STORAGE,
         Manifest.permission.BLUETOOTH,
         Manifest.permission.BLUETOOTH_ADMIN,
         Manifest.permission.ACCESS_COARSE_LOCATION,
