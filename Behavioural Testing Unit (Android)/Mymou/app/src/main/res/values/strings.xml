@@ -60,7 +60,7 @@
         <item>Two sounds are displayed followed by a go cue. This is followed by two further sounds and another go cue. Sounds in the first and second sequence can be within the same context or in different contexts.</item>
         <item>Implementation of Wald\'s Sequential Probability Ratio test as described in Kira, Yang, Shadlen (2015) Neuron.</item>
         <item>Implementation of Coloured Grating task as described in van Kempen et al. (2021) Neuron</item>
-        <item>Two options lead to two different groups of videos (only one is played in each trial)</item>
+        <item>Two options lead to two different groups of videos (only one is played in each trial). Requires video files to be placed in the below directories before the task can be used: \n\n /Mymou/SocialVideo/social \n /Mymou/SocialVideo/nonsocial</item>
     </string-array>
 
     <string name="default_startuptime">0700</string>

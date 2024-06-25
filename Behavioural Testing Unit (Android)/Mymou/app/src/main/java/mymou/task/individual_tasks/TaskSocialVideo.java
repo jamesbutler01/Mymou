@@ -48,7 +48,7 @@ public class TaskSocialVideo extends Task {
     private final static int id_choice_social = 0, id_choice_nonsocial = 1;
     private final int[] previous_movie_played={-1,-1}, num_repeats_of_movie={0,0};
     private Random r;
-    private static Uri[] social_video_paths, nonsocial_video_paths;
+    private static File[] nonsocial_video_files, social_video_files;
     private static Handler handler_start_next_trial = new Handler();  // Task trial_timer
     private static Handler handler_timeout_task = new Handler();  // Inter-trial interval timer
     private static Handler handler_loop_indefinitely = new Handler();  // Dim brightness timer
@@ -69,7 +69,7 @@ public class TaskSocialVideo extends Task {
 
         String social_path = Environment.getExternalStorageDirectory().toString() + "/Mymou/SocialVideo/social";
         File social_directory = new File(social_path);
-        File[] social_video_files = social_directory.listFiles();
+        social_video_files = social_directory.listFiles();
         if (social_video_files == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setMessage("No social videos found. Please add some to the below directory to " +
@@ -85,12 +85,12 @@ public class TaskSocialVideo extends Task {
             dialog.show();
         } else {
             for (File socialVideoFile : social_video_files) {
-                logEvent(TAG + " found video" + socialVideoFile.getName(), callback);
+                logEvent(TAG + " found social video" + socialVideoFile.getName(), callback);
             }
         }
         String nonsocial_path = Environment.getExternalStorageDirectory().toString() + "/Mymou/SocialVideo/nonsocial";
         File nonsocial_directory = new File(nonsocial_path);
-        File[] nonsocial_video_files = nonsocial_directory.listFiles();
+        nonsocial_video_files = nonsocial_directory.listFiles();
         if (nonsocial_video_files == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setMessage("No non-social videos found. Please add some to the below directory to " +
@@ -106,19 +106,9 @@ public class TaskSocialVideo extends Task {
             dialog.show();
         } else {
             for (int i = 0; i < nonsocial_video_files.length; i++) {
-                logEvent(TAG + " found video" + nonsocial_video_files[i].getName(), callback);
+                logEvent(TAG + " found nonsocial video" + nonsocial_video_files[i].getName(), callback);
             }
         }
-        social_video_paths = new Uri[2];
-        nonsocial_video_paths = new Uri[2];
-        social_video_paths[0] = Uri.parse("android.resource://" + getActivity().getPackageName() + "/" +
-                    R.raw.sv_social_1);
-        social_video_paths[1] = Uri.parse("android.resource://" + getActivity().getPackageName() + "/" +
-                    R.raw.sv_social_2);
-        nonsocial_video_paths[0] = Uri.parse("android.resource://" + getActivity().getPackageName() + "/" +
-                R.raw.sv_nonsocial_1);
-        nonsocial_video_paths[1] = Uri.parse("android.resource://" + getActivity().getPackageName() + "/" +
-                R.raw.sv_nonsocial_2);
 
         // Create choice cues
         choice_cues = new ImageButton[2];
@@ -241,15 +231,15 @@ public class TaskSocialVideo extends Task {
         callback.resetTimer_();
 
         // Roll the dice
-        Uri stringUri = null;
+        File chosenFile = null;
         if (c1_pressed == id_choice_social) {
-            int i_movie = select_movie(0, social_video_paths.length);
-            stringUri = social_video_paths[i_movie];
-            callback.logEvent_("04,0," + i_movie + ","+num_repeats_of_movie[0]+","+prefManager.sv_n_movie_repeats_allowed+", social movie chosen");
+            int i_movie = select_movie(0, social_video_files.length);
+            chosenFile = social_video_files[i_movie];
+            callback.logEvent_("04,0," + i_movie + ","+num_repeats_of_movie[0]+","+prefManager.sv_n_movie_repeats_allowed+", social movie chosen ("+chosenFile.getName()+")");
         } else {
-            int i_movie = select_movie(1, nonsocial_video_paths.length);
-            stringUri = nonsocial_video_paths[i_movie];
-            callback.logEvent_("04,1," + i_movie + ","+num_repeats_of_movie[0]+","+prefManager.sv_n_movie_repeats_allowed+", nonsocial movie chosen");
+            int i_movie = select_movie(1, nonsocial_video_files.length);
+            chosenFile = nonsocial_video_files[i_movie];
+            callback.logEvent_("04,1," + i_movie + ","+num_repeats_of_movie[0]+","+prefManager.sv_n_movie_repeats_allowed+", nonsocial movie chosen ("+chosenFile.getName()+")");
         }
 
         // Play movie
@@ -270,7 +260,7 @@ public class TaskSocialVideo extends Task {
         }
         // Lets stop the movie from being stretched
         getActivity().findViewById(R.id.background_main).setBackgroundColor(getActivity().getResources().getColor(R.color.black));
-        videoView.setVideoURI(stringUri);
+        videoView.setVideoPath(chosenFile.getAbsolutePath());
 
         videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
