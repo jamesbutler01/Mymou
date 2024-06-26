@@ -249,7 +249,7 @@ public class PreferencesManager {
 
     }
 
-    public int sv_rew_duration, sv_iti, sv_timeout_duration_mins, sv_n_movie_repeats_allowed;
+    public int sv_rew_duration, sv_iti, sv_timeout_duration_mins, sv_n_movie_repeats_allowed, sv_cue_size;
     public int sv_pos1_x, sv_pos1_y, sv_pos2_x, sv_pos2_y;
     public int sv_video_width, sv_video_height;
     public boolean sv_video_muted;
@@ -266,6 +266,7 @@ public class PreferencesManager {
         sv_pos2_y = sharedPrefs.getInt(r.getString(R.string.preftag_sv_pos2_y), r.getInteger(R.integer.default_sv_pos2_y));
         sv_video_width = sharedPrefs.getInt(r.getString(R.string.preftag_sv_video_width), r.getInteger(R.integer.default_sv_video_width));
         sv_video_height = sharedPrefs.getInt(r.getString(R.string.preftag_sv_video_height), r.getInteger(R.integer.default_sv_video_height));
+        sv_cue_size = sharedPrefs.getInt(r.getString(R.string.preftag_sv_cue_size), r.getInteger(R.integer.default_sv_cue_size));
         sv_video_muted = sharedPrefs.getBoolean(r.getString(R.string.preftag_sv_video_muted), r.getBoolean(R.bool.default_sv_video_muted));
         skip_go_cue=true;
     }

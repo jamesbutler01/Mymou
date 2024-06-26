@@ -112,10 +112,10 @@ public class TaskSocialVideo extends Task {
 
         // Create choice cues
         choice_cues = new ImageButton[2];
-        choice_cues[id_choice_social] = UtilsTask.addImageCue(id_choice_social, getContext(), getView().findViewById(R.id.parent_task_sv), buttonClickListener);
+        choice_cues[id_choice_social] = UtilsTask.addImageCue(id_choice_social, getContext(), getView().findViewById(R.id.parent_task_sv), buttonClickListener, prefManager.sv_cue_size, 0);
         choice_cues[id_choice_social].setImageResource(R.drawable.sv_cue1);
 
-        choice_cues[id_choice_nonsocial] = UtilsTask.addImageCue(id_choice_nonsocial, getContext(), getView().findViewById(R.id.parent_task_sv), buttonClickListener);
+        choice_cues[id_choice_nonsocial] = UtilsTask.addImageCue(id_choice_nonsocial, getContext(), getView().findViewById(R.id.parent_task_sv), buttonClickListener, prefManager.sv_cue_size, 0);
         choice_cues[id_choice_nonsocial].setImageResource(R.drawable.sv_cue2);
 
         // Random number generator

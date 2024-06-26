@@ -41,6 +41,14 @@
             app:min="1"
             app:summary="Idle time after which the task will be disabled. Tap to input number"/>
 
+        <mymou.preferences.SeekBarPreferenceCustom
+            android:defaultValue="@integer/default_sv_cue_size"
+            app:key="@string/preftag_sv_cue_size"
+            app:title="Cue size (pixels)"
+            app:summary="Size of choice cue in pixels. Tap to input number"
+            android:max="2000"
+            />
+
         <SwitchPreferenceCompat
             app:key="@string/preftag_sv_video_muted"
             app:title="Mute videos"
