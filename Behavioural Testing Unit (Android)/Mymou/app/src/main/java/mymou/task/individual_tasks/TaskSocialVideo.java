@@ -110,13 +110,27 @@ public class TaskSocialVideo extends Task {
             }
         }
 
-        // Create choice cues
+        // Create choice cues - optionally load from Mymou folder
+        String cue1_path = Environment.getExternalStorageDirectory().toString() + "/Mymou/SocialVideo/cue1.png";
+        File cue1_file = new File(cue1_path);
+        Uri cue1_uri = Uri.fromFile(cue1_file);
         choice_cues = new ImageButton[2];
         choice_cues[id_choice_social] = UtilsTask.addImageCue(id_choice_social, getContext(), getView().findViewById(R.id.parent_task_sv), buttonClickListener, prefManager.sv_cue_size, 0);
-        choice_cues[id_choice_social].setImageResource(R.drawable.sv_cue1);
+        if (cue1_file.exists()) {
+            choice_cues[id_choice_social].setImageURI(cue1_uri);
+        } else {
+            choice_cues[id_choice_social].setImageResource(R.drawable.sv_cue1);
+        }
 
+        String cue2_path = Environment.getExternalStorageDirectory().toString() + "/Mymou/SocialVideo/cue2.png";
+        File cue2_file = new File(cue2_path);
+        Uri cue2_uri = Uri.fromFile(cue2_file);
         choice_cues[id_choice_nonsocial] = UtilsTask.addImageCue(id_choice_nonsocial, getContext(), getView().findViewById(R.id.parent_task_sv), buttonClickListener, prefManager.sv_cue_size, 0);
-        choice_cues[id_choice_nonsocial].setImageResource(R.drawable.sv_cue2);
+        if (cue2_file.exists()) {
+            choice_cues[id_choice_nonsocial].setImageURI(cue2_uri);
+        } else {
+            choice_cues[id_choice_nonsocial].setImageResource(R.drawable.sv_cue2);
+        }
 
         // Random number generator
         r = new Random();
