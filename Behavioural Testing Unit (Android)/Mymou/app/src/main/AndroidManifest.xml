@@ -41,9 +41,13 @@
                 android:name=".preferences.PrefsActSystem"
                 android:theme="@style/MainAppTheme">
         </activity>
-
-        <activity
+         <activity
                 android:name=".task.backend.TaskManager"
+                android:screenOrientation="portrait"
+                />
+        <activity
+                android:name=".task.backend.TaskManagerHorizontal"
+                android:screenOrientation="landscape"
                 />
         <activity android:name=".preferences.PrefsActCropPicker"/>
         <activity android:name=".preferences.PrefsActCamPicker"/>

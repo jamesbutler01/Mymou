@@ -26,6 +26,7 @@ import mymou.preferences.PrefsActCropPicker;
 import mymou.task.backend.DataViewer;
 import mymou.task.backend.RewardSystem;
 import mymou.task.backend.TaskManager;
+import mymou.task.backend.TaskManagerHorizontal;
 import mymou.task.backend.UtilsTask;
 import mymou.preferences.PrefsActSystem;
 
@@ -86,10 +87,15 @@ public class MainMenu extends Activity {
 
         rewardSystem.quitBt();  // Reconnect from next activity
 
-        Intent intent = new Intent(this, TaskManager.class);
-        intent.putExtra("tasktoload", taskSelected);
-
-        startActivity(intent);
+        if (taskSelected == 20 ) {
+            Intent intent = new Intent(this, TaskManagerHorizontal.class);
+            intent.putExtra("tasktoload", taskSelected);
+            startActivity(intent);
+        } else{
+            Intent intent = new Intent(this, TaskManager.class);
+            intent.putExtra("tasktoload", taskSelected);
+            startActivity(intent);
+        }
     }
 
     private void initialiseRewardSystem() {
