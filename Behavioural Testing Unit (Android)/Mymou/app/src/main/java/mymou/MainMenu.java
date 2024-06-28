@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -88,10 +89,12 @@ public class MainMenu extends Activity {
         rewardSystem.quitBt();  // Reconnect from next activity
 
         if (taskSelected == 20 ) {
+            this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             Intent intent = new Intent(this, TaskManagerHorizontal.class);
             intent.putExtra("tasktoload", taskSelected);
             startActivity(intent);
         } else{
+            this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             Intent intent = new Intent(this, TaskManager.class);
             intent.putExtra("tasktoload", taskSelected);
             startActivity(intent);
