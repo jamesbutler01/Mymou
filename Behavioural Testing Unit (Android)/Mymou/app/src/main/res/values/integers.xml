@@ -72,6 +72,18 @@
     <integer name="default_sl_map_selected">0</integer>
     <integer name="default_sl_seq_length">7</integer>
 
+    <integer name="default_sv_rew_duration">5000</integer>
+    <integer name="default_sv_iti">3000</integer>
+    <integer name="default_sv_timeout_duration_mins">3</integer>
+    <integer name="default_sv_n_movie_repeats_allowed">3</integer>
+    <integer name="default_sv_pos1_x">465</integer>
+    <integer name="default_sv_pos1_y">1200</integer>
+    <integer name="default_sv_pos2_x">465</integer>
+    <integer name="default_sv_pos2_y">300</integer>
+    <integer name="default_sv_video_width">1400</integer>
+    <integer name="default_sv_video_height">800</integer>
+    <integer name="default_sv_cue_size">400</integer>
+
     <integer name="default_dvs_feedback_duration">5000</integer>
 
     <integer name="default_ea_num_steps">8</integer>

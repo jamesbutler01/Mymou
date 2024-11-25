@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
@@ -248,6 +247,28 @@ public class PreferencesManager {
         sl_seq_length = sharedPrefs.getInt(r.getString(R.string.preftag_sl_seq_length), r.getInteger(R.integer.default_sl_seq_length));
         sl_map_selected = sharedPrefs.getInt(r.getString(R.string.preftag_sl_map_selected), r.getInteger(R.integer.default_sl_map_selected));
 
+    }
+
+    public int sv_rew_duration, sv_iti, sv_timeout_duration_mins, sv_n_movie_repeats_allowed, sv_cue_size;
+    public int sv_pos1_x, sv_pos1_y, sv_pos2_x, sv_pos2_y;
+    public int sv_video_width, sv_video_height;
+    public boolean sv_video_muted;
+
+    public void SocialVideo() {
+        sv_rew_duration = sharedPrefs.getInt(r.getString(R.string.preftag_sv_rew_duration), r.getInteger(R.integer.default_sv_rew_duration));
+        sv_iti = sharedPrefs.getInt(r.getString(R.string.preftag_sv_iti), r.getInteger(R.integer.default_sv_iti));
+        sv_timeout_duration_mins = sharedPrefs.getInt(r.getString(R.string.preftag_sv_timeout_duration_mins), r.getInteger(R.integer.default_sv_timeout_duration_mins));
+        sv_n_movie_repeats_allowed = sharedPrefs.getInt(r.getString(R.string.preftag_sv_n_movie_repeats_allowed), r.getInteger(R.integer.default_sv_n_movie_repeats_allowed));
+        sv_pos1_x = sharedPrefs.getInt(r.getString(R.string.preftag_sv_pos1_x), r.getInteger(R.integer.default_sv_pos1_x));
+        sv_pos1_y = sharedPrefs.getInt(r.getString(R.string.preftag_sv_pos1_y), r.getInteger(R.integer.default_sv_pos1_y));
+        sv_pos2_x = sharedPrefs.getInt(r.getString(R.string.preftag_sv_pos2_x), r.getInteger(R.integer.default_sv_pos2_x));
+        sv_pos2_y = sharedPrefs.getInt(r.getString(R.string.preftag_sv_pos2_y), r.getInteger(R.integer.default_sv_pos2_y));
+        sv_pos2_y = sharedPrefs.getInt(r.getString(R.string.preftag_sv_pos2_y), r.getInteger(R.integer.default_sv_pos2_y));
+        sv_video_width = sharedPrefs.getInt(r.getString(R.string.preftag_sv_video_width), r.getInteger(R.integer.default_sv_video_width));
+        sv_video_height = sharedPrefs.getInt(r.getString(R.string.preftag_sv_video_height), r.getInteger(R.integer.default_sv_video_height));
+        sv_cue_size = sharedPrefs.getInt(r.getString(R.string.preftag_sv_cue_size), r.getInteger(R.integer.default_sv_cue_size));
+        sv_video_muted = sharedPrefs.getBoolean(r.getString(R.string.preftag_sv_video_muted), r.getBoolean(R.bool.default_sv_video_muted));
+        skip_go_cue=true;
     }
 
     public int dvs_feedback_duration;

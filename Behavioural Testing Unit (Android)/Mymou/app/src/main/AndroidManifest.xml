@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
 
     <uses-feature android:name="android.hardware.camera"/>
@@ -40,19 +41,17 @@
                 android:name=".preferences.PrefsActSystem"
                 android:theme="@style/MainAppTheme">
         </activity>
-
-        <activity
+         <activity
                 android:name=".task.backend.TaskManager"
-                android:screenOrientation="portrait"/>
+                android:screenOrientation="portrait"
+                />
+        <activity
+                android:name=".task.backend.TaskManagerHorizontal"
+                android:screenOrientation="landscape"
+                />
         <activity android:name=".preferences.PrefsActCropPicker"/>
         <activity android:name=".preferences.PrefsActCamPicker"/>
 
-        <activity android:name=".task.backend.CameraExternal"
-                android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-            </intent-filter>
-        </activity>
 
     </application>
 

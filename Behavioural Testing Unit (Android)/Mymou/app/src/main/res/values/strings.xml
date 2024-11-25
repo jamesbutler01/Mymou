@@ -36,6 +36,7 @@
         <item>Context Sequence Learning</item>
         <item>Wald\'s Sequential Probability Ratio</item>
         <item>Colored Grating Task</item>
+        <item>Social Video Preference task</item>
     </string-array>
 
     <string-array name="task_descriptions">
@@ -59,6 +60,7 @@
         <item>Two sounds are displayed followed by a go cue. This is followed by two further sounds and another go cue. Sounds in the first and second sequence can be within the same context or in different contexts.</item>
         <item>Implementation of Wald\'s Sequential Probability Ratio test as described in Kira, Yang, Shadlen (2015) Neuron.</item>
         <item>Implementation of Coloured Grating task as described in van Kempen et al. (2021) Neuron</item>
+        <item>Two options lead to two different groups of videos (only one is played in each trial). Requires video files to be placed in the below directories before the task can be used: \n\n /Mymou/SocialVideo/social \n /Mymou/SocialVideo/nonsocial</item>
     </string-array>
 
     <string name="default_startuptime">0700</string>
@@ -173,6 +175,7 @@
     <string name="preftag_task_csl_settings">preftag_task_csl_settings</string>
     <string name="preftag_task_wald_settings">preftag_task_w_settings</string>
     <string name="preftag_task_colgrat_settings">preftag_task_colgrat_settings</string>
+    <string name="preftag_task_social_video">preftag_task_social_video</string>
     <string name="preftag_task_od_settings">preftag_task_od_settings</string>
     <string name="preftag_bluetooth_strobes">preftag_bluetooth_strobes</string>
     <string name="preftag_settings_to_load">preftag_settings_to_load</string>
@@ -222,6 +225,19 @@
 
     <string name="preftag_sl_map_selected">preftag_sl_map_selected</string>
     <string name="preftag_sl_seq_length">preftag_sl_seq_length</string>
+
+    <string name="preftag_sv_rew_duration">preftag_sv_rew_duration</string>
+    <string name="preftag_sv_iti">preftag_sv_iti</string>
+    <string name="preftag_sv_timeout_duration_mins">preftag_sv_timeout_duration_mins</string>
+    <string name="preftag_sv_n_movie_repeats_allowed">preftag_sv_n_movie_repeats_allowed</string>
+    <string name="preftag_sv_pos1_x">preftag_sv_pos1_x</string>
+    <string name="preftag_sv_pos1_y">preftag_sv_pos1_y</string>
+    <string name="preftag_sv_pos2_x">preftag_sv_pos2_x</string>
+    <string name="preftag_sv_pos2_y">preftag_sv_pos2_y</string>
+    <string name="preftag_sv_video_width">preftag_sv_video_width</string>
+    <string name="preftag_sv_video_height">preftag_sv_video_height</string>
+    <string name="preftag_sv_cue_size">preftag_sv_cue_size</string>
+    <string name="preftag_sv_video_muted">preftag_sv_video_muted</string>
 
     <string name="preftag_dvs_feedback_duration">preftag_dvs_feedback_duration</string>
     <string name="preftag_dvs_randomly_place_options">preftag_dvs_randomly_p</string>

@@ -6,7 +6,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
-        tools:context="com.example.jbutler.mymou.mymou.MainMenu">
+        tools:context="com.example.jbutler.mymou.mymou.MainMenu"
+    android:screenOrientation="landscape"
+
+    >
 
     <View
             android:id="@+id/background_main"

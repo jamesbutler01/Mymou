@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import mymou.preferences.PrefsActCropPicker;
 import mymou.task.backend.DataViewer;
 import mymou.task.backend.RewardSystem;
 import mymou.task.backend.TaskManager;
+import mymou.task.backend.TaskManagerHorizontal;
 import mymou.task.backend.UtilsTask;
 import mymou.preferences.PrefsActSystem;
 
@@ -86,10 +88,17 @@ public class MainMenu extends Activity {
 
         rewardSystem.quitBt();  // Reconnect from next activity
 
-        Intent intent = new Intent(this, TaskManager.class);
-        intent.putExtra("tasktoload", taskSelected);
-
-        startActivity(intent);
+        if (taskSelected == 20 ) {
+            this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            Intent intent = new Intent(this, TaskManagerHorizontal.class);
+            intent.putExtra("tasktoload", taskSelected);
+            startActivity(intent);
+        } else{
+            this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            Intent intent = new Intent(this, TaskManager.class);
+            intent.putExtra("tasktoload", taskSelected);
+            startActivity(intent);
+        }
     }
 
     private void initialiseRewardSystem() {
@@ -325,9 +334,12 @@ public class MainMenu extends Activity {
                             break;
                         case 18:
                             intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_wald_settings));
-			    break;
-			case 19:
+			                break;
+			            case 19:
                             intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_colgrat_settings));
+                            break;
+                        case 20:
+                            intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_social_video));
                             break;
                         default:
                             validsettings = false;
