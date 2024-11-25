@@ -281,6 +281,15 @@ public class PreferencesManager {
         handle_feedback = false;
     }
 
+    public int atc_reward_duration;
+
+    public void AlternatingTwoChoice() {
+        handle_feedback = false;
+        atc_reward_duration = sharedPrefs.getInt(r.getString(R.string.preftag_atc_reward_duration), r.getInteger(R.integer.default_atc_reward_duration));
+
+
+    }
+
     public int ts_transition_prob, ts_go_cue_reward_amount, ts_trial_reward_amount, ts_intertrial_interval;
     public int ts_low_reward_percent, ts_high_reward_percent;
     public int ts_rew_change_interval;

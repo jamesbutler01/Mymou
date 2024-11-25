@@ -341,6 +341,9 @@ public class MainMenu extends Activity {
                         case 20:
                             intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_social_video));
                             break;
+                        case 21:
+                            intent2.putExtra(getString(R.string.preftag_settings_to_load), getString(R.string.preftag_task_alternating_two_cue));
+                            break;
                         default:
                             validsettings = false;
                             Toast.makeText(getApplicationContext(), "Sorry, this task has no configurable settings", Toast.LENGTH_LONG).show();

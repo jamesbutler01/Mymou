@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+            android:layout="@layout/preferences_title"
+            app:key="task_settings"
+            app:title="Task settings">
+
+        <mymou.preferences.SeekBarPreferenceCustom
+                android:defaultValue="@integer/default_atc_reward_duration"
+                app:key="@string/preftag_atc_reward_duration"
+                app:title="Reward amount (ms) "
+                android:max="3000"
+                app:min="1"/>
+
+    </PreferenceCategory>
+
+
+</androidx.preference.PreferenceScreen>
