@@ -89,6 +89,10 @@ public class PrefsFragCommon extends PreferenceFragmentCompat {
             Intent intent = new Intent(getActivity(), TaskManager.class);
             startActivity(intent);
 
+        } else if (prefTag.equals(getString(R.string.preftag_task_alternating_two_cue))) {
+
+            setPreferencesFromResource(R.xml.preferences_task_alternating_two_cues, rootKey);
+
         } else {
 
             new Exception("Invalid pref tag");

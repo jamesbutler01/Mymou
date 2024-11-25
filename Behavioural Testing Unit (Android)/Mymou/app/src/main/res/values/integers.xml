@@ -86,6 +86,8 @@
 
     <integer name="default_dvs_feedback_duration">5000</integer>
 
+    <integer name="default_atc_reward_duration">1000</integer>
+
     <integer name="default_ea_num_steps">8</integer>
     <integer name="default_ea_step_duration_on">600</integer>
     <integer name="default_ea_step_duration_off">500</integer>

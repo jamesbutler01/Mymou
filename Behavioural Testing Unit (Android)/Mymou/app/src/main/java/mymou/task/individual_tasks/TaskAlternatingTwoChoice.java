@@ -119,15 +119,11 @@ public class TaskAlternatingTwoChoice extends Task {
                     break;
             }
 
-            // Determine reward amount to be given
-            int reward_amount = Math.round(preferencesManager.rewardduration);
-            callback.logEvent_("4," + reward_amount + ",, amount of reward chosen");
-
             // Feedback
             if (view.getId()==rewarded_cue) {
                 getActivity().findViewById(R.id.background_main).setBackgroundColor(preferencesManager.rewardbackground);
-                callback.giveRewardFromTask_(reward_amount, true);
-                callback.logEvent_("5,True,, correct trial");
+                callback.giveRewardFromTask_(preferencesManager.atc_reward_duration, true);
+                callback.logEvent_("5,True,, correct trial, giving "+preferencesManager.atc_reward_duration+" ms reward");
             } else {
                 getActivity().findViewById(R.id.background_main).setBackgroundColor(preferencesManager.timeoutbackground);
                 callback.logEvent_("5,False,, incorrect trial");

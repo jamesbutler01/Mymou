@@ -178,6 +178,7 @@
     <string name="preftag_task_wald_settings">preftag_task_w_settings</string>
     <string name="preftag_task_colgrat_settings">preftag_task_colgrat_settings</string>
     <string name="preftag_task_social_video">preftag_task_social_video</string>
+    <string name="preftag_task_alternating_two_cue">preftag_task_alternating_two_cue</string>
     <string name="preftag_task_od_settings">preftag_task_od_settings</string>
     <string name="preftag_bluetooth_strobes">preftag_bluetooth_strobes</string>
     <string name="preftag_settings_to_load">preftag_settings_to_load</string>
@@ -244,6 +245,8 @@
     <string name="preftag_dvs_feedback_duration">preftag_dvs_feedback_duration</string>
     <string name="preftag_dvs_randomly_place_options">preftag_dvs_randomly_p</string>
     <string name="preftag_dvs_give_full_map">preftag_dvs_give_full_map</string>
+
+    <string name="preftag_atc_reward_duration">preftag_atc_reward_duration</string>
 
     <string name="preftag_pr_cue_colour">pr_cue_colour</string>
     <string name="preftag_pr_progress_bar">preftag_pr_progress_bar</string>
