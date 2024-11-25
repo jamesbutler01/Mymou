@@ -281,6 +281,10 @@ public class PreferencesManager {
         handle_feedback = false;
     }
 
+    public void AlternatingTwoChoice() {
+
+    }
+
     public int ts_transition_prob, ts_go_cue_reward_amount, ts_trial_reward_amount, ts_intertrial_interval;
     public int ts_low_reward_percent, ts_high_reward_percent;
     public int ts_rew_change_interval;

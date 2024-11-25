@@ -37,6 +37,7 @@
         <item>Wald\'s Sequential Probability Ratio</item>
         <item>Colored Grating Task</item>
         <item>Social Video Preference task</item>
+        <item>Alternating two choice task</item>
     </string-array>
 
     <string-array name="task_descriptions">
@@ -61,6 +62,7 @@
         <item>Implementation of Wald\'s Sequential Probability Ratio test as described in Kira, Yang, Shadlen (2015) Neuron.</item>
         <item>Implementation of Coloured Grating task as described in van Kempen et al. (2021) Neuron</item>
         <item>Two options lead to two different groups of videos (only one is played in each trial). Requires video files to be placed in the below directories before the task can be used: \n\n /Mymou/SocialVideo/social \n /Mymou/SocialVideo/nonsocial</item>
+        <item>The same two cues are presented each trial, their location randomised. One cue leads to reward whlie the other does not. </item>
     </string-array>
 
     <string name="default_startuptime">0700</string>

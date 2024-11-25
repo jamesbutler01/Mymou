@@ -277,6 +277,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
             case 20:
                 preferencesManager.SocialVideo();
                 break;
+            case 21:
+                preferencesManager.AlternatingTwoChoice();
+                break;
             default:
                 Log.d(TAG, "No task specified");
                 new Exception("No task specified");
@@ -424,6 +427,9 @@ public class TaskManager extends FragmentActivity implements View.OnClickListene
                 break;
             case 20:
                 task = new TaskSocialVideo();
+                break;
+	        case 21:
+                task = new TaskAlternatingTwoChoice();
                 break;
             default:
                 new Exception("No valid task specified");
