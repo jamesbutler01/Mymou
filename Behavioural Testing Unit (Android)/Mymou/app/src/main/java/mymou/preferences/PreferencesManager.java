@@ -282,6 +282,7 @@ public class PreferencesManager {
     }
 
     public void AlternatingTwoChoice() {
+        handle_feedback = false;
 
     }
 

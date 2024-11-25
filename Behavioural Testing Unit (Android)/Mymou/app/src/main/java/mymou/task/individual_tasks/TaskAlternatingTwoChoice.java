@@ -32,7 +32,7 @@ public class TaskAlternatingTwoChoice extends Task {
     private final static int cue1_id = 1, cue2_id = 2;
     private final static int rewarded_cue = cue1_id;
     private final static int cue_1_image = R.drawable.aaaaa;
-    private final static int int cue_2_image = R.drawable.aaaab;
+    private final static int cue_2_image = R.drawable.aaaab;
     private static Random r;
 
 
@@ -56,7 +56,7 @@ public class TaskAlternatingTwoChoice extends Task {
 
         // Instantiate task objects
         preferencesManager = new PreferencesManager(getContext());
-        preferencesManager.DiscreteValueSpace();
+        preferencesManager.AlternatingTwoChoice();
 
         assignObjects();
 
@@ -142,7 +142,7 @@ public class TaskAlternatingTwoChoice extends Task {
                 public void run() {
                     endOfTrial(finalSuccessfulTrial, callback, preferencesManager);
                 }
-            }, 1000);
+            }, 2000);
 
         }
     };
